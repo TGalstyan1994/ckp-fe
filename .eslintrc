@@ -1,0 +1,30 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "prettier", "unicorn", "import"],
+  "extends": [
+    "airbnb-typescript",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:unicorn/recommended",
+    "plugin:prettier/recommended",
+    "plugin:@next/next/recommended",
+    "prettier"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "env": {
+    "es6": true,
+    "browser": true
+  },
+  "ignorePatterns": [".next/*"],
+  "rules": {
+    "no-debugger": "off",
+    "no-console": 0,
+    "indent": "error",
+    "react/react-in-jsx-scope": 0,
+    "prettier/prettier": ["error", { "singleQuote": true }]
+  },
+  "root": true
+}
