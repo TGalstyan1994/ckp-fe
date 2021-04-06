@@ -1,17 +1,15 @@
-import axios from "axios";
+import axios from "../index";
 import { UserData } from "interfaces/index";
 
 export const authorizeUser = (
   login: string,
   password: string
 ): Promise<UserData> =>
-  axios
-    .post(`${process.env.NEXT_PUBLIC_API}/api/auth/login`, { login, password })
-    .then(({ data }) => data);
+  axios.post(`/api/auth/login`, { login, password }).then(({ data }) => data);
 
 export const registerUser = (login: string, email: string, password: string) =>
   axios
-    .post(`${process.env.NEXT_PUBLIC_API}/api/users/register`, {
+    .post(`/api/users/register`, {
       login,
       email,
       password,
@@ -19,7 +17,5 @@ export const registerUser = (login: string, email: string, password: string) =>
     .then(({ data }) => data)
     .catch((res) => console.log(res.message));
 
-export const createUser = (verificationCode: string): Promise<UserData> => 
-  axios
-    .post(`${process.env.NEXT_PUBLIC_API}/api/users`, { verificationCode })
-    .then(({ data }) => data)
+export const createUser = (verificationCode: string): Promise<UserData> =>
+  axios.post(`/api/users`, { verificationCode }).then(({ data }) => data);

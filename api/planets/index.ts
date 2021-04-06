@@ -1,5 +1,3 @@
-import axios from 'axios';
+import axios from "../index";
 
-export const getPlanets = axios
-  .get(`${process.env.NEXT_PUBLIC_API}/api/planets`)
-  .then(({ data }) => data)
+export const getPlanets = axios.get(`/api/planets`).then(({ data }) => data);
