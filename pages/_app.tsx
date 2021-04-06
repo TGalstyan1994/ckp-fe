@@ -1,8 +1,8 @@
-import React, { ComponentType } from "react";
-import { Provider } from "react-redux";
-import { AppInitialProps } from "next/app";
+import React, { ComponentType } from 'react';
+import { Provider } from 'react-redux';
+import { AppInitialProps } from 'next/app';
 
-import store from "../redux/index";
+import store from '../redux/index';
 
 const MyApp = ({
   Component,

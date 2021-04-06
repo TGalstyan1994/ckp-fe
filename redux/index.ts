@@ -3,8 +3,8 @@ import {
   configureStore,
   Store,
   AnyAction,
-} from "@reduxjs/toolkit";
-import authReducer from "./auth";
+} from '@reduxjs/toolkit';
+import authReducer from './auth';
 
 const rootReducer = combineReducers({
   auth: authReducer,

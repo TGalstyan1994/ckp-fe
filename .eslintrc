@@ -24,6 +24,8 @@
     "no-console": 0,
     "indent": "error",
     "react/react-in-jsx-scope": 0,
+    "react/button-has-type": "off",
+    "react/jsx-props-no-spreading": "off",
     "prettier/prettier": ["error", { "singleQuote": true }]
   },
   "root": true
