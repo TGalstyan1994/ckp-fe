@@ -4,6 +4,7 @@ import { authorize, create } from "./thunks";
 
 const initialState: User = {
   id: 0,
+  accessToken: "",
   login: "",
   email: "",
   createdAt: "",
@@ -20,6 +21,8 @@ const authSlice = createSlice({
       .addCase(authorize.fulfilled, (state, action) => {
         if (!!action.payload.user) {
           const { user } = action.payload;
+
+          console.log(action.payload);
           return {
             id: user.id,
             login: user.login,
@@ -27,6 +30,7 @@ const authSlice = createSlice({
             roles: user.roles,
             createdAt: user.createdAt,
             updatedAt: user.updatedAt,
+            accessToken: action.payload.access_token,
           };
         }
       })
@@ -40,9 +44,10 @@ const authSlice = createSlice({
             roles: user.roles,
             createdAt: user.createdAt,
             updatedAt: user.updatedAt,
+            accessToken: action.payload.access_token,
           };
         }
-      })
+      });
   },
 });
 

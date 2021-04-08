@@ -1,6 +1,8 @@
 import { authorize } from 'redux/auth/thunks';
 import { useDispatch } from 'react-redux';
 import { registerUser } from 'api/auth';
+import { UserData } from 'interfaces/index';
+import { PayloadAction } from '@reduxjs/toolkit';
 
 const IndexPage = () => {
   const dispatch = useDispatch();
@@ -8,7 +10,10 @@ const IndexPage = () => {
     <div>
       <button
         onClick={() =>
-          dispatch(authorize({ login: 'jon', password: 'Jon@1234' }))
+          dispatch(authorize({ login: 'jon', password: 'Jon@1234' })).then(
+            ({ payload }: PayloadAction<UserData>) =>
+              (document.cookie = `auth=${payload.access_token}; path=/`)
+          )
         }
       >
         авторизоваться

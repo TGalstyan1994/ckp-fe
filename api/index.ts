@@ -1,5 +1,11 @@
 import axios from 'axios';
 
+export interface AuthHeaders {
+  headers?: {
+    authorization: string;
+  };
+}
+
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API,
 });
@@ -7,10 +13,16 @@ const axiosInstance = axios.create({
 // instance.defaults.headers.common['Authorization'] = 'AUTH TOKEN FROM INSTANCE';
 
 axiosInstance.interceptors.request.use(
-  (request) => {
-    console.log(request);
-    // Edit request config
-    return request;
+  (config) => {
+    // if (!config.headers.Authorization) {
+    //   // const token = JSON.parse(localStorage.getItem("auth")).token;
+
+    //   if (token) {
+    //     config.headers.Authorization = `Bearer ${token}`;
+    //   }
+    // }
+
+    return config;
   },
   (error) => {
     return Promise.reject(error);

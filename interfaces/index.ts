@@ -5,6 +5,7 @@ export interface UserData {
 
 export interface User {
   id: number;
+  accessToken: string;
   login: string;
   email: string;
   createdAt: string;

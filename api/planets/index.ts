@@ -1,3 +1,4 @@
-import axios from "../index";
+import axios, { AuthHeaders } from "../index";
 
-export const getPlanets = axios.get(`/api/planets`).then(({ data }) => data);
+export const getPlanets = (headers: AuthHeaders = {}) =>
+  axios.get(`/api/planets`, headers).then(({ data }) => data);
