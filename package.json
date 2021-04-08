@@ -17,6 +17,7 @@
     "cross-env": "^7.0.3",
     "next": "latest",
     "next-cookies": "^2.0.3",
+    "nextjs-redirect": "^5.0.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.3",

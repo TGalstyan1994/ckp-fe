@@ -1,5 +1,5 @@
 import axios from "../index";
-import { UserData } from "interfaces/index";
+import { UserAuthData, UserData } from "interfaces/index";
 
 export const authorizeUser = (
   login: string,
@@ -7,12 +7,12 @@ export const authorizeUser = (
 ): Promise<UserData> =>
   axios.post(`/api/auth/login`, { login, password }).then(({ data }) => data);
 
-export const registerUser = (login: string, email: string, password: string) =>
+export const registerUser = (user: UserAuthData) =>
   axios
     .post(`/api/users/register`, {
-      login,
-      email,
-      password,
+      login: user.login,
+      email: user.email ? "" : user.email,
+      password: user.password,
     })
     .then(({ data }) => data)
     .catch((res) => console.log(res.message));

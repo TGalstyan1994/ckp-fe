@@ -27,7 +27,8 @@
     "react/button-has-type": "off",
     "react/jsx-props-no-spreading": "off",
     "prettier/prettier": ["error", { "singleQuote": true }],
-    "no-return-assign": "off"
+    "no-return-assign": "off",
+    "unicorn/prevent-abbreviations": "off"
   },
   "root": true
 }

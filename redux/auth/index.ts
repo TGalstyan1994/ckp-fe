@@ -18,7 +18,7 @@ const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(authorize.fulfilled, (state, action) => {
+      .addCase(authorize.fulfilled, (_, action) => {
         if (!!action.payload.user) {
           const { user } = action.payload;
 
@@ -34,7 +34,7 @@ const authSlice = createSlice({
           };
         }
       })
-      .addCase(create.fulfilled, (state, action) => {
+      .addCase(create.fulfilled, (_, action) => {
         if (!!action.payload.user) {
           const { user } = action.payload;
           return {

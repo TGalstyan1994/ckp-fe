@@ -1,11 +1,16 @@
 import { authorize } from 'redux/auth/thunks';
 import { useDispatch } from 'react-redux';
 import { registerUser } from 'api/auth';
-import { UserData } from 'interfaces/index';
+import { UserAuthData, UserData } from 'interfaces/index';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 const IndexPage = () => {
   const dispatch = useDispatch();
+  const userData: UserAuthData = {
+    login: 'jon',
+    email: 'jon.snow.2021-03-21@mailinator.com',
+    password: 'Jon@1234',
+  };
   return (
     <div>
       <button
@@ -20,13 +25,13 @@ const IndexPage = () => {
       </button>
       <button
         onClick={() => {
-          registerUser('jon', 'jon.snow.2021-03-21@mailinator.com', 'Jon@1234');
+          registerUser(userData);
         }}
       >
         зарегистрироваться
       </button>
     </div>
   );
-};
+}; 
 
 export default IndexPage;

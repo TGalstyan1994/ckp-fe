@@ -1,6 +1,6 @@
 import {
-  combineReducers,
   configureStore,
+  combineReducers,
   Store,
   AnyAction,
 } from '@reduxjs/toolkit';
