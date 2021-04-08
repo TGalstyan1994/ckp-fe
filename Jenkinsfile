@@ -93,6 +93,9 @@ pipeline {
         stage('Build FRONTEND') {
             steps {
                 sh '''
+                    echo "DOMAIN=fe.ckp.rocketech.net" > .env
+                    echo "NEXT_PUBLIC_API=https://be.ckp.rocketech.net" >> .env
+
                     docker-compose build --no-cache
                 '''
             }

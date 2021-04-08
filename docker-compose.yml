@@ -4,9 +4,6 @@ services:
     container_name: callakofa-frontend
     build: ./
     restart: always
-    environment:
-      DOMAIN: "fe.ckp.rocketech.net"
-      NEXT_PUBLIC_API: "https://be.ckp.rocketech.net"
     networks:
       - ckp
     labels:
