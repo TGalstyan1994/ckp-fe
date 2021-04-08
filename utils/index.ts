@@ -25,17 +25,17 @@ export const getSponsorByQuery = (query: ParsedUrlQuery): string => {
   return 'admin';
 };
 
-export const withAuth = async (
+export const withAuth = (
   inner?: (ctx: NextPageContext) => Record<string, unknown>
 ) => {
-  return (context: NextPageContext): Record<string, unknown> => {
+  return async (context: NextPageContext): Promise<Record<string, unknown>> => {
     const { res, pathname } = context;
     const { auth } = cookies(context);
 
     if (res && !auth && !whiteList.includes(pathname)) {
-      res.writeHead(301, { location: '/admin/login' });
+      res.writeHead(302, { location: '/admin/login' });
       res.end();
     }
-    return inner ? inner(context) : {};
+    return inner ? inner(context) : { props: {} };
   };
 };

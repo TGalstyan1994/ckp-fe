@@ -1,5 +1,6 @@
-import { Stages } from "components/registration/stages";
-import { SponsorForm } from "components/registration/forms/sponsor";
+import { Stages } from 'components/registration/stages';
+import { SponsorForm } from 'components/registration/forms/sponsor';
+import { withAuth } from 'utils';
 
 const RegistrationPage = () => {
   return (
@@ -10,5 +11,7 @@ const RegistrationPage = () => {
     </div>
   );
 };
+
+export const getStaticProps = withAuth();
 
 export default RegistrationPage;

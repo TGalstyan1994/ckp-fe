@@ -28,7 +28,8 @@
     "react/jsx-props-no-spreading": "off",
     "prettier/prettier": ["error", { "singleQuote": true }],
     "no-return-assign": "off",
-    "unicorn/prevent-abbreviations": "off"
+    "unicorn/prevent-abbreviations": "off",
+    "linebreak-style": "off"
   },
   "root": true
 }

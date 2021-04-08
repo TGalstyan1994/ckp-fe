@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { registerUser } from 'api/auth';
 import { UserAuthData, UserData } from 'interfaces/index';
 import { PayloadAction } from '@reduxjs/toolkit';
+import { withAuth } from 'utils';
 
 const IndexPage = () => {
   const dispatch = useDispatch();
@@ -32,6 +33,8 @@ const IndexPage = () => {
       </button>
     </div>
   );
-}; 
+};
+
+export const getServerSideProps = withAuth();
 
 export default IndexPage;

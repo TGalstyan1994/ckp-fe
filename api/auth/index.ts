@@ -1,5 +1,5 @@
-import axios from "../index";
-import { UserAuthData, UserData } from "interfaces/index";
+import { UserAuthData, UserData } from 'interfaces/index';
+import axios from '../index';
 
 export const authorizeUser = (
   login: string,
@@ -11,11 +11,11 @@ export const registerUser = (user: UserAuthData) =>
   axios
     .post(`/api/users/register`, {
       login: user.login,
-      email: user.email ? "" : user.email,
+      email: user.email ? '' : user.email,
       password: user.password,
     })
     .then(({ data }) => data)
-    .catch((res) => console.log(res.message));
+    .catch((error) => console.log(error.message));
 
 export const createUser = (verificationCode: string): Promise<UserData> =>
   axios.post(`/api/users`, { verificationCode }).then(({ data }) => data);
