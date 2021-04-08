@@ -1,0 +1,21 @@
+version: '3.2'
+services:
+  callakofa-frontend:
+    container_name: callakofa-frontend
+    build: ./
+    restart: always
+    environment:
+      DOMAIN: "fe.ckp.rocketech.net"
+      NEXT_PUBLIC_API: "https://be.ckp.rocketech.net"
+    networks:
+      - ckp
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.callakofa-frontend.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.callakofa-frontend.entrypoints=websecure"
+      - "traefik.http.routers.callakofa-frontend.tls.certresolver=myresolver"
+      - "traefik.http.services.callakofa-frontend.loadbalancer.server.port=3000"
+
+networks:
+  ckp:
+    external: true
