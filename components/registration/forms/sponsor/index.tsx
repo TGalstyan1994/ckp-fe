@@ -1,8 +1,8 @@
-import React from "react";
-import { useRouter } from "next/router";
-import { getSponsorByQuery } from "utils";
+import React from 'react';
+import { useRouter } from 'next/router';
+import { getSponsorByQuery } from 'utils';
 
-export const SponsorForm: React.FC = () => {
+const SponsorForm: React.FC = () => {
   const { query } = useRouter();
 
   const sponsorName = getSponsorByQuery(query);
@@ -13,3 +13,5 @@ export const SponsorForm: React.FC = () => {
     </div>
   );
 };
+
+export default SponsorForm;
