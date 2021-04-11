@@ -4,7 +4,7 @@ import { withAuth } from 'utils';
 import AccountForm from 'ui/components/registration/forms/account';
 
 const RegistrationPage = () => {
-  return (  
+  return (
     <div>
       <Stages>
         <SponsorForm />

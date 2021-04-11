@@ -1,8 +1,8 @@
 import React, { ComponentType } from 'react';
 import { Provider } from 'react-redux';
 import { AppInitialProps } from 'next/app';
+import GlobalStyles from 'ui/global-styles';
 import store from '../redux/index';
-import 'ui/globalStyles.css';
 
 const MyApp = ({
   Component,
@@ -13,6 +13,7 @@ const MyApp = ({
 }) => {
   return (
     <Provider store={store}>
+      <GlobalStyles />
       <Component {...pageProps} />
     </Provider>
   );

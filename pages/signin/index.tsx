@@ -1,13 +1,13 @@
-import { PayloadAction } from "@reduxjs/toolkit";
-import { UserData } from "interfaces";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { authorize } from "redux/auth/thunks";
+import { PayloadAction } from '@reduxjs/toolkit';
+import { UserData } from 'interfaces';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { authorize } from 'redux/auth/thunks';
 
 const LoginPage = () => {
   const dispatch = useDispatch();
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
   return (
     <div>
       <input value={login} onChange={({ target }) => setLogin(target.value)} />
@@ -18,7 +18,7 @@ const LoginPage = () => {
       <button>enter</button>
       <button
         onClick={() =>
-          dispatch(authorize({ login: "jon", password: "Jon@1234" })).then(
+          dispatch(authorize({ login: 'jon', password: 'Jon@1234' })).then(
             ({ payload }: PayloadAction<UserData>) =>
               (document.cookie = `auth=${payload.access_token}; path=/`)
           )
