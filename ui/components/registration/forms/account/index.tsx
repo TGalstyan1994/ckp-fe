@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import { registerUser } from 'api/auth';
-import { Input } from 'components/common/input';
+import { Input } from 'ui/components/common/input';
 
 interface IAccountForm {
   login: string;

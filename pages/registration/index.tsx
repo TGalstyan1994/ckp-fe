@@ -1,7 +1,7 @@
-import { Stages } from 'components/registration/stages';
-import SponsorForm from 'components/registration/forms/sponsor';
+import { Stages } from 'ui/components/registration/stages';
+import SponsorForm from 'ui/components/registration/forms/sponsor';
 import { withAuth } from 'utils';
-import AccountForm from 'components/registration/forms/account';
+import AccountForm from 'ui/components/registration/forms/account';
 
 const RegistrationPage = () => {
   return (  
