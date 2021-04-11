@@ -31,6 +31,7 @@
     "unicorn/prevent-abbreviations": "off",
     "linebreak-style": "off",
     "import/prefer-default-export": "off",
+    "react/require-default-props": "off"
   },
   "root": true
 }

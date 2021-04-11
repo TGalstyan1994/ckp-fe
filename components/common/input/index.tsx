@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { InputHTMLAttributes } from 'react';
+import {
+  Container,
+  InputConteiner,
+  Label,
+  InputStyled,
+  ErrorIcon,
+  ErrorMessage,
+} from './styled';
+import errorIcon from './img/errorIcon.svg';
 
-interface IComponentProps {
+interface IComponentProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
   value: string;
   onChange: (val: string) => void;
-  error: string;
+  error?: string;
   placeholder: string;
   label: string;
-  validate: (val: string) => boolean;
+  validate?: (val: string) => boolean;
+  required?: boolean;
 }
 
 export const Input: React.FC<IComponentProps> = ({
@@ -16,10 +27,28 @@ export const Input: React.FC<IComponentProps> = ({
   placeholder,
   label,
   validate,
-}) => {
+  required,
+}: IComponentProps) => {
+  const handleChange = (val: string): void => {
+    if (validate && validate(val)) {
+      onChange(val);
+    } else if (!validate) {
+      onChange(val);
+    }
+  };
+
   return (
-    <div>
-      
-    </div>
-  )
-}
+    <Container>
+      {label && <Label required={!!required}>{label}</Label>}
+      <InputConteiner>
+        <InputStyled
+          placeholder={placeholder}
+          value={value}
+          onChange={({ target }) => handleChange(target.value)}
+        />
+        {error && <ErrorIcon src={errorIcon} />}
+      </InputConteiner>
+      {error && <ErrorMessage>{error}</ErrorMessage>}
+    </Container>
+  );
+};

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import { registerUser } from 'api/auth';
+import { Input } from 'components/common/input';
 
 interface IAccountForm {
   login: string;
@@ -63,15 +64,17 @@ const AccountForm: React.FC = () => {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <input
+      <Input
         placeholder="login"
         id="login"
         name="login"
         type="text"
-        onChange={formik.handleChange}
+        onChange={(val: string) => formik.setFieldValue('login', val)}
         value={formik.values.login}
+        required
+        label="login"
+        error={formik.errors.login}
       />
-      {formik.errors.login ? <span>{formik.errors.login}</span> : undefined}
 
       <input
         placeholder="password"
