@@ -1,25 +1,25 @@
-import { User } from "interfaces/index";
-import { createSlice } from "@reduxjs/toolkit";
-import { authorize, create } from "./thunks";
+import { User } from 'interfaces/index';
+import { createSlice } from '@reduxjs/toolkit';
+import { authorize, create } from './thunks';
 
 const initialState: User = {
   id: 0,
-  accessToken: "",
-  login: "",
-  email: "",
-  createdAt: "",
-  updatedAt: "",
+  accessToken: '',
+  login: '',
+  email: '',
+  createdAt: '',
+  updatedAt: '',
   roles: [],
 };
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(authorize.fulfilled, (_, action) => {
-        if (!!action.payload.user) {
+        if (action.payload.user) {
           const { user } = action.payload;
 
           console.log(action.payload);
@@ -35,7 +35,7 @@ const authSlice = createSlice({
         }
       })
       .addCase(create.fulfilled, (_, action) => {
-        if (!!action.payload.user) {
+        if (action.payload.user) {
           const { user } = action.payload;
           return {
             id: user.id,

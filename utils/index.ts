@@ -33,7 +33,7 @@ export const withAuth = (
     const { auth } = cookies(context);
 
     if (res && !auth && !whiteList.includes(pathname)) {
-      res.writeHead(302, { location: '/admin/login' });
+      res.writeHead(302, { location: '/signin' });
       res.end();
     }
     return inner ? inner(context) : { props: {} };

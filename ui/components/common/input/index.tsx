@@ -15,7 +15,7 @@ interface IComponentProps
   onChange: (val: string) => void;
   error?: string;
   placeholder: string;
-  label: string;
+  label?: string;
   validate?: (val: string) => boolean;
   required?: boolean;
 }

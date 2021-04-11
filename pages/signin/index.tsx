@@ -3,19 +3,27 @@ import { UserData } from 'interfaces';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { authorize } from 'redux/auth/thunks';
+import { Input } from 'ui/components/common/input';
+import { useRouter } from 'next/router';
 
 const LoginPage = () => {
   const dispatch = useDispatch();
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
   return (
     <div>
-      <input value={login} onChange={({ target }) => setLogin(target.value)} />
-      <input
-        value={password}
-        onChange={({ target }) => setPassword(target.value)}
+      <Input
+        placeholder="Username"
+        value={login}
+        onChange={(val) => setLogin(val)}
       />
-      <button>enter</button>
+      <Input
+        placeholder="Password"
+        value={password}
+        onChange={(val) => setPassword(val)}
+        type="password"
+      />
       <button
         onClick={() =>
           dispatch(authorize({ login: 'jon', password: 'Jon@1234' })).then(
@@ -24,8 +32,9 @@ const LoginPage = () => {
           )
         }
       >
-        авторизоваться
+        signin
       </button>
+      <button onClick={() => router.push('/signup')}>signup</button>
     </div>
   );
 };

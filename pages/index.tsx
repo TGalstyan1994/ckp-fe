@@ -4,9 +4,11 @@ import { registerUser } from 'api/auth';
 import { UserAuthData, UserData } from 'interfaces/index';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { withAuth } from 'utils';
+import { useRouter } from 'next/router';
 
 const IndexPage = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const userData: UserAuthData = {
     login: 'jon',
     email: 'jon.snow.2021-03-21@mailinator.com',
@@ -26,7 +28,7 @@ const IndexPage = () => {
       </button>
       <button
         onClick={() => {
-          registerUser(userData);
+          router.push('/signup');
         }}
       >
         зарегистрироваться
