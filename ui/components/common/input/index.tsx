@@ -20,15 +20,17 @@ interface IComponentProps
   required?: boolean;
 }
 
-export const Input: React.FC<IComponentProps> = ({
-  value,
-  onChange,
-  error,
-  placeholder,
-  label,
-  validate,
-  required,
-}: IComponentProps) => {
+export const Input: React.FC<IComponentProps> = (props: IComponentProps) => {
+  const {
+    value,
+    onChange,
+    error,
+    placeholder,
+    label,
+    validate,
+    required,
+    ...restProps
+  } = props;
   const handleChange = (val: string): void => {
     if (validate && validate(val)) {
       onChange(val);
@@ -45,6 +47,7 @@ export const Input: React.FC<IComponentProps> = ({
           placeholder={placeholder}
           value={value}
           onChange={({ target }) => handleChange(target.value)}
+          {...restProps}
         />
         {error && <ErrorIcon src={errorIcon} />}
       </InputConteiner>

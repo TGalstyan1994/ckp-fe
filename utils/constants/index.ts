@@ -1,1 +1,1 @@
-export const whiteList = ["/admin/login"];
+export const whiteList = ['/signin', '/signup'];

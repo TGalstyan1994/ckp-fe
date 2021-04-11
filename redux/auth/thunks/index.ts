@@ -1,24 +1,24 @@
-import { authorizeUser, registerUser, createUser } from "api/auth/index";
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { UserAuthData } from "interfaces/index";
+import { authorizeUser, registerUser, createUser } from 'api/auth/index';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { UserAuthData } from 'interfaces/index';
 
 export const authorize = createAsyncThunk(
-  "auth/authorizeUser",
+  'auth/authorizeUser',
   async (user: UserAuthData) => {
-    return await authorizeUser(user.login, user.password);
+    return authorizeUser(user.login, user.password);
   }
 );
 
 export const register = createAsyncThunk(
-  "auth/registerUser",
+  'auth/registerUser',
   async (user: UserAuthData) => {
-    return await registerUser(user);
+    return registerUser(user);
   }
 );
 
 export const create = createAsyncThunk(
-  "auth/createUser",
+  'auth/createUser',
   async (code: string) => {
-    return await createUser(code);
+    return createUser(code);
   }
 );

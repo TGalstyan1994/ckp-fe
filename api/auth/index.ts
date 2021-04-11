@@ -11,7 +11,7 @@ export const registerUser = (user: UserAuthData) =>
   axios
     .post(`/api/users/register`, {
       login: user.login,
-      email: user.email ? '' : user.email,
+      email: user.email ? user.email : '',
       password: user.password,
     })
     .then(({ data }) => data)

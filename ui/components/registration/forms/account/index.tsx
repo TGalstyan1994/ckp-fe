@@ -1,7 +1,8 @@
 import React from 'react';
 import { useFormik } from 'formik';
-import { registerUser } from 'api/auth';
 import { Input } from 'ui/components/common/input';
+import { useDispatch } from 'react-redux';
+import { register } from 'redux/auth/thunks';
 
 interface IAccountForm {
   login: string;
@@ -10,17 +11,6 @@ interface IAccountForm {
   email: string;
 }
 
-const validateLogin = (value: string) =>
-  value.length < 2 ? 'Min Number of characters - 2' : '';
-
-const validatePassword = (value: string): string =>
-  value.length < 5 ? 'Min Number of characters - 5' : '';
-
-const validateEmail = (value: string): string =>
-  /[\dA-Za-z]{3,}@[\dA-Za-z]{2,}.[\dA-Za-z]{2,}/.test(value)
-    ? 'Mask: aaa@bb.cc'
-    : '';
-
 const validate = (values: IAccountForm) => {
   const errors: IAccountForm = {
     login: '',
@@ -28,27 +18,34 @@ const validate = (values: IAccountForm) => {
     confirmPassword: '',
     email: '',
   };
+  let error = false;
 
   if (values.login.length < 2) {
     errors.login = 'Min Number of characters - 2';
+    error = true;
   }
 
   if (values.password.length < 5) {
     errors.password = 'Min Number of characters - 5';
+    error = true;
   }
 
   if (values.confirmPassword !== values.password) {
     errors.confirmPassword = 'Confirm Password Mismatch';
+    error = true;
   }
 
-  if (/[\dA-Za-z]{3,}@[\dA-Za-z]{2,}.[\dA-Za-z]{2,}/.test(values.email)) {
+  if (!/[\dA-Za-z]{3,}@[\dA-Za-z]{2,}.[\dA-Za-z]{2,}/.test(values.email)) {
     errors.email = 'Mask: aaa@bb.cc';
+    error = true;
   }
 
-  return errors;
+  console.log(errors);
+  return error ? errors : {};
 };
 
 const AccountForm: React.FC = () => {
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       login: '',
@@ -58,7 +55,8 @@ const AccountForm: React.FC = () => {
     },
     validate,
     onSubmit: (values) => {
-      registerUser(values);
+      console.log(values);
+      dispatch(register(values));
     },
   });
 
@@ -75,42 +73,53 @@ const AccountForm: React.FC = () => {
         label="login"
         error={formik.errors.login}
       />
-
-      <input
+      <Input
         placeholder="password"
         id="password"
         name="password"
         type="password"
-        onChange={formik.handleChange}
+        onChange={(val: string) => formik.setFieldValue('password', val)}
         value={formik.values.password}
+        required
+        label="password"
+        error={formik.errors.password}
       />
-      {formik.errors.password ? (
-        <span>{formik.errors.password}</span>
-      ) : undefined}
-
-      <input
+      <Input
         placeholder="confirm password"
         id="confirmPassword"
         name="confirmPassword"
         type="password"
-        onChange={formik.handleChange}
+        onChange={(val: string) => formik.setFieldValue('confirmPassword', val)}
         value={formik.values.confirmPassword}
+        required
+        label="Confirm password"
+        error={formik.errors.confirmPassword}
       />
-      {formik.errors.confirmPassword ? (
-        <span>{formik.errors.confirmPassword}</span>
-      ) : undefined}
-
-      <input
+      <Input
         placeholder="email"
         id="email"
         name="email"
         type="email"
-        onChange={formik.handleChange}
+        onChange={(val: string) => formik.setFieldValue('email', val)}
         value={formik.values.email}
+        required
+        label="email"
+        error={formik.errors.email}
       />
-      {formik.errors.email ? <span>{formik.errors.email}</span> : undefined}
-
-      <button type="submit">continue</button>
+      <button
+        type="submit"
+        // onClick={() => {
+        //   dispatch(
+        //     register({
+        //       login: 'qwerty',
+        //       email: 'qwerty@qwerty.com',
+        //       password: 'qwerty1',
+        //     })
+        //   );
+        // }}
+      >
+        continue
+      </button>
     </form>
   );
 };
