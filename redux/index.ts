@@ -16,4 +16,6 @@ const store: Store<any, AnyAction> = configureStore({
   reducer: rootReducer,
 });
 
+export type RootState = ReturnType<typeof store.getState>;
+
 export default store;

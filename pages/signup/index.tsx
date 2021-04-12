@@ -4,8 +4,10 @@ import {
   AccountForm,
   ConfirmEmailForm,
   PersonalDetailsForm,
+  PaymentDetailsForm,
 } from 'ui/components/registration/forms/index';
 import { withAuth } from 'utils';
+import ConfirmInformationForm from 'ui/components/registration/forms/confirmInformationForm';
 
 const RegistrationPage = () => {
   return (
@@ -15,6 +17,8 @@ const RegistrationPage = () => {
         <AccountForm />
         <ConfirmEmailForm />
         <PersonalDetailsForm />
+        <PaymentDetailsForm />
+        <ConfirmInformationForm />
       </Stages>
     </div>
   );

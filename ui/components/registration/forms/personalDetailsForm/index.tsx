@@ -1,4 +1,11 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import {
+  setFirstNameAction,
+  setGenderAction,
+  setLastNameAction,
+  setPhoneAction,
+} from 'redux/registration';
 import { Input } from 'ui/components/common/input';
 
 const PersonalDetailsForm: React.FC = () => {
@@ -28,6 +35,29 @@ const PersonalDetailsForm: React.FC = () => {
   const [city, setCity] = useState<string>('');
   const [zip, setZip] = useState<string>('');
   const [isConditionsAccepted, setAccepted] = useState<string>('');
+
+  const dispatch = useDispatch();
+
+  const handleChangeGender = (val: string) => {
+    setGender(val);
+    dispatch(setGenderAction(val));
+  };
+
+  const handleChangeFirstName = (val: string) => {
+    setFirstName(val);
+    dispatch(setFirstNameAction(val));
+  };
+
+  const handleChangeLastName = (val: string) => {
+    setLastName(val);
+    dispatch(setLastNameAction(val));
+  };
+
+  const handleChangePhone = (val: string) => {
+    setPhone(val);
+    dispatch(setPhoneAction(val));
+  };
+
   return (
     <div>
       <select>
@@ -46,35 +76,52 @@ const PersonalDetailsForm: React.FC = () => {
         onChange={({ target }) => setObjectiveNote(target.value)}
       />
       <Input
-        label={'First name'}
-        placeholder={'First name'}
+        label="First name"
+        placeholder="First name"
         value={firstName}
         onChange={(val) => setFirstName(val)}
         required
+        onBlur={({ target }) => handleChangeFirstName(target.value)}
       />
       <Input
-        label={'Last name'}
-        placeholder={'Last name'}
+        label="Last name"
+        placeholder="Last name"
         value={lastName}
         onChange={(val) => setLastName(val)}
         required
+        onBlur={({ target }) => handleChangeLastName(target.value)}
       />
       <Input
-        label={'Phone number'}
-        placeholder={'Phone number'}
+        label="Phone number"
+        placeholder="Phone number"
         value={phone}
         onChange={(val) => setPhone(val)}
         required
+        onBlur={({ target }) => handleChangePhone(target.value)}
       />
       <Input
-        label={'Address'}
-        placeholder={'Address'}
+        label="Address"
+        placeholder="Address"
         value={address}
         onChange={(val) => setAddress(val)}
         required
       />
+      <input
+        type="date"
+        value={birth}
+        onChange={({ target }) => setBirth(target.value)}
+      />
+      <select
+        value={gender}
+        onChange={({ target }) => setGender(target.value)}
+        onBlur={({ target }) => handleChangeGender(target.value)}
+      >
+        <option value="male">male</option>
+        <option value="female">female</option>
+        <option value="other">other</option>
+      </select>
     </div>
   );
 };
 
-export default PersonalDetailsForm
+export default PersonalDetailsForm;

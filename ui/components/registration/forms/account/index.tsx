@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import { Input } from 'ui/components/common/input';
 import { useDispatch } from 'react-redux';
 import { register } from 'redux/auth/thunks';
+import { setEmailAction } from 'redux/registration';
 
 interface IAccountForm {
   login: string;
@@ -60,6 +61,11 @@ const AccountForm: React.FC = () => {
     },
   });
 
+  const handleChangeEmail = (val: string) => {
+    formik.setFieldValue('email', val);
+    dispatch(setEmailAction(val));
+  };
+
   return (
     <form onSubmit={formik.handleSubmit}>
       <Input
@@ -105,6 +111,7 @@ const AccountForm: React.FC = () => {
         required
         label="email"
         error={formik.errors.email}
+        onBlur={({ target }) => handleChangeEmail(target.value)}
       />
       <button
         type="submit"

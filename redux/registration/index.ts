@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-interface IRegistrationInfo {
+export interface IRegistrationInfo {
   sponsor: string;
   email: string;
   firstName: string;
   lastName: string;
   phone: string;
+  gender: string;
 }
 
 const initialState: IRegistrationInfo = {
@@ -14,32 +15,43 @@ const initialState: IRegistrationInfo = {
   firstName: '',
   lastName: '',
   phone: '',
+  gender: '',
 };
 
 const registrationSlice = createSlice({
   name: 'registration',
   initialState,
   reducers: {
-    setSponsorName(state, action) {
+    setSponsorNameAction(state, action) {
       state.sponsor = action.payload;
     },
-    setEmail(state, action) {
+    setEmailAction(state, action) {
       state.email = action.payload;
     },
-    setFirstName(state, action) {
+    setFirstNameAction(state, action) {
       state.firstName = action.payload;
     },
-    setLastName(state, action) {
+    setLastNameAction(state, action) {
       state.lastName = action.payload;
     },
-    setPhone(state, action) {
+    setPhoneAction(state, action) {
       state.phone = action.payload;
+    },
+    setGenderAction(state, action) {
+      state.gender = action.payload;
     },
   },
 });
 
 const { actions, reducer } = registrationSlice;
 
-export const { setSponsorName, setEmail, setFirstName, setLastName, setPhone } = actions;
+export const {
+  setSponsorNameAction,
+  setEmailAction,
+  setFirstNameAction,
+  setLastNameAction,
+  setPhoneAction,
+  setGenderAction,
+} = actions;
 
 export default reducer;
