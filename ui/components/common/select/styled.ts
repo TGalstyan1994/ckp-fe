@@ -10,7 +10,7 @@ export const Container = styled.div`
   flex-direction: column;
 `;
 
-export const TextareaStyled = styled.textarea`
+export const SelectStyled = styled.select`
   width: 100%;
   height: 56px;
   box-sizing: border-box;

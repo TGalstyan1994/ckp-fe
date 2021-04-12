@@ -3,12 +3,12 @@ import {
   Container,
   InputConteiner,
   Label,
-  TextareaStyled,
+  SelectStyled,
   ErrorMessage,
 } from './styled';
 
 interface IComponentProps
-  extends Omit<InputHTMLAttributes<HTMLTextAreaElement>, 'onChange'> {
+  extends Omit<InputHTMLAttributes<HTMLSelectElement>, 'onChange'> {
   value: string;
   onChange: (val: string) => void;
   error?: string;
@@ -16,9 +16,10 @@ interface IComponentProps
   label?: string;
   validate?: (val: string) => boolean;
   required?: boolean;
+  options: Array<string>;
 }
 
-export const Textarea: React.FC<IComponentProps> = (props: IComponentProps) => {
+export const Select: React.FC<IComponentProps> = (props: IComponentProps) => {
   const {
     value,
     onChange,
@@ -27,6 +28,7 @@ export const Textarea: React.FC<IComponentProps> = (props: IComponentProps) => {
     label,
     validate,
     required,
+    options,
     ...restProps
   } = props;
   const handleChange = (val: string): void => {
@@ -41,12 +43,16 @@ export const Textarea: React.FC<IComponentProps> = (props: IComponentProps) => {
     <Container>
       {label && <Label required={!!required}>{label}</Label>}
       <InputConteiner>
-        <TextareaStyled
+        <SelectStyled
           placeholder={placeholder}
           value={value}
           onChange={({ target }) => handleChange(target.value)}
           {...restProps}
-        />
+        >
+          {options.map((option) => (
+            <option value={option}>{option}</option>
+          ))}
+        </SelectStyled>
         {error && <ErrorMessage>{error}</ErrorMessage>}
       </InputConteiner>
     </Container>
