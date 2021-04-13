@@ -22,6 +22,8 @@ export const CheckboxStyled = styled.label`
 `;
 
 export const InputStyled = styled.input`
+  display: none;
+
   &:checked ~ ${CheckboxStyled} {
     content: url(${checkIcon});
   }
