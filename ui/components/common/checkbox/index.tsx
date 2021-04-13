@@ -21,7 +21,6 @@ export const Checkbox: React.FC<IComponentsProps> = ({
         id={checkboxId}
         type="checkbox"
         checked={value}
-        style={{ display: 'none' }}
         onChange={({ target }) => onChange(target.checked)}
       />
       <CheckboxStyled htmlFor={checkboxId} />
