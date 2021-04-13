@@ -1,4 +1,5 @@
 import React, { InputHTMLAttributes } from 'react';
+import { v4 } from 'uuid';
 import {
   Container,
   InputConteiner,
@@ -50,7 +51,9 @@ export const Select: React.FC<IComponentProps> = (props: IComponentProps) => {
           {...restProps}
         >
           {options.map((option) => (
-            <option value={option}>{option}</option>
+            <option key={v4()} value={option}>
+              {option}
+            </option>
           ))}
         </SelectStyled>
         {error && <ErrorMessage>{error}</ErrorMessage>}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 export const Stages: React.FC = ({ children }) => {
   const [currentStage, setStage] = useState(0);
@@ -16,8 +16,8 @@ export const Stages: React.FC = ({ children }) => {
   return (
     <div>
       {React.Children.toArray(children)[currentStage]}
-      <button onClick={() => handleChangeStage(-1)}>{"<"}</button>
-      <button onClick={() => handleChangeStage(1)}>{">"}</button>
+      <button onClick={() => handleChangeStage(-1)}>{'<'}</button>
+      <button onClick={() => handleChangeStage(1)}>{'>'}</button>
     </div>
   );
 };
