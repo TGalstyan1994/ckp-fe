@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { ButtonHTMLAttributes } from 'react';
+import { ButtonStyled } from './styled';
 
-const Button: React.FC = () => {
+interface IComponentProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  primary?: boolean;
+  children: React.ReactNode;
+}
+
+export const Button: React.FC<IComponentProps> = ({
+  primary,
+  children,
+  ...props
+}: IComponentProps) => {
   return (
-    <bu
-  )
+    <ButtonStyled primary={primary} {...props}>
+      {children}
+    </ButtonStyled>
+  );
 };
