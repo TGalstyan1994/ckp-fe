@@ -30,6 +30,7 @@ export const Select: React.FC<IComponentProps> = (props: IComponentProps) => {
     validate,
     required,
     options,
+    disabled,
     ...restProps
   } = props
   const handleChange = (val: string): void => {
@@ -48,6 +49,7 @@ export const Select: React.FC<IComponentProps> = (props: IComponentProps) => {
           placeholder={placeholder}
           value={value}
           onChange={({ target }) => handleChange(target.value)}
+          disabled={disabled}
           {...restProps}
         >
           {options.map((option) => (

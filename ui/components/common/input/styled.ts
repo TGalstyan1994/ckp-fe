@@ -1,16 +1,16 @@
-import styled from 'styled-components'
-import { PALETTE } from 'utils/constants/ui'
+import styled from 'styled-components';
+import { PALETTE } from 'utils/constants/ui';
 
 interface ILabel {
-  required: boolean
+  required: boolean;
 }
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
 
-export const SelectStyled = styled.select`
+export const InputStyled = styled.input`
   width: 100%;
   height: 56px;
   box-sizing: border-box;
@@ -26,24 +26,21 @@ export const SelectStyled = styled.select`
   font-size: 13px;
   line-height: 16px;
   color: #000000;
+  transition-duration: 0.2s;
 
   &:not(:focus) {
     color: ${PALETTE.secondaryText};
   }
-<<<<<<< HEAD:components/select/styled.ts
-`
-=======
 
   &:disabled {
     background: #fafafa;
   }
 `;
->>>>>>> 5f037d2... add disabled to common components:ui/components/common/select/styled.ts
 
 export const InputConteiner = styled.div`
-  display: flex;
-  flex-direction: column;
-`
+  height: 56px;
+  position: relative;
+`;
 
 export const Label = styled.label`
   font-style: normal;
@@ -61,7 +58,13 @@ export const Label = styled.label`
     font-size: 13px;
     line-height: 16px;
   }
-`
+`;
+
+export const ErrorIcon = styled.img`
+  position: absolute;
+  top: 23px;
+  right: 23px;
+`;
 
 export const ErrorMessage = styled.span`
   font-style: normal;
@@ -70,4 +73,4 @@ export const ErrorMessage = styled.span`
   line-height: 12px;
   color: ${PALETTE.error};
   margin-top: 14px;
-`
+`;
