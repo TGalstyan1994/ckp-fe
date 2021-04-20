@@ -5,39 +5,50 @@ import {
   RadioStyled,
   InputStyled,
   RadioContainer,
-  LabelStyled,
+  OptionText,
+  Label,
+  Container,
 } from './styled';
 
 interface IComponentProps {
   options: Array<string>;
-  value: number;
-  onChange: (val: number) => void;
+  value: string;
+  label: string;
+  required?: boolean;
+  onChange: (val: string) => void;
+  className?: string;
 }
 
 export const Radio: React.FC<IComponentProps> = ({
   options,
   value,
   onChange,
+  label,
+  required,
+  className,
 }: IComponentProps) => {
   return (
-    <ContainerForm>
-      {options.map((elem, i) => {
-        const id = v4();
-        return (
-          <RadioContainer key={v4()}>
-            <InputStyled
-              key={id}
-              id={id}
-              type="radio"
-              checked={value === i}
-              value={i}
-              onChange={({ target }) => onChange(+target.value)}
-            />
-            <RadioStyled htmlFor={id} />
-            <LabelStyled>{elem}</LabelStyled>
-          </RadioContainer>
-        );
-      })}
-    </ContainerForm>
+    <Container className={className}>
+      <Label required={!!required}>{label}</Label>
+      <ContainerForm>
+        {options.map((elem, i) => {
+          const id = v4();
+          return (
+            <RadioContainer key={v4()}>
+              <InputStyled
+                key={id}
+                id={id}
+                type="radio"
+                checked={value === options[i]}
+                value={i}
+                onChange={({ target }) => onChange(options[+target.value])}
+              />
+              <RadioStyled htmlFor={id} />
+              <OptionText>{elem}</OptionText>
+            </RadioContainer>
+          );
+        })}
+      </ContainerForm>
+    </Container>
   );
 };
