@@ -18,10 +18,11 @@ interface IComponentProps
   label?: string;
   validate?: (val: string) => boolean;
   required?: boolean;
-  className?: string;
 }
 
-export const Input: React.FC<IComponentProps> = (props: IComponentProps) => {
+export const CodeInput: React.FC<IComponentProps> = (
+  props: IComponentProps
+) => {
   const {
     value,
     onChange,
@@ -31,7 +32,6 @@ export const Input: React.FC<IComponentProps> = (props: IComponentProps) => {
     validate,
     required,
     disabled,
-    className,
     ...restProps
   } = props;
   const handleChange = (val: string): void => {
@@ -43,7 +43,7 @@ export const Input: React.FC<IComponentProps> = (props: IComponentProps) => {
   };
 
   return (
-    <Container className={className}>
+    <Container>
       {label && <Label required={!!required}>{label}</Label>}
       <InputConteiner>
         <InputStyled

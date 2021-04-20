@@ -1,6 +1,16 @@
 import { PALETTE } from 'utils/constants/ui';
 import styled from 'styled-components';
 
+interface ILabel {
+  required: boolean;
+}
+
+export const Container = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
 export const ContainerForm = styled.form`
   width: 100%;
   display: flex;
@@ -36,10 +46,28 @@ export const RadioContainer = styled.div`
   margin-right: 24px;
 `;
 
-export const LabelStyled = styled.span`
+export const OptionText = styled.span`
   font-style: normal;
   font-weight: 600;
   font-size: 13px;
   line-height: 16px;
   color: rgba(0, 0, 0, 0.4);
+`;
+
+export const Label = styled.label`
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 16px;
+  color: ${PALETTE.secondaryText};
+  margin-bottom: 37px;
+
+  &:after {
+    ${(props: ILabel) => (props.required ? `content: '*';` : '')}
+    color: ${PALETTE.error};
+    font-style: normal;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 16px;
+  }
 `;
