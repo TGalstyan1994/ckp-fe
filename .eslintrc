@@ -13,7 +13,7 @@
     "ecmaVersion": 2020,
     "sourceType": "module",
     "project": "./tsconfig.json",
-    "extraFileExtensions": [".css"]
+    "extraFileExtensions": [".module.css"]
   },
   "env": {
     "es6": true,

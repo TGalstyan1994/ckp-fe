@@ -11,7 +11,7 @@ import ConfirmInformationForm from 'ui/components/registration/forms/confirmInfo
 
 const RegistrationPage = () => {
   return (
-    <div>
+    <>
       <Stages>
         <SponsorForm />
         <AccountForm />
@@ -20,7 +20,7 @@ const RegistrationPage = () => {
         <PaymentDetailsForm />
         <ConfirmInformationForm />
       </Stages>
-    </div>
+    </>
   );
 };
 

@@ -17,21 +17,22 @@ export const ButtonStyled = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-style: normal;
   font-weight: bold;
   font-size: 11px;
   line-height: 13px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  transition: 0.2s;
   color: ${(props: IButtonStyled) => (props.primary ? '#FFFFFF' : '#000')};
 
   &:hover {
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    transition: 0.2s;
+    box-shadow: 0px 0px 8px #9db7bd;
   }
 
   &:active {
     background-color: ${(props: IButtonStyled) =>
-    props.primary ? 'rgba(1,184,87, 0.8)' : 'rgba(250,250,250,0.8)'};
+      props.primary ? 'rgba(1,184,87, 0.8)' : 'rgba(250,250,250,0.8)'};
   }
 
   &:disabled {

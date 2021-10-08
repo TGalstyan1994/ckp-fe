@@ -1,23 +1,26 @@
-import React, { useState } from 'react';
+import { ReactElement, FC, useState } from 'react';
 
-export const Stages: React.FC = ({ children }) => {
+type Props = {
+  children: Array<ReactElement>;
+};
+
+export const Stages: FC<Props> = ({ children: allStages }) => {
   const [currentStage, setStage] = useState(0);
-
-  const handleChangeStage = (delt: number): void => {
-    if (currentStage + delt >= React.Children.count(children)) {
-      setStage(React.Children.count(children) - 1);
-    } else if (currentStage + delt < 0) {
-      setStage(0);
-    } else {
-      setStage(currentStage + delt);
-    }
-  };
+  const changeStage = (onValue: number): void =>
+    setStage((prev) => prev + onValue);
 
   return (
     <div>
-      {React.Children.toArray(children)[currentStage]}
-      <button onClick={() => handleChangeStage(-1)}>{'<'}</button>
-      <button onClick={() => handleChangeStage(1)}>{'>'}</button>
+      {allStages[currentStage]}
+      <button onClick={() => changeStage(-1)} disabled={!currentStage}>
+        {'<'}
+      </button>
+      <button
+        onClick={() => changeStage(1)}
+        disabled={currentStage === allStages.length}
+      >
+        {'>'}
+      </button>
     </div>
   );
 };

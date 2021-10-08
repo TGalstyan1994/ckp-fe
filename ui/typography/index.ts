@@ -6,6 +6,8 @@ interface IComponentProps {
 }
 
 export const H1 = styled.h1`
+  margin: 0;
+  padding: 0;
   font-style: normal;
   font-weight: bold;
   font-size: 36px;
@@ -14,13 +16,4 @@ export const H1 = styled.h1`
     props.primary ? PALETTE.greenText : '#000'};
 `;
 
-export const LinkText = styled.span`
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 17px;
-  text-decoration-line: underline;
-  color: ${(props: IComponentProps) =>
-    props.primary ? PALETTE.greenText : '#000'};
-  cursor: pointer;
-`;
+export const LinkText = styled.span``;

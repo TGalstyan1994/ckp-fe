@@ -1,6 +1,6 @@
 import React from 'react';
 import { useFormik } from 'formik';
-import { Input } from 'ui/components/common/input';
+import { Input } from '../../../../../components/Input';
 import { useDispatch } from 'react-redux';
 import { register } from 'redux/auth/thunks';
 import { setEmailAction } from 'redux/registration';

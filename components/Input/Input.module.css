@@ -1,0 +1,118 @@
+.input_wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  width: 500px;
+  height: 56px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  background: #ffffff;
+  opacity: 0.8;
+  box-shadow: 0px 0px 8px #d8d8d8;
+  padding: 20px 30px;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 16px;
+  color: #000000;
+  transition: 0.2s;
+  margin: 0;
+}
+
+.input:focus {
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.9);
+  opacity: 1;
+  transition: 0.2s;
+}
+
+.input.invalid_input {
+  border: 1px solid #fe0000;
+}
+.input_label {
+  margin-bottom: 19px;
+  opacity: 40%;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.required_label:after {
+  content: '*';
+  color: #fe0000;
+}
+
+.error_message {
+  margin-top: 14px;
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 12px;
+  color: #fe0000;
+}
+
+.input_errors_wrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.input_errors_wrapper svg {
+  top: 23px;
+  right: 19px;
+  position: absolute;
+}
+/* 
+ export const InputStyled = styled.input`
+   
+
+   &:not(:focus) {
+     color: ${PALETTE.secondaryText};
+   }
+ `;
+
+ export const InputContainer = styled.div`
+   height: 56px;
+   position: relative;
+ `;
+
+ export const Label = styled.label`
+   font-style: normal;
+   font-weight: 600;
+   font-size: 13px;
+   line-height: 16px;
+   color: ${PALETTE.secondaryText};
+   margin-bottom: 19px;
+
+   &:after {
+     ${(props: ILabel) => (props.required ? `content: '*';` : '')}
+     color: ${PALETTE.error};
+     font-style: normal;
+     font-weight: 600;
+     font-size: 13px;
+     line-height: 16px;
+   }
+ `;
+
+ export const ErrorIcon = styled.img`
+   position: absolute;
+   top: 23px;
+   right: 23px;
+ `;
+
+ export const ErrorMessage = styled.span`
+   font-style: normal;
+   font-weight: 600;
+   font-size: 10px;
+   line-height: 12px;
+   color: ${PALETTE.error};
+   margin-top: 14px;
+ `;
+
+ import {
+   Container,
+   InputContainer,
+   Label,
+   InputStyled,
+   ErrorIcon,
+   ErrorMessage,
+ } from './styled'; */

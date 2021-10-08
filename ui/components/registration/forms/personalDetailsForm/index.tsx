@@ -6,7 +6,7 @@ import {
   setLastNameAction,
   setPhoneAction,
 } from 'redux/registration';
-import { Input } from 'ui/components/common/input';
+import { Input } from '../../../../../components/Input';
 
 const PersonalDetailsForm: React.FC = () => {
   const [objective, setObjective] = useState<string>('');
@@ -25,10 +25,8 @@ const PersonalDetailsForm: React.FC = () => {
   const [haveAthleticSkills, setAthleticSkills] = useState<boolean>(false);
   const [haveDependend, setDependend] = useState<boolean>(false);
   const [beneficiaryName, setBeneficiaryName] = useState<string>('');
-  const [
-    beneficiaryRelationship,
-    setBeneficiaryRelationship,
-  ] = useState<string>('');
+  const [beneficiaryRelationship, setBeneficiaryRelationship] =
+    useState<string>('');
   const [beneficiaryPhone, setBeneficiaryPhone] = useState<string>('');
   const [country, setCountry] = useState<string>('');
   const [state, setState] = useState<string>('');

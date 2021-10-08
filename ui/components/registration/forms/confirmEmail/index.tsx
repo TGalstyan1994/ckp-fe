@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { create } from 'redux/auth/thunks';
-import { Input } from 'ui/components/common/input';
+import { Input } from '../../../../../components/Input';
 
 const ConfirmEmailForm = () => {
   const [code, setCode] = useState<string>('');

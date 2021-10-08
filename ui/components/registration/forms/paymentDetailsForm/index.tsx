@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Input } from 'ui/components/common/input';
+import { Input } from '../../../../../components/Input';
 
 const PaymentDetailsForm: React.FC = () => {
   const [address, setAddress] = useState<string>('');
