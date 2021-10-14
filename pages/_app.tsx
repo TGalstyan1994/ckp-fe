@@ -1,19 +1,26 @@
-import { ComponentType, FC } from 'react';
-import { Provider } from 'react-redux';
-import { AppInitialProps } from 'next/app';
-import GlobalStyles from 'ui/global-styles';
-import store from '../redux/index';
+import { ComponentType, FC, ReactElement, ReactNode } from 'react'
+import { Provider } from 'react-redux'
+import { AppProps } from 'next/app'
+import GlobalStyles from 'ui/global-styles'
+import store from '../redux/index'
+import { NextPage } from 'next'
 
-type Props = {
-  Component: ComponentType<AppInitialProps>;
-  pageProps: AppInitialProps;
-};
+type Page<P = {}> = NextPage<P> & {
+  getLayout?: (page: ReactNode) => ReactNode
+}
 
-const MyApp: FC<Props> = ({ Component, pageProps }) => (
-  <Provider store={store}>
-    <GlobalStyles />
-    <Component {...pageProps} />
-  </Provider>
-);
+type Props = AppProps & {
+  Component: Page
+}
 
-export default MyApp;
+const MyApp: FC<Props> = ({ Component, pageProps }) => {
+  const getLayout = Component.getLayout || ((page: ReactElement) => page)
+  return (
+    <Provider store={store}>
+      <GlobalStyles />
+      {getLayout(<Component {...pageProps} />)}
+    </Provider>
+  )
+}
+
+export default MyApp

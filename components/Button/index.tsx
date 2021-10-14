@@ -1,10 +1,30 @@
 import { FC } from 'react'
-import classes from './Button.module.css'
-const { button, disabled } = classes
+import { button, disabled_button, secondary_button } from './style.module.css'
+import classNames from 'classnames'
 
 type Props = {
-  children: string
+  children: string | number
+  className?: string
+  disabled?: boolean
+  secondary?: boolean
+  onClick?: () => void
 }
-export const Button: FC<Props> = ({ children }) => (
-  <button className={button}>{children}</button>
+export const Button: FC<Props> = ({
+  children,
+  className = '',
+  disabled,
+  secondary,
+  onClick,
+}) => (
+  <button
+    onClick={onClick}
+    className={classNames(
+      button,
+      { [className]: className },
+      { [disabled_button]: disabled },
+      { [secondary_button]: secondary }
+    )}
+  >
+    {children}
+  </button>
 )

@@ -5,4 +5,4 @@ export const PALETTE = {
   secondaryText: '#00000066',
   primaryText: '#000000',
   error: '#FE3333',
-};
+}

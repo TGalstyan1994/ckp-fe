@@ -1,56 +1,61 @@
-import { ChangeEventHandler, FC } from 'react'
-import { ErrorICO } from 'components/ICO/ErrorICO'
-
-import classes from './Input.module.css'
-const {
-  input_errors_wrapper,
+import { FC, useState } from 'react'
+import { PasswordSwitchICO } from 'components/ICO/PasswordSwitchICO'
+import classNames from 'classnames'
+// import { ErrorICO } from 'components/ICO/ErrorICO'
+import {
+  input_container,
   input_wrapper,
   input_label,
   required_label,
   input,
   invalid_input,
-  error_message,
-} = classes
-
-type Props = {
-  value: string
-  onChange: ChangeEventHandler<HTMLInputElement>
-  error?: string
-  placeholder: string
-  label?: string
-  required?: boolean
-  type: string
-}
+  // error_message,
+} from './style.module.css'
+import { Props } from './props'
 
 export const Input: FC<Props> = ({
-  type,
+  type = 'text',
   value,
   onChange,
   error,
   placeholder,
   label,
   required,
+  name,
+  className = '',
+  maxLength,
 }) => {
+  const [showPassword, setShowPassword] = useState(!(type === 'password'))
+  const togglePasswordView = () => setShowPassword((prev) => !prev)
+
+  let InputType = type
+  if (type === 'password') InputType = showPassword ? 'text' : 'password'
+  if (type === 'pin') InputType = 'password'
+
   return (
-    <div className={input_wrapper}>
+    <div className={input_container}>
       {label && (
         <label className={`${input_label} ${required ? required_label : ''}`}>
           {label}
         </label>
       )}
-      <div className={input_errors_wrapper}>
+
+      <div className={input_wrapper}>
         <input
-          type={type}
+          maxLength={maxLength}
+          name={name}
+          type={InputType}
           value={value}
           onChange={onChange}
           placeholder={placeholder}
-          className={`${input} ${error ? invalid_input : ''}`}
+          className={classNames(input, { [invalid_input]: error }, className)}
         ></input>
-        {error && (
-          <>
-            <ErrorICO />
-            <span className={error_message}>{error}</span>
-          </>
+
+        {type === 'password' && (
+          <PasswordSwitchICO
+            visible={showPassword}
+            onClick={togglePasswordView}
+          />
         )}
       </div>
     </div>

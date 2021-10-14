@@ -1,0 +1,18 @@
+.form {
+  width: 576px;
+  height: 210px;
+  display: flex;
+  flex-direction: column;
+}
+.form h1 {
+  margin: 0 0 32px 0;
+}
+.form_buttons {
+  margin-top: 23px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form_buttons button {
+  width: 227px;
+}

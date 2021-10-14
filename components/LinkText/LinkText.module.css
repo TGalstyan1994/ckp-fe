@@ -1,0 +1,14 @@
+.link_text {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.link_text a {
+  color: #000;
+  text-decoration-line: underline;
+}
+.link_text a:focus,
+.link_text a:active {
+  color: inherit;
+}

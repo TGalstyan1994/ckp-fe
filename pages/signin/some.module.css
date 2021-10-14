@@ -1,9 +1,0 @@
-.some_new {
-  border: 1px solid blue;
-  background: green;
-  width: 100px;
-  height: 100px;
-  position: absolute;
-  left: 0;
-  top: calc(50%-100px);
-}
