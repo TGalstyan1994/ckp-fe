@@ -1,8 +1,8 @@
-import { ComponentType, FC, ReactElement, ReactNode } from 'react'
+import { FC, ReactElement, ReactNode } from 'react'
 import { Provider } from 'react-redux'
 import { AppProps } from 'next/app'
 import GlobalStyles from 'ui/global-styles'
-import store from '../redux/index'
+import { store } from 'redux/index'
 import { NextPage } from 'next'
 
 type Page<P = {}> = NextPage<P> & {

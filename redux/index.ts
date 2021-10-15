@@ -1,21 +1,27 @@
 import {
   configureStore,
+  // @ts-ignore
   combineReducers,
+  // @ts-ignore
   Store,
+  // @ts-ignore
   AnyAction,
-} from '@reduxjs/toolkit';
-import authReducer from './auth';
-import registrationReducer from './registration';
+} from '@reduxjs/toolkit'
+import createSagaMiddleware from 'redux-saga'
+import { reducer } from './reducers'
+import rootSaga from './sagas'
 
-const rootReducer = combineReducers({
-  auth: authReducer,
-  registration: registrationReducer,
-});
+const sagaMiddleware = createSagaMiddleware()
 
-const store: Store<any, AnyAction> = configureStore({
-  reducer: rootReducer,
-});
+export const store: Store<any, AnyAction> = configureStore({
+  reducer,
+  middleware: [sagaMiddleware],
+})
 
-export type RootState = ReturnType<typeof store.getState>;
+sagaMiddleware.run(rootSaga)
 
-export default store;
+export type RootState = ReturnType<typeof store.getState>
+export type Action = {
+  payload: any
+  type: string
+}

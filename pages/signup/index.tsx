@@ -1,4 +1,3 @@
-import { Stages } from 'ui/components/registration/stages'
 import {
   SponsorForm,
   AccountForm,
@@ -8,22 +7,23 @@ import {
 } from 'ui/components/registration/forms/index'
 import { withAuth } from 'utils'
 import ConfirmInformationForm from 'ui/components/registration/forms/confirmInformationForm'
-import { SignUpWrapper } from 'components/Layouts/SignUpLayout'
+import { SignUpStages } from 'components/Layouts/SignUpLayout'
 import { useState } from 'react'
+import { AccountDetails } from 'containers/SignUp/AccountDetails'
+import { CreateSecurityPin } from 'containers/SignUp/CreateSecurityPin'
+import { SecurityQuestion } from 'containers/SignUp/SecurityQuestion'
 
 const RegistrationPage = () => {
-  const [currentStage, setCurrentStage] = useState(1)
+  const [currentStage, setCurrentStage] = useState(0)
   return (
-    <SignUpWrapper currentStage={currentStage} changeStageOn={setCurrentStage}>
-      <Stages>
-        <SponsorForm />
-        <AccountForm />
-        <ConfirmEmailForm />
-        <PersonalDetailsForm />
-        <PaymentDetailsForm />
-        <ConfirmInformationForm />
-      </Stages>
-    </SignUpWrapper>
+    <SignUpStages currentStage={currentStage} changeStageOn={setCurrentStage}>
+      <AccountDetails />
+      <CreateSecurityPin />
+      <SecurityQuestion />
+      <PersonalDetailsForm />
+      <PaymentDetailsForm />
+      <ConfirmInformationForm />
+    </SignUpStages>
   )
 }
 

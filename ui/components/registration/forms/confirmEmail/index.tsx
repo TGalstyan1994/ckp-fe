@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { create } from 'redux/auth/thunks';
-import { Input } from '../../../../../components/Input';
+import React, { useState } from 'react'
+import { create } from 'redux2/auth/thunks'
+import { Input } from '../../../../../components/Input'
 
 const ConfirmEmailForm = () => {
-  const [code, setCode] = useState<string>('');
+  const [code, setCode] = useState<string>('')
   return (
     <div>
       <Input
@@ -18,7 +18,7 @@ const ConfirmEmailForm = () => {
       />
       <button onClick={() => create(code)}>submit</button>
     </div>
-  );
-};
+  )
+}
 
-export default ConfirmEmailForm;
+export default ConfirmEmailForm
