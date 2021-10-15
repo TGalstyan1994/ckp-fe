@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Input } from '../../../../../components/Input';
+import React, { useState } from 'react'
+import { Input } from '../../../../../components/Input'
 
 const PaymentDetailsForm: React.FC = () => {
-  const [address, setAddress] = useState<string>('');
+  const [address, setAddress] = useState<string>('')
   return (
     <div>
       <select>
@@ -17,7 +17,7 @@ const PaymentDetailsForm: React.FC = () => {
         placeholder="Enter Billing Address"
       />
     </div>
-  );
-};
+  )
+}
 
-export default PaymentDetailsForm;
+export default PaymentDetailsForm

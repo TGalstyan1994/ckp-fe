@@ -4,7 +4,7 @@ import { CheckBox } from 'components/CheckBox'
 import { Input } from 'components/Input'
 import { LinkText } from 'components/LinkText'
 import { useRouter } from 'next/router'
-import { LoginFormState, LocalFormData } from './types'
+import { LoginFormState } from './types'
 import {
   form,
   form_header,
@@ -13,7 +13,7 @@ import {
   form_buttons,
   ico_button,
 } from './SignInForm.module.css'
-import axios from 'axios'
+import { useDispatch } from 'react-redux'
 
 export const SignInForm = () => {
   const [loginFormState, setLoginFormState] = useState<LoginFormState>({
@@ -21,20 +21,8 @@ export const SignInForm = () => {
     password: '',
     rememberMe: false,
   })
-
+  const dispatch = useDispatch()
   const router = useRouter()
-
-  const LoginUser = async (formData: LocalFormData) => {
-    try {
-      const response = await axios.post(
-        'https://be.ckp.rocketech.net/api/auth/login',
-        formData
-      )
-      console.log(response)
-    } catch (err) {
-      console.error(err)
-    }
-  }
 
   const handleLoginForm = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.type === 'checkbox')
@@ -81,9 +69,16 @@ export const SignInForm = () => {
         <Button
           className={ico_button}
           onClick={() =>
-            LoginUser({
-              username: loginFormState.username,
-              password: loginFormState.password,
+            //   LoginUser({
+            //     username: loginFormState.username,
+            //     password: loginFormState.password,
+            //   })
+            dispatch({
+              type: 'LOGIN_USER',
+              payload: {
+                username: loginFormState.username,
+                password: loginFormState.password,
+              },
             })
           }
         >

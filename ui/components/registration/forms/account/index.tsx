@@ -1,15 +1,15 @@
-import React from 'react';
-import { useFormik } from 'formik';
-import { Input } from '../../../../../components/Input';
-import { useDispatch } from 'react-redux';
-import { register } from 'redux/auth/thunks';
-import { setEmailAction } from 'redux/registration';
+import React from 'react'
+import { useFormik } from 'formik'
+import { Input } from '../../../../../components/Input'
+import { useDispatch } from 'react-redux'
+import { register } from 'redux2/auth/thunks'
+import { setEmailAction } from 'redux2/registration'
 
 interface IAccountForm {
-  login: string;
-  password: string;
-  confirmPassword: string;
-  email: string;
+  login: string
+  password: string
+  confirmPassword: string
+  email: string
 }
 
 const validate = (values: IAccountForm) => {
@@ -18,35 +18,35 @@ const validate = (values: IAccountForm) => {
     password: '',
     confirmPassword: '',
     email: '',
-  };
-  let error = false;
+  }
+  let error = false
 
   if (values.login.length < 2) {
-    errors.login = 'Min Number of characters - 2';
-    error = true;
+    errors.login = 'Min Number of characters - 2'
+    error = true
   }
 
   if (values.password.length < 5) {
-    errors.password = 'Min Number of characters - 5';
-    error = true;
+    errors.password = 'Min Number of characters - 5'
+    error = true
   }
 
   if (values.confirmPassword !== values.password) {
-    errors.confirmPassword = 'Confirm Password Mismatch';
-    error = true;
+    errors.confirmPassword = 'Confirm Password Mismatch'
+    error = true
   }
 
   if (!/[\dA-Za-z]{3,}@[\dA-Za-z]{2,}.[\dA-Za-z]{2,}/.test(values.email)) {
-    errors.email = 'Mask: aaa@bb.cc';
-    error = true;
+    errors.email = 'Mask: aaa@bb.cc'
+    error = true
   }
 
-  console.log(errors);
-  return error ? errors : {};
-};
+  console.log(errors)
+  return error ? errors : {}
+}
 
 const AccountForm: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const formik = useFormik({
     initialValues: {
       login: '',
@@ -56,15 +56,15 @@ const AccountForm: React.FC = () => {
     },
     validate,
     onSubmit: (values) => {
-      console.log(values);
-      dispatch(register(values));
+      console.log(values)
+      dispatch(register(values))
     },
-  });
+  })
 
   const handleChangeEmail = (val: string) => {
-    formik.setFieldValue('email', val);
-    dispatch(setEmailAction(val));
-  };
+    formik.setFieldValue('email', val)
+    dispatch(setEmailAction(val))
+  }
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -128,7 +128,7 @@ const AccountForm: React.FC = () => {
         continue
       </button>
     </form>
-  );
-};
+  )
+}
 
-export default AccountForm;
+export default AccountForm

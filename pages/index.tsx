@@ -1,19 +1,19 @@
-import { authorize } from 'redux/auth/thunks';
-import { useDispatch } from 'react-redux';
-import { registerUser } from 'api/auth';
-import { UserAuthData, UserData } from 'interfaces/index';
-import { PayloadAction } from '@reduxjs/toolkit';
-import { withAuth } from 'utils';
-import { useRouter } from 'next/router';
+import { authorize } from 'redux2/auth/thunks'
+import { useDispatch } from 'react-redux'
+import { registerUser } from 'api/auth'
+import { UserAuthData, UserData } from 'interfaces/index'
+import { PayloadAction } from '@reduxjs/toolkit'
+import { withAuth } from 'utils'
+import { useRouter } from 'next/router'
 
 const IndexPage = () => {
-  const dispatch = useDispatch();
-  const router = useRouter();
+  const dispatch = useDispatch()
+  const router = useRouter()
   const userData: UserAuthData = {
     login: 'jon',
     email: 'jon.snow.2021-03-21@mailinator.com',
     password: 'Jon@1234',
-  };
+  }
   return (
     <div>
       <button
@@ -28,15 +28,15 @@ const IndexPage = () => {
       </button>
       <button
         onClick={() => {
-          router.push('/signup');
+          router.push('/signup')
         }}
       >
         зарегистрироваться
       </button>
     </div>
-  );
-};
+  )
+}
 
-export const getServerSideProps = withAuth();
+export const getServerSideProps = withAuth()
 
-export default IndexPage;
+export default IndexPage

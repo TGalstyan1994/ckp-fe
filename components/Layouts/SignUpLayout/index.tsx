@@ -16,38 +16,39 @@ import {
 type Props = {
   changeStageOn: (stage: number) => void
   currentStage: number
-  children: ReactChild
+  children: Array<ReactChild>
 }
 
 const stages = [
-  { count: 1, text: 'login \n password' },
-  { count: 2, text: 'security \n pin' },
-  { count: 3, text: 'security \n question' },
-  { count: 4, text: 'presonal \n details' },
-  { count: 5, text: 'payment \n details' },
+  { count: 1, text: 'login password' },
+  { count: 2, text: 'security pin' },
+  { count: 3, text: 'security question' },
+  { count: 4, text: 'presonal details' },
+  { count: 5, text: 'payment details' },
   { count: 6, text: 'confirm' },
 ]
 
-export const SignUpWrapper: FC<Props> = ({
+export const SignUpStages: FC<Props> = ({
   changeStageOn,
   currentStage,
-  children,
+  children: allStages,
 }) => {
   return (
     <div className={registration_page}>
       <Logo />
-      <div className={stages_wrapper}>{children}</div>
+      <div className={stages_wrapper}>{allStages[currentStage]}</div>
       <div className={stages_navbar_wrapper}>
         <div className={stages_navbar}>
           {stages.map((stage) => (
             <div
+              key={stage.count}
               className={classNames(navbar_link, {
-                [active_link]: currentStage === stage.count,
+                [active_link]: currentStage + 1 === stage.count,
               })}
             >
               <Button
                 className={navbar_button}
-                onClick={() => changeStageOn(stage.count)}
+                onClick={() => changeStageOn(stage.count - 1)}
               >
                 {stage.count}
               </Button>

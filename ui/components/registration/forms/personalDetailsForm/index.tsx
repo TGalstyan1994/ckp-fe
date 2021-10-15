@@ -1,60 +1,60 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import {
   setFirstNameAction,
   setGenderAction,
   setLastNameAction,
   setPhoneAction,
-} from 'redux/registration';
-import { Input } from '../../../../../components/Input';
+} from 'redux2/registration'
+import { Input } from '../../../../../components/Input'
 
 const PersonalDetailsForm: React.FC = () => {
-  const [objective, setObjective] = useState<string>('');
-  const [objectiveNote, setObjectiveNote] = useState<string>('');
-  const [firstName, setFirstName] = useState<string>('');
-  const [lastName, setLastName] = useState<string>('');
-  const [phone, setPhone] = useState<string>('');
-  const [address, setAddress] = useState<string>('');
-  const [birth, setBirth] = useState<string>('');
-  const [gender, setGender] = useState<string>('');
-  const [maritalStatus, setMaritalStatus] = useState<string>('');
-  const [isEmployed, setEmployed] = useState<boolean>(false);
-  const [isOwner, setOwner] = useState<boolean>(false);
-  const [haveTrade, setTrade] = useState<boolean>(false);
-  const [haveTechSkills, setTechSkills] = useState<boolean>(false);
-  const [haveAthleticSkills, setAthleticSkills] = useState<boolean>(false);
-  const [haveDependend, setDependend] = useState<boolean>(false);
-  const [beneficiaryName, setBeneficiaryName] = useState<string>('');
+  const [objective, setObjective] = useState<string>('')
+  const [objectiveNote, setObjectiveNote] = useState<string>('')
+  const [firstName, setFirstName] = useState<string>('')
+  const [lastName, setLastName] = useState<string>('')
+  const [phone, setPhone] = useState<string>('')
+  const [address, setAddress] = useState<string>('')
+  const [birth, setBirth] = useState<string>('')
+  const [gender, setGender] = useState<string>('')
+  const [maritalStatus, setMaritalStatus] = useState<string>('')
+  const [isEmployed, setEmployed] = useState<boolean>(false)
+  const [isOwner, setOwner] = useState<boolean>(false)
+  const [haveTrade, setTrade] = useState<boolean>(false)
+  const [haveTechSkills, setTechSkills] = useState<boolean>(false)
+  const [haveAthleticSkills, setAthleticSkills] = useState<boolean>(false)
+  const [haveDependend, setDependend] = useState<boolean>(false)
+  const [beneficiaryName, setBeneficiaryName] = useState<string>('')
   const [beneficiaryRelationship, setBeneficiaryRelationship] =
-    useState<string>('');
-  const [beneficiaryPhone, setBeneficiaryPhone] = useState<string>('');
-  const [country, setCountry] = useState<string>('');
-  const [state, setState] = useState<string>('');
-  const [city, setCity] = useState<string>('');
-  const [zip, setZip] = useState<string>('');
-  const [isConditionsAccepted, setAccepted] = useState<string>('');
+    useState<string>('')
+  const [beneficiaryPhone, setBeneficiaryPhone] = useState<string>('')
+  const [country, setCountry] = useState<string>('')
+  const [state, setState] = useState<string>('')
+  const [city, setCity] = useState<string>('')
+  const [zip, setZip] = useState<string>('')
+  const [isConditionsAccepted, setAccepted] = useState<string>('')
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const handleChangeGender = (val: string) => {
-    setGender(val);
-    dispatch(setGenderAction(val));
-  };
+    setGender(val)
+    dispatch(setGenderAction(val))
+  }
 
   const handleChangeFirstName = (val: string) => {
-    setFirstName(val);
-    dispatch(setFirstNameAction(val));
-  };
+    setFirstName(val)
+    dispatch(setFirstNameAction(val))
+  }
 
   const handleChangeLastName = (val: string) => {
-    setLastName(val);
-    dispatch(setLastNameAction(val));
-  };
+    setLastName(val)
+    dispatch(setLastNameAction(val))
+  }
 
   const handleChangePhone = (val: string) => {
-    setPhone(val);
-    dispatch(setPhoneAction(val));
-  };
+    setPhone(val)
+    dispatch(setPhoneAction(val))
+  }
 
   return (
     <div>
@@ -119,7 +119,7 @@ const PersonalDetailsForm: React.FC = () => {
         <option value="other">other</option>
       </select>
     </div>
-  );
-};
+  )
+}
 
-export default PersonalDetailsForm;
+export default PersonalDetailsForm

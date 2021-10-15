@@ -1,0 +1,19 @@
+.form {
+  width: 972px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form h1 {
+  margin: 0 0 36px 0;
+}
+
+.form_buttons {
+  margin-top: 21px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form_buttons button {
+  width: 232px;
+}
