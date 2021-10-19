@@ -1,12 +1,4 @@
-import {
-  SponsorForm,
-  AccountForm,
-  ConfirmEmailForm,
-  PersonalDetailsForm,
-  PaymentDetailsForm,
-} from 'ui/components/registration/forms/index'
 import { withAuth } from 'utils'
-import ConfirmInformationForm from 'ui/components/registration/forms/confirmInformationForm'
 import { SignUpStages } from 'components/Layouts/SignUpLayout'
 import { useState } from 'react'
 import { AccountDetails } from 'containers/SignUp/AccountDetails'
@@ -20,9 +12,6 @@ const RegistrationPage = () => {
       <AccountDetails />
       <CreateSecurityPin />
       <SecurityQuestion />
-      <PersonalDetailsForm />
-      <PaymentDetailsForm />
-      <ConfirmInformationForm />
     </SignUpStages>
   )
 }
