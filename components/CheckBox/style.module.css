@@ -35,8 +35,9 @@
 
 .checkbox:checked + .label::before {
   background-image: url('../../UI/svg/success.svg');
-  color: #33a96a;
+  fill: #33a96a;
 }
+
 .label_disabled.label::before {
   opacity: 0.2;
   pointer-events: none;

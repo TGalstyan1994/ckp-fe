@@ -69,10 +69,6 @@ export const SignInForm = () => {
         <Button
           className={ico_button}
           onClick={() =>
-            //   LoginUser({
-            //     username: loginFormState.username,
-            //     password: loginFormState.password,
-            //   })
             dispatch({
               type: 'LOGIN_USER',
               payload: {

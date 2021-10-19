@@ -1,8 +1,9 @@
 import { spawn, call, all } from 'redux-saga/effects'
 import { handleLoginSaga } from './signinSaga'
+import { handleRegisterSaga } from './signupSaga'
 
 export default function* rootSaga() {
-  const sagas = [handleLoginSaga]
+  const sagas = [handleLoginSaga, handleRegisterSaga]
   // @ts-ignore
   const retrySagas = yield sagas.map((saga) =>
     spawn(function* () {

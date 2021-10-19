@@ -1,13 +1,14 @@
-import { FC } from 'react'
-import { button, disabled_button, secondary_button } from './style.module.css'
+import { FC, MouseEventHandler, ReactChild } from 'react'
 import classNames from 'classnames'
+import { button, disabled_button, secondary_button } from './style.module.css'
 
 type Props = {
-  children: string | number
+  children: ReactChild
   className?: string
   disabled?: boolean
   secondary?: boolean
-  onClick?: () => void
+  onClick?: MouseEventHandler<HTMLButtonElement>
+  type?: 'button' | 'submit' | 'reset' | undefined
 }
 export const Button: FC<Props> = ({
   children,
@@ -15,8 +16,11 @@ export const Button: FC<Props> = ({
   disabled,
   secondary,
   onClick,
+  type,
+  ...others
 }) => (
   <button
+    type={type}
     onClick={onClick}
     className={classNames(
       button,
@@ -24,6 +28,7 @@ export const Button: FC<Props> = ({
       { [disabled_button]: disabled },
       { [secondary_button]: secondary }
     )}
+    {...others}
   >
     {children}
   </button>

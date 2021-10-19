@@ -1,65 +1,115 @@
+import { ChangeEvent, FC, MouseEvent, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import {
+  endStageFetching,
+  startStageFetching,
+  validateStage,
+} from 'store/reducers/signup'
+import { registerAction } from 'store/actions/signup'
 import { Button } from 'components/Button'
 import { H1 } from 'components/H1'
 import { Input } from 'components/Input'
-import { ChangeEvent, useState } from 'react'
-import { form, form_inputs, form_buttons } from './style.module.css'
-export const AccountDetails = () => {
+import { useSelectorTyped } from 'utils/hooks'
+import { validate } from './validation'
+import {
+  form,
+  form_inputs,
+  form_buttons,
+  form_fetching_error,
+} from './style.module.css'
+
+export const AccountDetails: FC = () => {
+  const stage = useSelectorTyped((state) => state.signup.stages[0])
   const [formState, setFormState] = useState({
     username: '',
     email: '',
     password: '',
-    repeatPass: '',
+    passwordConfirmation: '',
   })
+  const dispatch = useDispatch()
 
-  const handleForm = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormState((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+  const handleOnClick = async (e: MouseEvent) => {
+    e.preventDefault()
+    dispatch(startStageFetching())
+    const ValidationErrors = validate(formState)
+    dispatch(validateStage({ errors: ValidationErrors }))
+
+    if (!Object.values(ValidationErrors).every((elem) => elem === '')) {
+      dispatch(endStageFetching())
+      return
+    }
+
+    window.grecaptcha.ready(async () => {
+      try {
+        const token = await window.grecaptcha.execute(
+          process.env.NEXT_PUBLIC_SITE_KEY,
+          { action: 'submit' }
+        )
+        dispatch(registerAction({ ...formState, token }))
+      } catch (error) {
+        console.error(error)
+      }
+    })
   }
 
+  const handleFormInput = (e: ChangeEvent<HTMLInputElement>) =>
+    setFormState((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+
   return (
-    <div className={form}>
+    <form className={form}>
       <H1 secondary>Account Details</H1>
       <div className={form_inputs}>
         <Input
           name="username"
-          onChange={handleForm}
+          onChange={handleFormInput}
           value={formState.username}
           label="Username"
           required
           placeholder="Enter Username"
+          error={stage.errors?.username}
         />
         <Input
           type="email"
           name="email"
-          onChange={handleForm}
+          onChange={handleFormInput}
           value={formState.email}
           label="E-mail Address"
           required
           placeholder="Enter E-mail Address"
+          error={stage.errors?.email}
         />
       </div>
       <div className={form_inputs}>
         <Input
           type="password"
           name="password"
-          onChange={handleForm}
+          onChange={handleFormInput}
           value={formState.password}
           label="Password"
           required
           placeholder="Enter Password"
+          error={stage.errors?.password}
         />
         <Input
           type="password"
-          name="repeatPass"
-          onChange={handleForm}
-          value={formState.repeatPass}
+          name="passwordConfirmation"
+          onChange={handleFormInput}
+          value={formState.passwordConfirmation}
           label="Confirm Password"
           required
           placeholder="Enter Password Again"
+          error={stage.errors?.passwordConfirmation}
         />
       </div>
+      {stage.fetchError && (
+        <span className={form_fetching_error}>{stage.fetchError}</span>
+      )}
+
       <div className={form_buttons}>
-        <Button>Continue</Button>
+        <Button onClick={handleOnClick} disabled={stage.fetching}>
+          Continue
+        </Button>
       </div>
-    </div>
+    </form>
   )
 }

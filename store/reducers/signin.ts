@@ -1,8 +1,11 @@
-import { RootState, Action } from 'redux/index'
+import { RootState, Action } from 'store'
 
 const initialState = {}
 
-export const reducer = (state: RootState = initialState, action: Action) => {
+export const signinReducer = (
+  state: RootState = initialState,
+  action: Action
+): RootState => {
   switch (action.type) {
     case 'USER_FETCH_SUCCEEDED':
       return {
@@ -14,6 +17,8 @@ export const reducer = (state: RootState = initialState, action: Action) => {
         ...state,
         ...action.payload,
       }
+    default:
+      return state
   }
   return state
 }
