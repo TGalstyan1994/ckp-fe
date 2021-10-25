@@ -71,6 +71,8 @@
 }
 
 .navbar_button {
+  position: relative;
+
   width: 66px;
   margin-right: 17px;
 }
@@ -89,4 +91,10 @@
   line-height: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+}
+
+.finished_stage_link svg {
+  width: 14px;
+  height: 12px;
+  fill: #fff;
 }

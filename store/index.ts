@@ -1,17 +1,21 @@
 import {
   configureStore,
-  // @ts-ignore
-  combineReducers,
-  // @ts-ignore
   Store,
-  // @ts-ignore
   AnyAction,
+  combineReducers,
+  Reducer,
 } from '@reduxjs/toolkit'
 import createSagaMiddleware from 'redux-saga'
-import { reducer } from './reducers'
 import rootSaga from './sagas'
+import { signinReducer } from './reducers/signin'
+import signup from './reducers/signup'
 
 const sagaMiddleware = createSagaMiddleware()
+
+const reducer = combineReducers({
+  signin: signinReducer,
+  signup,
+}) as Reducer
 
 export const store: Store<any, AnyAction> = configureStore({
   reducer,
@@ -21,7 +25,14 @@ export const store: Store<any, AnyAction> = configureStore({
 sagaMiddleware.run(rootSaga)
 
 export type RootState = ReturnType<typeof store.getState>
+
+export type RegistrationAction = {
+  type: string
+  payload: Record<string, unknown>
+  apiUrl: string
+}
+
 export type Action = {
-  payload: any
+  payload: Record<string, unknown>
   type: string
 }

@@ -4,7 +4,11 @@ import { PinInput } from 'components/PinInput'
 import { ChangeEvent, useState } from 'react'
 import { form, form_buttons } from './style.module.css'
 
-export const CreateSecurityPin = () => {
+export const CreateSecurityPin = ({
+  finishStage,
+}: {
+  finishStage?: () => void
+}) => {
   const [pin, setPin] = useState('')
 
   const handlePin = (e: ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +21,7 @@ export const CreateSecurityPin = () => {
       <H1 secondary>Create security PIN.</H1>
       <PinInput onChange={handlePin} value={pin}></PinInput>
       <div className={form_buttons}>
-        <Button>Continue</Button>
+        <Button onClick={finishStage}>Continue</Button>
       </div>
     </div>
   )

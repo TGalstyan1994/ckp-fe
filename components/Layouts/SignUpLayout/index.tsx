@@ -1,7 +1,11 @@
 import classNames from 'classnames'
 import { Button } from 'components/Button'
+import { SuccessICO } from 'components/ICO/SuccessICO'
 import { Logo } from 'components/Logo'
-import { FC, ReactChild } from 'react'
+import { cloneElement, FC, ReactElement } from 'react'
+import { useDispatch } from 'react-redux'
+import { changeStage } from 'store/reducers/signup'
+import { useSelectorTyped } from 'utils/hooks'
 import {
   registration_page,
   stages_wrapper,
@@ -9,50 +13,47 @@ import {
   stages_navbar_wrapper,
   navbar_link,
   active_link,
+  finished_stage_link,
   link_description,
   navbar_button,
 } from './style.module.css'
 
 type Props = {
-  changeStageOn: (stage: number) => void
-  currentStage: number
-  children: Array<ReactChild>
+  children: Array<ReactElement>
 }
 
-const stages = [
-  { count: 1, text: 'login password' },
-  { count: 2, text: 'security pin' },
-  { count: 3, text: 'security question' },
-  { count: 4, text: 'presonal details' },
-  { count: 5, text: 'payment details' },
-  { count: 6, text: 'confirm' },
-]
+export const SignUpStages: FC<Props> = ({ children: allStages }) => {
+  const { currentStage, stages } = useSelectorTyped((state) => state.signup)
+  const dispatch = useDispatch()
 
-export const SignUpStages: FC<Props> = ({
-  changeStageOn,
-  currentStage,
-  children: allStages,
-}) => {
+  const currentStageWithProps = allStages[currentStage]
+    ? cloneElement(allStages[currentStage])
+    : undefined
+
   return (
     <div className={registration_page}>
       <Logo />
-      <div className={stages_wrapper}>{allStages[currentStage]}</div>
+      <div className={stages_wrapper}>
+        {currentStageWithProps ?? <span>Not Found :(</span>}
+      </div>
       <div className={stages_navbar_wrapper}>
         <div className={stages_navbar}>
           {stages.map((stage) => (
             <div
-              key={stage.count}
+              key={stage.title}
               className={classNames(navbar_link, {
-                [active_link]: currentStage + 1 === stage.count,
+                [active_link]: currentStage === stage.number - 1,
               })}
             >
               <Button
-                className={navbar_button}
-                onClick={() => changeStageOn(stage.count - 1)}
+                className={classNames(navbar_button, {
+                  [finished_stage_link]: stage.finished,
+                })}
+                onClick={() => dispatch(changeStage(stage.number - 1))}
               >
-                {stage.count}
+                {stage.finished ? <SuccessICO /> : stage.number}
               </Button>
-              <span className={link_description}>{stage.text}</span>
+              <span className={link_description}>{stage.title}</span>
             </div>
           ))}
         </div>

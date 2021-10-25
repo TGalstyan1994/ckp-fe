@@ -1,12 +1,12 @@
 import { call, CallEffect, takeEvery, put } from '@redux-saga/core/effects'
 import axios from 'axios'
-import { Action } from 'redux'
+import { Action } from 'store'
 
 function* LoginUser(action: Action) {
   try {
     const user: CallEffect = yield call(
       axios.post,
-      'https://be.ckp.rocketech.net/api/auth/login',
+      `${process.env.NEXT_PUBLIC_API}/api/auth/login`,
       action.payload
     )
     yield put({ type: 'USER_FETCH_SUCCEEDED', payload: { user } })

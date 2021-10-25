@@ -8,7 +8,11 @@ import {
   form_description,
   form_buttons,
 } from './style.module.css'
-export const SecurityQuestion = () => {
+export const SecurityQuestion = ({
+  finishStage,
+}: {
+  finishStage?: () => void
+}) => {
   const [securityQuestion, setSecurityQuestion] = useState({
     question: '',
     answer: '',
@@ -37,7 +41,7 @@ export const SecurityQuestion = () => {
       </div>
       <div className={form_buttons}>
         <Button secondary>Cancel</Button>
-        <Button>Continue</Button>
+        <Button onClick={finishStage}>Continue</Button>
       </div>
     </div>
   )

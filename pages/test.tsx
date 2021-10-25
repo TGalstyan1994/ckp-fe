@@ -1,16 +1,8 @@
-import axios from 'axios'
+import { FC, useState } from 'react'
 import { Button } from 'components/Button'
-import { LinkText } from 'components/LinkText'
-import { PinInput } from 'components/PinInput'
-import { ChangeEvent, useState } from 'react'
 
-const TestPage = () => {
-  const [val, setVal] = useState<string>('')
-  const error = {
-    message: "Can't be empty",
-    inValid: false,
-  }
-  const handle = (e: ChangeEvent<HTMLInputElement>) => setVal(e.target.value)
+const TestPage: FC = () => {
+  const [val, setVal] = useState<boolean>(false)
   return (
     <div
       style={{
@@ -22,7 +14,10 @@ const TestPage = () => {
         height: '100vh',
       }}
     >
-      <PinInput onChange={handle}></PinInput>
+      <Button disabled={val} onClick={() => console.log("i'm alive")}>
+        Click
+      </Button>
+      <Button onClick={() => setVal((state) => !state)}>Click</Button>
 
       {/* <Textarea
         label="textarea"

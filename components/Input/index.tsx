@@ -1,7 +1,6 @@
 import { FC, useState } from 'react'
 import { PasswordSwitchICO } from 'components/ICO/PasswordSwitchICO'
 import classNames from 'classnames'
-// import { ErrorICO } from 'components/ICO/ErrorICO'
 import {
   input_container,
   input_wrapper,
@@ -9,7 +8,7 @@ import {
   required_label,
   input,
   invalid_input,
-  // error_message,
+  error_message,
 } from './style.module.css'
 import { Props } from './props'
 
@@ -17,7 +16,7 @@ export const Input: FC<Props> = ({
   type = 'text',
   value,
   onChange,
-  error,
+  error = '',
   placeholder,
   label,
   required,
@@ -35,13 +34,17 @@ export const Input: FC<Props> = ({
   return (
     <div className={input_container}>
       {label && (
-        <label className={`${input_label} ${required ? required_label : ''}`}>
+        <label
+          htmlFor={input}
+          className={`${input_label} ${required ? required_label : ''}`}
+        >
           {label}
         </label>
       )}
 
       <div className={input_wrapper}>
         <input
+          id={input + name}
           maxLength={maxLength}
           name={name}
           type={InputType}
@@ -49,14 +52,14 @@ export const Input: FC<Props> = ({
           onChange={onChange}
           placeholder={placeholder}
           className={classNames(input, { [invalid_input]: error }, className)}
-        ></input>
-
+        />
         {type === 'password' && (
           <PasswordSwitchICO
             visible={showPassword}
             onClick={togglePasswordView}
           />
         )}
+        <span className={error_message}>{error}</span>
       </div>
     </div>
   )
