@@ -1,3 +1,8 @@
+// Types for is_js library
+// ignore it
+
+declare let is: Is
+
 interface TypeMethods {
   arguments(value: any): boolean
   array(value: any): boolean
@@ -305,8 +310,6 @@ interface Is extends IsMethods {
   setNamespace(): Is
   setRegexp(value: RegExp, regexpString: string): void
 }
-
-declare var is: Is
 
 declare module 'is_js' {
   export = is

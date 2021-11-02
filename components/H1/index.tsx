@@ -1,6 +1,6 @@
 import { FC } from 'react'
-import { h1_primary, h1_secondary } from './style.module.css'
 import classNames from 'classnames'
+import { h1_primary, h1_secondary } from './style.module.css'
 
 type Props = {
   children: string

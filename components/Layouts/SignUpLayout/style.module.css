@@ -7,9 +7,11 @@
   justify-content: space-between;
   position: relative;
 }
+
 .registration_page div {
   box-sizing: border-box;
 }
+
 .stages_wrapper {
   width: 100%;
   height: 100%;
@@ -34,6 +36,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .stages_navbar .navbar_link:not(:last-child) {
   margin-bottom: 23px;
 }

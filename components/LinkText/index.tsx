@@ -1,6 +1,6 @@
 import { FC } from 'react'
-import { link_text } from './LinkText.module.css'
 import Link from 'next/link'
+import { link_text } from './LinkText.module.css'
 
 type Props = {
   children: string

@@ -1,13 +1,13 @@
 import { ChangeEvent, useState } from 'react'
 import { H1 } from 'components/H1'
 import { Button } from 'components/Button'
+import { Input } from 'components/Input'
+import { useRouter } from 'next/router'
 import {
   form,
   form_buttons_wrapper,
   form_button,
 } from './ForgotPasswordForm.module.css'
-import { Input } from 'components/Input'
-import { useRouter } from 'next/router'
 
 export const ForgotPasswordForm = () => {
   const [email, setEmail] = useState('')
@@ -24,7 +24,7 @@ export const ForgotPasswordForm = () => {
         onChange={changeEmail}
         placeholder="E-mail"
         label="Enter your e-mail address below to reset your password."
-      ></Input>
+      />
       <div className={form_buttons_wrapper}>
         <Button
           className={form_button}
@@ -36,7 +36,7 @@ export const ForgotPasswordForm = () => {
         <Button
           className={form_button}
           onClick={() =>
-            //!!!!!! REMOVE !!!!!!!
+            // !!!!!! REMOVE !!!!!!!
             new Promise((res) =>
               setTimeout(
                 () => res(router.push('forgot_password/sent_success')),

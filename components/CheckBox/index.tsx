@@ -32,7 +32,7 @@ export const CheckBox: FC<Props> = ({
       checked={checked}
       onChange={onChange}
       className={checkbox}
-    ></input>
+    />
     <label
       htmlFor={checkbox}
       className={classNames(

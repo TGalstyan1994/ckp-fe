@@ -1,6 +1,6 @@
 import { Input } from 'components/Input'
-import { pin_input } from './PinInput.module.css'
 import { ChangeEventHandler, FC } from 'react'
+import { pin_input } from './PinInput.module.css'
 
 type Props = {
   name?: string

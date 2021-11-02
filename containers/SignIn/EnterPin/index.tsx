@@ -1,9 +1,10 @@
 import { Button } from 'components/Button'
 import { H1 } from 'components/H1'
 import { PinInput } from 'components/PinInput'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, FC, useState } from 'react'
 import { form, form_buttons } from './EnterPin.module.css'
-export const EnterPin = () => {
+
+export const EnterPin: FC = () => {
   const [pin, setPin] = useState('')
 
   const handlePin = (e: ChangeEvent<HTMLInputElement>) => {
@@ -14,7 +15,7 @@ export const EnterPin = () => {
   return (
     <div className={form}>
       <H1 secondary>Enter your security PIN?</H1>
-      <PinInput onChange={handlePin} value={pin}></PinInput>
+      <PinInput onChange={handlePin} value={pin} />
       <div className={form_buttons}>
         <Button>Continue</Button>
       </div>

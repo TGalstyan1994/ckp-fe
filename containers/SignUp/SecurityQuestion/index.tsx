@@ -1,18 +1,17 @@
 import { Button } from 'components/Button'
 import { H1 } from 'components/H1'
 import { Input } from 'components/Input'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, FC, useState } from 'react'
 import {
   form,
   form_inputs,
   form_description,
   form_buttons,
 } from './style.module.css'
-export const SecurityQuestion = ({
-  finishStage,
-}: {
+
+export const SecurityQuestion: FC<{
   finishStage?: () => void
-}) => {
+}> = ({ finishStage }) => {
   const [securityQuestion, setSecurityQuestion] = useState({
     question: '',
     answer: '',
