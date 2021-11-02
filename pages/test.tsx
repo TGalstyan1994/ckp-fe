@@ -1,8 +1,8 @@
 import { FC, useState } from 'react'
-import { Button } from 'components/Button'
+import { Select } from 'components/select'
 
 const TestPage: FC = () => {
-  const [val, setVal] = useState<boolean>(false)
+  const [val, setVal] = useState<string>('')
   return (
     <div
       style={{
@@ -14,11 +14,6 @@ const TestPage: FC = () => {
         height: '100vh',
       }}
     >
-      <Button disabled={val} onClick={() => console.log("i'm alive")}>
-        Click
-      </Button>
-      <Button onClick={() => setVal((state) => !state)}>Click</Button>
-
       {/* <Textarea
         label="textarea"
         value={val}
@@ -26,14 +21,7 @@ const TestPage: FC = () => {
         placeholder="textarea"
         error="error"
       />
-      <Select
-        label="terrrxtarea"
-        value={val}
-        onChange={setVal}
-        placeholder="textarea"
-        error="error"
-        options={['querty', 'asdf']}
-      />
+
       <Button disabled primary>
         button click
       </Button>

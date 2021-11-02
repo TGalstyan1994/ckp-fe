@@ -7,13 +7,13 @@ import {
 } from '@reduxjs/toolkit'
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './sagas'
-import { signinReducer } from './reducers/signin'
+import signin from './reducers/signin'
 import signup from './reducers/signup'
 
 const sagaMiddleware = createSagaMiddleware()
 
 const reducer = combineReducers({
-  signin: signinReducer,
+  signin,
   signup,
 }) as Reducer
 

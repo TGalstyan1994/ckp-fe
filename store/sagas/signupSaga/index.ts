@@ -1,11 +1,18 @@
-import { takeEvery, put, call } from '@redux-saga/core/effects'
-import axios from 'axios'
-import { RegistrationAction } from 'store'
+import { takeEvery, put, call, select } from '@redux-saga/core/effects'
+import axios, { AxiosResponse } from 'axios'
+import { RegistrationAction, RootState } from 'store'
 import {
   endStageFetching,
   finishStage,
+  SignUpState,
   stageFetchingErrors,
 } from 'store/reducers/signup'
+import {
+  getAccessToken,
+  getSponsorByQuery,
+  removeToken,
+  setAccessToken,
+} from 'utils'
 
 declare global {
   interface Window {
@@ -14,13 +21,55 @@ declare global {
   }
 }
 
+type RegistrationPayload = {
+  captcha: string
+  body: Record<string, string>
+}
+
+const getStages = (state: RootState) => state.signup
+
 function* completeStage(action: RegistrationAction) {
+  const { currentStage, stages }: SignUpState = yield select(getStages)
   const { payload, apiUrl } = action
+  if (!stages[0].finished) removeToken()
+
+  const config = {
+    headers: {
+      // eslint-disable-next-line prettier/prettier
+      'Authorization': `Bearer ${getAccessToken()}`,
+      'content-type': 'application/json',
+    },
+  }
+
   try {
-    yield call(axios.post, `${process.env.NEXT_PUBLIC_API}${apiUrl}`, payload)
+    if (currentStage === 0) {
+      const { captcha, body } = payload as RegistrationPayload
+
+      body.sponsor = getSponsorByQuery()
+
+      const registrationPayload = {
+        captcha,
+        body,
+      }
+      const response: AxiosResponse = yield call(
+        axios.post,
+        `${process.env.NEXT_PUBLIC_API}${apiUrl}`,
+        registrationPayload
+      )
+
+      setAccessToken(response.data.accessToken)
+    } else {
+      yield call(
+        axios.post,
+        `${process.env.NEXT_PUBLIC_API}${apiUrl}`,
+        payload,
+        config
+      )
+    }
+
     yield put(stageFetchingErrors(''))
-    yield put(finishStage())
     yield put(endStageFetching())
+    yield put(finishStage())
   } catch (error) {
     yield put(stageFetchingErrors(error))
     yield put(endStageFetching())

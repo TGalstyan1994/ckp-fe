@@ -17,3 +17,11 @@
 .form_buttons button {
   width: 232px;
 }
+
+.form_fetching_error {
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 12px;
+  color: #fe0000;
+}

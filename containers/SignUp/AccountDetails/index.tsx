@@ -10,13 +10,9 @@ import { Button } from 'components/Button'
 import { H1 } from 'components/H1'
 import { Input } from 'components/Input'
 import { useSelectorTyped } from 'utils/hooks'
-import { validate } from './validation'
-import {
-  form,
-  form_inputs,
-  form_buttons,
-  form_fetching_error,
-} from './style.module.css'
+import { ErrorsSpan } from 'components/ErrorsSpan'
+import { validate } from './validate'
+import { form, form_inputs, form_buttons } from './style.module.css'
 
 export const AccountDetails: FC = () => {
   const stage = useSelectorTyped((state) => state.signup.stages[0])
@@ -101,12 +97,10 @@ export const AccountDetails: FC = () => {
           error={stage.errors?.passwordConfirmation}
         />
       </div>
-      {stage.fetchError && (
-        <span className={form_fetching_error}>{stage.fetchError}</span>
-      )}
+      {stage.fetchError && <ErrorsSpan>{stage.fetchError}</ErrorsSpan>}
 
       <div className={form_buttons}>
-        <Button onClick={handleOnClick} disabled={stage.fetching}>
+        <Button onClick={handleOnClick} disabled={stage.finished}>
           Continue
         </Button>
       </div>

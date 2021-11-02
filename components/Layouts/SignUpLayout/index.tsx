@@ -16,6 +16,7 @@ import {
   finished_stage_link,
   link_description,
   navbar_button,
+  disabled_stage_link,
 } from './style.module.css'
 
 type Props = {
@@ -43,13 +44,16 @@ export const SignUpStages: FC<Props> = ({ children: allStages }) => {
               key={stage.title}
               className={classNames(navbar_link, {
                 [active_link]: currentStage === stage.number - 1,
+                [disabled_stage_link]: !stages[0].finished,
               })}
             >
               <Button
                 className={classNames(navbar_button, {
                   [finished_stage_link]: stage.finished,
                 })}
-                onClick={() => dispatch(changeStage(stage.number - 1))}
+                onClick={() => {
+                  dispatch(changeStage(stage.number - 1))
+                }}
               >
                 {stage.finished ? <SuccessICO /> : stage.number}
               </Button>

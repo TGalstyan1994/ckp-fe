@@ -1,29 +1,12 @@
 import { NextPageContext } from 'next'
 import cookies from 'next-cookies'
-import { ParsedUrlQuery } from 'node:querystring'
 import { whiteList } from './constants'
 
 export function isBrowser(): boolean {
   return !!typeof window
 }
 
-export const getCookie = (name: string): string | boolean => {
-  const matches = document.cookie.match(
-    new RegExp(
-      `(?:^|; )${name.replace(/([$()*+./?[\\\]^{|}])/g, '\\$1')}=([^;]*)`
-    )
-  )
-  return matches ? decodeURIComponent(matches[1]) : false
-}
-
-export const getSponsorByQuery = (query: ParsedUrlQuery): string => {
-  const { sponsor } = query
-
-  if (sponsor) {
-    return Array.isArray(sponsor) ? sponsor[0] : sponsor
-  }
-  return 'admin'
-}
+export const getSponsorByQuery = (): string => ''
 
 export const withAuth = (
   inner?: (ctx: NextPageContext) => Record<string, unknown>
@@ -38,4 +21,18 @@ export const withAuth = (
     }
     return inner ? inner(context) : { props: {} }
   }
+}
+
+export const haveErrors = (ErrorObject: Record<string, string>): boolean => {
+  if (!Object.values(ErrorObject).every((elem) => elem === '')) return true
+  return false
+}
+
+export const getAccessToken = (): string | null =>
+  localStorage.getItem('access_token')
+
+export const removeToken = (): void => localStorage.removeItem('access_token')
+
+export const setAccessToken = (token: string): void => {
+  localStorage.setItem('access_token', token)
 }

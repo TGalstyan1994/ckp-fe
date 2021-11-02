@@ -1,24 +1,42 @@
-import { RootState, Action } from 'store'
+import { createSlice } from 'node_modules/@reduxjs/toolkit/dist'
 
-const initialState = {}
-
-export const signinReducer = (
-  state: RootState = initialState,
-  action: Action
-): RootState => {
-  switch (action.type) {
-    case 'USER_FETCH_SUCCEEDED':
-      return {
-        ...state,
-        ...action.payload,
-      }
-    case 'USER_FETCH_FAILED':
-      return {
-        ...state,
-        ...action.payload,
-      }
-    default:
-      return state
-  }
-  return state
+const initialState = {
+  errors: {
+    username: '',
+    password: '',
+  },
+  fetching: false,
+  fetchingErrors: '',
 }
+export type SignInState = typeof initialState
+
+const signin = createSlice({
+  name: 'signin',
+  initialState,
+  reducers: {
+    setFetchingErrors(state, action) {
+      state.fetchingErrors = action.payload.response.data.message
+    },
+
+    startStageFetching(state) {
+      state.fetching = true
+    },
+
+    endStageFetching(state) {
+      state.fetching = false
+    },
+
+    validateForm(state, action) {
+      state.errors = action.payload.errors
+    },
+  },
+})
+
+export const {
+  validateForm,
+  setFetchingErrors,
+  startStageFetching,
+  endStageFetching,
+} = signin.actions
+
+export default signin.reducer

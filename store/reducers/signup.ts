@@ -19,6 +19,11 @@ const initialState = {
       number: 2,
       finished: false,
       title: 'security pin',
+      errors: {
+        pin: '',
+      },
+      fetchError: '',
+      fetching: false,
     },
     {
       number: 3,
@@ -52,12 +57,7 @@ const signup = createSlice({
   reducers: {
     finishStage(state) {
       state.stages[state.currentStage].finished = true
-
       state.currentStage += 1
-      // state.stages = state.stages.map((stage) => {
-      //   if (stage.number === action.payload) return { ...stage, finished: true }
-      //   return stage
-      // })
     },
 
     stageFetchingErrors(state, action) {
