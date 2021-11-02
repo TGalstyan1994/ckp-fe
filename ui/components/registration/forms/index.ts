@@ -1,8 +1,8 @@
-import AccountForm from './accountForm';
-import ConfirmEmailForm from './confirmEmail';
-import SponsorForm from './sponsorForm';
-import PersonalDetailsForm from './personalDetailsForm';
-import PaymentDetailsForm from './paymentDetailsForm';
+import AccountForm from './accountForm'
+import ConfirmEmailForm from './confirmEmail'
+import SponsorForm from './sponsorForm'
+import PersonalDetailsForm from './personalDetailsForm'
+import PaymentDetailsForm from './paymentDetailsForm'
 
 export {
   AccountForm,
@@ -10,4 +10,4 @@ export {
   SponsorForm,
   PersonalDetailsForm,
   PaymentDetailsForm,
-};
+}

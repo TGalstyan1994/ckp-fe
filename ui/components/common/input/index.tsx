@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes } from 'react';
+import React, { InputHTMLAttributes } from 'react'
 import {
   Container,
   InputConteiner,
@@ -6,19 +6,19 @@ import {
   InputStyled,
   ErrorIcon,
   ErrorMessage,
-} from './styled';
-import errorIcon from './img/errorIcon.svg';
+} from './styled'
+import errorIcon from './img/errorIcon.svg'
 
 interface IComponentProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
-  value: string;
-  onChange: (val: string) => void;
-  error?: string;
-  placeholder: string;
-  label?: string;
-  validate?: (val: string) => boolean;
-  required?: boolean;
-  className?: string;
+  value: string
+  onChange: (val: string) => void
+  error?: string
+  placeholder: string
+  label?: string
+  validate?: (val: string) => boolean
+  required?: boolean
+  className?: string
 }
 
 export const Input: React.FC<IComponentProps> = (props: IComponentProps) => {
@@ -33,14 +33,14 @@ export const Input: React.FC<IComponentProps> = (props: IComponentProps) => {
     disabled,
     className,
     ...restProps
-  } = props;
+  } = props
   const handleChange = (val: string): void => {
     if (validate && validate(val)) {
-      onChange(val);
+      onChange(val)
     } else if (!validate) {
-      onChange(val);
+      onChange(val)
     }
-  };
+  }
 
   return (
     <Container className={className}>
@@ -58,5 +58,5 @@ export const Input: React.FC<IComponentProps> = (props: IComponentProps) => {
       </InputConteiner>
       {error && <ErrorMessage>{error}</ErrorMessage>}
     </Container>
-  );
-};
+  )
+}

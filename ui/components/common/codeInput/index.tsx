@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes } from 'react';
+import React, { InputHTMLAttributes } from 'react'
 import {
   Container,
   InputConteiner,
@@ -6,18 +6,18 @@ import {
   InputStyled,
   ErrorIcon,
   ErrorMessage,
-} from './styled';
-import errorIcon from './img/errorIcon.svg';
+} from './styled'
+import errorIcon from './img/errorIcon.svg'
 
 interface IComponentProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
-  value: string;
-  onChange: (val: string) => void;
-  error?: string;
-  placeholder: string;
-  label?: string;
-  validate?: (val: string) => boolean;
-  required?: boolean;
+  value: string
+  onChange: (val: string) => void
+  error?: string
+  placeholder: string
+  label?: string
+  validate?: (val: string) => boolean
+  required?: boolean
 }
 
 export const CodeInput: React.FC<IComponentProps> = (
@@ -33,14 +33,14 @@ export const CodeInput: React.FC<IComponentProps> = (
     required,
     disabled,
     ...restProps
-  } = props;
+  } = props
   const handleChange = (val: string): void => {
     if (validate && validate(val)) {
-      onChange(val);
+      onChange(val)
     } else if (!validate) {
-      onChange(val);
+      onChange(val)
     }
-  };
+  }
 
   return (
     <Container>
@@ -58,5 +58,5 @@ export const CodeInput: React.FC<IComponentProps> = (
       </InputConteiner>
       {error && <ErrorMessage>{error}</ErrorMessage>}
     </Container>
-  );
-};
+  )
+}

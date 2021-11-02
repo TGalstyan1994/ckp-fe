@@ -1,14 +1,14 @@
-import styled from 'styled-components';
-import { PALETTE } from 'utils/constants/ui';
+import styled from 'styled-components'
+import { PALETTE } from 'utils/constants/ui'
 
 interface ILabel {
-  required: boolean;
+  required: boolean
 }
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-`;
+`
 
 export const InputStyled = styled.input`
   width: 100%;
@@ -35,12 +35,12 @@ export const InputStyled = styled.input`
   &:disabled {
     background: #fafafa;
   }
-`;
+`
 
 export const InputConteiner = styled.div`
   height: 56px;
   position: relative;
-`;
+`
 
 export const Label = styled.label`
   font-style: normal;
@@ -58,13 +58,13 @@ export const Label = styled.label`
     font-size: 13px;
     line-height: 16px;
   }
-`;
+`
 
 export const ErrorIcon = styled.img`
   position: absolute;
   top: 23px;
   right: 23px;
-`;
+`
 
 export const ErrorMessage = styled.span`
   font-style: normal;
@@ -73,4 +73,4 @@ export const ErrorMessage = styled.span`
   line-height: 12px;
   color: ${PALETTE.error};
   margin-top: 14px;
-`;
+`
