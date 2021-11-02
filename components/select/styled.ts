@@ -30,6 +30,10 @@ export const SelectStyled = styled.select`
   &:not(:focus) {
     color: ${PALETTE.secondaryText};
   }
+
+  &:disabled {
+    background: #fafafa;
+  }
 `
 
 export const InputConteiner = styled.div`
