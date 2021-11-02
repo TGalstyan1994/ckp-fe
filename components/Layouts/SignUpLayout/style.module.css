@@ -45,7 +45,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  opacity: 0.6;
+  opacity: 0.8;
   transition: 0.3s;
 }
 
@@ -97,4 +97,9 @@
   width: 14px;
   height: 12px;
   fill: #fff;
+}
+
+.disabled_stage_link {
+  pointer-events: none;
+  opacity: 30%;
 }

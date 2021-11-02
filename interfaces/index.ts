@@ -1,4 +1,5 @@
 import { SignUpState } from 'store/reducers/signup'
+import { SignInState } from 'store/reducers/signin'
 
 export interface UserData {
   access_token: string
@@ -21,20 +22,7 @@ export type UserAuthData = {
   password: string
 }
 
-// type Stage = {
-//   number: number
-//   title: string
-//   finished: boolean
-//   errors: Record<string, string>
-//   fetchError: string
-//   fetching: boolean
-// }
-
-// export type SignUpState = {
-//   stages: Array<Stage>
-//   currentStage: number
-// }
-
 export type StateType = {
   signup: SignUpState
+  signin: SignInState
 }

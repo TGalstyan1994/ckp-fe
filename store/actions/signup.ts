@@ -29,3 +29,14 @@ export const registerAction = ({
     },
   }
 }
+
+export const sendPinAction = (securityCode: string): RegistrationAction => {
+  return {
+    type: 'COMPLETE_STAGE',
+    apiUrl: '/api/account/registration/security-code',
+    payload: {
+      securityCode,
+      securityCodeConfirmation: securityCode,
+    },
+  }
+}

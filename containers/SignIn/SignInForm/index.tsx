@@ -1,10 +1,18 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, FC, useState } from 'react'
 import { Button } from 'components/Button'
 import { CheckBox } from 'components/CheckBox'
 import { Input } from 'components/Input'
 import { LinkText } from 'components/LinkText'
 import { useRouter } from 'next/router'
-import { LoginFormState } from './types'
+import { useDispatch } from 'react-redux'
+import { signInAction } from 'store/actions/signin'
+import {
+  endStageFetching,
+  startStageFetching,
+  validateForm,
+} from 'store/reducers/signin'
+import { useSelectorTyped } from 'utils/hooks'
+import { ErrorsSpan } from 'components/ErrorsSpan'
 import {
   form,
   form_header,
@@ -13,24 +21,47 @@ import {
   form_buttons,
   ico_button,
 } from './SignInForm.module.css'
-import { useDispatch } from 'react-redux'
+import { validate } from './validate'
 
-export const SignInForm = () => {
-  const [loginFormState, setLoginFormState] = useState<LoginFormState>({
+type FormState = {
+  username: string
+  password: string
+}
+
+export const SignInForm: FC = () => {
+  const { errors, fetching, fetchingErrors } = useSelectorTyped(
+    (state) => state.signin
+  )
+
+  const [formState, setFormState] = useState<FormState>({
     username: '',
     password: '',
-    rememberMe: false,
   })
+
+  const [rememberMe, setRememberMe] = useState<boolean>(false)
   const dispatch = useDispatch()
   const router = useRouter()
 
-  const handleLoginForm = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.type === 'checkbox')
-      return setLoginFormState((prev) => ({
+  const submitForm = () => {
+    dispatch(startStageFetching())
+    const ValidationErrors = validate(formState)
+    dispatch(validateForm({ errors: ValidationErrors }))
+
+    if (!Object.values(ValidationErrors).every((elem) => elem === '')) {
+      dispatch(endStageFetching())
+      return
+    }
+
+    dispatch(signInAction(formState))
+  }
+
+  const handleFormInput = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.type === 'checkbox') setRememberMe(e.target.checked)
+    else
+      setFormState((prev) => ({
         ...prev,
-        [e.target.name]: e.target.checked,
+        [e.target.name]: e.target.value,
       }))
-    setLoginFormState((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
   return (
@@ -41,22 +72,25 @@ export const SignInForm = () => {
         <Input
           name="username"
           placeholder="Username"
-          value={loginFormState.username}
-          onChange={handleLoginForm}
+          value={formState.username}
+          onChange={handleFormInput}
+          error={errors.username}
         />
         <Input
           name="password"
           placeholder="Password"
-          value={loginFormState.password}
-          onChange={handleLoginForm}
+          value={formState.password}
+          onChange={handleFormInput}
           type="password"
+          error={errors.password}
         />
       </div>
+      {fetchingErrors && <ErrorsSpan>{fetchingErrors}</ErrorsSpan>}
 
       <div className={form_password_actions}>
         <CheckBox
-          checked={loginFormState.rememberMe}
-          onChange={handleLoginForm}
+          checked={rememberMe}
+          onChange={handleFormInput}
           label="Remember me"
           name="rememberMe"
         />
@@ -66,18 +100,7 @@ export const SignInForm = () => {
       </div>
 
       <div className={form_buttons}>
-        <Button
-          className={ico_button}
-          onClick={() =>
-            dispatch({
-              type: 'LOGIN_USER',
-              payload: {
-                username: loginFormState.username,
-                password: loginFormState.password,
-              },
-            })
-          }
-        >
+        <Button disabled={fetching} className={ico_button} onClick={submitForm}>
           Log In
         </Button>
         <Button secondary onClick={() => router.push('signup')}>

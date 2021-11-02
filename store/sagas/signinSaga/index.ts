@@ -1,20 +1,22 @@
-import { call, CallEffect, takeEvery, put } from '@redux-saga/core/effects'
+import { call, takeEvery, put } from '@redux-saga/core/effects'
 import axios from 'axios'
 import { Action } from 'store'
+import { endStageFetching, setFetchingErrors } from 'store/reducers/signin'
 
 function* LoginUser(action: Action) {
   try {
-    const user: CallEffect = yield call(
+    yield call(
       axios.post,
       `${process.env.NEXT_PUBLIC_API}/api/auth/login`,
       action.payload
     )
-    yield put({ type: 'USER_FETCH_SUCCEEDED', payload: { user } })
-  } catch ({ message }) {
-    yield put({ type: 'USER_FETCH_FAILED', payload: { message } })
+    yield put(endStageFetching())
+  } catch (error) {
+    yield put(setFetchingErrors(error))
+    yield put(endStageFetching())
   }
 }
 
-export function* handleLoginSaga() {
+export function* handleLoginSaga(): Generator {
   yield takeEvery('LOGIN_USER', LoginUser)
 }
