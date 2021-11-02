@@ -3,16 +3,14 @@ import {
   Container,
   InputConteiner,
   Label,
-  SelectStyled,
+  InputStyled,
+  ErrorIcon,
   ErrorMessage,
 } from './styled'
+import errorIcon from './img/errorIcon.svg'
 
 interface IComponentProps
-<<<<<<< HEAD:components/select/index.tsx
-  extends Omit<InputHTMLAttributes<HTMLSelectElement>, 'onChange'> {
-=======
-  extends Omit<InputHTMLAttributes<HTMLTextAreaElement>, 'onChange'> {
->>>>>>> Old linter/errors fix:ui/components/common/textarea/index.tsx
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
   value: string
   onChange: (val: string) => void
   error?: string
@@ -20,13 +18,10 @@ interface IComponentProps
   label?: string
   validate?: (val: string) => boolean
   required?: boolean
-<<<<<<< HEAD:components/select/index.tsx
-  options: Array<string>
-=======
->>>>>>> Old linter/errors fix:ui/components/common/textarea/index.tsx
+  className?: string
 }
 
-export const Select: React.FC<IComponentProps> = (props: IComponentProps) => {
+export const Input: React.FC<IComponentProps> = (props: IComponentProps) => {
   const {
     value,
     onChange,
@@ -35,8 +30,8 @@ export const Select: React.FC<IComponentProps> = (props: IComponentProps) => {
     label,
     validate,
     required,
-    options,
     disabled,
+    className,
     ...restProps
   } = props
   const handleChange = (val: string): void => {
@@ -48,24 +43,20 @@ export const Select: React.FC<IComponentProps> = (props: IComponentProps) => {
   }
 
   return (
-    <Container>
+    <Container className={className}>
       {label && <Label required={!!required}>{label}</Label>}
       <InputConteiner>
-        <SelectStyled
+        <InputStyled
+          disabled={disabled}
           placeholder={placeholder}
           value={value}
           onChange={({ target }) => handleChange(target.value)}
-          disabled={disabled}
           {...restProps}
-        >
-          {options.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </SelectStyled>
-        {error && <ErrorMessage>{error}</ErrorMessage>}
+        />
+        {error && <ErrorIcon src={errorIcon} />}
+        {disabled && <ErrorIcon src={errorIcon} />}
       </InputConteiner>
+      {error && <ErrorMessage>{error}</ErrorMessage>}
     </Container>
   )
 }

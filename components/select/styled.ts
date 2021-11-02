@@ -30,19 +30,13 @@ export const SelectStyled = styled.select`
   &:not(:focus) {
     color: ${PALETTE.secondaryText};
   }
-<<<<<<< HEAD:components/select/styled.ts
 `
-=======
-
-  &:disabled {
-    background: #fafafa;
-  }
-`;
->>>>>>> 5f037d2... add disabled to common components:ui/components/common/select/styled.ts
 
 export const InputConteiner = styled.div`
   display: flex;
   flex-direction: column;
+  height: 56px;
+  position: relative;
 `
 
 export const Label = styled.label`
@@ -61,6 +55,12 @@ export const Label = styled.label`
     font-size: 13px;
     line-height: 16px;
   }
+`
+
+export const ErrorIcon = styled.img`
+  position: absolute;
+  top: 23px;
+  right: 23px;
 `
 
 export const ErrorMessage = styled.span`
