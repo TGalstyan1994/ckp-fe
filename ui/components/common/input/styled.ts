@@ -31,21 +31,11 @@ export const InputStyled = styled.input`
   &:not(:focus) {
     color: ${PALETTE.secondaryText};
   }
-<<<<<<< HEAD:ui/components/common/input/styled.ts
-
-  &:disabled {
-    background: #fafafa;
-  }
-`
-
-export const InputConteiner = styled.div`
-=======
 `
 
 export const InputConteiner = styled.div`
   display: flex;
   flex-direction: column;
->>>>>>> 2f9b22d... Old linter/errors fix:components/select/styled.ts
   height: 56px;
   position: relative;
 `
