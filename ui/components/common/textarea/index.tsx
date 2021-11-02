@@ -48,7 +48,13 @@ export const Textarea: React.FC<IComponentProps> = (props: IComponentProps) => {
           value={value}
           onChange={({ target }) => handleChange(target.value)}
           {...restProps}
-        />
+        >
+          {options.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </SelectStyled>
         {error && <ErrorMessage>{error}</ErrorMessage>}
       </InputConteiner>
     </Container>
