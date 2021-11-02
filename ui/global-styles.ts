@@ -1,13 +1,13 @@
-import { createGlobalStyle } from 'styled-components';
-import SFProBoldTtf from './typography/fonts/SFProDisplay-Bold.ttf';
-import SFProMediumTtf from './typography/fonts/SFProDisplay-Medium.ttf';
-import SFProBRegularTtf from './typography/fonts/SFProDisplay-Regular.ttf';
-import SFProBoldWoff from './typography/fonts/SFProDisplay-Bold.woff';
-import SFProMediumWoff from './typography/fonts/SFProDisplay-Medium.woff';
-import SFProBRegularWoff from './typography/fonts/SFProDisplay-Regular.woff';
-import SFProBoldWoff2 from './typography/fonts/SFProDisplay-Bold.woff2';
-import SFProMediumWoff2 from './typography/fonts/SFProDisplay-Medium.woff2';
-import SFProBRegularWoff2 from './typography/fonts/SFProDisplay-Regular.woff2';
+import { createGlobalStyle } from 'styled-components'
+import SFProBoldTtf from './typography/fonts/SFProDisplay-Bold.ttf'
+import SFProMediumTtf from './typography/fonts/SFProDisplay-Medium.ttf'
+import SFProBRegularTtf from './typography/fonts/SFProDisplay-Regular.ttf'
+import SFProBoldWoff from './typography/fonts/SFProDisplay-Bold.woff'
+import SFProMediumWoff from './typography/fonts/SFProDisplay-Medium.woff'
+import SFProBRegularWoff from './typography/fonts/SFProDisplay-Regular.woff'
+import SFProBoldWoff2 from './typography/fonts/SFProDisplay-Bold.woff2'
+import SFProMediumWoff2 from './typography/fonts/SFProDisplay-Medium.woff2'
+import SFProBRegularWoff2 from './typography/fonts/SFProDisplay-Regular.woff2'
 
 export default createGlobalStyle`
   body {
@@ -46,4 +46,4 @@ export default createGlobalStyle`
     font-weight: normal;
     font-style: normal;
   }
-`;
+`

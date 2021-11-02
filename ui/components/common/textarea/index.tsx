@@ -1,21 +1,21 @@
-import React, { InputHTMLAttributes } from 'react';
+import React, { InputHTMLAttributes } from 'react'
 import {
   Container,
   InputConteiner,
   Label,
   TextareaStyled,
   ErrorMessage,
-} from './styled';
+} from './styled'
 
 interface IComponentProps
   extends Omit<InputHTMLAttributes<HTMLTextAreaElement>, 'onChange'> {
-  value: string;
-  onChange: (val: string) => void;
-  error?: string;
-  placeholder: string;
-  label?: string;
-  validate?: (val: string) => boolean;
-  required?: boolean;
+  value: string
+  onChange: (val: string) => void
+  error?: string
+  placeholder: string
+  label?: string
+  validate?: (val: string) => boolean
+  required?: boolean
 }
 
 export const Textarea: React.FC<IComponentProps> = (props: IComponentProps) => {
@@ -29,14 +29,14 @@ export const Textarea: React.FC<IComponentProps> = (props: IComponentProps) => {
     required,
     disabled,
     ...restProps
-  } = props;
+  } = props
   const handleChange = (val: string): void => {
     if (validate && validate(val)) {
-      onChange(val);
+      onChange(val)
     } else if (!validate) {
-      onChange(val);
+      onChange(val)
     }
-  };
+  }
 
   return (
     <Container>
@@ -52,5 +52,5 @@ export const Textarea: React.FC<IComponentProps> = (props: IComponentProps) => {
         {error && <ErrorMessage>{error}</ErrorMessage>}
       </InputConteiner>
     </Container>
-  );
-};
+  )
+}

@@ -1,95 +1,91 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import {
-  setFirstNameAction,
-  setGenderAction,
-  setLastNameAction,
-  setPhoneAction,
-} from 'redux/registration';
-import { Button } from 'ui/components/common/button';
-import { Checkbox } from 'ui/components/common/checkbox';
-import { Input } from 'ui/components/common/input';
-import { Select } from 'ui/components/common/select';
-import { LinkText } from 'ui/typography';
-import {
-  BirthContainer,
-  H1Styled,
-  InputsContainer,
-  QuestionsContaainer,
-  SelectStyled,
-  TextareaStyled,
-  RadioStyled,
-  EmployedContainer,
-  InputDescription,
-  ButtonsContainer,
-} from './styled';
+import React, { useState } from 'react'
+// import { useDispatch } from 'react-redux'
+// import {
+//   setFirstNameAction,
+//   setGenderAction,
+//   setLastNameAction,
+//   setPhoneAction,
+// } from 'redux/registration'
+// import { Button } from 'ui/components/common/button'
+// import { Checkbox } from 'ui/components/common/checkbox'
+// import { Input } from 'ui/components/common/input'
+// import { Select } from 'ui/components/common/select'
+// import { LinkText } from 'ui/typography'
+// import {
+//   BirthContainer,
+//   H1Styled,
+//   InputsContainer,
+//   QuestionsContaainer,
+//   SelectStyled,
+//   TextareaStyled,
+//   RadioStyled,
+//   EmployedContainer,
+//   InputDescription,
+//   ButtonsContainer,
+// } from './styled'
 
 const PersonalDetailsForm: React.FC = () => {
-  const [objective, setObjective] = useState<string>('');
-  const [objectiveNote, setObjectiveNote] = useState<string>('');
-  const [firstName, setFirstName] = useState<string>('');
-  const [lastName, setLastName] = useState<string>('');
-  const [phone, setPhone] = useState<string>('');
-  const [address, setAddress] = useState<string>('');
-  const [birthDay, setBirthDay] = useState<string>('');
-  const [birthMonth, setBirthMonth] = useState<string>('');
-  const [birthYear, setBirthYear] = useState<string>('');
-  const [gender, setGender] = useState<string>('');
-  const [maritalStatus, setMaritalStatus] = useState<string>('');
-  const [isEmployed, setEmployed] = useState<boolean>(false);
-  const [isOwner, setOwner] = useState<boolean>(false);
-  const [haveTrade, setTrade] = useState<boolean>(false);
-  const [haveTechSkills, setTechSkills] = useState<boolean>(false);
-  const [haveAthleticSkills, setAthleticSkills] = useState<boolean>(false);
-  const [haveDependend, setDependend] = useState<boolean>(false);
-  const [beneficiaryName, setBeneficiaryName] = useState<string>('');
-  const [
-    beneficiaryRelationship,
-    setBeneficiaryRelationship,
-  ] = useState<string>('');
-  const [beneficiaryPhone, setBeneficiaryPhone] = useState<string>('');
-  const [country, setCountry] = useState<string>('');
-  const [state, setState] = useState<string>('');
-  const [city, setCity] = useState<string>('');
-  const [zip, setZip] = useState<string>('');
-  const [isConditionsAccepted, setAccepted] = useState<string>('');
-  const [jobTitle, setJobTitle] = useState<string>('');
-  const [jobDescription, setJobDescription] = useState<string>('');
-  const [employeAddress, setEmployeAddress] = useState<string>('');
-  const [businessDescription, setBusinessDescription] = useState<string>('');
-  const [tradeDescription, setTradeDescription] = useState<string>('');
-  const [techScillDescription, setTechScillDescription] = useState<string>('');
-  const [
-    athleticScillDescription,
-    setAthleticScillDescription,
-  ] = useState<string>('');
-  const [dependentCount, setDependentCount] = useState<string>('');
+  // const [objective, setObjective] = useState<string>('')
+  // const [objectiveNote, setObjectiveNote] = useState<string>('')
+  // const [firstName, setFirstName] = useState<string>('')
+  // const [lastName, setLastName] = useState<string>('')
+  // const [phone, setPhone] = useState<string>('')
+  // const [address, setAddress] = useState<string>('')
+  // const [birthDay, setBirthDay] = useState<string>('')
+  // const [birthMonth, setBirthMonth] = useState<string>('')
+  // const [birthYear, setBirthYear] = useState<string>('')
+  // const [gender, setGender] = useState<string>('')
+  // const [maritalStatus, setMaritalStatus] = useState<string>('')
+  // const [isEmployed, setEmployed] = useState<boolean>(false)
+  // const [isOwner, setOwner] = useState<boolean>(false)
+  // const [haveTrade, setTrade] = useState<boolean>(false)
+  // const [haveTechSkills, setTechSkills] = useState<boolean>(false)
+  // const [haveAthleticSkills, setAthleticSkills] = useState<boolean>(false)
+  // const [haveDependend, setDependend] = useState<boolean>(false)
+  // const [beneficiaryName, setBeneficiaryName] = useState<string>('')
+  // const [beneficiaryRelationship, setBeneficiaryRelationship] =
+  //   useState<string>('')
+  // const [beneficiaryPhone, setBeneficiaryPhone] = useState<string>('')
+  // const [country, setCountry] = useState<string>('')
+  // const [state, setState] = useState<string>('')
+  // const [city, setCity] = useState<string>('')
+  // const [zip, setZip] = useState<string>('')
+  // const [isConditionsAccepted, setAccepted] = useState<string>('')
+  // const [jobTitle, setJobTitle] = useState<string>('')
+  // const [jobDescription, setJobDescription] = useState<string>('')
+  // const [employeAddress, setEmployeAddress] = useState<string>('')
+  // const [businessDescription, setBusinessDescription] = useState<string>('')
+  // const [tradeDescription, setTradeDescription] = useState<string>('')
+  // const [techScillDescription, setTechScillDescription] = useState<string>('')
+  // const [athleticScillDescription, setAthleticScillDescription] =
+  //   useState<string>('')
+  // const [dependentCount, setDependentCount] = useState<string>('')
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch()
 
-  const handleChangeGender = (val: string) => {
-    setGender(val);
-    dispatch(setGenderAction(val));
-  };
+  // const handleChangeGender = (val: string) => {
+  //   setGender(val)
+  //   dispatch(setGenderAction(val))
+  // }
 
-  const handleChangeFirstName = (val: string) => {
-    setFirstName(val);
-    dispatch(setFirstNameAction(val));
-  };
+  // const handleChangeFirstName = (val: string) => {
+  //   setFirstName(val)
+  //   dispatch(setFirstNameAction(val))
+  // }
 
-  const handleChangeLastName = (val: string) => {
-    setLastName(val);
-    dispatch(setLastNameAction(val));
-  };
+  // const handleChangeLastName = (val: string) => {
+  //   setLastName(val)
+  //   dispatch(setLastNameAction(val))
+  // }
 
-  const handleChangePhone = (val: string) => {
-    setPhone(val);
-    dispatch(setPhoneAction(val));
-  };
+  // const handleChangePhone = (val: string) => {
+  //   setPhone(val)
+  //   dispatch(setPhoneAction(val))
+  // }
 
   return (
     <>
-      <H1Styled>Personal Details</H1Styled>
+      {/* <H1Styled>Personal Details</H1Styled>
       <SelectStyled
         value={objective}
         onChange={(val) => setObjective(val)}
@@ -362,9 +358,9 @@ const PersonalDetailsForm: React.FC = () => {
             CONTINUE
           </Button>
         </ButtonsContainer>
-      </InputsContainer>
+      </InputsContainer> */}
     </>
-  );
-};
+  )
+}
 
-export default PersonalDetailsForm;
+export default PersonalDetailsForm

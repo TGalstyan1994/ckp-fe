@@ -1,38 +1,35 @@
-import React, { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { getSponsorByQuery } from 'utils';
-import { setSponsorNameAction } from 'redux/registration';
-import { useDispatch } from 'react-redux';
-import { Button } from 'ui/components/common/button';
-import {
-  ButtonsContainer,
-  Container,
-  H1Styled,
-  FormStyled,
-  InputStyled,
-} from './styled';
+import React from 'react'
+// import { useRouter } from 'next/router'
+// import { getSponsorByQuery } from 'utils'
+// import { setSponsorNameAction } from 'redux/registration'
+// import { useDispatch } from 'react-redux'
+// import { Button } from 'ui/components/common/button'
+// import {
+//   ButtonsContainer,
+//   Container,
+//   H1Styled,
+//   FormStyled,
+//   InputStyled,
+// } from './styled'
 
-interface IForm {
-  handleNextStage: () => void;
-  handlePrevStage: () => void;
-}
+// interface IForm {
+//   handleNextStage: () => void
+//   handlePrevStage: () => void
+// }
 
-const SponsorForm: React.FC<IForm> = ({
-  handleNextStage,
-  handlePrevStage,
-}: IForm) => {
-  const { query } = useRouter();
-  const dispatch = useDispatch();
+const SponsorForm: React.FC = () => {
+  // const { query } = useRouter()
+  // const dispatch = useDispatch()
 
-  const sponsorName = getSponsorByQuery(query);
+  // const sponsorName = getSponsorByQuery(query)
 
-  useEffect(() => {
-    dispatch(setSponsorNameAction(sponsorName));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(setSponsorNameAction(sponsorName))
+  // }, [])
 
   return (
     <>
-      <H1Styled>Sponsor Details</H1Styled>
+      {/* <H1Styled>Sponsor Details</H1Styled>
       <InputStyled
         disabled
         value={sponsorName}
@@ -42,13 +39,13 @@ const SponsorForm: React.FC<IForm> = ({
         required
       />
       <ButtonsContainer>
-        {/* <Button onClick={() => handlePrevStage()}>CANCEL</Button> */}
+        <Button onClick={() => handlePrevStage()}>CANCEL</Button>
         <Button primary onClick={() => handleNextStage()}>
           CONTINUE
         </Button>
-      </ButtonsContainer>
+      </ButtonsContainer> */}
     </>
-  );
-};
+  )
+}
 
-export default SponsorForm;
+export default SponsorForm
