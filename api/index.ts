@@ -1,14 +1,14 @@
-import axios from 'axios';
+import axios from 'axios'
 
 export interface AuthHeaders {
   headers?: {
-    authorization: string;
-  };
+    authorization: string
+  }
 }
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API,
-});
+})
 
 // instance.defaults.headers.common['Authorization'] = 'AUTH TOKEN FROM INSTANCE';
 
@@ -22,23 +22,23 @@ axiosInstance.interceptors.request.use(
     //   }
     // }
 
-    return config;
+    return config
   },
   (error) => {
-    return Promise.reject(error);
+    return Promise.reject(error)
   }
-);
+)
 
 axiosInstance.interceptors.response.use(
   (response) => {
-    console.log(response);
+    console.log(response)
     // Edit response config
-    return response;
+    return response
   },
   (error) => {
-    console.log(error);
-    return Promise.reject(error);
+    console.log(error)
+    return Promise.reject(error)
   }
-);
+)
 
-export default axiosInstance;
+export default axiosInstance

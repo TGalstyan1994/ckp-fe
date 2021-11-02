@@ -3,7 +3,8 @@ import { NewPasswordForm } from 'containers/SignIn/NewPassword'
 import { ReactElement } from 'react'
 
 const newPasswordPage = () => <NewPasswordForm />
-newPasswordPage.getLayout = function (page: ReactElement) {
+
+newPasswordPage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>
 }
 export default newPasswordPage

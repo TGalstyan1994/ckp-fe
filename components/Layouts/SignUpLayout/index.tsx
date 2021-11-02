@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { Button } from 'components/Button'
-import { SuccessICO } from 'components/ICO/SuccessICO'
+import { SuccessICO } from 'components/ICO/success-ico'
 import { Logo } from 'components/Logo'
 import { cloneElement, FC, ReactElement } from 'react'
 import { useDispatch } from 'react-redux'

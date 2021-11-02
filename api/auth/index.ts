@@ -1,11 +1,11 @@
-import { UserAuthData, UserData } from 'interfaces/index';
-import axios from '../index';
+import { UserAuthData, UserData } from 'interfaces/index'
+import axios from '../index'
 
 export const authorizeUser = (
   login: string,
   password: string
 ): Promise<UserData> =>
-  axios.post(`/api/auth/login`, { login, password }).then(({ data }) => data);
+  axios.post(`/api/auth/login`, { login, password }).then(({ data }) => data)
 
 export const registerUser = (user: UserAuthData) =>
   axios
@@ -15,7 +15,7 @@ export const registerUser = (user: UserAuthData) =>
       password: user.password,
     })
     .then(({ data }) => data)
-    .catch((error) => console.log(error.message));
+    .catch((error) => console.log(error.message))
 
 export const createUser = (verificationCode: string): Promise<UserData> =>
-  axios.post(`/api/users`, { verificationCode }).then(({ data }) => data);
+  axios.post(`/api/users`, { verificationCode }).then(({ data }) => data)

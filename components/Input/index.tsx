@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import { PasswordSwitchICO } from 'components/ICO/PasswordSwitchICO'
+import { PasswordSwitchICO } from 'components/ICO/password-switch-ico'
 import classNames from 'classnames'
 import {
   input_container,

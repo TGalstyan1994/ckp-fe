@@ -1,4 +1,6 @@
-export const LogoICO = ({ className }: { className: string }) => (
+import { FC } from 'react'
+
+export const LogoICO: FC<{ className: string }> = ({ className }) => (
   <svg
     className={className}
     width="134"

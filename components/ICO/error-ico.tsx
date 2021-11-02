@@ -1,4 +1,6 @@
-export const ErrorICO = () => (
+import { FC } from 'react'
+
+export const ErrorICO: FC = () => (
   <svg
     width="12"
     height="11"
@@ -11,4 +13,4 @@ export const ErrorICO = () => (
       fill="#FE3333"
     />
   </svg>
-);
+)

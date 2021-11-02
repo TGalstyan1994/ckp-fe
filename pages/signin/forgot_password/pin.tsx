@@ -6,6 +6,6 @@ const PinPage = () => <EnterPin />
 
 export default PinPage
 
-PinPage.getLayout = function (page: ReactElement) {
+PinPage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>
 }
