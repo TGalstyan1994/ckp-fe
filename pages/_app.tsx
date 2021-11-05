@@ -5,7 +5,7 @@ import GlobalStyles from 'ui/global-styles'
 import { store } from 'store'
 import { NextPage } from 'next'
 
-type Page<P = {}> = NextPage<P> & {
+type Page<P = Record<string, unknown>> = NextPage<P> & {
   getLayout?: (page: ReactNode) => ReactNode
 }
 

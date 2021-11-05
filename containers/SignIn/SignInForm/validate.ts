@@ -13,7 +13,7 @@ export const validate = ({ username, password }: FormState): ErrorsObject => {
   }
 
   if (is.empty(username) || username.length < 2)
-    errors.username = 'Username is required'
+    errors.username = 'Username is required, minimum lengths 2 letters, digits'
 
   if (is.empty(password)) errors.password = 'Password is required'
 
