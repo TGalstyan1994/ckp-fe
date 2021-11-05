@@ -30,7 +30,7 @@
 
 .select:after {
   pointer-events: none;
-  content: url('../../UI/svg/Vector.svg');
+  content: url('../../UI/Vector.svg');
   right: 20px;
   top: 25px;
   position: absolute;
