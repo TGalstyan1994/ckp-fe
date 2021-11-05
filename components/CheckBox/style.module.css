@@ -34,7 +34,7 @@
 }
 
 .checkbox:checked + .label::before {
-  background-image: url('../../UI/svg/success.svg');
+  background-image: url('../../UI/success.svg');
   fill: #33a96a;
 }
 
