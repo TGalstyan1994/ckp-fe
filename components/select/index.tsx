@@ -8,11 +8,7 @@ import {
 } from './styled'
 
 interface IComponentProps
-<<<<<<< HEAD:components/select/index.tsx
   extends Omit<InputHTMLAttributes<HTMLSelectElement>, 'onChange'> {
-=======
-  extends Omit<InputHTMLAttributes<HTMLTextAreaElement>, 'onChange'> {
->>>>>>> Old linter/errors fix:ui/components/common/textarea/index.tsx
   value: string
   onChange: (val: string) => void
   error?: string
@@ -20,10 +16,7 @@ interface IComponentProps
   label?: string
   validate?: (val: string) => boolean
   required?: boolean
-<<<<<<< HEAD:components/select/index.tsx
   options: Array<string>
-=======
->>>>>>> Old linter/errors fix:ui/components/common/textarea/index.tsx
 }
 
 export const Select: React.FC<IComponentProps> = (props: IComponentProps) => {

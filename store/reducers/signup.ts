@@ -4,7 +4,6 @@ const initialState = {
   stages: [
     {
       number: 1,
-      finished: false,
       title: 'login password',
       errors: {
         username: '',
@@ -12,23 +11,35 @@ const initialState = {
         password: '',
         passwordConfirmation: '',
       },
-      fetchError: '',
       fetching: false,
+      fetchError: '',
+      finished: false,
     },
     {
       number: 2,
-      finished: false,
       title: 'security pin',
       errors: {
         pin: '',
       },
-      fetchError: '',
       fetching: false,
+      fetchError: '',
+      finished: false,
     },
     {
       number: 3,
-      finished: false,
       title: 'security question',
+      currentOption: '',
+      options: [
+        'Enter the name of your first pet',
+        'Enter the name of your first pet',
+        'Enter the name of your first pet',
+      ],
+      errors: {
+        answer: '',
+      },
+      fetching: false,
+      fetchError: '',
+      finished: false,
     },
     {
       number: 4,
@@ -82,9 +93,14 @@ const signup = createSlice({
     validateStage(state, action) {
       state.stages[state.currentStage].errors = action.payload.errors
     },
+
+    setCurrentOption(state, action) {
+      state.stages[2].currentOption = action.payload
+    },
   },
 })
 export const {
+  setCurrentOption,
   finishStage,
   changeStage,
   validateStage,

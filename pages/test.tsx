@@ -1,8 +1,11 @@
 import { FC, useState } from 'react'
-import { Select } from 'components/select'
+import { Select } from 'components/Select'
+import { Input } from 'components/Input'
 
 const TestPage: FC = () => {
   const [val, setVal] = useState<string>('')
+  const [options] = useState(['Name', 'Cum', 'Surname'])
+  const [currentOption, setCurrentOption] = useState('')
   return (
     <div
       style={{
@@ -14,6 +17,13 @@ const TestPage: FC = () => {
         height: '100vh',
       }}
     >
+      <Select
+        options={options}
+        currentOption={currentOption}
+        setCurrentOption={setCurrentOption}
+      />
+
+      <Input onChange={() => console.log('govno')} />
       {/* <Textarea
         label="textarea"
         value={val}
