@@ -18,9 +18,9 @@ export const PinInput: FC<Props> = (props) => {
     <Input
       maxLength={6}
       className={pin_input}
+      placeholder="XXXXXX"
       {...props}
       type="pin"
-      placeholder="XXXXXX"
     />
   )
 }

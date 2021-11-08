@@ -1,4 +1,4 @@
-import { SignInLayout as Layout } from 'components/Layouts/SignInLayout'
+import { SignInLayout as Layout } from 'containers/Layouts/SignInLayout'
 import { EnterPin } from 'containers/SignIn/EnterPin'
 import { ReactElement } from 'react'
 

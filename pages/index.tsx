@@ -1,19 +1,12 @@
-// import { authorize } from 'redux2/auth/thunks'
-// import { useDispatch } from 'react-redux'
-// import { registerUser } from 'api/auth'
-// import { UserAuthData, UserData } from 'interfaces/index'
-// import { PayloadAction } from '@reduxjs/toolkit'
-import { withAuth } from 'utils'
+// import { withAuth } from 'utils'
 import { useRouter } from 'next/router'
+import { FC, useEffect } from 'react'
 
-const IndexPage = () => {
-  // const dispatch = useDispatch()
+const IndexPage: FC = () => {
   const router = useRouter()
-  // const userData: UserAuthData = {
-  // login: 'jon',
-  // email: 'jon.snow.2021-03-21@mailinator.com',
-  // password: 'Jon@1234',
-  // }
+  useEffect(() => {
+    router.push('/signup')
+  })
   return (
     <div>
       <button
@@ -37,6 +30,6 @@ const IndexPage = () => {
   )
 }
 
-export const getServerSideProps = withAuth()
+// export const getServerSideProps = withAuth()
 
 export default IndexPage

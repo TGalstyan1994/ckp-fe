@@ -1,5 +1,5 @@
 import { withAuth } from 'utils'
-import { SignUpStages } from 'components/Layouts/SignUpLayout'
+import { SignUpStages } from 'containers/Layouts/SignUpLayout'
 import { AccountDetails } from 'containers/SignUp/AccountDetails'
 import { CreateSecurityPin } from 'containers/SignUp/CreateSecurityPin'
 import { SecurityQuestion } from 'containers/SignUp/SecurityQuestion'

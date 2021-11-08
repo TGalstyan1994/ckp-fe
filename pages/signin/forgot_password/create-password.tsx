@@ -1,4 +1,4 @@
-import { SignInLayout as Layout } from 'components/Layouts/SignInLayout'
+import { SignInLayout as Layout } from 'containers/Layouts/SignInLayout'
 import { NewPasswordForm } from 'containers/SignIn/NewPassword'
 import { ReactElement } from 'react'
 

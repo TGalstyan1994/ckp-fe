@@ -42,6 +42,12 @@ export const CreateSecurityPin: FC = () => {
     <div className={form}>
       <H1 secondary>Create security PIN.</H1>
       <PinInput onChange={handlePin} value={pin} error={stage.errors?.pin} />
+      <PinInput
+        onChange={handlePin}
+        value={pin}
+        error={stage.errors?.pin}
+        placeholder="Confirm PIN"
+      />
       {stage.fetchError && (
         <span className={form_fetching_error}>{stage.fetchError}</span>
       )}

@@ -1,4 +1,4 @@
-import { SignInLayout as Layout } from 'components/Layouts/SignInLayout'
+import { SignInLayout as Layout } from 'containers/Layouts/SignInLayout'
 import { ReactElement } from 'react'
 import sentSuccessSvg from 'UI/forgotPassword.svg'
 
