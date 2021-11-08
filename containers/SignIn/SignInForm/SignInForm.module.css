@@ -43,6 +43,6 @@
 }
 
 .ico_button:after {
-  content: url('UI/arrow.svg');
+  content: url('../../../UI/arrow.svg');
   margin-left: 14px;
 }
