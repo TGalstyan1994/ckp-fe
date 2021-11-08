@@ -5,7 +5,7 @@ import { FC, useEffect } from 'react'
 const IndexPage: FC = () => {
   const router = useRouter()
   useEffect(() => {
-    router.push('/signup')
+    router.push('/signin')
   })
   return (
     <div>
