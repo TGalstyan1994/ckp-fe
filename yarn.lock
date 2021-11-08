@@ -3802,7 +3802,16 @@
     "source-map" "^0.6.1"
     "supports-color" "^6.1.0"
 
-"postcss@^8.1.0", "postcss@8.1.7":
+"postcss@^8.1.0", "postcss@^8.2.15", "postcss@^8.3.0":
+  "integrity" "sha512-f/ZFyAKh9Dnqytx5X62jgjhhzttjZS7hMsohcI7HEI5tjELX/HxCy3EFhsRxyzGvrzFF+82XPvCS8T9TFleVJw=="
+  "resolved" "https://registry.npmjs.org/postcss/-/postcss-8.3.9.tgz"
+  "version" "8.3.9"
+  dependencies:
+    "nanoid" "^3.1.28"
+    "picocolors" "^0.2.1"
+    "source-map-js" "^0.6.2"
+
+"postcss@8.1.7":
   "integrity" "sha512-llCQW1Pz4MOPwbZLmOddGM9eIJ8Bh7SZ2Oj5sxZva77uVaotYDsYTch1WBTNu7fUY0fpWp0fdt7uW40D4sRiiQ=="
   "resolved" "https://registry.npmjs.org/postcss/-/postcss-8.1.7.tgz"
   "version" "8.1.7"
@@ -3811,24 +3820,6 @@
     "line-column" "^1.0.2"
     "nanoid" "^3.1.16"
     "source-map" "^0.6.1"
-
-"postcss@^8.2.15":
-  "integrity" "sha512-f/ZFyAKh9Dnqytx5X62jgjhhzttjZS7hMsohcI7HEI5tjELX/HxCy3EFhsRxyzGvrzFF+82XPvCS8T9TFleVJw=="
-  "resolved" "https://registry.npmjs.org/postcss/-/postcss-8.3.9.tgz"
-  "version" "8.3.9"
-  dependencies:
-    "nanoid" "^3.1.28"
-    "picocolors" "^0.2.1"
-    "source-map-js" "^0.6.2"
-
-"postcss@^8.3.0":
-  "integrity" "sha512-f/ZFyAKh9Dnqytx5X62jgjhhzttjZS7hMsohcI7HEI5tjELX/HxCy3EFhsRxyzGvrzFF+82XPvCS8T9TFleVJw=="
-  "resolved" "https://registry.npmjs.org/postcss/-/postcss-8.3.9.tgz"
-  "version" "8.3.9"
-  dependencies:
-    "nanoid" "^3.1.28"
-    "picocolors" "^0.2.1"
-    "source-map-js" "^0.6.2"
 
 "prelude-ls@^1.2.1":
   "integrity" "sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g=="
