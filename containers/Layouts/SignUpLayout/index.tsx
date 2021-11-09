@@ -44,7 +44,7 @@ export const SignUpStages: FC<Props> = ({ children: allStages }) => {
               key={stage.title}
               className={classNames(navbar_link, {
                 [active_link]: currentStage === stage.number - 1,
-                [disabled_stage_link]: !stages[0].finished,
+                // [disabled_stage_link]: !stages[0].finished,
               })}
             >
               <Button

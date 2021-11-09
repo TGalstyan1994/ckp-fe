@@ -35,8 +35,8 @@ export const Input: FC<Props> = ({
     <div className={input_container}>
       {label && (
         <label
-          htmlFor={input}
-          className={`${input_label} ${required ? required_label : ''}`}
+          htmlFor={name}
+          className={classNames(input_label, { [required_label]: required })}
         >
           {label}
         </label>
@@ -44,7 +44,7 @@ export const Input: FC<Props> = ({
 
       <div className={input_wrapper}>
         <input
-          id={input + name}
+          id={name}
           maxLength={maxLength}
           name={name}
           type={InputType}

@@ -1,17 +1,17 @@
 type FormState = {
   pin: string
-  // pinConfirmation: string
+  confirmPin: string
 }
 
 type ErrorObject = FormState
 
-export const validate = ({ pin }: FormState): ErrorObject => {
-  const errors = { pin: '' }
+export const validate = ({ pin, confirmPin }: FormState): ErrorObject => {
+  const errors = { pin: '', confirmPin: '' }
 
   if (pin.length !== 6) errors.pin = "Security PIN can't be less then 6 digits"
 
-  // if (errors.pin || pin !== pinConfirmation)
-  // errors.pinConfirmation = 'Confirm Security PIN Mismatch'
+  if (errors.pin || pin !== confirmPin)
+    errors.confirmPin = 'Confirm Security PIN Mismatch'
 
   return errors
 }

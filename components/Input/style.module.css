@@ -38,6 +38,7 @@
 .input.invalid_input {
   border: 1px solid #fe0000;
 }
+
 .input_label {
   margin-bottom: 19px;
   opacity: 40%;

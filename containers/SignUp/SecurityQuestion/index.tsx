@@ -4,6 +4,7 @@ import { Input } from 'components/Input'
 import { Select } from 'components/Select'
 import { ChangeEvent, FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
+
 import {
   endStageFetching,
   setCurrentOption,
@@ -31,13 +32,15 @@ export const SecurityQuestion: FC = () => {
   const setCurrentOptionCallback = (option: string) => {
     dispatch(setCurrentOption(option))
   }
-  const handleAnswer = (e: ChangeEvent<HTMLInputElement>) =>
+
+  const handleAnswer = (e: ChangeEvent<HTMLInputElement>) => {
     setSecurityAnswer(e.target.value)
+  }
 
   const handleForm = () => {
     dispatch(startStageFetching())
 
-    const validationErrors = validate(securityAnswer)
+    const validationErrors = validate(securityAnswer, currentOption)
     dispatch(validateStage({ errors: validationErrors }))
 
     if (haveErrors(validationErrors)) {
@@ -63,7 +66,8 @@ export const SecurityQuestion: FC = () => {
 
       <div className={form_inputs}>
         <Select
-          options={options || []}
+          placeholder="Enter the name of your first pet"
+          options={Object.keys(options) || []}
           currentOption={currentOption || ''}
           setCurrentOption={setCurrentOptionCallback}
         />

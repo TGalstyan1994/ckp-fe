@@ -5,6 +5,7 @@ import { CreateSecurityPin } from 'containers/SignUp/CreateSecurityPin'
 import { SecurityQuestion } from 'containers/SignUp/SecurityQuestion'
 import Head from 'next/head'
 import { FC } from 'react'
+import { PersonalDetails } from 'containers/SignUp/PersonalDetails'
 
 const RegistrationPage: FC = () => {
   const captchaUrl = `https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_SITE_KEY}`
@@ -17,6 +18,7 @@ const RegistrationPage: FC = () => {
         <AccountDetails />
         <CreateSecurityPin />
         <SecurityQuestion />
+        <PersonalDetails />
       </SignUpStages>
     </>
   )

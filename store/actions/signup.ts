@@ -13,6 +13,11 @@ type SecurityQuestionState = {
   answer: string
 }
 
+type PinFormState = {
+  pin: string
+  confirmPin: string
+}
+
 export const registerAction = ({
   username,
   email,
@@ -33,12 +38,15 @@ export const registerAction = ({
   },
 })
 
-export const sendPinAction = (securityCode: string): RegistrationAction => ({
+export const sendPinAction = ({
+  pin: securityCode,
+  confirmPin: securityCodeConfirmation,
+}: PinFormState): RegistrationAction => ({
   type: 'COMPLETE_STAGE',
   apiUrl: '/api/account/registration/security-code',
   payload: {
     securityCode,
-    securityCodeConfirmation: securityCode,
+    securityCodeConfirmation,
   },
 })
 

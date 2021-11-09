@@ -16,18 +16,22 @@ import { validate } from './validation'
 
 export const CreateSecurityPin: FC = () => {
   const stage = useSelectorTyped((state) => state.signup.stages[1])
-  const [pin, setPin] = useState<string>('')
+  const [pinForm, setPin] = useState({
+    pin: '',
+    confirmPin: '',
+  })
 
   const dispatch = useDispatch()
 
   const handlePin = (e: ChangeEvent<HTMLInputElement>) => {
-    if (+e.target.value || e.target.value === '') setPin(e.target.value.trim())
+    if (+e.target.value || e.target.value === '')
+      setPin((prev) => ({ ...prev, [e.target.name]: e.target.value.trim() }))
   }
 
   const handleForm = () => {
     dispatch(startStageFetching())
 
-    const validationErrors = validate({ pin })
+    const validationErrors = validate(pinForm)
     dispatch(validateStage({ errors: validationErrors }))
 
     if (haveErrors(validationErrors)) {
@@ -35,18 +39,25 @@ export const CreateSecurityPin: FC = () => {
       return
     }
 
-    dispatch(sendPinAction(pin))
+    dispatch(sendPinAction(pinForm))
   }
 
   return (
     <div className={form}>
       <H1 secondary>Create security PIN.</H1>
-      <PinInput onChange={handlePin} value={pin} error={stage.errors?.pin} />
       <PinInput
         onChange={handlePin}
-        value={pin}
+        value={pinForm.pin}
         error={stage.errors?.pin}
+        name="pin"
+      />
+      <PinInput
+        onChange={handlePin}
+        value={pinForm.confirmPin}
+        error={stage.errors?.confirmPin}
         placeholder="Confirm PIN"
+        name="confirmPin"
+        confirm
       />
       {stage.fetchError && (
         <span className={form_fetching_error}>{stage.fetchError}</span>

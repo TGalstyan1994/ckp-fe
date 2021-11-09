@@ -7,6 +7,8 @@
 }
 
 .select {
+  top: 0;
+  left: 0;
   cursor: pointer;
   z-index: 4;
   box-sizing: border-box;
@@ -61,4 +63,17 @@
 
 .empty_header {
   color: #979797;
+}
+
+.select_label {
+  position: absolute;
+  top: -34px;
+  opacity: 40%;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.required_label:after {
+  content: '*';
+  color: #fe0000;
 }

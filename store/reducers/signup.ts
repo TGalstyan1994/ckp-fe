@@ -20,6 +20,7 @@ const initialState = {
       title: 'security pin',
       errors: {
         pin: '',
+        confirmPin: '',
       },
       fetching: false,
       fetchError: '',
@@ -29,11 +30,9 @@ const initialState = {
       number: 3,
       title: 'security question',
       currentOption: '',
-      options: [
-        'Enter the name of your first pet',
-        'Enter the name of your first pet',
-        'Enter the name of your first pet',
-      ],
+      options: {
+        'Enter the name of your first pet': 'FIRST_PET_NAME',
+      },
       errors: {
         answer: '',
       },
@@ -43,6 +42,17 @@ const initialState = {
     },
     {
       number: 4,
+      options: [
+        'Start a business',
+        'Buy income generating property',
+        'Secure college funds',
+        'Home ownership',
+        'Better health care',
+        'Dream vacation',
+        'Furnish home',
+        'Buy new vehicle',
+        'Other',
+      ],
       finished: false,
       title: 'presonal details',
     },
@@ -60,8 +70,9 @@ const initialState = {
   currentStage: 0,
 }
 
-export type SignUpState = typeof initialState
-
+export type SignUpState = typeof initialState & {
+  stages: [{ options: Record<string, string> | Array<string> }]
+}
 const signup = createSlice({
   name: 'signup',
   initialState,
