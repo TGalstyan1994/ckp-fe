@@ -1,10 +1,10 @@
 import classNames from 'classnames'
-import { FC } from 'react'
+import { ChangeEvent, FC } from 'react'
 import { textarea, textarea_label, required_label } from './style.module.css'
 
 type Props = {
   value: string
-  onChange: () => void
+  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void
   placeholder?: string
   name: string
   label?: string

@@ -70,9 +70,8 @@ const initialState = {
   currentStage: 0,
 }
 
-export type SignUpState = typeof initialState & {
-  stages: [{ options: Record<string, string> | Array<string> }]
-}
+export type SignUpState = typeof initialState
+
 const signup = createSlice({
   name: 'signup',
   initialState,
@@ -106,7 +105,7 @@ const signup = createSlice({
     },
 
     setCurrentOption(state, action) {
-      state.stages[2].currentOption = action.payload
+      state.stages[state.currentStage].currentOption = action.payload
     },
   },
 })

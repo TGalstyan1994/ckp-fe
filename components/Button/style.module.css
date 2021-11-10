@@ -12,6 +12,7 @@
   line-height: 13px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  box-sizing: border-box;
   transition: 0.2s;
 }
 
