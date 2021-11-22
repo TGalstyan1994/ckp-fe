@@ -42,17 +42,11 @@ const initialState = {
     },
     {
       number: 4,
-      options: [
-        'Start a business',
-        'Buy income generating property',
-        'Secure college funds',
-        'Home ownership',
-        'Better health care',
-        'Dream vacation',
-        'Furnish home',
-        'Buy new vehicle',
-        'Other',
-      ],
+
+      errors: {
+        phoneCode: '',
+        phoneNumber: '',
+      },
       finished: false,
       title: 'presonal details',
     },
@@ -67,6 +61,14 @@ const initialState = {
       title: 'confirm',
     },
   ],
+  userInfo: {
+    country: {
+      id: 221,
+      name: 'Trinidad And Tobago',
+      phonemask: '(000) 000-00000',
+      phonecode: '1868',
+    },
+  },
   currentStage: 0,
 }
 
@@ -107,6 +109,10 @@ const signup = createSlice({
     setCurrentOption(state, action) {
       state.stages[state.currentStage].currentOption = action.payload
     },
+
+    setUserGeo(state, action) {
+      state.userInfo.country = action.payload
+    },
   },
 })
 export const {
@@ -117,5 +123,6 @@ export const {
   stageFetchingErrors,
   startStageFetching,
   endStageFetching,
+  setUserGeo,
 } = signup.actions
 export default signup.reducer

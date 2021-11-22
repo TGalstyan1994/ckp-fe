@@ -1,0 +1,31 @@
+.phoneNumberForm_wrapper {
+  width: 476px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.phoneNumber_header {
+  margin-bottom: 19px;
+  opacity: 40%;
+  font-weight: 600;
+  font-size: 13px;
+}
+.phoneNumber_header:after {
+  content: '*';
+  color: #fe0000;
+}
+
+.input_margined {
+  width: 345px;
+}
+
+.inputs_wrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+
+.inputs_wrapper div:nth-child(2) {
+  margin-left: 17px;
+}

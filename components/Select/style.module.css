@@ -20,11 +20,9 @@
   width: 100%;
   box-shadow: 0px 0px 8px #d8d8d8;
   background: #ffffff;
-  margin: 0;
-  padding: 0;
+
   position: absolute;
   display: flex;
-  list-style: none;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
@@ -45,7 +43,35 @@
   transition: 0.1s;
 }
 
+.disabled_select {
+  box-shadow: 0px 0px 8px #d8d8d8;
+  opacity: 60%;
+  pointer-events: none;
+  transition: 0.1s;
+}
+
+.disabled_select:after {
+  opacity: 20%;
+}
+
+.select_list {
+  position: relative;
+  z-index: 1;
+  max-height: 300px;
+  overflow: auto;
+  box-sizing: border-box;
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.select_list::-webkit-scrollbar {
+  width: 0px;
+}
+
 .select_item {
+  margin: 0;
   display: flex;
   justify-content: flex-start;
   align-items: center;

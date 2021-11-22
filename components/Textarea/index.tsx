@@ -1,6 +1,11 @@
 import classNames from 'classnames'
 import { ChangeEvent, FC } from 'react'
-import { textarea, textarea_label, required_label } from './style.module.css'
+import {
+  textarea,
+  textarea_label,
+  required_label,
+  textarea_wrapper,
+} from './style.module.css'
 
 type Props = {
   value: string
@@ -20,7 +25,7 @@ export const TextArea: FC<Props> = ({
   required,
 }) => {
   return (
-    <>
+    <div className={textarea_wrapper}>
       {label && (
         <label
           htmlFor={name}
@@ -36,6 +41,6 @@ export const TextArea: FC<Props> = ({
         placeholder={placeholder}
         name={name}
       />
-    </>
+    </div>
   )
 }

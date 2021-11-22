@@ -13,15 +13,7 @@
 }
 
 .form_inputs > div:nth-child(1) {
-  margin-bottom: 25px;
-}
-
-.form svg {
-  /* Убиракем выделение при изменении видимости пароля <svg> => иконка глаза*/
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
+  margin-bottom: 19px;
 }
 
 .form_password_actions {

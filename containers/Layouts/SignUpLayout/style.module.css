@@ -13,11 +13,16 @@
 }
 
 .stages_wrapper {
+  overflow: auto;
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.stages_wrapper::-webkit-scrollbar {
+  width: 0px;
 }
 
 .stages_navbar_wrapper {

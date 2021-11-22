@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import classNames from 'classnames'
-import { FC, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import {
   select,
   select_wrapper,
@@ -11,6 +11,8 @@ import {
   opened,
   select_label,
   required_label,
+  select_list,
+  disabled_select,
 } from './style.module.css'
 
 type Props = {
@@ -20,7 +22,9 @@ type Props = {
   placeholder: string
   label?: string
   required?: boolean
+  disabled?: boolean
 }
+
 export const Select: FC<Props> = ({
   options,
   currentOption,
@@ -28,8 +32,27 @@ export const Select: FC<Props> = ({
   placeholder,
   label,
   required,
+  disabled,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
+  const selectComponent = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const clickedOutside = (e: MouseEvent) => {
+      if (
+        selectComponent.current &&
+        isOpen &&
+        !selectComponent.current.contains(e.target as Node)
+      ) {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', clickedOutside)
+
+    return () => document.addEventListener('mousedown', clickedOutside)
+  })
+
   const toggleIsOpen = () => setIsOpen((prev) => !prev)
   const handleOptionsChange = (option: string) => {
     setCurrentOption(option)
@@ -42,26 +65,36 @@ export const Select: FC<Props> = ({
           {label}
         </span>
       )}
-      <ul className={classNames(select, { [opened]: isOpen })}>
-        <li
+      <div
+        className={classNames(select, {
+          [opened]: isOpen,
+          [disabled_select]: disabled,
+        })}
+        ref={selectComponent}
+      >
+        <p
           className={classNames(select_header, select_item, {
             [empty_header]: !currentOption,
           })}
           onClick={toggleIsOpen}
         >
           {currentOption || placeholder}
-        </li>
-        {isOpen &&
-          options.map((option) => (
-            <li
-              key={option}
-              className={select_item}
-              onClick={() => handleOptionsChange(option)}
-            >
-              {option}
-            </li>
-          ))}
-      </ul>
+        </p>
+
+        {isOpen && (
+          <ul className={select_list}>
+            {options.map((option) => (
+              <li
+                key={option}
+                className={select_item}
+                onClick={() => handleOptionsChange(option)}
+              >
+                {option}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   )
 }

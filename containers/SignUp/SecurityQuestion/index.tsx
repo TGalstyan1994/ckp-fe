@@ -47,10 +47,11 @@ export const SecurityQuestion: FC = () => {
       dispatch(endStageFetching())
       return
     }
+    const optionsTyped = options as { [key: string]: string }
 
     dispatch(
       sendSecurityQuestion({
-        question: 'QUESTION_1',
+        question: optionsTyped[currentOption || ''],
         answer: securityAnswer,
       })
     )
@@ -67,7 +68,7 @@ export const SecurityQuestion: FC = () => {
       <div className={form_inputs}>
         <Select
           placeholder="Enter the name of your first pet"
-          options={Object.keys(options) || []}
+          options={options ? Object.keys(options) : []}
           currentOption={currentOption || ''}
           setCurrentOption={setCurrentOptionCallback}
         />
@@ -79,7 +80,6 @@ export const SecurityQuestion: FC = () => {
           error={errors?.answer}
         />
       </div>
-
       <div className={form_buttons}>
         <Button secondary>Cancel</Button>
 

@@ -4,6 +4,7 @@ import { RegistrationAction, RootState } from 'store'
 import {
   endStageFetching,
   finishStage,
+  setUserGeo,
   SignUpState,
   stageFetchingErrors,
 } from 'store/reducers/signup'
@@ -36,13 +37,14 @@ function* completeStage(action: RegistrationAction) {
   const config = {
     headers: {
       // eslint-disable-next-line prettier/prettier
-      'Authorization': `Bearer ${getAccessToken()}`,
+      'Authorization': `Bearer ${getAccessToken()}`, // => Prettier removes single quotes from Authorization flag
       'content-type': 'application/json',
     },
   }
 
   try {
     if (currentStage === 0) {
+      // first registration stage/step
       const { captcha, body } = payload as RegistrationPayload
 
       body.sponsor = getSponsorByQuery()
@@ -56,6 +58,15 @@ function* completeStage(action: RegistrationAction) {
         `${process.env.NEXT_PUBLIC_API}${apiUrl}`,
         registrationPayload
       )
+
+      const geoResponse: AxiosResponse = yield call(
+        axios.post,
+        `${process.env.NEXT_PUBLIC_API}/geo/detect
+        `
+      )
+      yield put(setUserGeo(geoResponse))
+
+      console.log(geoResponse)
 
       setAccessToken(response.data.accessToken)
     } else {
