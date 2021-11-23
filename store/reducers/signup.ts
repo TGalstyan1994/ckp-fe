@@ -68,6 +68,8 @@ const initialState = {
       phonemask: '(000) 000-00000',
       phonecode: '1868',
     },
+    states: [],
+    cities: [],
   },
   currentStage: 0,
 }
@@ -111,7 +113,13 @@ const signup = createSlice({
     },
 
     setUserGeo(state, action) {
-      state.userInfo.country = action.payload
+      const stateCopy = state.userInfo as {
+        [key: string]: unknown
+      }
+
+      Object.keys(action.payload).every(
+        (key: string) => (stateCopy[key] = action.payload[key])
+      )
     },
   },
 })

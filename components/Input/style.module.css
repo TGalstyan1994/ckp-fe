@@ -73,3 +73,7 @@
   width: 22px;
   height: auto;
 }
+
+.disabled_input {
+  opacity: 0.4;
+}

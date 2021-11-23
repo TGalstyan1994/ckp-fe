@@ -1,6 +1,6 @@
 import { Select } from 'components/Select'
 import { TextArea } from 'components/Textarea'
-import { ChangeEvent, FC, useState } from 'react'
+import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelectorTyped } from 'utils/hooks'
 import {
@@ -17,6 +17,7 @@ import { DatePickerForm } from 'containers/DatePickerForm'
 import classNames from 'classnames'
 import { ChooseGenderForm } from 'containers/ChooseGenderForm'
 import { OptionalRadioForm } from 'containers/OptionalRadioBoxForm'
+import { CheckBox } from 'components/CheckBox'
 import { H1 } from 'components/H1'
 import {
   form,
@@ -27,23 +28,26 @@ import {
   martial_gender,
   select_stabilizer,
   options_wrapper,
+  double_input,
+  job_question_inputs,
   row,
 } from './style.module.css'
 
 export const PersonalDetails: FC = () => {
   const { errors } = useSelectorTyped((state) => state.signup.stages[3])
-  const { country } = useSelectorTyped((state) => state.signup.userInfo)
+  const { country, states, cities } = useSelectorTyped(
+    (state) => state.signup.userInfo
+  )
+
   const [personalDetailsState, setPersonalDetailsState] = useState({
     objective: '',
     objectiveNote: '',
     firstName: '',
     lastName: '',
-    phoneCode: `+${country.phonecode}`,
-    phoneNumber: '',
-    Address: '',
+    phone: '',
+    address: '',
     gender: 'Male',
     maritalStatus: '',
-    //
     сurrentlyEmployed: false,
     jobTitle: 'Lord Commander',
     jobDescription: "Lord Commander of the Night's Watch",
@@ -58,14 +62,54 @@ export const PersonalDetails: FC = () => {
     athleticSkillsDescription: 'Some skills in fight and so.',
     anyDependents: false,
     totalNumberOfDependens: '2',
+    beneficiaryName: 'Sansa Stark',
+    beneficiaryRelationship: 'Sister',
+    beneficiaryContactNumber: '+18684978700',
+    cityId: undefined,
+    stateId: undefined,
+    countryId: country.id,
+    zipCode: '1868',
+    accountCurrency: 'BTC',
+    accountAddress: '1BSsr1Ua6ucGGxV7UDmVj5FGDfpReZxh1z',
   })
+  const [termsAcceptance, setTermsAcceptance] = useState(false)
+  const [geoData, setGeoData] = useState({
+    state: '',
+    city: '',
+  })
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch({
+      type: 'GEO_TAKE',
+      payload: { countryId: 1, at: 'states' },
+    })
+  }, [])
+
+  const changeGeoStates = (option: string) => {
+    const currentState = states.find(
+      (state: Record<string, string>) => state.name === option
+    ) as { id: number; name: string } | undefined
+
+    if (currentState) {
+      dispatch({
+        type: 'GEO_TAKE',
+        payload: {
+          stateId: currentState.id,
+          at: 'cities',
+        },
+      })
+    }
+    setGeoData((prev) => ({ ...prev, state: option, city: '' }))
+  }
+  const changeGeoCities = (option: string) =>
+    setGeoData((prev) => ({ ...prev, city: option }))
 
   const [dateOfBirth, setDateOfBirth] = useState({
     day: '',
     month: '',
     year: '',
   })
-  const dispatch = useDispatch()
 
   const setPersonalDetails = (key: string, value: string | boolean) =>
     setPersonalDetailsState((prev) => ({ ...prev, [key]: value }))
@@ -139,8 +183,8 @@ export const PersonalDetails: FC = () => {
           changeStateCallback={handleFormInputs}
           phoneCode={country.phonecode}
           formState={{
-            phoneCode: personalDetailsState.phoneCode,
-            phoneNumber: personalDetailsState.phoneNumber,
+            phoneCode: country.phonecode,
+            phoneNumber: personalDetailsState.phone,
           }}
           errors={{
             phoneCode: errors?.phoneCode,
@@ -149,12 +193,12 @@ export const PersonalDetails: FC = () => {
         />
 
         <Input
-          name="lastName"
+          name="address"
           onChange={handleFormInputs}
-          value={personalDetailsState.lastName}
-          label="Username"
+          value={personalDetailsState.address}
+          label="Address"
           required
-          placeholder="Enter Last Name"
+          placeholder="Enter Address"
           error={errors?.username}
         />
       </div>
@@ -197,6 +241,23 @@ export const PersonalDetails: FC = () => {
           answerState={personalDetailsState.сurrentlyEmployed}
           value={personalDetailsState.jobTitle}
         />
+        {personalDetailsState.сurrentlyEmployed && (
+          <div className={classNames(row, job_question_inputs)}>
+            <Input
+              onChange={handleFormInputs}
+              name="jobDescription"
+              value={personalDetailsState.jobDescription}
+              label="Job Description"
+            />
+            <Input
+              onChange={handleFormInputs}
+              name="employeeAddress"
+              value={personalDetailsState.employeeAddress}
+              label="Employee Address"
+            />
+          </div>
+        )}
+
         <OptionalRadioForm
           name="businessDescription"
           onInputChange={handleFormInputs}
@@ -247,11 +308,99 @@ export const PersonalDetails: FC = () => {
           value={personalDetailsState.totalNumberOfDependens}
         />
       </div>
+
+      <Input
+        label="Beneficiary"
+        placeholder="Name"
+        onChange={handleFormInputs}
+        name="beneficiaryName"
+        value={personalDetailsState.beneficiaryName}
+        required
+      />
+
+      <div className={classNames(row, double_input)}>
+        <Input
+          name="beneficiaryRelationship"
+          onChange={handleFormInputs}
+          value={personalDetailsState.beneficiaryRelationship}
+          placeholder="Relationship"
+        />
+        <Input
+          name="beneficiaryContactNumber"
+          onChange={handleFormInputs}
+          value={personalDetailsState.beneficiaryContactNumber}
+          placeholder="Contact Number"
+        />
+      </div>
+
+      <div className={classNames(row, double_input)}>
+        <Input
+          label="Country"
+          required
+          disabled
+          value={country.name}
+          onChange={handleFormInputs}
+        />
+        <Select
+          label="State"
+          required
+          currentOption={geoData.state}
+          placeholder={
+            states.map(
+              (stateInfo: Record<string, string>) => stateInfo.name
+            )[0] || 'Choose State'
+          }
+          setCurrentOption={changeGeoStates}
+          options={states.map(
+            (stateInfo: Record<string, string>) => stateInfo.name
+          )}
+        />
+      </div>
+
+      <div className={classNames(row, double_input)}>
+        <Select
+          label="Cities"
+          required
+          disabled={cities.length === 0}
+          currentOption={geoData.city}
+          placeholder={
+            cities.map(
+              (cityInfo: Record<string, string>) => cityInfo.name
+            )[0] || 'Choose city'
+          }
+          setCurrentOption={changeGeoCities}
+          options={cities.map(
+            (cityInfo: Record<string, string>) => cityInfo.name
+          )}
+        />
+        <Input
+          placeholder="Enter Zip Code"
+          name="zipCode"
+          label="Zip code"
+          required
+          value={personalDetailsState.zipCode}
+          onChange={handleFormInputs}
+        />
+      </div>
+
       <div className={form_actions}>
-        <LinkText href="#">Accept Terms and Conditions *</LinkText>
+        <div className={row}>
+          <CheckBox
+            label=""
+            checked={termsAcceptance}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setTermsAcceptance(e.target.checked)
+            }
+          />
+          <LinkText href="#" secondary>
+            Accept Terms and Conditions *
+          </LinkText>
+        </div>
         <div className={actions_buttons}>
           <Button secondary>Back</Button>
-          <Button onClick={handleForm}>Continue</Button>
+          <Button onClick={handleForm} disabled={!termsAcceptance}>
+            Continue
+          </Button>
         </div>
       </div>
     </div>

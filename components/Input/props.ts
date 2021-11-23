@@ -11,4 +11,5 @@ export type Props = {
   type?: 'text' | 'password' | 'checkbox' | 'email' | 'number' | 'pin' | 'radio'
   className?: string
   maxLength?: number
+  disabled?: boolean
 }

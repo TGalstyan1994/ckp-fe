@@ -3,13 +3,11 @@
   font-size: 14px;
   line-height: 17px;
 }
+.link_text.secondary_linked a {
+  color: #33a96a;
+}
 
 .link_text a {
   color: #000;
   text-decoration-line: underline;
-}
-
-.link_text a:focus,
-.link_text a:active {
-  color: inherit;
 }

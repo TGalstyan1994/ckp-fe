@@ -5,6 +5,7 @@ import {
   label,
   required_label,
   label_disabled,
+  checkbox_wrapper,
 } from './style.module.css'
 
 type Props = {
@@ -24,7 +25,7 @@ export const CheckBox: FC<Props> = ({
   onChange,
   disabled,
 }) => (
-  <>
+  <div className={checkbox_wrapper}>
     <input
       id={checkbox}
       name={name}
@@ -33,15 +34,17 @@ export const CheckBox: FC<Props> = ({
       onChange={onChange}
       className={checkbox}
     />
-    <label
-      htmlFor={checkbox}
-      className={classNames(
-        label,
-        { [required_label]: required },
-        { [label_disabled]: disabled }
-      )}
-    >
-      {labelContent}
-    </label>
-  </>
+    {label && (
+      <label
+        htmlFor={checkbox}
+        className={classNames(
+          label,
+          { [required_label]: required },
+          { [label_disabled]: disabled }
+        )}
+      >
+        {labelContent}
+      </label>
+    )}
+  </div>
 )

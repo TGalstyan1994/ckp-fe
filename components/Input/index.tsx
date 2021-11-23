@@ -9,6 +9,7 @@ import {
   input,
   invalid_input,
   error_message,
+  disabled_input,
 } from './style.module.css'
 import { Props } from './props'
 
@@ -23,6 +24,7 @@ export const Input: FC<Props> = ({
   name,
   className = '',
   maxLength,
+  disabled,
 }) => {
   const [showPassword, setShowPassword] = useState(!(type === 'password'))
   const togglePasswordView = () => setShowPassword((prev) => !prev)
@@ -42,8 +44,11 @@ export const Input: FC<Props> = ({
         </label>
       )}
 
-      <div className={input_wrapper}>
+      <div
+        className={classNames(input_wrapper, { [disabled_input]: disabled })}
+      >
         <input
+          disabled={disabled}
           id={name}
           maxLength={maxLength}
           name={name}
