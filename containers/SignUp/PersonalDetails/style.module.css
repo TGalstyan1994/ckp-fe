@@ -78,7 +78,7 @@
 }
 
 .options_wrapper > div {
-  margin-bottom: 20px;
+  margin-bottom: 23px;
 }
 
 .form_fullName {
@@ -122,4 +122,8 @@
   align-items: flex-end;
 
   margin-top: 29px;
+}
+
+.margin_cont {
+  margin-bottom: 25px;
 }

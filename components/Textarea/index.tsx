@@ -14,6 +14,7 @@ type Props = {
   name: string
   label?: string
   required?: boolean
+  maxSymbols?: number
 }
 
 export const TextArea: FC<Props> = ({
@@ -23,6 +24,7 @@ export const TextArea: FC<Props> = ({
   name,
   label,
   required,
+  maxSymbols,
 }) => {
   return (
     <div className={textarea_wrapper}>
@@ -37,7 +39,10 @@ export const TextArea: FC<Props> = ({
       <textarea
         className={textarea}
         value={value}
-        onChange={onChange}
+        onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+          if (maxSymbols && e.target.value.length >= maxSymbols) return
+          onChange(e)
+        }}
         placeholder={placeholder}
         name={name}
       />

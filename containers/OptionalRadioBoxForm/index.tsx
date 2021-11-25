@@ -1,12 +1,15 @@
+import classNames from 'classnames'
 import { Input } from 'components/Input'
 import { RadioBox } from 'components/Radio'
 import { ChangeEvent, FC } from 'react'
 import {
   form,
-  form_header,
+  form_question,
   form_radios,
   label,
   input_wrapper,
+  error_message,
+  invalid_form,
 } from './style.module.css'
 
 type Props = {
@@ -17,6 +20,7 @@ type Props = {
   inputLabel: string
   value: string
   answerState: boolean
+  error?: string
 }
 
 export const OptionalRadioForm: FC<Props> = ({
@@ -27,6 +31,7 @@ export const OptionalRadioForm: FC<Props> = ({
   inputLabel,
   value,
   answerState,
+  error,
 }) => {
   const answerSetter = (option: string) => {
     if (option === 'Yes') return onRadioChange(true)
@@ -35,7 +40,7 @@ export const OptionalRadioForm: FC<Props> = ({
 
   return (
     <div className={form}>
-      <div className={form_header}>
+      <div className={classNames(form_question, { [invalid_form]: error })}>
         <span className={label}>{questionLabel}</span>
         <div className={form_radios}>
           <RadioBox
@@ -50,6 +55,7 @@ export const OptionalRadioForm: FC<Props> = ({
           />
         </div>
       </div>
+      <span className={error_message}>{error}</span>
       {answerState && (
         <div className={input_wrapper}>
           <Input

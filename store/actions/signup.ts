@@ -61,3 +61,13 @@ export const sendSecurityQuestion = ({
     answer,
   },
 })
+
+export const sendPersonalDetails = (
+  formState: Record<string, unknown>
+): RegistrationAction => ({
+  type: 'COMPLETE_STAGE',
+  apiUrl: '/api/account/registration/profile',
+  payload: {
+    ...formState,
+  },
+})

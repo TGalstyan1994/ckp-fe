@@ -103,3 +103,17 @@
   content: '*';
   color: #fe0000;
 }
+
+.error_message {
+  position: absolute;
+  bottom: -18px;
+  left: 0px;
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 12px;
+  color: #fe0000;
+}
+
+.invalid_select {
+  border: 1px solid #fe0000;
+}

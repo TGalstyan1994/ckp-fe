@@ -30,12 +30,13 @@ type Props = {
     month: string
     year: string
   }
+  error?: string
   setDateForm: Dispatch<
     SetStateAction<{ day: string; month: string; year: string }>
   >
 }
 
-export const DatePickerForm: FC<Props> = ({ dateForm, setDateForm }) => {
+export const DatePickerForm: FC<Props> = ({ dateForm, setDateForm, error }) => {
   const [options, setOptions] = useState({
     days: [] as number[],
     months: monthNames,
@@ -75,6 +76,7 @@ export const DatePickerForm: FC<Props> = ({ dateForm, setDateForm }) => {
           currentOption={dateForm.year}
           setCurrentOption={setYear}
           placeholder="Select Year"
+          error={dateForm.year === '' ? error : ''}
         />
         <Select
           options={options.months.map((e) => e.toString())}
@@ -82,6 +84,7 @@ export const DatePickerForm: FC<Props> = ({ dateForm, setDateForm }) => {
           setCurrentOption={setMonth}
           placeholder="Select Month"
           disabled={!dateForm.year}
+          error={dateForm.month === '' ? error : ''}
         />
         <Select
           options={options.days.map((e) => e.toString())}
@@ -89,6 +92,7 @@ export const DatePickerForm: FC<Props> = ({ dateForm, setDateForm }) => {
           setCurrentOption={setDay}
           placeholder="Select Day"
           disabled={!dateForm.year || !dateForm.month}
+          error={dateForm.day === '' ? error : ''}
         />
       </div>
     </div>

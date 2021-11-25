@@ -13,6 +13,8 @@ import {
   required_label,
   select_list,
   disabled_select,
+  error_message,
+  invalid_select,
 } from './style.module.css'
 
 type Props = {
@@ -23,6 +25,7 @@ type Props = {
   label?: string
   required?: boolean
   disabled?: boolean
+  error?: string
 }
 
 export const Select: FC<Props> = ({
@@ -33,6 +36,7 @@ export const Select: FC<Props> = ({
   label,
   required,
   disabled,
+  error,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const selectComponent = useRef<HTMLDivElement>(null)
@@ -69,6 +73,7 @@ export const Select: FC<Props> = ({
         className={classNames(select, {
           [opened]: isOpen,
           [disabled_select]: disabled,
+          [invalid_select]: error,
         })}
         ref={selectComponent}
       >
@@ -95,6 +100,7 @@ export const Select: FC<Props> = ({
           </ul>
         )}
       </div>
+      <span className={error_message}>{error}</span>
     </div>
   )
 }

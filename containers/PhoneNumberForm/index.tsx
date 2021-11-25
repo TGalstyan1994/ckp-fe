@@ -7,13 +7,12 @@ import {
   inputs_wrapper,
 } from './style.module.css'
 
+const phoneNumberRegExp = '[^0-9]'
+
 type Props = {
-  changeStateCallback: (e: ChangeEvent<HTMLInputElement>) => void
+  changeStateCallback: (value: string, name: string) => void
   phoneCode: string
-  errors: {
-    phoneCode: string | undefined
-    phoneNumber: string | undefined
-  }
+  error?: string
   formState: {
     phoneCode: string
     phoneNumber: string
@@ -23,18 +22,25 @@ type Props = {
 export const PhoneNumberForm: FC<Props> = ({
   changeStateCallback,
   phoneCode,
-  errors,
+  error,
   formState,
 }) => {
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     if (
       e.target.name === 'phoneCode' &&
-      (!+e.target.value || e.target.value === '') &&
-      e.target.value !== '+'
+      e.target.value.slice(1).search(phoneNumberRegExp) !== -1
     )
       return
 
-    changeStateCallback(e)
+    if (
+      e.target.name === 'phoneNumber' &&
+      e.target.value.search(phoneNumberRegExp) !== -1
+    )
+      return
+
+    if (e.target.name === 'phoneCode')
+      changeStateCallback(e.target.value.slice(1), e.target.name)
+    else changeStateCallback(e.target.value, e.target.name)
   }
   return (
     <div className={phoneNumberForm_wrapper}>
@@ -44,10 +50,10 @@ export const PhoneNumberForm: FC<Props> = ({
           maxLength={phoneCode.length + 1}
           name="phoneCode"
           onChange={handleInput}
-          value={formState.phoneCode}
+          value={`+${formState.phoneCode}`}
           required
           placeholder={`+${phoneCode}`}
-          error={errors.phoneCode}
+          error={error && ' '}
         />
         <Input
           name="phoneNumber"
@@ -55,7 +61,7 @@ export const PhoneNumberForm: FC<Props> = ({
           className={input_margined}
           value={formState.phoneNumber}
           placeholder="Enter Mobile Number"
-          error={errors.phoneNumber}
+          error={error}
         />
       </div>
     </div>

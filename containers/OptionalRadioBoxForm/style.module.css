@@ -1,4 +1,5 @@
 .form {
+  position: relative;
   display: flex;
   width: 100%;
   height: 100%;
@@ -18,7 +19,7 @@
   color: #fe0000;
 }
 
-.form_header {
+.form_question {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -28,7 +29,7 @@
   margin-right: 20px;
 }
 
-.form_header > span {
+.form_question > span {
   margin-bottom: 37px;
 }
 
@@ -48,4 +49,19 @@
 
 .input_wrapper {
   width: 641px;
+}
+
+.error_message {
+  position: absolute;
+  bottom: -15px;
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 12px;
+  color: #fe0000;
+}
+
+.invalid_form {
+  border-radius: 5px;
+  border: 1px solid #fe0000;
+  padding: 5px;
 }
