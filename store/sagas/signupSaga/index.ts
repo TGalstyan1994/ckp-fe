@@ -61,7 +61,7 @@ function* completeStage(action: RegistrationAction) {
 
       const geoResponse: AxiosResponse = yield call(
         axios.post,
-        `${process.env.NEXT_PUBLIC_API}/geo/detect
+        `${process.env.NEXT_PUBLIC_API}/api/helpers/geo/detect
         `
       )
       yield put(setUserGeo(geoResponse))
