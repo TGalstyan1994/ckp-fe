@@ -1,5 +1,5 @@
-import { SignInLayout as Layout } from 'containers/Layouts/SignInLayout'
-import { ForgotPasswordForm } from 'containers/SignIn/ForgotPassword'
+import { SignInLayout as Layout } from 'src/containers/Layouts/SignInLayout'
+import { ForgotPasswordForm } from 'src/containers/SignIn/ForgotPassword'
 import { ReactElement } from 'react'
 
 const ForgotPasswordPage = () => <ForgotPasswordForm />

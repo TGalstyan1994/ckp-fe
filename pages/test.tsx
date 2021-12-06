@@ -1,4 +1,4 @@
-import { OptionalRadioForm } from 'containers/OptionalRadioBoxForm'
+import { OptionalRadioForm } from 'src/containers/OptionalRadioBoxForm'
 import { ChangeEvent, FC, useState } from 'react'
 
 const TestPage: FC = () => {

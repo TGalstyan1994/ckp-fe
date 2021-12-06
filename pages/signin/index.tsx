@@ -1,5 +1,5 @@
-import { SignInLayout as Layout } from 'containers/Layouts/SignInLayout'
-import { SignInForm } from 'containers/SignIn/SignInForm'
+import { SignInLayout as Layout } from 'src/containers/Layouts/SignInLayout'
+import { SignInForm } from 'src/containers/SignIn/SignInForm'
 import { ReactElement } from 'react'
 
 const LoginPage = () => <SignInForm />

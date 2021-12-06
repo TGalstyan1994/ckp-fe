@@ -1,5 +1,5 @@
-import { SignInLayout as Layout } from 'containers/Layouts/SignInLayout'
-import { NewPasswordForm } from 'containers/SignIn/NewPassword'
+import { SignInLayout as Layout } from 'src/containers/Layouts/SignInLayout'
+import { NewPasswordForm } from 'src/containers/SignIn/NewPassword'
 import { ReactElement } from 'react'
 
 const newPasswordPage = () => <NewPasswordForm />

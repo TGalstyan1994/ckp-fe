@@ -1,8 +1,8 @@
 import { FC, ReactElement, ReactNode } from 'react'
 import { Provider } from 'react-redux'
 import { AppProps } from 'next/app'
-import GlobalStyles from 'ui/global-styles'
-import { store } from 'store'
+import GlobalStyles from 'src/UI/global-styles'
+import { store } from 'src/store'
 import { NextPage } from 'next'
 
 type Page<P = Record<string, unknown>> = NextPage<P> & {
