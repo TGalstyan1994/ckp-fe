@@ -1,12 +1,13 @@
-import { OptionalRadioForm } from 'src/containers/OptionalRadioBoxForm'
-import { ChangeEvent, FC, useState } from 'react'
+import { OptionalRadioForm } from 'src/containers/OptionalRadioBoxForm';
+import { ChangeEvent, FC, useState } from 'react';
 
 const TestPage: FC = () => {
-  const [answer, setAnswer] = useState('')
+  const [answer, setAnswer] = useState('');
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setAnswer(e.target.value)
-  }
+    setAnswer(e.target.value);
+  };
+
   return (
     <div
       style={{
@@ -16,18 +17,20 @@ const TestPage: FC = () => {
         width: '100vw',
         padding: '30px',
         boxSizing: 'border-box',
-        height: '100vh',
+        height: '100vh'
       }}
     >
       <OptionalRadioForm
-        name="Some"
         onInputChange={handleInput}
-        questionLabel="Some some some ?"
+        onRadioChange={() => {}}
+        name='Some'
+        questionLabel='Some some some ?'
+        inputLabel='Somesome some'
         value={answer}
-        inputLabel="Somesome some"
+        answerState={true}
       />
     </div>
-  )
-}
+  );
+};
 
-export default TestPage
+export default TestPage;

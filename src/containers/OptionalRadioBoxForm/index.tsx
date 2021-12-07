@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { Input } from 'src/components/Input'
 import { RadioBox } from 'src/components/Radio'
-import { ChangeEvent, FC } from 'react'
+import { ChangeEvent } from 'react'
 import {
   form,
   form_question,
@@ -12,7 +12,7 @@ import {
   invalid_form,
 } from './style.module.css'
 
-type Props = {
+interface IOptionalRadioForm {
   onInputChange: (e: ChangeEvent<HTMLInputElement>) => void
   onRadioChange: (value: boolean) => void
   name: string
@@ -23,7 +23,7 @@ type Props = {
   error?: string
 }
 
-export const OptionalRadioForm: FC<Props> = ({
+export const OptionalRadioForm = ({
   onInputChange,
   onRadioChange,
   name,
@@ -32,7 +32,7 @@ export const OptionalRadioForm: FC<Props> = ({
   value,
   answerState,
   error,
-}) => {
+}: IOptionalRadioForm) => {
   const answerSetter = (option: string) => {
     if (option === 'Yes') return onRadioChange(true)
     return onRadioChange(false)
