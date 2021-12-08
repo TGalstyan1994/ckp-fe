@@ -1,27 +1,27 @@
-import { ChangeEvent, FC, useState } from 'react'
-import { Button } from 'src/components/Button'
-import { CheckBox } from 'src/components/CheckBox'
-import { Input } from 'src/components/Input'
-import { LinkText } from 'src/components/LinkText'
-import { useRouter } from 'next/router'
-import { useDispatch } from 'react-redux'
-import { signInAction } from 'src/store/actions/signin'
+import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { Button } from 'src/components/Button';
+import { CheckBox } from 'src/components/CheckBox';
+import { Input } from 'src/components/Input';
+import { LinkText } from 'src/components/LinkText';
+import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+import { signInAction } from 'src/store/actions/signin';
 import {
   endStageFetching,
   startStageFetching,
-  validateForm,
-} from 'src/store/reducers/signin'
-import { useSelectorTyped } from 'src/utils/hooks'
-import { ErrorsSpan } from 'src/components/ErrorsSpan'
+  validateForm
+} from 'src/store/reducers/signin';
+import { useSelectorTyped } from 'src/utils/hooks';
+import { ErrorsSpan } from 'src/components/ErrorsSpan';
 import {
   form,
   form_header,
   form_inputs,
   form_password_actions,
   form_buttons,
-  ico_button,
-} from './SignInForm.module.css'
-import { validate } from './validate'
+  ico_button
+} from './SignInForm.module.css';
+import { validate } from './validate';
 
 type FormState = {
   username: string
@@ -29,40 +29,45 @@ type FormState = {
 }
 
 export const SignInForm: FC = () => {
-  const { errors, fetching, fetchingErrors } = useSelectorTyped(
+  const { errors, fetching, fetchingErrors, data } = useSelectorTyped(
     (state) => state.signin
-  )
-
+  );
   const [formState, setFormState] = useState<FormState>({
     username: '',
-    password: '',
-  })
+    password: ''
+  });
 
-  const [rememberMe, setRememberMe] = useState<boolean>(false)
-  const dispatch = useDispatch()
-  const router = useRouter()
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const submitForm = () => {
-    dispatch(startStageFetching())
-    const ValidationErrors = validate(formState)
-    dispatch(validateForm({ errors: ValidationErrors }))
+    dispatch(startStageFetching());
+    const ValidationErrors = validate(formState);
+    dispatch(validateForm({ errors: ValidationErrors }));
 
     if (!Object.values(ValidationErrors).every((elem) => elem === '')) {
-      dispatch(endStageFetching())
-      return
+      dispatch(endStageFetching({}));
+      return;
     }
 
-    dispatch(signInAction(formState))
-  }
+    dispatch(signInAction(formState));
+  };
 
   const handleFormInput = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.type === 'checkbox') setRememberMe(e.target.checked)
+    if (e.target.type === 'checkbox') setRememberMe(e.target.checked);
     else
       setFormState((prev) => ({
         ...prev,
-        [e.target.name]: e.target.value,
-      }))
-  }
+        [e.target.name]: e.target.value
+      }));
+  };
+
+  useEffect(() => {
+    if (data.accessToken) {
+      router.push('signup');
+    }
+  }, [data.accessToken]);
 
   return (
     <div className={form}>
@@ -70,18 +75,18 @@ export const SignInForm: FC = () => {
 
       <div className={form_inputs}>
         <Input
-          name="username"
-          placeholder="Username"
+          name='username'
+          placeholder='Username'
           value={formState.username}
           onChange={handleFormInput}
           error={errors.username}
         />
         <Input
-          name="password"
-          placeholder="Password"
+          name='password'
+          placeholder='Password'
           value={formState.password}
           onChange={handleFormInput}
-          type="password"
+          type='password'
           error={errors.password}
         />
       </div>
@@ -91,10 +96,10 @@ export const SignInForm: FC = () => {
         <CheckBox
           checked={rememberMe}
           onChange={handleFormInput}
-          label="Remember me"
-          name="rememberMe"
+          label='Remember me'
+          name='rememberMe'
         />
-        <LinkText href="/signin/forgot_password">
+        <LinkText href='/signin/forgot_password'>
           Forgot your password ?
         </LinkText>
       </div>
@@ -108,5 +113,5 @@ export const SignInForm: FC = () => {
         </Button>
       </div>
     </div>
-  )
-}
+  );
+};
