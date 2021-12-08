@@ -1,6 +1,6 @@
 import { call, takeEvery, put } from '@redux-saga/core/effects'
 import axios, { AxiosResponse } from 'axios'
-import { Action } from 'src/store/index'
+import { Action } from '../../index'
 import { endStageFetching, setFetchingErrors } from 'src/store/reducers/signin'
 import { setUserGeo } from 'src/store/reducers/signup'
 
@@ -19,10 +19,8 @@ function* geoTake(action: Action) {
       stateObject.cities = response.data
     }
     yield put(setUserGeo(stateObject))
-    yield put(endStageFetching())
   } catch (error) {
     yield put(setFetchingErrors(error))
-    yield put(endStageFetching())
   }
 }
 

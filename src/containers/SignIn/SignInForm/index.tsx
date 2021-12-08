@@ -7,8 +7,8 @@ import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { signInAction } from 'src/store/actions/signin';
 import {
-  endStageFetching,
-  startStageFetching,
+  logOut,
+  startStageFetching, stopFetching,
   validateForm
 } from 'src/store/reducers/signin';
 import { useSelectorTyped } from 'src/utils/hooks';
@@ -32,6 +32,7 @@ export const SignInForm: FC = () => {
   const { errors, fetching, fetchingErrors, data } = useSelectorTyped(
     (state) => state.signin
   );
+
   const [formState, setFormState] = useState<FormState>({
     username: '',
     password: ''
@@ -47,7 +48,7 @@ export const SignInForm: FC = () => {
     dispatch(validateForm({ errors: ValidationErrors }));
 
     if (!Object.values(ValidationErrors).every((elem) => elem === '')) {
-      dispatch(endStageFetching({}));
+      dispatch(stopFetching());
       return;
     }
 
@@ -65,9 +66,20 @@ export const SignInForm: FC = () => {
 
   useEffect(() => {
     if (data.accessToken) {
-      router.push('signup');
+      if (Object.values(data.registrationStatus).every((elem: boolean) => elem)) {
+        router.push('dashboard');
+      } else {
+        router.push('signup');
+      }
+    } else {
+      router.push('signin');
     }
   }, [data.accessToken]);
+
+  useEffect(() => {
+    console.log(44);
+    dispatch(logOut())
+  }, [])
 
   return (
     <div className={form}>

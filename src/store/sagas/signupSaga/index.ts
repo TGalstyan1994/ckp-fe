@@ -41,7 +41,12 @@ function* completeStage(action: RegistrationAction) {
       'content-type': 'application/json'
     }
   };
-
+  const geoResponse: AxiosResponse = yield call(
+    axios.post,
+    `${process.env.NEXT_PUBLIC_API}/api/helpers/geo/detect`
+  );
+  yield put(setUserGeo(geoResponse));
+  console.log(currentStage);
   try {
     if (currentStage === 0) {
       // first registration stage/step
@@ -58,14 +63,6 @@ function* completeStage(action: RegistrationAction) {
         `${process.env.NEXT_PUBLIC_API}${apiUrl}`,
         registrationPayload
       );
-
-      const geoResponse: AxiosResponse = yield call(
-        axios.post,
-        `${process.env.NEXT_PUBLIC_API}/api/helpers/geo/detect`
-      );
-      yield put(setUserGeo(geoResponse));
-
-      console.log(geoResponse);
 
       setAccessToken(response.data.accessToken);
     } else {

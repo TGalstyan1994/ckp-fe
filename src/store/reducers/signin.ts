@@ -1,21 +1,21 @@
 import { createSlice } from 'node_modules/@reduxjs/toolkit/dist';
 import { ISignInStore, ISignInRes } from '../../interfaces/signin/signin';
 
-const initialSignInResState: ISignInRes =  {
+const initialSignInResState: ISignInRes = {
   accessToken: '',
-    registrationStatus: {
+  registrationStatus: {
     confirm: false,
-      profile: false,
-      securityCode: false,
-      securityQuestion: false,
+    profile: false,
+    securityCode: false,
+    securityQuestion: false
   },
   user: {
     email: '',
-      id: 0,
-      status: '',
-      username: '',
+    id: -1,
+    status: '',
+    username: ''
   }
-}
+};
 
 const initialState: ISignInStore = {
   errors: {
@@ -40,17 +40,22 @@ const signin = createSlice({
       state.fetching = true;
     },
 
-    endStageFetching(state, data: { payload: ISignInRes | undefined}) {
-      state.fetching = false;
-      if (data.payload) {
-        state.data = data.payload;
-      } else {
-        state.data = initialSignInResState
-      }
-    },
-
     validateForm(state, action) {
       state.errors = action.payload.errors;
+    },
+
+    stopFetching(state) {
+      state.fetching = false;
+    },
+
+    endStageFetching(state, action) {
+      state.data = action.payload;
+      state.fetching = false;
+    },
+
+    logOut(state) {
+      state.data = initialSignInResState;
+      state.fetchingErrors = ''
     }
   }
 });
@@ -59,7 +64,9 @@ export const {
   validateForm,
   setFetchingErrors,
   startStageFetching,
-  endStageFetching
+  endStageFetching,
+  stopFetching,
+  logOut
 } = signin.actions;
 
 export default signin.reducer;
