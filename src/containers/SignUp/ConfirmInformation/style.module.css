@@ -1,0 +1,21 @@
+.form {
+    width: 972px;
+    display: flex;
+    flex-direction: column;
+}
+.confirmRowItems{
+    margin: 40px 0 37px 0
+}
+.actions_buttons button {
+    width: 232px;
+}
+
+.actions_buttons button:nth-child(2) {
+    margin-left: 12px;
+}
+
+.actions_buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}

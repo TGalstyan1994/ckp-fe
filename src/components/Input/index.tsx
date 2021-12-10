@@ -25,6 +25,7 @@ export const Input: FC<Props> = ({
   className = '',
   maxLength,
   disabled,
+
 }) => {
   const [showPassword, setShowPassword] = useState(!(type === 'password'))
   const togglePasswordView = () => setShowPassword((prev) => !prev)
@@ -56,6 +57,7 @@ export const Input: FC<Props> = ({
           value={value}
           onChange={onChange}
           placeholder={placeholder}
+          required
           className={classNames(input, { [invalid_input]: error }, className)}
         />
         {type === 'password' && (
