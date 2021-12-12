@@ -76,7 +76,7 @@ const initialState = {
       },
       finished: false,
       fetchError: '',
-      title: 'presonal details',
+      title: 'personal details',
     },
     {
       number: 5,

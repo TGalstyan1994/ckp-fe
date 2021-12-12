@@ -17,10 +17,11 @@ interface IOptionalRadioForm {
   onRadioChange: (value: boolean) => void
   name: string
   questionLabel: string
-  inputLabel: string
+  inputLabel?: string
   value: string
   answerState: boolean
   error?: string
+  placeholder? : string
 }
 
 export const OptionalRadioForm = ({
@@ -32,6 +33,7 @@ export const OptionalRadioForm = ({
   value,
   answerState,
   error,
+  placeholder
 }: IOptionalRadioForm) => {
   const answerSetter = (option: string) => {
     if (option === 'Yes') return onRadioChange(true)
@@ -63,6 +65,7 @@ export const OptionalRadioForm = ({
             name={name}
             label={inputLabel}
             value={value}
+            placeholder={placeholder}
           />
         </div>
       )}

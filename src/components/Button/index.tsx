@@ -1,14 +1,20 @@
-import { FC, MouseEventHandler, ReactChild } from 'react'
-import classNames from 'classnames'
-import { button, disabled_button, secondary_button } from './style.module.css'
+import { FC, MouseEventHandler, ReactChild } from 'react';
+import classNames from 'classnames';
+import { button, disabled_button, secondary_button } from './style.module.css';
+import vector from '../../UI/Vector.svg';
 
 type Props = {
-  children: ReactChild
+  // children: ReactChild
   className?: string
   disabled?: boolean
   secondary?: boolean
   onClick?: MouseEventHandler<HTMLButtonElement>
   type?: 'button' | 'submit' | 'reset' | undefined
+  img?: {
+    src?: string
+    alt?: string
+  },
+  children?: JSX.Element|JSX.Element[];
 }
 export const Button: FC<Props> = ({
   children,
@@ -17,6 +23,7 @@ export const Button: FC<Props> = ({
   secondary,
   onClick,
   type,
+  img = {},
   ...others
 }) => (
   <button
@@ -32,4 +39,4 @@ export const Button: FC<Props> = ({
   >
     {children}
   </button>
-)
+);

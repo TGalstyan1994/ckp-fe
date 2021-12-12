@@ -42,6 +42,7 @@ export const PhoneNumberForm: FC<Props> = ({
       changeStateCallback(e.target.value.slice(1), e.target.name)
     else changeStateCallback(e.target.value, e.target.name)
   }
+
   return (
     <div className={phoneNumberForm_wrapper}>
       <span className={phoneNumber_header}>Your Phone Number</span>
@@ -62,6 +63,7 @@ export const PhoneNumberForm: FC<Props> = ({
           value={formState.phoneNumber}
           placeholder="Enter Mobile Number"
           error={error}
+          required
         />
       </div>
     </div>

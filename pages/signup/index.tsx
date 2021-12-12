@@ -3,9 +3,12 @@ import { SignUpStages } from 'src/containers/Layouts/SignUpLayout';
 import { AccountDetails } from 'src/containers/SignUp/AccountDetails';
 import { CreateSecurityPin } from 'src/containers/SignUp/CreateSecurityPin';
 import { SecurityQuestion } from 'src/containers/SignUp/SecurityQuestion';
+
 import Head from 'next/head';
 import { FC } from 'react';
 import { PersonalDetails } from 'src/containers/SignUp/PersonalDetails';
+import { PaymentDetails } from '../../src/containers/SignUp/PaymentDetails';
+import { ConfirmInformation } from '../../src/containers/SignUp/ConfirmInformation';
 
 const RegistrationPage: FC = () => {
   const captchaUrl = `https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_SITE_KEY}`;
@@ -19,6 +22,8 @@ const RegistrationPage: FC = () => {
         <CreateSecurityPin />
         <SecurityQuestion />
         <PersonalDetails />
+        <PaymentDetails />
+        <ConfirmInformation />
       </SignUpStages>
     </>
   );

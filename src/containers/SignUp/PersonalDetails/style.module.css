@@ -127,3 +127,15 @@
 .margin_cont {
   margin-bottom: 25px;
 }
+.row_employed{
+  flex-direction: column;
+  margin-left: 331px;
+}
+
+.row_employed > div:nth-child(1) {
+  margin-right: 0;
+  margin-bottom: 40px;
+}
+/*.row_employed  div{*/
+/*  margin-right: 0;*/
+/*}*/

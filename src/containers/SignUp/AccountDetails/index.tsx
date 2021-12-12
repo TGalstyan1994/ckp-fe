@@ -15,7 +15,8 @@ import { ErrorsSpan } from 'src/components/ErrorsSpan';
 import { validate } from './validate';
 import { form, form_inputs, form_buttons } from './style.module.css';
 import { IRegistrationStatus } from '../../../interfaces/signin/signin';
-import { useRouter } from 'next/router';
+import vector from 'src/UI/Vector.svg'
+// import { useRouter } from 'next/router';
 
 export const AccountDetails: FC = () => {
   const stage = useSelectorTyped((state) => state.signup.stages[0]);
@@ -120,7 +121,8 @@ export const AccountDetails: FC = () => {
 
       <div className={form_buttons}>
         <Button onClick={handleOnClick} disabled={stage.finished}>
-          Continue
+          <>Continue</>
+          <img src={vector} alt='vector' />
         </Button>
       </div>
     </form>

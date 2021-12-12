@@ -1,26 +1,26 @@
-import { Select } from 'src/components/Select'
-import { TextArea } from 'src/components/Textarea'
-import { ChangeEvent, FC, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useSelectorTyped } from 'src/utils/hooks'
+import { Select } from 'src/components/Select';
+import { TextArea } from 'src/components/Textarea';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelectorTyped } from 'src/utils/hooks';
 import {
   endStageFetching,
   startStageFetching,
-  validateStage,
-} from 'src/store/reducers/signup'
-import { haveErrors } from 'src/utils'
-import { PhoneNumberForm } from 'src/containers/PhoneNumberForm'
-import { LinkText } from 'src/components/LinkText'
-import { Button } from 'src/components/Button'
-import { Input } from 'src/components/Input'
-import { sendPersonalDetails } from 'src/store/actions/signup'
-import { DatePickerForm } from 'src/containers/DatePickerForm'
-import classNames from 'classnames'
-import { ChooseGenderForm } from 'src/containers/ChooseGenderForm'
-import { OptionalRadioForm } from 'src/containers/OptionalRadioBoxForm'
-import { CheckBox } from 'src/components/CheckBox'
-import { ErrorsSpan } from 'src/components/ErrorsSpan'
-import { H1 } from 'src/components/H1'
+  validateStage
+} from 'src/store/reducers/signup';
+import { haveErrors } from 'src/utils';
+import { PhoneNumberForm } from 'src/containers/PhoneNumberForm';
+import { LinkText } from 'src/components/LinkText';
+import { Button } from 'src/components/Button';
+import { Input } from 'src/components/Input';
+import { sendPersonalDetails } from 'src/store/actions/signup';
+import { DatePickerForm } from 'src/containers/DatePickerForm';
+import classNames from 'classnames';
+import { ChooseGenderForm } from 'src/containers/ChooseGenderForm';
+import { OptionalRadioForm } from 'src/containers/OptionalRadioBoxForm';
+import { CheckBox } from 'src/components/CheckBox';
+import { ErrorsSpan } from 'src/components/ErrorsSpan';
+import { H1 } from 'src/components/H1';
 import {
   form,
   form_actions,
@@ -34,16 +34,18 @@ import {
   job_question_inputs,
   row,
   margin_cont,
-} from './style.module.css'
-import { validate } from './validate'
+  row_employed
+} from './style.module.css';
+import { validate } from './validate';
+import vector from 'src/UI/Vector.svg';
 
 const maritalStatusCodes = {
   'Single': 'SINGLE',
   'Married': 'MARRIED',
   'Divorced': 'DIVORCED',
   'Common-law': 'COMMON_LAW',
-  'Widow/widower': 'WIDOW_WIDOWER',
-} as { [key: string]: string }
+  'Widow/widower': 'WIDOW_WIDOWER'
+} as { [key: string]: string };
 
 const objectiveCodes = {
   'Start a business': 'START_BUSINESS',
@@ -54,23 +56,23 @@ const objectiveCodes = {
   'Dream vacation': 'VACATION',
   'Furnish home': 'FURNISH',
   'Buy new vehicle': 'VEHICLE_PURCHASE',
-  'Other': 'OTHER',
-} as { [key: string]: string }
+  'Other': 'OTHER'
+} as { [key: string]: string };
 
 const genderCodes = {
   Male: 'MALE',
   Female: 'FEMALE',
-  Other: 'OTHER',
-} as { [key: string]: string }
+  Other: 'OTHER'
+} as { [key: string]: string };
 
 export const PersonalDetails: FC = () => {
   const { errors, fetching, fetchError } = useSelectorTyped(
     (state) => state.signup.stages[3]
-  )
+  );
   const { country, states, cities } = useSelectorTyped(
     (state) => state.signup.userInfo
-  )
-
+  );
+  // console.log("country phone code", country.phonecode);
   const [personalDetailsState, setPersonalDetailsState] = useState({
     objective: '',
     objectiveNote: '',
@@ -102,78 +104,78 @@ export const PersonalDetails: FC = () => {
     countryId: country.id,
     zipCode: '',
     accountCurrency: 'BTC',
-    accountAddress: '1BSsr1Ua6ucGGxV7UDmVj5FGDfpReZxh1z',
-  })
-  const [termsAcceptance, setTermsAcceptance] = useState(false)
+    accountAddress: '1BSsr1Ua6ucGGxV7UDmVj5FGDfpReZxh1z'
+  });
+  const [termsAcceptance, setTermsAcceptance] = useState(false);
   const [geoData, setGeoData] = useState({
     state: '',
-    city: '',
-  })
+    city: ''
+  });
   const [dateOfBirth, setDateOfBirth] = useState({
     day: '',
     month: '',
-    year: '',
-  })
+    year: ''
+  });
   const [phoneState, setPhoneState] = useState({
-    phoneCode: '',
-    phoneNumber: '',
-  })
+    phoneCode: country.phonecode,
+    phoneNumber: ''
+  });
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch({
       type: 'GEO_TAKE',
-      payload: { countryId: 1, at: 'states' },
-    })
-  }, [])
+      payload: { countryId: 1, at: 'states' }
+    });
+  }, []);
 
   const setPersonalDetails = (key: string, value: string | boolean | number) =>
-    setPersonalDetailsState((prev) => ({ ...prev, [key]: value }))
+    setPersonalDetailsState((prev) => ({ ...prev, [key]: value }));
 
   const changePhoneState = (value: string, name: string) =>
-    setPhoneState((prev) => ({ ...prev, [name]: value }))
+    setPhoneState((prev) => ({ ...prev, [name]: value }));
 
   const changeGeoStates = (option: string) => {
     const currentState = states.find(
       (state: Record<string, string>) => state.name === option
-    ) as { id: number; name: string } | undefined
+    ) as { id: number; name: string } | undefined;
 
     if (currentState) {
       dispatch({
         type: 'GEO_TAKE',
         payload: {
           stateId: currentState.id,
-          at: 'cities',
-        },
-      })
-      setPersonalDetails('stateId', currentState.id)
+          at: 'cities'
+        }
+      });
+      setPersonalDetails('stateId', currentState.id);
     }
-    setGeoData((prev) => ({ ...prev, state: option, city: '' }))
-  }
+    setGeoData((prev) => ({ ...prev, state: option, city: '' }));
+  };
 
   const changeGeoCities = (option: string) => {
     const currentCity = cities.find(
       (city: Record<string, string>) => city.name === option
-    ) as { id: number; name: string } | undefined
+    ) as { id: number; name: string } | undefined;
 
-    setGeoData((prev) => ({ ...prev, city: option }))
-    if (currentCity) setPersonalDetails('cityId', currentCity.id)
-  }
+    setGeoData((prev) => ({ ...prev, city: option }));
+    if (currentCity) setPersonalDetails('cityId', currentCity.id);
+  };
 
   const handleForm = () => {
-    dispatch(startStageFetching())
+    dispatch(startStageFetching());
 
     const validationErrors = validate({
       ...personalDetailsState,
       dateOfBirth,
-      phone: `${phoneState.phoneCode}${phoneState.phoneNumber}`,
-    })
-    dispatch(validateStage({ errors: validationErrors }))
+      phone: `${phoneState.phoneCode}${phoneState.phoneNumber}`
+    });
+    dispatch(validateStage({ errors: validationErrors }));
 
     if (haveErrors(validationErrors)) {
-      dispatch(endStageFetching())
-      return
+      dispatch(endStageFetching());
+      return;
     }
 
     const currentFormState = {
@@ -188,22 +190,23 @@ export const PersonalDetails: FC = () => {
         +dateOfBirth.day + 1
       )
         .toJSON()
-        .slice(0, 10),
-    }
+        .slice(0, 10)
+    };
 
-    dispatch(sendPersonalDetails(currentFormState))
-  }
+    dispatch(sendPersonalDetails(currentFormState));
+  };
 
   const handleFormInputs = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
-  ) => setPersonalDetails(e.target.name, e.target.value)
+  ) => setPersonalDetails(e.target.name, e.target.value);
+
 
   return (
     <div className={form}>
       <H1 secondary>Personal Details</H1>
 
       <Select
-        label="Objective"
+        label='Objective'
         required
         options={[
           'Start a business',
@@ -214,11 +217,11 @@ export const PersonalDetails: FC = () => {
           'Dream vacation',
           'Furnish home',
           'Buy new vehicle',
-          'Other',
+          'Other'
         ]}
         error={errors?.objective}
         currentOption={personalDetailsState.objective}
-        placeholder="Start a Business"
+        placeholder='Start a Business'
         setCurrentOption={(option: string) =>
           setPersonalDetails('objective', option)
         }
@@ -227,29 +230,28 @@ export const PersonalDetails: FC = () => {
       <TextArea
         value={personalDetailsState.objectiveNote}
         onChange={handleFormInputs}
-        name="objectiveNote"
-        label="Objective Note"
-        required
+        name='objectiveNote'
+        label='Objective Note'
         maxSymbols={512}
       />
 
       <div className={classNames(form_fullName, row)}>
         <Input
-          name="firstName"
+          name='firstName'
           onChange={handleFormInputs}
           value={personalDetailsState.firstName}
-          label="First Name"
+          label='First Name'
           required
-          placeholder="Enter First Name"
+          placeholder='Enter First Name'
           error={errors?.firstName}
         />
         <Input
-          name="lastName"
+          name='lastName'
           onChange={handleFormInputs}
           value={personalDetailsState.lastName}
-          label="Last Name"
+          label='Last Name'
           required
-          placeholder="Enter Last Name"
+          placeholder='Enter Last Name'
           error={errors?.lastName}
         />
       </div>
@@ -260,18 +262,18 @@ export const PersonalDetails: FC = () => {
           phoneCode={country.phonecode}
           formState={{
             phoneCode: phoneState.phoneCode,
-            phoneNumber: phoneState.phoneNumber,
+            phoneNumber: phoneState.phoneNumber
           }}
           error={errors?.phone}
         />
 
         <Input
-          name="address"
+          name='address'
           onChange={handleFormInputs}
           value={personalDetailsState.address}
-          label="Address"
+          label='Address'
           required
-          placeholder="Enter Address"
+          placeholder='Enter Address'
           error={errors?.address}
           maxLength={255}
         />
@@ -290,17 +292,17 @@ export const PersonalDetails: FC = () => {
         />
         <div className={select_stabilizer}>
           <Select
-            label="Marital Status"
+            label='Marital Status'
             required
             options={[
               'Single',
               'Married',
               'Divorced',
               'Common-law',
-              'Widow/widower',
+              'Widow/widower'
             ]}
             currentOption={personalDetailsState.maritalStatus}
-            placeholder="Marital Status"
+            placeholder='Single'
             setCurrentOption={(option: string) =>
               setPersonalDetails('maritalStatus', option)
             }
@@ -310,84 +312,85 @@ export const PersonalDetails: FC = () => {
       </div>
       <div className={options_wrapper}>
         <OptionalRadioForm
-          name="jobTitle"
+          name='jobTitle'
           onInputChange={handleFormInputs}
           onRadioChange={(value) =>
             setPersonalDetails('сurrentlyEmployed', value)
           }
-          questionLabel="Are You Currently Employed?"
-          inputLabel="Job Title"
+          questionLabel='Are You Currently Employed?'
+          placeholder='Job Title'
           answerState={personalDetailsState.сurrentlyEmployed ?? false}
           value={personalDetailsState.jobTitle}
           error={errors?.сurrentlyEmployed}
         />
         {personalDetailsState.сurrentlyEmployed && (
-          <div className={classNames(row, job_question_inputs)}>
+          <div className={classNames(row, job_question_inputs, row_employed)}>
+            {/*************************************************/}
             <Input
               onChange={handleFormInputs}
-              name="jobDescription"
+              name='jobDescription'
               value={personalDetailsState.jobDescription}
-              label="Job Description"
+              placeholder='Job Description'
             />
             <Input
               onChange={handleFormInputs}
-              name="employeeAddress"
+              name='employeeAddress'
               value={personalDetailsState.employeeAddress}
-              label="Employee Address"
+              placeholder='Employee Address'
             />
           </div>
         )}
 
         <OptionalRadioForm
-          name="businessDescription"
+          name='businessDescription'
           onInputChange={handleFormInputs}
           onRadioChange={(value) => setPersonalDetails('businessOwner', value)}
-          questionLabel="Are You a Business Owner?"
-          inputLabel="Business Description"
+          questionLabel='Are You a Business Owner?'
+          placeholder='Business Description'
           answerState={personalDetailsState.businessOwner ?? false}
           value={personalDetailsState.businessDescription}
           error={errors?.businessOwner}
         />
         <OptionalRadioForm
-          name="tradeDescription"
+          name='tradeDescription'
           onInputChange={handleFormInputs}
           onRadioChange={(value) => setPersonalDetails('anyTrade', value)}
-          questionLabel="Do You Have any Trade?"
-          inputLabel="Trade Description"
+          questionLabel='Do You Have any Trade?'
+          placeholder='Trade Description'
           answerState={personalDetailsState.anyTrade ?? false}
           value={personalDetailsState.tradeDescription}
           error={errors?.anyTrade}
         />
         <OptionalRadioForm
-          name="technicalSkillsDescription"
+          name='technicalSkillsDescription'
           onInputChange={handleFormInputs}
           onRadioChange={(value) =>
             setPersonalDetails('anyTechnicalSkills', value)
           }
-          questionLabel="Do you Have any Technical skills?"
-          inputLabel="Skill Description"
+          questionLabel='Do you Have any Technical skills?'
+          placeholder='Skill Description'
           answerState={personalDetailsState.anyTechnicalSkills ?? false}
           value={personalDetailsState.technicalSkillsDescription}
           error={errors?.anyTechnicalSkills}
         />
         <OptionalRadioForm
-          name="athleticSkillsDescription"
+          name='athleticSkillsDescription'
           onInputChange={handleFormInputs}
           onRadioChange={(value) =>
             setPersonalDetails('anyAthleticSkills', value)
           }
-          questionLabel="Do you Have any Athletic skills?"
-          inputLabel="Skill Description"
+          questionLabel='Do you Have any Athletic skills?'
+          placeholder='Skill Description'
           answerState={personalDetailsState.anyAthleticSkills ?? false}
           value={personalDetailsState.athleticSkillsDescription}
           error={errors?.anyAthleticSkills}
         />
         <OptionalRadioForm
-          name="totalNumberOfDependens"
+          name='totalNumberOfDependens'
           onInputChange={handleFormInputs}
           onRadioChange={(value) => setPersonalDetails('anyDependents', value)}
-          questionLabel="Do You Have Any Dependent?"
-          inputLabel="Total Number of Dependents"
+          questionLabel='Do You Have Any Dependent?'
+          placeholder='Total Number of Dependents'
           answerState={personalDetailsState.anyDependents ?? false}
           value={personalDetailsState.totalNumberOfDependens}
           error={errors?.anyDependents}
@@ -395,10 +398,10 @@ export const PersonalDetails: FC = () => {
       </div>
 
       <Input
-        label="Beneficiary"
-        placeholder="Name"
+        label='Beneficiary'
+        placeholder='Name'
         onChange={handleFormInputs}
-        name="beneficiaryName"
+        name='beneficiaryName'
         value={personalDetailsState.beneficiaryName}
         required
         error={errors?.beneficiaryName}
@@ -406,24 +409,24 @@ export const PersonalDetails: FC = () => {
 
       <div className={classNames(row, double_input)}>
         <Input
-          name="beneficiaryRelationship"
+          name='beneficiaryRelationship'
           onChange={handleFormInputs}
           value={personalDetailsState.beneficiaryRelationship}
-          placeholder="Relationship"
+          placeholder='Relationship'
           error={errors?.beneficiaryRelationship}
         />
         <Input
-          name="beneficiaryContactNumber"
+          name='beneficiaryContactNumber'
           onChange={handleFormInputs}
           value={personalDetailsState.beneficiaryContactNumber}
-          placeholder="Contact Number"
+          placeholder='Contact Number'
           error={errors?.beneficiaryContactNumber}
         />
       </div>
 
       <div className={classNames(row, double_input)}>
         <Input
-          label="Country"
+          label='Country'
           required
           disabled
           value={country.name}
@@ -431,7 +434,7 @@ export const PersonalDetails: FC = () => {
           error={errors?.countryId}
         />
         <Select
-          label="State"
+          label='State'
           required
           currentOption={geoData.state}
           placeholder={
@@ -449,7 +452,7 @@ export const PersonalDetails: FC = () => {
 
       <div className={classNames(row, double_input, margin_cont)}>
         <Select
-          label="Cities"
+          label='Cities'
           required
           disabled={cities.length === 0}
           currentOption={geoData.city}
@@ -465,9 +468,9 @@ export const PersonalDetails: FC = () => {
           error={errors?.cityId}
         />
         <Input
-          placeholder="Enter Zip Code"
-          name="zipCode"
-          label="Zip code"
+          placeholder='Enter Zip Code'
+          name='zipCode'
+          label='Zip code'
           value={personalDetailsState.zipCode}
           onChange={handleFormInputs}
         />
@@ -478,23 +481,23 @@ export const PersonalDetails: FC = () => {
       <div className={form_actions}>
         <div className={row}>
           <CheckBox
-            label=""
+            label=''
             checked={termsAcceptance}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setTermsAcceptance(e.target.checked)
             }
           />
-          <LinkText href="#" secondary>
+          <LinkText href='#' secondary>
             Accept Terms and Conditions *
           </LinkText>
         </div>
         <div className={actions_buttons}>
-          <Button secondary>Back</Button>
           <Button onClick={handleForm} disabled={!termsAcceptance || fetching}>
-            Continue
+            <>Continue</>
+            <img src={vector} alt='vector' />
           </Button>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
