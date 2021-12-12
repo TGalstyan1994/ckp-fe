@@ -1,10 +1,8 @@
-import { FC, MouseEventHandler, ReactChild } from 'react';
+import { FC, MouseEventHandler } from 'react';
 import classNames from 'classnames';
 import { button, disabled_button, secondary_button } from './style.module.css';
-import vector from '../../UI/Vector.svg';
 
 type Props = {
-  // children: ReactChild
   className?: string
   disabled?: boolean
   secondary?: boolean
@@ -14,7 +12,7 @@ type Props = {
     src?: string
     alt?: string
   },
-  children?: JSX.Element|JSX.Element[];
+  children?: JSX.Element | JSX.Element[] | string;
 }
 export const Button: FC<Props> = ({
   children,

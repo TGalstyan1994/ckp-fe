@@ -5,6 +5,7 @@ export interface ISignInRes {
     profile: boolean,
     securityCode: boolean,
     securityQuestion: boolean,
+    wallet: boolean
   },
   user: {
     email: string,
@@ -24,4 +25,4 @@ export interface ISignInStore {
   data: ISignInRes
 }
 
-export type IRegistrationStatus = 'securityCode' | 'securityQuestion' | 'profile' | 'confirm'
+export type IRegistrationStatus = 'securityCode' | 'securityQuestion' | 'profile' | 'wallet' | 'confirm';

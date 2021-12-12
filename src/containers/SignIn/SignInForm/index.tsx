@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import { Button } from 'src/components/Button';
 import { CheckBox } from 'src/components/CheckBox';
 import { Input } from 'src/components/Input';
@@ -22,6 +22,7 @@ import {
   ico_button
 } from './SignInForm.module.css';
 import { validate } from './validate';
+import { resetSignup } from '../../../store/reducers/signup';
 
 type FormState = {
   username: string
@@ -37,6 +38,7 @@ export const SignInForm: FC = () => {
     username: '',
     password: ''
   });
+  const isInitialMount = useRef(true);
 
   const [rememberMe, setRememberMe] = useState<boolean>(false);
   const dispatch = useDispatch();
@@ -65,21 +67,22 @@ export const SignInForm: FC = () => {
   };
 
   useEffect(() => {
-    if (data.accessToken) {
-      if (Object.values(data.registrationStatus).every((elem: boolean) => elem)) {
-        router.push('dashboard');
-      } else {
-        router.push('signup');
-      }
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      dispatch(logOut());
+      dispatch(resetSignup())
     } else {
-      router.push('signin');
+      if (data.accessToken) {
+        if (Object.values(data.registrationStatus).every((elem: boolean) => elem)) {
+          // router.push('dashboard');
+        } else {
+          router.push('signup');
+        }
+      } else {
+        router.push('signin');
+      }
     }
   }, [data.accessToken]);
-
-  useEffect(() => {
-    console.log(44);
-    dispatch(logOut())
-  }, [])
 
   return (
     <div className={form}>

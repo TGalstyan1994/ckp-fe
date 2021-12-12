@@ -1,7 +1,6 @@
-import { ChangeEvent, FC, MouseEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FC, MouseEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
-  changeStage,
   endStageFetching,
   startStageFetching,
   validateStage
@@ -14,15 +13,11 @@ import { useSelectorTyped } from 'src/utils/hooks';
 import { ErrorsSpan } from 'src/components/ErrorsSpan';
 import { validate } from './validate';
 import { form, form_inputs, form_buttons } from './style.module.css';
-import { IRegistrationStatus } from '../../../interfaces/signin/signin';
 import vector from 'src/UI/Vector.svg'
-// import { useRouter } from 'next/router';
 
 export const AccountDetails: FC = () => {
   const stage = useSelectorTyped((state) => state.signup.stages[0]);
-  const { data } = useSelectorTyped(
-    (state) => state.signin
-  );
+
   const [formState, setFormState] = useState({
     username: '',
     email: '',
@@ -53,20 +48,6 @@ export const AccountDetails: FC = () => {
       }
     });
   };
-
-  useEffect(() => {
-    if (data.registrationStatus && data.accessToken) {
-      let signUpStep = 0;
-
-      const stepNames: Array<IRegistrationStatus> = ['securityCode', 'securityQuestion', 'profile', 'confirm'];
-      stepNames.find((step: IRegistrationStatus, index: number) => {
-        if (!data.registrationStatus[step]) {
-          return signUpStep = index + 1;
-        }
-      });
-      dispatch(changeStage(signUpStep));
-    }
-  }, [data]);
 
   const handleFormInput = (e: ChangeEvent<HTMLInputElement>) =>
     setFormState((prev) => ({ ...prev, [e.target.name]: e.target.value }));

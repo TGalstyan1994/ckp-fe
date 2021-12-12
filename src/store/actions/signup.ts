@@ -1,4 +1,4 @@
-import { RegistrationAction } from 'src/store/index'
+import { RegistrationAction } from  '../index';
 
 type RegistrationBody = {
   username: string
@@ -23,7 +23,7 @@ export const registerAction = ({
   email,
   password,
   passwordConfirmation,
-  token,
+  token
 }: RegistrationBody): RegistrationAction => ({
   type: 'COMPLETE_STAGE',
   apiUrl: `/api/account/registration`,
@@ -33,41 +33,45 @@ export const registerAction = ({
       username,
       email,
       password,
-      passwordConfirmation,
-    },
-  },
-})
+      passwordConfirmation
+    }
+  }
+});
 
 export const sendPinAction = ({
   pin: securityCode,
-  confirmPin: securityCodeConfirmation,
+  confirmPin: securityCodeConfirmation
 }: PinFormState): RegistrationAction => ({
   type: 'COMPLETE_STAGE',
   apiUrl: '/api/account/registration/security-code',
   payload: {
     securityCode,
-    securityCodeConfirmation,
-  },
-})
+    securityCodeConfirmation
+  }
+});
 
 export const sendSecurityQuestion = ({
   question,
-  answer,
+  answer
 }: SecurityQuestionState): RegistrationAction => ({
   type: 'COMPLETE_STAGE',
   apiUrl: '/api/account/registration/security-question',
   payload: {
     question,
-    answer,
-  },
-})
+    answer
+  }
+});
 
 export const sendPersonalDetails = (
   formState: Record<string, unknown>
 ): RegistrationAction => ({
   type: 'COMPLETE_STAGE',
-  apiUrl: '/api/account/registration/profile',
+  apiUrl: '/api/account/registration/personal-details',
   payload: {
-    ...formState,
-  },
-})
+    ...formState
+  }
+});
+
+export const getGeoDetails = () => ({
+  type: 'GEO_DETAILS'
+});

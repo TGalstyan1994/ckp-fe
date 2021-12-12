@@ -1,11 +1,11 @@
 import { call, takeEvery, put } from '@redux-saga/core/effects'
 import axios, { AxiosResponse } from 'axios'
 import { Action } from '../../index'
-import { endStageFetching, setFetchingErrors } from 'src/store/reducers/signin'
+import { setFetchingErrors } from 'src/store/reducers/signin'
 import { setUserGeo } from 'src/store/reducers/signup'
 
 function* geoTake(action: Action) {
-  const reqUrl = `${process.env.NEXT_PUBLIC_API}/geo/${
+  const reqUrl = `${process.env.NEXT_PUBLIC_API}/api/helpers/geo/${
     action.payload.at === 'states'
       ? `states?countryId=${action.payload.countryId}`
       : `cities?stateId=${action.payload.stateId}`

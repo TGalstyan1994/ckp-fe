@@ -1,6 +1,6 @@
 import { takeEvery, put, call, select } from '@redux-saga/core/effects';
 import axios, { AxiosResponse } from 'axios';
-import { RegistrationAction, RootState } from 'src/store/index';
+import { RegistrationAction, RootState } from '../../index';
 import {
   endStageFetching,
   finishStage,
@@ -17,8 +17,8 @@ import {
 
 declare global {
   interface Window {
-    grecaptcha: ReCaptchaInstance
-    captchaOnLoad: () => void
+    grecaptcha: ReCaptchaInstance;
+    captchaOnLoad: () => void;
   }
 }
 
@@ -41,18 +41,13 @@ function* completeStage(action: RegistrationAction) {
       'content-type': 'application/json'
     }
   };
-  const geoResponse: AxiosResponse = yield call(
-    axios.post,
-    `${process.env.NEXT_PUBLIC_API}/api/helpers/geo/detect`
-  );
-  yield put(setUserGeo(geoResponse));
-  console.log(currentStage);
+
   try {
     if (currentStage === 0) {
       // first registration stage/step
       const { captcha, body } = payload as RegistrationPayload;
 
-      body.sponsor = getSponsorByQuery()
+      body.sponsor = getSponsorByQuery();
 
       const registrationPayload = {
         captcha,
@@ -85,4 +80,21 @@ function* completeStage(action: RegistrationAction) {
 
 export function* handleRegisterSaga(): Generator {
   yield takeEvery('COMPLETE_STAGE', completeStage);
+}
+
+function* handelGeoDetails(): Generator {
+  try {
+    const geoResponse: AxiosResponse = yield call(
+      axios.post,
+      `${process.env.NEXT_PUBLIC_API}/api/helpers/geo/detect`
+    );
+    yield put(setUserGeo(geoResponse));
+  } catch (e) {
+    throw e;
+  }
+
+}
+
+export function* handleGeoSaga(): Generator {
+  yield takeEvery('GEO_DETAILS', handelGeoDetails);
 }

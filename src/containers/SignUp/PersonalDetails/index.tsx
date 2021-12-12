@@ -82,7 +82,7 @@ export const PersonalDetails: FC = () => {
     address: '',
     gender: 'Male',
     maritalStatus: '',
-    сurrentlyEmployed: undefined,
+    currentlyEmployed: undefined,
     jobTitle: '',
     jobDescription: '',
     employeeAddress: '',
@@ -103,8 +103,6 @@ export const PersonalDetails: FC = () => {
     stateId: undefined,
     countryId: country.id,
     zipCode: '',
-    accountCurrency: 'BTC',
-    accountAddress: '1BSsr1Ua6ucGGxV7UDmVj5FGDfpReZxh1z'
   });
   const [termsAcceptance, setTermsAcceptance] = useState(false);
   const [geoData, setGeoData] = useState({
@@ -319,11 +317,11 @@ export const PersonalDetails: FC = () => {
           }
           questionLabel='Are You Currently Employed?'
           placeholder='Job Title'
-          answerState={personalDetailsState.сurrentlyEmployed ?? false}
+          answerState={personalDetailsState.currentlyEmployed ?? false}
           value={personalDetailsState.jobTitle}
-          error={errors?.сurrentlyEmployed}
+          error={errors?.currentlyEmployed}
         />
-        {personalDetailsState.сurrentlyEmployed && (
+        {personalDetailsState.currentlyEmployed && (
           <div className={classNames(row, job_question_inputs, row_employed)}>
             {/*************************************************/}
             <Input

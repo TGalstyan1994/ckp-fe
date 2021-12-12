@@ -7,7 +7,8 @@ const initialSignInResState: ISignInRes = {
     confirm: false,
     profile: false,
     securityCode: false,
-    securityQuestion: false
+    securityQuestion: false,
+    wallet: false
   },
   user: {
     email: '',
