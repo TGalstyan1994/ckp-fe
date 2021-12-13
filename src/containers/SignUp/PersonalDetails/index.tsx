@@ -198,6 +198,11 @@ export const PersonalDetails: FC = () => {
       ...phoneState,
       phoneCode: country.phonecode
     });
+
+    setPersonalDetailsState({
+      ...personalDetailsState,
+      countryId: country.id
+    })
   }, [country.id]);
 
   useEffect(() => {
