@@ -42,6 +42,37 @@ const initialState = {
     },
     {
       number: 4,
+      initialData: {
+        objective: '',
+        objectiveNote: '',
+        firstName: '',
+        lastName: '',
+        phone: '',
+        address: '',
+        gender: 'Male',
+        maritalStatus: '',
+        сurrentlyEmployed: undefined,
+        jobTitle: '',
+        jobDescription: '',
+        employeeAddress: '',
+        businessOwner: undefined,
+        businessDescription: '',
+        anyTrade: undefined,
+        tradeDescription: '',
+        anyTechnicalSkills: undefined,
+        technicalSkillsDescription: '',
+        anyAthleticSkills: undefined,
+        athleticSkillsDescription: '',
+        anyDependents: undefined,
+        totalNumberOfDependens: '',
+        beneficiaryName: '',
+        beneficiaryRelationship: '',
+        beneficiaryContactNumber: '',
+        cityId: undefined,
+        stateId: undefined,
+        countryId: -1,
+        zipCode: ''
+      },
       errors: {
         objective: '',
         objectiveNote: '',
@@ -52,7 +83,7 @@ const initialState = {
         gender: '',
         maritalStatus: '',
         dateOfBirth: '',
-        currentlyEmployed: '',
+        сurrentlyEmployed: '',
         jobTitle: '',
         jobDescription: '',
         employeeAddress: '',
@@ -81,7 +112,20 @@ const initialState = {
     {
       number: 5,
       finished: false,
-      title: 'payment details'
+      title: 'payment details',
+      confirmData: {
+        email: '',
+        firstName: '',
+        gender: '',
+        iSConfirmed: false,
+        isProfileComplete: false,
+        isSecurityCodeComplete: false,
+        isSecurityQuestionComplete: false,
+        isWalletComplete: false,
+        lastName: '',
+        phone: '',
+        sponsor: ''
+      }
     },
     {
       number: 6,
@@ -91,10 +135,10 @@ const initialState = {
   ],
   userInfo: {
     country: {
-      id: 221,
-      name: 'Trinidad And Tobago',
-      phonemask: '(000) 000-00000',
-      phonecode: '1868'
+      id: -1,
+      name: '',
+      phonemask: '',
+      phonecode: ''
     },
     states: [],
     cities: []
@@ -111,6 +155,11 @@ const signup = createSlice({
     finishStage(state) {
       state.stages[state.currentStage].finished = true;
       state.currentStage += 1;
+    },
+
+    backStage(state) {
+      state.currentStage -= 1;
+      state.stages[state.currentStage].finished = false;
     },
 
     stageFetchingErrors(state, action) {
@@ -141,19 +190,24 @@ const signup = createSlice({
     },
 
     setUserGeo(state, action) {
-      const stateCopy = state.userInfo as {
-        [key: string]: unknown
+      state.userInfo = {
+        ...state.userInfo,
+        ...action.payload
       };
-
-      Object.keys(action.payload).every(
-        (key: string) => (stateCopy[key] = action.payload[key])
-      );
     },
 
     resetSignup(state) {
       state.stages = initialState.stages;
       state.userInfo = initialState.userInfo;
       state.currentStage = initialState.currentStage;
+    },
+
+    setInitialPersonalDetails(state, action) {
+      state.stages[3].initialData = action.payload;
+    },
+
+    setConfirmDetails(state, action) {
+      state.stages[4].confirmData =  action.payload
     }
   }
 });
@@ -165,6 +219,9 @@ export const {
   startStageFetching,
   endStageFetching,
   setUserGeo,
-  resetSignup
+  resetSignup,
+  setInitialPersonalDetails,
+  backStage,
+  setConfirmDetails
 } = signup.actions;
 export default signup.reducer;

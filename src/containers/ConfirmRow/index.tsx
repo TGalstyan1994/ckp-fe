@@ -2,7 +2,7 @@ import { confirmRow } from './style.module.css';
 
 interface IConfirmRow {
   rowName: string;
-  rowValue: string | boolean;
+  rowValue: string | boolean | undefined;
 }
 
 export const ConfirmRow = ({ rowName, rowValue }: IConfirmRow) => {

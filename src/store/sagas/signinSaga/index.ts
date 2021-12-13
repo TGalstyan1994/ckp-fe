@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Action } from '../../index';
 import { endStageFetching, setFetchingErrors, stopFetching } from 'src/store/reducers/signin';
 import { ResponseGenerator } from '../../../interfaces/saga/saga';
+import { setAccessToken } from '../../../utils';
 
 const LogIn = async (data: any) => {
   return await axios.post(`${process.env.NEXT_PUBLIC_API}/api/auth/login`, data);
@@ -11,6 +12,7 @@ const LogIn = async (data: any) => {
 function* LoginUser(action: Action) {
   try {
     const res: ResponseGenerator = yield call(LogIn, action.payload);
+    setAccessToken(res.data.accessToken);
     yield put(endStageFetching(res.data));
   } catch (error) {
     yield put(setFetchingErrors(error));

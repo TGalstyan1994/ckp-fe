@@ -18,13 +18,14 @@ export const ChooseCurrenciesForm: FC<Props> = ({
         <RadioBox
           name="Currencies"
           option="USDT ERC 20"
-          onChange={() => onCurrenciesChange('currencies', 'USDT ERC 20')}
-          checked={currenciesState === 'USDT ERC 20'}
+          onChange={() => onCurrenciesChange('accountCurrency', 'USDT_ERC20')}
+          checked={currenciesState === 'USDT_ERC20'}
         />
         <RadioBox
           name="Currencies"
           option="USDT TRC 20"
-          onChange={() => onCurrenciesChange('currencies', 'USDT TRC 20')}
+          onChange={() => onCurrenciesChange('accountCurrency', 'USDT_TRC20')}
+          checked={currenciesState === 'USDT_TRC20'}
         />
       </div>
     </div>

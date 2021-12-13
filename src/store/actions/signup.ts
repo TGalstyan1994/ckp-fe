@@ -72,6 +72,24 @@ export const sendPersonalDetails = (
   }
 });
 
+export const getConfirmDetails = () => ({
+  type: 'GET_CONFIRM_DETAILS',
+});
+
+export const getPersonalDetails = () => ({
+  type: 'GET_PERSONAL_DETAILS',
+});
+
+export const sendPaymentDetails = (
+  formState: Record<string, unknown>
+): RegistrationAction => ({
+  type: 'COMPLETE_STAGE',
+  apiUrl: '/api/account/registration/payment-details',
+  payload: {
+    ...formState
+  }
+});
+
 export const getGeoDetails = () => ({
   type: 'GEO_DETAILS'
 });

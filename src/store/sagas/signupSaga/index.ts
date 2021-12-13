@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios';
 import { RegistrationAction, RootState } from '../../index';
 import {
   endStageFetching,
-  finishStage,
+  finishStage, setConfirmDetails, setInitialPersonalDetails,
   setUserGeo,
   SignUpState,
   stageFetchingErrors
@@ -29,18 +29,17 @@ type RegistrationPayload = {
 
 const getStages = (state: RootState) => state.signup;
 
+const config = () => ({
+  headers: {
+    'Authorization': `Bearer ${getAccessToken()}`,
+    'content-type': 'application/json'
+  }
+});
+
 function* completeStage(action: RegistrationAction) {
   const { currentStage, stages }: SignUpState = yield select(getStages);
   const { payload, apiUrl } = action;
   if (!stages[0].finished) removeToken();
-
-  const config = {
-    headers: {
-      // eslint-disable-next-line prettier/prettier
-      'Authorization': `Bearer ${getAccessToken()}`, // => Prettier removes single quotes from Authorization flag
-      'content-type': 'application/json'
-    }
-  };
 
   try {
     if (currentStage === 0) {
@@ -65,7 +64,7 @@ function* completeStage(action: RegistrationAction) {
         axios.post,
         `${process.env.NEXT_PUBLIC_API}${apiUrl}`,
         payload,
-        config
+        config()
       );
     }
 
@@ -88,7 +87,7 @@ function* handelGeoDetails(): Generator {
       axios.post,
       `${process.env.NEXT_PUBLIC_API}/api/helpers/geo/detect`
     );
-    yield put(setUserGeo(geoResponse));
+    yield put(setUserGeo(geoResponse.data));
   } catch (e) {
     throw e;
   }
@@ -97,4 +96,42 @@ function* handelGeoDetails(): Generator {
 
 export function* handleGeoSaga(): Generator {
   yield takeEvery('GEO_DETAILS', handelGeoDetails);
+}
+
+export function* handlePersonalDetails(): Generator {
+
+  try {
+    const response: AxiosResponse = yield call(
+      axios.get,
+      `${process.env.NEXT_PUBLIC_API}/api/account/registration/get-personal-details`,
+      config()
+    );
+    yield put(setInitialPersonalDetails(response.data));
+  } catch (e) {
+    throw e;
+  }
+
+}
+
+export function* handlePersonalDetailsSaga(): Generator {
+  yield takeEvery('GET_PERSONAL_DETAILS', handlePersonalDetails);
+}
+
+export function* handleConfirmDetails(): Generator {
+
+  try {
+    const response: AxiosResponse = yield call(
+      axios.get,
+      `${process.env.NEXT_PUBLIC_API}/api/account/registration/get-confirm-information`,
+      config()
+    );
+    yield put(setConfirmDetails(response.data));
+  } catch (e) {
+    throw e;
+  }
+
+}
+
+export function* handleConfirmDetailsSaga(): Generator {
+  yield takeEvery('GET_CONFIRM_DETAILS', handleConfirmDetails);
 }

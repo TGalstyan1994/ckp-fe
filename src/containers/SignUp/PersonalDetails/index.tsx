@@ -13,7 +13,7 @@ import { PhoneNumberForm } from 'src/containers/PhoneNumberForm';
 import { LinkText } from 'src/components/LinkText';
 import { Button } from 'src/components/Button';
 import { Input } from 'src/components/Input';
-import { sendPersonalDetails } from 'src/store/actions/signup';
+import { getPersonalDetails, sendPersonalDetails } from 'src/store/actions/signup';
 import { DatePickerForm } from 'src/containers/DatePickerForm';
 import classNames from 'classnames';
 import { ChooseGenderForm } from 'src/containers/ChooseGenderForm';
@@ -38,6 +38,7 @@ import {
 } from './style.module.css';
 import { validate } from './validate';
 import vector from 'src/UI/Vector.svg';
+import axios from 'axios';
 
 const maritalStatusCodes = {
   'Single': 'SINGLE',
@@ -66,13 +67,8 @@ const genderCodes = {
 } as { [key: string]: string };
 
 export const PersonalDetails: FC = () => {
-  const { errors, fetching, fetchError } = useSelectorTyped(
-    (state) => state.signup.stages[3]
-  );
-  const { country, states, cities } = useSelectorTyped(
-    (state) => state.signup.userInfo
-  );
-  // console.log("country phone code", country.phonecode);
+  const { errors, fetching, fetchError, initialData } = useSelectorTyped((state) => state.signup.stages[3]);
+  const { country, states, cities } = useSelectorTyped((state) => state.signup.userInfo);
   const [personalDetailsState, setPersonalDetailsState] = useState({
     objective: '',
     objectiveNote: '',
@@ -82,7 +78,7 @@ export const PersonalDetails: FC = () => {
     address: '',
     gender: 'Male',
     maritalStatus: '',
-    currentlyEmployed: undefined,
+    сurrentlyEmployed: undefined,
     jobTitle: '',
     jobDescription: '',
     employeeAddress: '',
@@ -102,7 +98,7 @@ export const PersonalDetails: FC = () => {
     cityId: undefined,
     stateId: undefined,
     countryId: country.id,
-    zipCode: '',
+    zipCode: ''
   });
   const [termsAcceptance, setTermsAcceptance] = useState(false);
   const [geoData, setGeoData] = useState({
@@ -120,13 +116,6 @@ export const PersonalDetails: FC = () => {
   });
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch({
-      type: 'GEO_TAKE',
-      payload: { countryId: 1, at: 'states' }
-    });
-  }, []);
 
   const setPersonalDetails = (key: string, value: string | boolean | number) =>
     setPersonalDetailsState((prev) => ({ ...prev, [key]: value }));
@@ -198,6 +187,29 @@ export const PersonalDetails: FC = () => {
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
   ) => setPersonalDetails(e.target.name, e.target.value);
 
+  useEffect(() => {
+    if (country.id < 0) return;
+    dispatch({
+      type: 'GEO_TAKE',
+      payload: { countryId: country.id, at: 'states' }
+    });
+
+    setPhoneState({
+      ...phoneState,
+      phoneCode: country.phonecode
+    });
+  }, [country.id]);
+
+  useEffect(() => {
+    setPersonalDetailsState({
+      ...personalDetailsState,
+      ...initialData
+    });
+  }, [initialData]);
+
+  useEffect(() => {
+    dispatch(getPersonalDetails());
+  }, []);
 
   return (
     <div className={form}>
@@ -317,11 +329,11 @@ export const PersonalDetails: FC = () => {
           }
           questionLabel='Are You Currently Employed?'
           placeholder='Job Title'
-          answerState={personalDetailsState.currentlyEmployed ?? false}
+          answerState={personalDetailsState.сurrentlyEmployed ?? false}
           value={personalDetailsState.jobTitle}
-          error={errors?.currentlyEmployed}
+          error={errors?.сurrentlyEmployed}
         />
-        {personalDetailsState.currentlyEmployed && (
+        {personalDetailsState.сurrentlyEmployed && (
           <div className={classNames(row, job_question_inputs, row_employed)}>
             {/*************************************************/}
             <Input

@@ -7,51 +7,68 @@ import { Input } from 'src/components/Input';
 import { ChooseCurrenciesForm } from 'src/containers/ChooseCurrenciesForm';
 import { useSelectorTyped } from 'src/utils/hooks';
 import vector from 'src/UI/Vector.svg';
+import { backStage, endStageFetching, startStageFetching, validateStage } from '../../../store/reducers/signup';
+import { validate } from './validate';
+import { haveErrors } from '../../../utils';
+import { sendPaymentDetails } from '../../../store/actions/signup';
 
 export const PaymentDetails: FC = () => {
   const dispatch = useDispatch();
   const stage = useSelectorTyped((state) => state.signup.stages[4]);
 
-  // const {  finished } = useSelectorTyped(
-  //   (state) => state.signup.stages[4]
-  // )
-
-  const [paymentDetailsState, setPaymentDetailsState] = useState({
-    currencies: '',
-    billingAddress: ''
+  const [paymentDetails, setPaymentDetails] = useState({
+    accountCurrency: '',
+    accountAddress: ''
   });
 
-  const setPaymentDetails = (key: string, value: string) => {
-    setPaymentDetailsState((prev) => ({ ...prev, [key]: value }));
+  const handleCurrencyChange = (key: string, value: string) => {
+    setPaymentDetails({ ...paymentDetails, [key]: value });
   };
 
   const handleFormInputs = (
     e: ChangeEvent<HTMLInputElement>
   ) => {
-    setPaymentDetails(e.target.name, e.target.value);
+    handleCurrencyChange(e.target.name, e.target.value);
   };
 
   const handleForm = () => {
+    dispatch(startStageFetching());
+
+    const validationErrors = validate(paymentDetails);
+    dispatch(validateStage({ errors: validationErrors }));
+
+    if (haveErrors(validationErrors)) {
+      dispatch(endStageFetching());
+      return;
+    }
+
+    dispatch(sendPaymentDetails(paymentDetails));
+  };
+
+  const handleBack = () => {
+    dispatch(backStage())
   };
 
   return (
     <div className={form}>
       <H1 secondary>Payment Details</H1>
       <div className={double_input}>
-        <ChooseCurrenciesForm onCurrenciesChange={setPaymentDetails} currenciesState={paymentDetailsState.currencies} />
+        <ChooseCurrenciesForm onCurrenciesChange={handleCurrencyChange} currenciesState={paymentDetails.accountCurrency} />
         <div className={payment_rightSide}>
           <Input
-            name='billingAddress'
+            name='accountAddress'
             onChange={handleFormInputs}
-            value={paymentDetailsState.billingAddress}
+            value={paymentDetails.accountAddress}
             label='Billing Address'
             required
             placeholder='Enter Billing Address'
             maxLength={255}
           />
           <div className={actions_buttons}>
-            <Button secondary><>Back</></Button>
-            <Button onClick={handleForm} disabled={!paymentDetailsState.billingAddress && !paymentDetailsState.currencies}>
+            <Button secondary onClick={handleBack}><>Back</>
+            </Button>
+            <Button onClick={handleForm}
+                    disabled={!paymentDetails.accountAddress || !paymentDetails.accountCurrency}>
               <>Continue</>
               <img src={vector} alt='vector' />
             </Button>
