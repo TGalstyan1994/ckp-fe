@@ -87,6 +87,7 @@ function* handelGeoDetails(): Generator {
       axios.post,
       `${process.env.NEXT_PUBLIC_API}/api/helpers/geo/detect`
     );
+    console.log("geoResponse.data", geoResponse.data);
     yield put(setUserGeo(geoResponse.data));
   } catch (e) {
     throw e;

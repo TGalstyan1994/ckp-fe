@@ -38,26 +38,25 @@ import {
 } from './style.module.css';
 import { validate } from './validate';
 import vector from 'src/UI/Vector.svg';
-import axios from 'axios';
 
 const maritalStatusCodes = {
-  'Single': 'SINGLE',
-  'Married': 'MARRIED',
-  'Divorced': 'DIVORCED',
-  'Common-law': 'COMMON_LAW',
-  'Widow/widower': 'WIDOW_WIDOWER'
+  'SINGLE': 'Single',
+  'MARRIED': 'Married',
+  'DIVORCED': 'Divorced',
+  'COMMON_LAW': 'Common-law',
+  'WIDOW_WIDOWER': 'Widow/widower'
 } as { [key: string]: string };
 
 const objectiveCodes = {
-  'Start a business': 'START_BUSINESS',
-  'Buy income generating property': 'PROPERTY_PURCHASE',
-  'Secure college funds': 'SECURE_COLLEGE_FUNDS',
-  'Home ownership': 'HOME_OWNERSHIP',
-  'Better health care': 'HEALTHCARE',
-  'Dream vacation': 'VACATION',
-  'Furnish home': 'FURNISH',
-  'Buy new vehicle': 'VEHICLE_PURCHASE',
-  'Other': 'OTHER'
+  'START_BUSINESS': 'Start a business',
+  'PROPERTY_PURCHASE': 'Buy income generating property',
+  'SECURE_COLLEGE_FUNDS': 'Secure college funds',
+  'HOME_OWNERSHIP': 'Home ownership',
+  'HEALTHCARE': 'Better health care',
+  'VACATION': 'Dream vacation',
+  'FURNISH': 'Furnish home',
+  'VEHICLE_PURCHASE': 'Buy new vehicle',
+  'OTHER': 'Other'
 } as { [key: string]: string };
 
 const genderCodes = {
@@ -78,6 +77,7 @@ export const PersonalDetails: FC = () => {
     address: '',
     gender: 'Male',
     maritalStatus: '',
+    dateOfBirth: '',
     сurrentlyEmployed: undefined,
     jobTitle: '',
     jobDescription: '',
@@ -97,9 +97,10 @@ export const PersonalDetails: FC = () => {
     beneficiaryContactNumber: '',
     cityId: undefined,
     stateId: undefined,
-    countryId: country.id,
+    countryId: Number(country.id),
     zipCode: ''
   });
+
   const [termsAcceptance, setTermsAcceptance] = useState(false);
   const [geoData, setGeoData] = useState({
     state: '',
@@ -114,7 +115,6 @@ export const PersonalDetails: FC = () => {
     phoneCode: country.phonecode,
     phoneNumber: ''
   });
-
   const dispatch = useDispatch();
 
   const setPersonalDetails = (key: string, value: string | boolean | number) =>
@@ -158,6 +158,7 @@ export const PersonalDetails: FC = () => {
       dateOfBirth,
       phone: `${phoneState.phoneCode}${phoneState.phoneNumber}`
     });
+
     dispatch(validateStage({ errors: validationErrors }));
 
     if (haveErrors(validationErrors)) {
@@ -167,9 +168,10 @@ export const PersonalDetails: FC = () => {
 
     const currentFormState = {
       ...personalDetailsState,
-      phone: `+${phoneState.phoneCode}${phoneState.phoneNumber}`,
-      maritalStatus: maritalStatusCodes[personalDetailsState.maritalStatus],
-      objective: objectiveCodes[personalDetailsState.objective],
+      phone: `+${phoneState.phoneCode}-${phoneState.phoneNumber}`,
+      // maritalStatus: maritalStatusCodes[personalDetailsState.maritalStatus],
+      maritalStatus: personalDetailsState.maritalStatus,
+      objective: personalDetailsState.objective,
       gender: genderCodes[personalDetailsState.gender],
       dateOfBirth: new Date(
         +dateOfBirth.year,
@@ -179,7 +181,6 @@ export const PersonalDetails: FC = () => {
         .toJSON()
         .slice(0, 10)
     };
-
     dispatch(sendPersonalDetails(currentFormState));
   };
 
@@ -188,12 +189,13 @@ export const PersonalDetails: FC = () => {
   ) => setPersonalDetails(e.target.name, e.target.value);
 
   useEffect(() => {
+
     if (country.id < 0) return;
+
     dispatch({
       type: 'GEO_TAKE',
       payload: { countryId: country.id, at: 'states' }
     });
-
     setPhoneState({
       ...phoneState,
       phoneCode: country.phonecode
@@ -201,6 +203,7 @@ export const PersonalDetails: FC = () => {
   }, [country.id]);
 
   useEffect(() => {
+    if (!initialData) return;
     setPersonalDetailsState({
       ...personalDetailsState,
       ...initialData
@@ -230,10 +233,15 @@ export const PersonalDetails: FC = () => {
           'Other'
         ]}
         error={errors?.objective}
-        currentOption={personalDetailsState.objective}
+        currentOption={objectiveCodes[personalDetailsState.objective]}
         placeholder='Start a Business'
-        setCurrentOption={(option: string) =>
-          setPersonalDetails('objective', option)
+        setCurrentOption={(option: string) => {
+          Object.keys(objectiveCodes).map((item: string) => {
+            if (objectiveCodes[item] === option) {
+              setPersonalDetails('objective', item);
+            }
+          });
+        }
         }
       />
 
@@ -274,6 +282,7 @@ export const PersonalDetails: FC = () => {
             phoneCode: phoneState.phoneCode,
             phoneNumber: phoneState.phoneNumber
           }}
+          personalDetailsStatePhone={personalDetailsState.phone}
           error={errors?.phone}
         />
 
@@ -293,6 +302,7 @@ export const PersonalDetails: FC = () => {
         dateForm={dateOfBirth}
         setDateForm={setDateOfBirth}
         error={errors?.dateOfBirth}
+        personalDetailsStateDateOfBirth={personalDetailsState.dateOfBirth}
       />
 
       <div className={martial_gender}>
@@ -311,11 +321,21 @@ export const PersonalDetails: FC = () => {
               'Common-law',
               'Widow/widower'
             ]}
-            currentOption={personalDetailsState.maritalStatus}
+            currentOption={maritalStatusCodes[personalDetailsState.maritalStatus]}
             placeholder='Single'
-            setCurrentOption={(option: string) =>
-              setPersonalDetails('maritalStatus', option)
+            // setCurrentOption={(option: string) =>
+            //   setPersonalDetails('maritalStatus', option)
+            // }
+            setCurrentOption={(option: string) => {
+              Object.keys(maritalStatusCodes).map((item: string) => {
+                if (maritalStatusCodes[item] === option) {
+                  setPersonalDetails('maritalStatus', item);
+                }
+              });
             }
+            }
+
+
             error={errors?.maritalStatus}
           />
         </div>
@@ -335,7 +355,6 @@ export const PersonalDetails: FC = () => {
         />
         {personalDetailsState.сurrentlyEmployed && (
           <div className={classNames(row, job_question_inputs, row_employed)}>
-            {/*************************************************/}
             <Input
               onChange={handleFormInputs}
               name='jobDescription'

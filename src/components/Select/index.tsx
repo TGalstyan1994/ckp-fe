@@ -62,6 +62,7 @@ export const Select: FC<Props> = ({
     setCurrentOption(option)
     toggleIsOpen()
   }
+
   return (
     <div className={select_wrapper}>
       {label && (
