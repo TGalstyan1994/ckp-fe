@@ -19,7 +19,7 @@ import {
 
 type Props = {
   options: Array<string>
-  currentOption: string
+  currentOption: string | number
   setCurrentOption: (option: string) => void
   placeholder: string
   label?: string
@@ -62,6 +62,7 @@ export const Select: FC<Props> = ({
     setCurrentOption(option)
     toggleIsOpen()
   }
+
   return (
     <div className={select_wrapper}>
       {label && (

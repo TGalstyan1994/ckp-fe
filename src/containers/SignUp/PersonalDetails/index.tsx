@@ -38,46 +38,45 @@ import {
 } from './style.module.css';
 import { validate } from './validate';
 import vector from 'src/UI/Vector.svg';
-import axios from 'axios';
 
 const maritalStatusCodes = {
-  'Single': 'SINGLE',
-  'Married': 'MARRIED',
-  'Divorced': 'DIVORCED',
-  'Common-law': 'COMMON_LAW',
-  'Widow/widower': 'WIDOW_WIDOWER'
+  'SINGLE': 'Single',
+  'MARRIED': 'Married',
+  'DIVORCED': 'Divorced',
+  'COMMON_LAW': 'Common-law',
+  'WIDOW_WIDOWER': 'Widow/widower'
 } as { [key: string]: string };
 
 const objectiveCodes = {
-  'Start a business': 'START_BUSINESS',
-  'Buy income generating property': 'PROPERTY_PURCHASE',
-  'Secure college funds': 'SECURE_COLLEGE_FUNDS',
-  'Home ownership': 'HOME_OWNERSHIP',
-  'Better health care': 'HEALTHCARE',
-  'Dream vacation': 'VACATION',
-  'Furnish home': 'FURNISH',
-  'Buy new vehicle': 'VEHICLE_PURCHASE',
-  'Other': 'OTHER'
-} as { [key: string]: string };
-
-const genderCodes = {
-  Male: 'MALE',
-  Female: 'FEMALE',
-  Other: 'OTHER'
+  'START_BUSINESS': 'Start a business',
+  'PROPERTY_PURCHASE': 'Buy income generating property',
+  'SECURE_COLLEGE_FUNDS': 'Secure college funds',
+  'HOME_OWNERSHIP': 'Home ownership',
+  'HEALTHCARE': 'Better health care',
+  'VACATION': 'Dream vacation',
+  'FURNISH': 'Furnish home',
+  'VEHICLE_PURCHASE': 'Buy new vehicle',
+  'OTHER': 'Other'
 } as { [key: string]: string };
 
 export const PersonalDetails: FC = () => {
   const { errors, fetching, fetchError, initialData } = useSelectorTyped((state) => state.signup.stages[3]);
   const { country, states, cities } = useSelectorTyped((state) => state.signup.userInfo);
+
   const [personalDetailsState, setPersonalDetailsState] = useState({
     objective: '',
     objectiveNote: '',
     firstName: '',
     lastName: '',
     phone: '',
+    phoneParsed: {
+      country: '',
+      phone: ''
+    },
     address: '',
     gender: 'Male',
     maritalStatus: '',
+    dateOfBirth: '',
     сurrentlyEmployed: undefined,
     jobTitle: '',
     jobDescription: '',
@@ -100,30 +99,36 @@ export const PersonalDetails: FC = () => {
     countryId: country.id,
     zipCode: ''
   });
+
   const [termsAcceptance, setTermsAcceptance] = useState(false);
   const [geoData, setGeoData] = useState({
     state: '',
     city: ''
   });
+
   const [dateOfBirth, setDateOfBirth] = useState({
     day: '',
     month: '',
     year: ''
   });
+
   const [phoneState, setPhoneState] = useState({
-    phoneCode: country.phonecode,
+    phoneCode: country.phonecode.slice(1),
     phoneNumber: ''
   });
 
   const dispatch = useDispatch();
 
-  const setPersonalDetails = (key: string, value: string | boolean | number) =>
+  const setPersonalDetails = (key: string, value: string | boolean | number) => {
     setPersonalDetailsState((prev) => ({ ...prev, [key]: value }));
+  };
 
-  const changePhoneState = (value: string, name: string) =>
+  const changePhoneState = (value: string, name: string) => {
     setPhoneState((prev) => ({ ...prev, [name]: value }));
+  };
 
   const changeGeoStates = (option: string) => {
+
     const currentState = states.find(
       (state: Record<string, string>) => state.name === option
     ) as { id: number; name: string } | undefined;
@@ -158,6 +163,7 @@ export const PersonalDetails: FC = () => {
       dateOfBirth,
       phone: `${phoneState.phoneCode}${phoneState.phoneNumber}`
     });
+
     dispatch(validateStage({ errors: validationErrors }));
 
     if (haveErrors(validationErrors)) {
@@ -168,9 +174,6 @@ export const PersonalDetails: FC = () => {
     const currentFormState = {
       ...personalDetailsState,
       phone: `+${phoneState.phoneCode}${phoneState.phoneNumber}`,
-      maritalStatus: maritalStatusCodes[personalDetailsState.maritalStatus],
-      objective: objectiveCodes[personalDetailsState.objective],
-      gender: genderCodes[personalDetailsState.gender],
       dateOfBirth: new Date(
         +dateOfBirth.year,
         +dateOfBirth.month,
@@ -179,8 +182,9 @@ export const PersonalDetails: FC = () => {
         .toJSON()
         .slice(0, 10)
     };
-
-    dispatch(sendPersonalDetails(currentFormState));
+    const { phoneParsed, ...body } = currentFormState;
+    // @ts-ignore
+    dispatch(sendPersonalDetails(body));
   };
 
   const handleFormInputs = (
@@ -188,6 +192,7 @@ export const PersonalDetails: FC = () => {
   ) => setPersonalDetails(e.target.name, e.target.value);
 
   useEffect(() => {
+
     if (country.id < 0) return;
     dispatch({
       type: 'GEO_TAKE',
@@ -206,20 +211,78 @@ export const PersonalDetails: FC = () => {
   }, [country.id]);
 
   useEffect(() => {
+    if (!(initialData && initialData.dateOfBirth)) return;
+
+    const personalDateOfBirth = initialData.dateOfBirth?.split('-');
+    const year = personalDateOfBirth && personalDateOfBirth[0];
+    const month = personalDateOfBirth && +personalDateOfBirth[1] - 1;
+    const day = personalDateOfBirth && +personalDateOfBirth[2];
+
+    setDateOfBirth({
+      year: year,
+      month: '' + month,
+      day: '' + day
+    });
+
+    const pCode = initialData?.phoneParsed.country.split('+');
+
+    setPhoneState({
+      phoneCode: '' + pCode[1],
+      phoneNumber: initialData?.phoneParsed.phone
+    });
+
+    const currentState = states?.find(
+      (state: Record<string, string>) => state.id === initialData.stateId
+    ) as { id: number; name: string } | undefined;
+
+    if (currentState) {
+      dispatch({
+        type: 'GEO_TAKE',
+        payload: {
+          stateId: currentState?.id,
+          at: 'cities'
+        }
+      });
+    }
+
+    const cState = currentState?.name ?? '';
+    setGeoData({
+      ...geoData,
+      state: cState
+    });
+
     setPersonalDetailsState({
       ...personalDetailsState,
-      ...initialData
+      ...initialData,
     });
+
+    if (initialData?.zipCode) {
+      setTermsAcceptance(true);
+    }
   }, [initialData]);
 
   useEffect(() => {
     dispatch(getPersonalDetails());
   }, []);
 
+  useEffect(() => {
+    if (initialData?.cityId) {
+      const currentCity = states.find(
+        (state: Record<string, string>) => state.id === initialData.stateId
+      ) as { id: number; name: string } | undefined;
+      if (currentCity) {
+        changeGeoCities(currentCity.name);
+      }
+    }
+  }, [cities]);
+
+  useEffect(() => {
+
+  }, []);
+
   return (
     <div className={form}>
       <H1 secondary>Personal Details</H1>
-
       <Select
         label='Objective'
         required
@@ -235,10 +298,15 @@ export const PersonalDetails: FC = () => {
           'Other'
         ]}
         error={errors?.objective}
-        currentOption={personalDetailsState.objective}
+        currentOption={objectiveCodes[personalDetailsState.objective]}
         placeholder='Start a Business'
-        setCurrentOption={(option: string) =>
-          setPersonalDetails('objective', option)
+        setCurrentOption={(option: string) => {
+          Object.keys(objectiveCodes).map((item: string) => {
+            if (objectiveCodes[item] === option) {
+              setPersonalDetails('objective', item);
+            }
+          });
+        }
         }
       />
 
@@ -248,6 +316,8 @@ export const PersonalDetails: FC = () => {
         name='objectiveNote'
         label='Objective Note'
         maxSymbols={512}
+        required
+        error={errors?.objectiveNote}
       />
 
       <div className={classNames(form_fullName, row)}>
@@ -279,6 +349,7 @@ export const PersonalDetails: FC = () => {
             phoneCode: phoneState.phoneCode,
             phoneNumber: phoneState.phoneNumber
           }}
+          personalDetailsStatePhone={personalDetailsState.phone}
           error={errors?.phone}
         />
 
@@ -316,10 +387,15 @@ export const PersonalDetails: FC = () => {
               'Common-law',
               'Widow/widower'
             ]}
-            currentOption={personalDetailsState.maritalStatus}
+            currentOption={maritalStatusCodes[personalDetailsState.maritalStatus]}
             placeholder='Single'
-            setCurrentOption={(option: string) =>
-              setPersonalDetails('maritalStatus', option)
+            setCurrentOption={(option: string) => {
+              Object.keys(maritalStatusCodes).map((item: string) => {
+                if (maritalStatusCodes[item] === option) {
+                  setPersonalDetails('maritalStatus', item);
+                }
+              });
+            }
             }
             error={errors?.maritalStatus}
           />
@@ -334,13 +410,12 @@ export const PersonalDetails: FC = () => {
           }
           questionLabel='Are You Currently Employed?'
           placeholder='Job Title'
-          answerState={personalDetailsState.сurrentlyEmployed ?? false}
+          answerState={personalDetailsState.сurrentlyEmployed}
           value={personalDetailsState.jobTitle}
           error={errors?.сurrentlyEmployed}
         />
         {personalDetailsState.сurrentlyEmployed && (
           <div className={classNames(row, job_question_inputs, row_employed)}>
-            {/*************************************************/}
             <Input
               onChange={handleFormInputs}
               name='jobDescription'
@@ -362,7 +437,7 @@ export const PersonalDetails: FC = () => {
           onRadioChange={(value) => setPersonalDetails('businessOwner', value)}
           questionLabel='Are You a Business Owner?'
           placeholder='Business Description'
-          answerState={personalDetailsState.businessOwner ?? false}
+          answerState={personalDetailsState.businessOwner}
           value={personalDetailsState.businessDescription}
           error={errors?.businessOwner}
         />
@@ -372,7 +447,7 @@ export const PersonalDetails: FC = () => {
           onRadioChange={(value) => setPersonalDetails('anyTrade', value)}
           questionLabel='Do You Have any Trade?'
           placeholder='Trade Description'
-          answerState={personalDetailsState.anyTrade ?? false}
+          answerState={personalDetailsState.anyTrade}
           value={personalDetailsState.tradeDescription}
           error={errors?.anyTrade}
         />
@@ -384,7 +459,7 @@ export const PersonalDetails: FC = () => {
           }
           questionLabel='Do you Have any Technical skills?'
           placeholder='Skill Description'
-          answerState={personalDetailsState.anyTechnicalSkills ?? false}
+          answerState={personalDetailsState.anyTechnicalSkills}
           value={personalDetailsState.technicalSkillsDescription}
           error={errors?.anyTechnicalSkills}
         />
@@ -396,7 +471,7 @@ export const PersonalDetails: FC = () => {
           }
           questionLabel='Do you Have any Athletic skills?'
           placeholder='Skill Description'
-          answerState={personalDetailsState.anyAthleticSkills ?? false}
+          answerState={personalDetailsState.anyAthleticSkills}
           value={personalDetailsState.athleticSkillsDescription}
           error={errors?.anyAthleticSkills}
         />
@@ -406,9 +481,10 @@ export const PersonalDetails: FC = () => {
           onRadioChange={(value) => setPersonalDetails('anyDependents', value)}
           questionLabel='Do You Have Any Dependent?'
           placeholder='Total Number of Dependents'
-          answerState={personalDetailsState.anyDependents ?? false}
+          answerState={personalDetailsState.anyDependents}
           value={personalDetailsState.totalNumberOfDependens}
           error={errors?.anyDependents}
+          checkRadio={personalDetailsState.anyDependents}
         />
       </div>
 
@@ -453,7 +529,7 @@ export const PersonalDetails: FC = () => {
           required
           currentOption={geoData.state}
           placeholder={
-            states.map(
+            states?.map(
               (stateInfo: Record<string, string>) => stateInfo.name
             )[0] || 'Choose State'
           }
@@ -488,6 +564,8 @@ export const PersonalDetails: FC = () => {
           label='Zip code'
           value={personalDetailsState.zipCode}
           onChange={handleFormInputs}
+          required
+          error={errors?.zipCode}
         />
       </div>
       {fetchError && typeof fetchError !== 'object' && (

@@ -2,7 +2,7 @@ import { ChangeEventHandler } from 'react'
 
 export type Props = {
   name?: string
-  value?: string
+  value?: string | number
   onChange: ChangeEventHandler<HTMLInputElement>
   error?: string
   placeholder?: string
@@ -12,4 +12,5 @@ export type Props = {
   className?: string
   maxLength?: number
   disabled?: boolean
+  defaultValue?: string
 }

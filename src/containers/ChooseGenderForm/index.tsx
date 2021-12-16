@@ -18,18 +18,20 @@ export const ChooseGenderForm: FC<Props> = ({
         <RadioBox
           name="Gender"
           option="Male"
-          onChange={() => onGenderChange('gender', 'Male')}
-          checked={genderState === 'Male'}
+          onChange={() => onGenderChange('gender', 'MALE')}
+          checked={genderState === 'MALE'}
         />
         <RadioBox
           name="Gender"
           option="Female"
-          onChange={() => onGenderChange('gender', 'Female')}
+          onChange={() => onGenderChange('gender', 'FEMALE')}
+          checked={genderState === 'FEMALE'}
         />
         <RadioBox
           name="Gender"
           option="Other"
-          onChange={() => onGenderChange('gender', 'Other')}
+          onChange={() => onGenderChange('gender', 'OTHER')}
+          checked={genderState === 'OTHER'}
         />
       </div>
     </div>

@@ -48,9 +48,14 @@ const initialState = {
         firstName: '',
         lastName: '',
         phone: '',
+        phoneParsed: {
+          country: '',
+          phone: ''
+        },
         address: '',
         gender: 'Male',
         maritalStatus: '',
+        dateOfBirth: '',
         сurrentlyEmployed: undefined,
         jobTitle: '',
         jobDescription: '',
@@ -137,8 +142,8 @@ const initialState = {
     country: {
       id: -1,
       name: '',
-      phonemask: '',
-      phonecode: ''
+      phonecode: '',
+      phonemask: ''
     },
     states: [],
     cities: []
