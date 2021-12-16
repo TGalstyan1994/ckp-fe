@@ -7,6 +7,7 @@ export const validate = (
   Object.keys(formState).forEach((key) => (errorObject[key] = ''))
 
   if (is.empty(formState.objective)) errorObject.objective = 'Field Required'
+  if (is.empty(formState.objectiveNote)) errorObject.objectiveNote = 'Field Required'
 
   if (is.empty(formState.maritalStatus))
     errorObject.maritalStatus = 'Field Required'
@@ -26,7 +27,7 @@ export const validate = (
     errorObject.anyAthleticSkills = 'Field Required'
 
   if (formState.anyDependents === undefined)
-    errorObject.anyDependents = 'Field Required'
+    errorObject.anyDependents = 'Field Required and should contain only digits'
 
   if (formState.stateId === undefined) errorObject.cityId = 'Field Required'
   if (formState.cityId === undefined) errorObject.stateId = 'Field Required'
@@ -71,10 +72,13 @@ export const validate = (
     is.empty(formState.beneficiaryContactNumber)
   )
     errorObject.beneficiaryContactNumber =
-      'Field is required, min is 2 and max is 32 characters'
+      'Field is required, min is 2 and max is 32 characters and should contain only digits '
 
   if (Object.values(formState.dateOfBirth).every((value) => !value))
     errorObject.dateOfBirth = 'Field required'
+
+  if (is.empty(formState.zipCode)) errorObject.zipCode = 'Field Required'
+
 
   return errorObject
 }

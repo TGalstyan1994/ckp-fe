@@ -15,7 +15,7 @@ type Props = {
   error?: string
   formState: {
     phoneCode: string
-    phoneNumber: string
+    phoneNumber: number | string
   }
   personalDetailsStatePhone?: string
 }
@@ -55,7 +55,7 @@ export const PhoneNumberForm: FC<Props> = ({
           name='phoneCode'
           onChange={handleInput}
           value={`+${formState.phoneCode}`}
-          defaultValue={arr ? arr[0] : `+${formState.phoneCode}`}
+          // defaultValue={arr ? arr[0] : ''}
           required
           placeholder={`+${phoneCode}`}
           error={error && ' '}
@@ -64,8 +64,8 @@ export const PhoneNumberForm: FC<Props> = ({
           name='phoneNumber'
           onChange={handleInput}
           className={input_margined}
-          value={formState.phoneNumber}
-          defaultValue={arr ? arr[1] : formState.phoneNumber}
+          value={ formState.phoneNumber}
+          defaultValue={arr ? arr[1] : ''}
           placeholder='Enter Mobile Number'
           error={error}
           required

@@ -5,6 +5,7 @@ import {
   textarea_label,
   required_label,
   textarea_wrapper,
+  error_message
 } from './style.module.css'
 
 type Props = {
@@ -15,6 +16,7 @@ type Props = {
   label?: string
   required?: boolean
   maxSymbols?: number
+  error?: string
 }
 
 export const TextArea: FC<Props> = ({
@@ -25,7 +27,9 @@ export const TextArea: FC<Props> = ({
   label,
   required,
   maxSymbols,
+  error
 }) => {
+
   return (
     <div className={textarea_wrapper}>
       {label && (
@@ -46,6 +50,7 @@ export const TextArea: FC<Props> = ({
         placeholder={placeholder}
         name={name}
       />
+      <span className={error_message}>{error}</span>
     </div>
   )
 }

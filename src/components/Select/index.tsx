@@ -19,7 +19,7 @@ import {
 
 type Props = {
   options: Array<string>
-  currentOption: string
+  currentOption: string | number
   setCurrentOption: (option: string) => void
   placeholder: string
   label?: string

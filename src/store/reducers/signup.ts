@@ -48,6 +48,10 @@ const initialState = {
         firstName: '',
         lastName: '',
         phone: '',
+        phoneParsed: {
+          country: '',
+          phone: ''
+        },
         address: '',
         gender: 'Male',
         maritalStatus: '',

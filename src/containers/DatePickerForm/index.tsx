@@ -26,13 +26,12 @@ const monthNames = [
 
 type Props = {
   dateForm: {
-    day: string
-    month: string
-    year: string
+    day: string | number
+    month: string | number
+    year: string | number
   }
   error?: string
   setDateForm: Dispatch<SetStateAction<{ day: string; month: string; year: string }>>
-  personalDetailsStateDateOfBirth: string
 }
 
 export const DatePickerForm: FC<Props> = (
@@ -40,7 +39,6 @@ export const DatePickerForm: FC<Props> = (
     dateForm,
     setDateForm,
     error,
-    // personalDetailsStateDateOfBirth
   }) => {
   const [options, setOptions] = useState({
     days: [] as number[],
@@ -49,13 +47,13 @@ export const DatePickerForm: FC<Props> = (
   });
 
   const setYear = (option: string) => {
-    setDateForm((prev) => ({ ...prev, year: option, day: '', month: '' }));
+    setDateForm((prev) => ({ ...prev, year: option , day: '', month: '' }));
   };
 
   const setMonth = (option: string) => {
     setDateForm((prev) => ({
       ...prev,
-      month: monthNames.indexOf(option).toString(),
+      month: monthNames.indexOf(option).toString() ,
       day: ''
     }));
 
@@ -71,7 +69,8 @@ export const DatePickerForm: FC<Props> = (
   const setDay = (option: string) => {
     setDateForm((prev) => ({ ...prev, day: option }));
   };
-  // const personalDateOfBirth = personalDetailsStateDateOfBirth.split('-');
+
+
   return (
     <div className={datePicker_wrapper}>
       <span className={datePicker_header}>Date of birth</span>
@@ -99,7 +98,6 @@ export const DatePickerForm: FC<Props> = (
           placeholder='Select Day'
           disabled={!dateForm.year || !dateForm.month}
           error={dateForm.day === '' ? error : ''}
-
         />
       </div>
     </div>
