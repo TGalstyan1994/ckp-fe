@@ -90,6 +90,20 @@ export const sendPaymentDetails = (
   }
 });
 
+export const sendVerificationMail = (
+  formState: Record<string, unknown>
+): RegistrationAction => ({
+  type: 'COMPLETE_STAGE',
+  apiUrl: '/api/account/registration/confirm',
+  payload: {
+    ...formState
+  }
+});
+
 export const getGeoDetails = () => ({
   type: 'GEO_DETAILS'
+});
+
+export const sendVerificationCode = () => ({
+  type: 'SEND_VERIFICATION_CODE'
 });

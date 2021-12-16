@@ -19,3 +19,13 @@
     justify-content: flex-end;
     align-items: center;
 }
+
+.check_email {
+    font-family: 'SF Pro Display', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+    opacity: 0.4;
+}

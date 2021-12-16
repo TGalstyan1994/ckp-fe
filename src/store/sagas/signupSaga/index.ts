@@ -129,9 +129,25 @@ export function* handleConfirmDetails(): Generator {
   } catch (e) {
     throw e;
   }
-
 }
 
 export function* handleConfirmDetailsSaga(): Generator {
   yield takeEvery('GET_CONFIRM_DETAILS', handleConfirmDetails);
+}
+
+export function* handleConfirmUser(): Generator {
+
+  try {
+    const response: AxiosResponse = yield call(
+      axios.get,
+      `${process.env.NEXT_PUBLIC_API}/api/account/registration/verify`,
+      config()
+    );
+  } catch (e) {
+    throw e;
+  }
+}
+
+export function* handleConfirmUserSaga(): Generator {
+  yield takeEvery('GET_CONFIRM_DETAILS', handleConfirmUser);
 }
