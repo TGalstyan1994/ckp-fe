@@ -23,6 +23,7 @@ import {
 } from './SignInForm.module.css';
 import { validate } from './validate';
 import { resetSignup } from '../../../store/reducers/signup';
+import { getAccessToken } from '../../../utils';
 
 type FormState = {
   username: string
@@ -71,18 +72,17 @@ export const SignInForm: FC = () => {
       isInitialMount.current = false;
       dispatch(logOut());
       dispatch(resetSignup())
+      if (getAccessToken()) {
+        router.push('/profile')
+      }
     } else {
-      if (data.accessToken) {
-        if (Object.values(data.registrationStatus).every((elem: boolean) => elem)) {
-          // router.push('dashboard');
-        } else {
-          router.push('signup');
-        }
-      } else {
-        router.push('signin');
+      if (getAccessToken()) {
+        router.push('/profile')
+      } else if (data.accessToken) {
+        router.push('/signup')
       }
     }
-  }, [data.accessToken]);
+  }, [data.accessToken])
 
   return (
     <div className={form}>
@@ -123,7 +123,7 @@ export const SignInForm: FC = () => {
         <Button disabled={fetching} className={ico_button} onClick={submitForm}>
           Log In
         </Button>
-        <Button secondary onClick={() => router.push('signup')}>
+        <Button secondary onClick={() => router.push('/signup')}>
           Create an account
         </Button>
       </div>

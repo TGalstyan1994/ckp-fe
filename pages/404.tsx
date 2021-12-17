@@ -1,20 +1,17 @@
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { FC, useEffect } from 'react';
 import { getAccessToken } from '../src/utils';
 
-const IndexPage: FC = () => {
+export default function Custom404() {
   const router = useRouter();
 
   useEffect(() => {
     if (getAccessToken()) {
-      router.push('/profile');
+      router.push('/profile')
     } else {
-      router.push('/signin');
+      router.push('/')
     }
-  });
+  }, [])
 
-  return null;
-};
-
-
-export default IndexPage;
+  return null
+}
