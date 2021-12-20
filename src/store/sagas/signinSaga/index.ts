@@ -12,7 +12,9 @@ const LogIn = async (data: any) => {
 function* LoginUser(action: Action) {
   try {
     const res: ResponseGenerator = yield call(LogIn, action.payload);
-    setAccessToken(res.data.accessToken)
+    if (Object.values(res.data.registrationStatus).every(el => el)) {
+      setAccessToken(res.data.accessToken);
+    }
     yield put(endStageFetching(res.data));
   } catch (error) {
     yield put(setFetchingErrors(error));

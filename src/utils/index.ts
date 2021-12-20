@@ -1,3 +1,5 @@
+import { useSelectorTyped } from './hooks';
+
 export const getSponsorByQuery = (): string => '';
 
 export const haveErrors = (ErrorObject: Record<string, string>): boolean => {

@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { signInAction } from 'src/store/actions/signin';
 import {
+  logOut,
   startStageFetching, stopFetching,
   validateForm
 } from 'src/store/reducers/signin';
@@ -23,6 +24,7 @@ import {
 import { validate } from './validate';
 import { getAccessToken } from '../../../utils';
 import { SignInLayout } from '../../Layouts/SignInLayout';
+import { resetSignup } from '../../../store/reducers/signup';
 
 type FormState = {
   username: string
@@ -37,10 +39,10 @@ const SignInForm: FC = () => {
     username: '',
     password: ''
   });
-
   const [rememberMe, setRememberMe] = useState<boolean>(false);
   const dispatch = useDispatch();
   const router = useRouter();
+  const firstUpdate = useRef(true);
 
   const submitForm = () => {
     dispatch(startStageFetching());
@@ -64,6 +66,12 @@ const SignInForm: FC = () => {
   };
 
   useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      dispatch(logOut());
+      dispatch(resetSignup())
+      return;
+    }
     if (data.accessToken) {
       if (getAccessToken()) {
         router.push('/profile');
