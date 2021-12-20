@@ -274,10 +274,6 @@ export const PersonalDetails: FC = () => {
     }
   }, [cities]);
 
-  useEffect(() => {
-
-  }, []);
-
   return (
     <div className={form}>
       <H1 secondary>Personal Details</H1>
