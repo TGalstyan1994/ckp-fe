@@ -55,7 +55,6 @@ export const PhoneNumberForm: FC<Props> = ({
           name='phoneCode'
           onChange={handleInput}
           value={`+${formState.phoneCode}`}
-          // defaultValue={arr ? arr[0] : ''}
           required
           placeholder={`+${phoneCode}`}
           error={error && ' '}

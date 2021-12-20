@@ -1,5 +1,6 @@
 import { createSlice } from 'node_modules/@reduxjs/toolkit/dist';
 import { ISignInStore, ISignInRes } from '../../interfaces/signin/signin';
+import { removeToken } from '../../utils';
 
 const initialSignInResState: ISignInRes = {
   accessToken: '',
@@ -54,9 +55,14 @@ const signin = createSlice({
       state.fetching = false;
     },
 
+    storeAccessToken(state, action) {
+      state.data.accessToken = action.payload;
+    },
+
     logOut(state) {
+      removeToken();
       state.data = initialSignInResState;
-      state.fetchingErrors = ''
+      state.fetchingErrors = '';
     }
   }
 });
@@ -67,7 +73,8 @@ export const {
   startStageFetching,
   endStageFetching,
   stopFetching,
-  logOut
+  logOut,
+  storeAccessToken
 } = signin.actions;
 
 export default signin.reducer;

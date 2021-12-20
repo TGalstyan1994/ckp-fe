@@ -9,7 +9,7 @@ export default function Custom404() {
     if (getAccessToken()) {
       router.push('/profile')
     } else {
-      router.push('/')
+      router.push('/signin');
     }
   }, [])
 

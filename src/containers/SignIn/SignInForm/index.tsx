@@ -22,28 +22,27 @@ import {
   ico_button
 } from './SignInForm.module.css';
 import { validate } from './validate';
-import { resetSignup } from '../../../store/reducers/signup';
 import { getAccessToken } from '../../../utils';
+import { SignInLayout } from '../../Layouts/SignInLayout';
+import { resetSignup } from '../../../store/reducers/signup';
 
 type FormState = {
   username: string
   password: string
 }
 
-export const SignInForm: FC = () => {
+const SignInForm: FC = () => {
   const { errors, fetching, fetchingErrors, data } = useSelectorTyped(
     (state) => state.signin
   );
-
   const [formState, setFormState] = useState<FormState>({
     username: '',
     password: ''
   });
-  const isInitialMount = useRef(true);
-
   const [rememberMe, setRememberMe] = useState<boolean>(false);
   const dispatch = useDispatch();
   const router = useRouter();
+  const firstUpdate = useRef(true);
 
   const submitForm = () => {
     dispatch(startStageFetching());
@@ -54,7 +53,6 @@ export const SignInForm: FC = () => {
       dispatch(stopFetching());
       return;
     }
-
     dispatch(signInAction(formState));
   };
 
@@ -68,65 +66,68 @@ export const SignInForm: FC = () => {
   };
 
   useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
       dispatch(logOut());
       dispatch(resetSignup())
+      return;
+    }
+    if (data.accessToken) {
       if (getAccessToken()) {
-        router.push('/profile')
-      }
-    } else {
-      if (getAccessToken()) {
-        router.push('/profile')
-      } else if (data.accessToken) {
-        router.push('/signup')
+        router.push('/profile');
+      } else {
+        router.push('/signup');
       }
     }
-  }, [data.accessToken])
+  }, [data.accessToken]);
 
   return (
-    <div className={form}>
-      <h1 className={form_header}>Sign In.</h1>
+    <SignInLayout>
+      <div className={form}>
+        <h1 className={form_header}>Sign In.</h1>
 
-      <div className={form_inputs}>
-        <Input
-          name='username'
-          placeholder='Username'
-          value={formState.username}
-          onChange={handleFormInput}
-          error={errors.username}
-        />
-        <Input
-          name='password'
-          placeholder='Password'
-          value={formState.password}
-          onChange={handleFormInput}
-          type='password'
-          error={errors.password}
-        />
-      </div>
-      {fetchingErrors && <ErrorsSpan>{fetchingErrors}</ErrorsSpan>}
+        <div className={form_inputs}>
+          <Input
+            name='username'
+            placeholder='Username'
+            value={formState.username}
+            onChange={handleFormInput}
+            error={errors.username}
+          />
+          <Input
+            name='password'
+            placeholder='Password'
+            value={formState.password}
+            onChange={handleFormInput}
+            type='password'
+            error={errors.password}
+          />
+        </div>
+        {fetchingErrors && <ErrorsSpan>{fetchingErrors}</ErrorsSpan>}
 
-      <div className={form_password_actions}>
-        <CheckBox
-          checked={rememberMe}
-          onChange={handleFormInput}
-          label='Remember me'
-          name='rememberMe'
-        />
-        <LinkText href='/signin/forgot_password'>
-          Forgot your password ?
-        </LinkText>
-      </div>
+        <div className={form_password_actions}>
+          <CheckBox
+            checked={rememberMe}
+            onChange={handleFormInput}
+            label='Remember me'
+            name='rememberMe'
+          />
+          <LinkText href='/signin/forgot_password'>
+            Forgot your password ?
+          </LinkText>
+        </div>
 
-      <div className={form_buttons}>
-        <Button disabled={fetching} className={ico_button} onClick={submitForm}>
-          Log In
-        </Button>
-        <Button secondary onClick={() => router.push('/signup')}>
-          Create an account
-        </Button>
+        <div className={form_buttons}>
+          <Button disabled={fetching} className={ico_button} onClick={submitForm}>
+            Log In
+          </Button>
+          <Button onClick={() => router.push('/signup')}>
+            Create an account
+          </Button>
+        </div>
       </div>
-    </div>
+    </SignInLayout>
   );
 };
+
+export default SignInForm;

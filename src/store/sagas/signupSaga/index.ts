@@ -9,7 +9,6 @@ import {
   stageFetchingErrors
 } from 'src/store/reducers/signup';
 import {
-  getAccessToken,
   getSponsorByQuery,
   removeToken,
   setAccessToken
@@ -28,18 +27,21 @@ type RegistrationPayload = {
 }
 
 const getStages = (state: RootState) => state.signup;
+const getToken = (state: RootState) => state.signin.data;
 
-const config = () => ({
-  headers: {
-    'Authorization': `Bearer ${getAccessToken()}`,
-    'content-type': 'application/json'
-  }
-});
+const config = (token: string) => {
+  return {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'content-type': 'application/json'
+    }
+  };
+};
 
 function* completeStage(action: RegistrationAction) {
-  const { currentStage, stages }: SignUpState = yield select(getStages);
+  const { currentStage }: SignUpState = yield select(getStages);
   const { payload, apiUrl } = action;
-  if (!stages[0].finished) removeToken();
+  const { accessToken }: { accessToken: string } = yield select(getToken);
 
   try {
     if (currentStage === 0) {
@@ -64,7 +66,7 @@ function* completeStage(action: RegistrationAction) {
         axios.post,
         `${process.env.NEXT_PUBLIC_API}${apiUrl}`,
         payload,
-        config()
+        config(accessToken)
       );
     }
 
@@ -100,11 +102,13 @@ export function* handleGeoSaga(): Generator {
 
 export function* handlePersonalDetails(): Generator {
 
+  const { accessToken }: { accessToken: string } = yield select(getToken);
+
   try {
     const response: AxiosResponse = yield call(
       axios.get,
       `${process.env.NEXT_PUBLIC_API}/api/account/registration/get-personal-details`,
-      config()
+      config(accessToken)
     );
     yield put(setInitialPersonalDetails(response.data));
   } catch (e) {
@@ -118,12 +122,13 @@ export function* handlePersonalDetailsSaga(): Generator {
 }
 
 export function* handleConfirmDetails(): Generator {
+  const { accessToken }: { accessToken: string } = yield select(getToken);
 
   try {
     const response: AxiosResponse = yield call(
       axios.get,
       `${process.env.NEXT_PUBLIC_API}/api/account/registration/get-confirm-information`,
-      config()
+      config(accessToken)
     );
     yield put(setConfirmDetails(response.data));
   } catch (e) {
