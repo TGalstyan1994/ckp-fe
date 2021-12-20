@@ -1,6 +1,6 @@
 import { confirmRow } from './style.module.css';
-import greenCheck from '../../assets/images/green-check.svg'
-import redX from '../../assets/images/red-x.svg'
+import greenCheck  from 'src/assets/images/green-check.svg'
+import redX from 'src/assets/images/red-x.svg'
 
 interface IConfirmRow {
   rowName: string;
@@ -13,7 +13,7 @@ export const ConfirmRow = ({ rowName, rowValue, confirm }: IConfirmRow) => {
     <div className={confirmRow}>
       <p>{rowName}</p>
       {rowValue && <span>{rowValue}</span>}
-      {confirm ? <img src={greenCheck} alt='greenCheck' /> : confirm === false && <img src={redX} alt='redX' />}
+      {confirm ? <img src={greenCheck } alt='greenCheck' /> : confirm === false && <img src={redX} alt='redX' />}
     </div>
   );
 };

@@ -60,7 +60,7 @@ const objectiveCodes = {
 } as { [key: string]: string };
 
 export const PersonalDetails: FC = () => {
-  const { errors, fetching, fetchError, initialData } = useSelectorTyped((state) => state.signup.stages[3]);
+  const { errors,  fetchError, initialData } = useSelectorTyped((state) => state.signup.stages[3]);
   const { country, states, cities } = useSelectorTyped((state) => state.signup.userInfo);
 
   const [personalDetailsState, setPersonalDetailsState] = useState({
@@ -113,7 +113,7 @@ export const PersonalDetails: FC = () => {
   });
 
   const [phoneState, setPhoneState] = useState({
-    phoneCode: country.phonecode.slice(1),
+    phoneCode: country.phonecode.substring(1),
     phoneNumber: ''
   });
 
@@ -207,7 +207,7 @@ export const PersonalDetails: FC = () => {
     setPersonalDetailsState({
       ...personalDetailsState,
       countryId: country.id
-    })
+    });
   }, [country.id]);
 
   useEffect(() => {
@@ -224,10 +224,8 @@ export const PersonalDetails: FC = () => {
       day: '' + day
     });
 
-    const pCode = initialData?.phoneParsed.country.split('+');
-
     setPhoneState({
-      phoneCode: '' + pCode[1],
+      phoneCode: initialData?.phoneParsed.country.substring(1),
       phoneNumber: initialData?.phoneParsed.phone
     });
 
@@ -253,7 +251,7 @@ export const PersonalDetails: FC = () => {
 
     setPersonalDetailsState({
       ...personalDetailsState,
-      ...initialData,
+      ...initialData
     });
 
     if (initialData?.zipCode) {
@@ -344,7 +342,7 @@ export const PersonalDetails: FC = () => {
       <div className={classNames(form_phone_address, row)}>
         <PhoneNumberForm
           changeStateCallback={changePhoneState}
-          phoneCode={country.phonecode}
+          phoneCode={country.phonecode.substring(1)}
           formState={{
             phoneCode: phoneState.phoneCode,
             phoneNumber: phoneState.phoneNumber
@@ -512,6 +510,7 @@ export const PersonalDetails: FC = () => {
           value={personalDetailsState.beneficiaryContactNumber}
           placeholder='Contact Number'
           error={errors?.beneficiaryContactNumber}
+          type="number"
         />
       </div>
 
@@ -585,7 +584,7 @@ export const PersonalDetails: FC = () => {
           </LinkText>
         </div>
         <div className={actions_buttons}>
-          <Button onClick={handleForm} disabled={!termsAcceptance || fetching}>
+          <Button onClick={handleForm} disabled={!termsAcceptance}>
             <>Continue</>
             <img src={vector} alt='vector' />
           </Button>

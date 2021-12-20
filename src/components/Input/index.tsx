@@ -33,6 +33,7 @@ export const Input: FC<Props> = ({
   let InputType = type
   if (type === 'password') InputType = showPassword ? 'text' : 'password'
   if (type === 'pin') InputType = 'password'
+  if (type === 'number') InputType = 'number'
 
   return (
     <div className={input_container}>

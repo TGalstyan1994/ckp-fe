@@ -41,7 +41,7 @@ export const OptionalRadioForm = ({
   const answerSetter = (option: boolean) => {
     onRadioChange(option);
   };
-
+  console.log("OptionalRadioForm", value);
   return (
     <div className={form}>
       <div className={classNames(form_question, { [invalid_form]: error })}>
@@ -70,6 +70,7 @@ export const OptionalRadioForm = ({
             label={inputLabel}
             value={value}
             placeholder={placeholder}
+            type='number'
           />
         </div>
       )}

@@ -40,10 +40,13 @@ export const PhoneNumberForm: FC<Props> = ({
     )
       return;
 
+
+
     if (e.target.name === 'phoneCode')
       changeStateCallback(e.target.value.slice(1), e.target.name);
     else changeStateCallback(e.target.value, e.target.name);
   };
+
   const arr = personalDetailsStatePhone?.split('-');
 
   return (
@@ -55,7 +58,6 @@ export const PhoneNumberForm: FC<Props> = ({
           name='phoneCode'
           onChange={handleInput}
           value={`+${formState.phoneCode}`}
-          // defaultValue={arr ? arr[0] : ''}
           required
           placeholder={`+${phoneCode}`}
           error={error && ' '}

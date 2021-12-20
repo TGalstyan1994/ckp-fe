@@ -7,8 +7,8 @@ import { actions_buttons, confirmRowItems, check_email } from './style.module.cs
 
 import { useSelectorTyped } from 'src/utils/hooks';
 import { useDispatch } from 'react-redux';
-import { getConfirmDetails, sendVerificationMail } from '../../../store/actions/signup';
-import { startStageFetching } from '../../../store/reducers/signup';
+import { getConfirmDetails, sendVerificationMail } from 'src/store/actions/signup';
+import { startStageFetching } from 'src/store/reducers/signup';
 
 export const ConfirmInformation: FC = () => {
   const dispatch = useDispatch();

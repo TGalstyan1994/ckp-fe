@@ -6,6 +6,7 @@ export const validate = (
   const errorObject = {} as { [key: string]: string }
   Object.keys(formState).forEach((key) => (errorObject[key] = ''))
 
+
   if (is.empty(formState.objective)) errorObject.objective = 'Field Required'
   if (is.empty(formState.objectiveNote)) errorObject.objectiveNote = 'Field Required'
 
@@ -34,6 +35,7 @@ export const validate = (
 
   if (is.empty(formState.phone))
     errorObject.phone = 'Field is required and should contain only digits'
+
 
   if (formState.address.length > 255 || is.empty(formState.address))
     errorObject.address = 'Field is required'
@@ -66,6 +68,8 @@ export const validate = (
   )
     errorObject.beneficiaryRelationship =
       'Field is required, min is 2 and max is 32 characters'
+
+
   if (
     formState.beneficiaryContactNumber.length < 2 ||
     formState.beneficiaryContactNumber.length > 32 ||

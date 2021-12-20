@@ -9,7 +9,8 @@ import { signInAction } from 'src/store/actions/signin';
 import {
   logOut,
   startStageFetching, stopFetching,
-  validateForm
+  validateForm,
+  resetFetchingError
 } from 'src/store/reducers/signin';
 import { useSelectorTyped } from 'src/utils/hooks';
 import { ErrorsSpan } from 'src/components/ErrorsSpan';
@@ -41,12 +42,14 @@ export const SignInForm: FC = () => {
   const isInitialMount = useRef(true);
 
   const [rememberMe, setRememberMe] = useState<boolean>(false);
+
   const dispatch = useDispatch();
   const router = useRouter();
 
   const submitForm = () => {
     dispatch(startStageFetching());
     const ValidationErrors = validate(formState);
+
     dispatch(validateForm({ errors: ValidationErrors }));
 
     if (!Object.values(ValidationErrors).every((elem) => elem === '')) {
@@ -58,6 +61,17 @@ export const SignInForm: FC = () => {
   };
 
   const handleFormInput = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(resetFetchingError());
+    if (e.target.name === 'username') {
+      dispatch(validateForm({ errors: { username: '' } })
+      );
+    }
+
+    if (e.target.name === 'password') {
+      dispatch(validateForm({ errors: { password: '' } })
+      );
+    }
+
     if (e.target.type === 'checkbox') setRememberMe(e.target.checked);
     else
       setFormState((prev) => ({
@@ -66,11 +80,12 @@ export const SignInForm: FC = () => {
       }));
   };
 
+
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
       dispatch(logOut());
-      dispatch(resetSignup())
+      dispatch(resetSignup());
     } else {
       if (data.accessToken) {
         if (Object.values(data.registrationStatus).every((elem: boolean) => elem)) {
@@ -105,7 +120,7 @@ export const SignInForm: FC = () => {
           error={errors.password}
         />
       </div>
-      {fetchingErrors && <ErrorsSpan>{fetchingErrors}</ErrorsSpan>}
+      {(errors.password || errors.username) ? null : fetchingErrors && <ErrorsSpan>{fetchingErrors}</ErrorsSpan>}
 
       <div className={form_password_actions}>
         <CheckBox
