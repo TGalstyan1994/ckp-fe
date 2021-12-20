@@ -1,7 +1,7 @@
 import { FC, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Router from 'next/router'
-import { sendVerificationCode } from '../../../src/managers/signup';
+import { sendVerificationCode } from '../../../src/managers/signup/signup';
 
 const Confirm: FC = () => {
   const router = useRouter();

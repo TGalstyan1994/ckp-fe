@@ -1,38 +1,28 @@
-import { NextPageContext } from 'next'
-import cookies from 'next-cookies'
-import { whiteList } from './constants'
-
-export function isBrowser(): boolean {
-  return !!typeof window
-}
-
-export const getSponsorByQuery = (): string => ''
-
-export const withAuth = (
-  inner?: (ctx: NextPageContext) => Record<string, unknown>
-) => {
-  return async (context: NextPageContext): Promise<Record<string, unknown>> => {
-    const { res, pathname } = context
-    const { auth } = cookies(context)
-
-    if (res && !auth && !whiteList.includes(pathname)) {
-      res.writeHead(302, { location: '/signin' })
-      res.end()
-    }
-    return inner ? inner(context) : { props: {} }
-  }
-}
+export const getSponsorByQuery = (): string => '';
 
 export const haveErrors = (ErrorObject: Record<string, string>): boolean => {
-  if (!Object.values(ErrorObject).every((elem) => elem === '')) return true
-  return false
-}
+  return !Object.values(ErrorObject).every((elem) => elem === '');
+};
 
-export const getAccessToken = (): string | null =>
-  localStorage.getItem('access_token')
+export const getAccessToken = (): string | null => {
+  let nameEQ = 'access_token=';
+  let ca = document.cookie.split(';');
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+  }
+  return null;
+};
 
-export const removeToken = (): void => localStorage.removeItem('access_token')
+export const removeToken = (): void => {
+  document.cookie = 'access_token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+};
 
 export const setAccessToken = (token: string): void => {
-  localStorage.setItem('access_token', token)
-}
+  let expires = '';
+  var date = new Date();
+  date.setTime(date.getTime() + (2 * 24 * 60 * 60 * 1000));
+  expires = '; expires=' + date.toUTCString();
+  document.cookie = 'access_token=' + (token || '') + expires + '; path=/';
+};
