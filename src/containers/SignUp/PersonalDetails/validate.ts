@@ -7,7 +7,8 @@ export const validate = (
   Object.keys(formState).forEach((key) => (errorObject[key] = ''))
 
   if (is.empty(formState.objective)) errorObject.objective = 'Field Required'
-  if (is.empty(formState.objectiveNote)) errorObject.objectiveNote = 'Field Required'
+  if (is.empty(formState.objectiveNote))
+    errorObject.objectiveNote = 'Field Required'
 
   if (is.empty(formState.maritalStatus))
     errorObject.maritalStatus = 'Field Required'
@@ -78,7 +79,6 @@ export const validate = (
     errorObject.dateOfBirth = 'Field required'
 
   if (is.empty(formState.zipCode)) errorObject.zipCode = 'Field Required'
-
 
   return errorObject
 }

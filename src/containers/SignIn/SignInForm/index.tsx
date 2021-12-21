@@ -1,30 +1,31 @@
-import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
-import { Button } from 'src/components/Button';
-import { CheckBox } from 'src/components/CheckBox';
-import { Input } from 'src/components/Input';
-import { LinkText } from 'src/components/LinkText';
-import { useRouter } from 'next/router';
-import { useDispatch } from 'react-redux';
-import { signInAction } from 'src/store/actions/signin';
+import { ChangeEvent, FC, useEffect, useRef, useState } from 'react'
+import { Button } from 'src/components/Button'
+import { CheckBox } from 'src/components/CheckBox'
+import { Input } from 'src/components/Input'
+import { LinkText } from 'src/components/LinkText'
+import { useRouter } from 'next/router'
+import { useDispatch } from 'react-redux'
+import { signInAction } from 'src/store/actions/signin'
 import {
   logOut,
-  startStageFetching, stopFetching,
-  validateForm
-} from 'src/store/reducers/signin';
-import { useSelectorTyped } from 'src/utils/hooks';
-import { ErrorsSpan } from 'src/components/ErrorsSpan';
+  startStageFetching,
+  stopFetching,
+  validateForm,
+} from 'src/store/reducers/signin'
+import { useSelectorTyped } from 'src/utils/hooks'
+import { ErrorsSpan } from 'src/components/ErrorsSpan'
 import {
   form,
   form_header,
   form_inputs,
   form_password_actions,
   form_buttons,
-  ico_button
-} from './SignInForm.module.css';
-import { validate } from './validate';
-import { getAccessToken } from '../../../utils';
-import { SignInLayout } from '../../Layouts/SignInLayout';
-import { resetSignup } from '../../../store/reducers/signup';
+  ico_button,
+} from './SignInForm.module.css'
+import { validate } from './validate'
+import { getAccessToken } from '../../../utils'
+import { SignInLayout } from '../../Layouts/SignInLayout'
+import { resetSignup } from '../../../store/reducers/signup'
 
 type FormState = {
   username: string
@@ -34,52 +35,52 @@ type FormState = {
 const SignInForm: FC = () => {
   const { errors, fetching, fetchingErrors, data } = useSelectorTyped(
     (state) => state.signin
-  );
+  )
   const [formState, setFormState] = useState<FormState>({
     username: '',
-    password: ''
-  });
-  const [rememberMe, setRememberMe] = useState<boolean>(false);
-  const dispatch = useDispatch();
-  const router = useRouter();
-  const firstUpdate = useRef(true);
+    password: '',
+  })
+  const [rememberMe, setRememberMe] = useState<boolean>(false)
+  const dispatch = useDispatch()
+  const router = useRouter()
+  const firstUpdate = useRef(true)
 
   const submitForm = () => {
-    dispatch(startStageFetching());
-    const ValidationErrors = validate(formState);
-    dispatch(validateForm({ errors: ValidationErrors }));
+    dispatch(startStageFetching())
+    const ValidationErrors = validate(formState)
+    dispatch(validateForm({ errors: ValidationErrors }))
 
     if (!Object.values(ValidationErrors).every((elem) => elem === '')) {
-      dispatch(stopFetching());
-      return;
+      dispatch(stopFetching())
+      return
     }
-    dispatch(signInAction(formState));
-  };
+    dispatch(signInAction(formState))
+  }
 
   const handleFormInput = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.type === 'checkbox') setRememberMe(e.target.checked);
+    if (e.target.type === 'checkbox') setRememberMe(e.target.checked)
     else
       setFormState((prev) => ({
         ...prev,
-        [e.target.name]: e.target.value
-      }));
-  };
+        [e.target.name]: e.target.value,
+      }))
+  }
 
   useEffect(() => {
     if (firstUpdate.current) {
-      firstUpdate.current = false;
-      dispatch(logOut());
+      firstUpdate.current = false
+      dispatch(logOut())
       dispatch(resetSignup())
-      return;
+      return
     }
     if (data.accessToken) {
       if (getAccessToken()) {
-        router.push('/profile');
+        router.push('/profile')
       } else {
-        router.push('/signup');
+        router.push('/signup')
       }
     }
-  }, [data.accessToken]);
+  }, [data.accessToken])
 
   return (
     <SignInLayout>
@@ -88,18 +89,18 @@ const SignInForm: FC = () => {
 
         <div className={form_inputs}>
           <Input
-            name='username'
-            placeholder='Username'
+            name="username"
+            placeholder="Username"
             value={formState.username}
             onChange={handleFormInput}
             error={errors.username}
           />
           <Input
-            name='password'
-            placeholder='Password'
+            name="password"
+            placeholder="Password"
             value={formState.password}
             onChange={handleFormInput}
-            type='password'
+            type="password"
             error={errors.password}
           />
         </div>
@@ -109,16 +110,20 @@ const SignInForm: FC = () => {
           <CheckBox
             checked={rememberMe}
             onChange={handleFormInput}
-            label='Remember me'
-            name='rememberMe'
+            label="Remember me"
+            name="rememberMe"
           />
-          <LinkText href='/signin/forgot_password'>
+          <LinkText href="/signin/forgot_password">
             Forgot your password ?
           </LinkText>
         </div>
 
         <div className={form_buttons}>
-          <Button disabled={fetching} className={ico_button} onClick={submitForm}>
+          <Button
+            disabled={fetching}
+            className={ico_button}
+            onClick={submitForm}
+          >
             Log In
           </Button>
           <Button onClick={() => router.push('/signup')}>
@@ -127,7 +132,7 @@ const SignInForm: FC = () => {
         </div>
       </div>
     </SignInLayout>
-  );
-};
+  )
+}
 
-export default SignInForm;
+export default SignInForm

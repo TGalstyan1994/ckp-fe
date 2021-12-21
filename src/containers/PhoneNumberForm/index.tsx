@@ -1,13 +1,13 @@
-import { Input } from 'src/components/Input';
-import { ChangeEvent, FC } from 'react';
+import { Input } from 'src/components/Input'
+import { ChangeEvent, FC } from 'react'
 import {
   phoneNumberForm_wrapper,
   input_margined,
   phoneNumber_header,
-  inputs_wrapper
-} from './style.module.css';
+  inputs_wrapper,
+} from './style.module.css'
 
-const phoneNumberRegExp = '[^0-9]';
+const phoneNumberRegExp = '[^0-9]'
 
 type Props = {
   changeStateCallback: (value: string, name: string) => void
@@ -25,26 +25,26 @@ export const PhoneNumberForm: FC<Props> = ({
   phoneCode,
   error,
   formState,
-  personalDetailsStatePhone
+  personalDetailsStatePhone,
 }) => {
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     if (
       e.target.name === 'phoneCode' &&
       e.target.value.slice(1).search(phoneNumberRegExp) !== -1
     )
-      return;
+      return
 
     if (
       e.target.name === 'phoneNumber' &&
       e.target.value.search(phoneNumberRegExp) !== -1
     )
-      return;
+      return
 
     if (e.target.name === 'phoneCode')
-      changeStateCallback(e.target.value.slice(1), e.target.name);
-    else changeStateCallback(e.target.value, e.target.name);
-  };
-  const arr = personalDetailsStatePhone?.split('-');
+      changeStateCallback(e.target.value.slice(1), e.target.name)
+    else changeStateCallback(e.target.value, e.target.name)
+  }
+  const arr = personalDetailsStatePhone?.split('-')
 
   return (
     <div className={phoneNumberForm_wrapper}>
@@ -52,7 +52,7 @@ export const PhoneNumberForm: FC<Props> = ({
       <div className={inputs_wrapper}>
         <Input
           maxLength={phoneCode.length + 1}
-          name='phoneCode'
+          name="phoneCode"
           onChange={handleInput}
           value={`+${formState.phoneCode}`}
           required
@@ -60,16 +60,16 @@ export const PhoneNumberForm: FC<Props> = ({
           error={error && ' '}
         />
         <Input
-          name='phoneNumber'
+          name="phoneNumber"
           onChange={handleInput}
           className={input_margined}
-          value={ formState.phoneNumber}
+          value={formState.phoneNumber}
           defaultValue={arr ? arr[1] : ''}
-          placeholder='Enter Mobile Number'
+          placeholder="Enter Mobile Number"
           error={error}
           required
         />
       </div>
     </div>
-  );
-};
+  )
+}

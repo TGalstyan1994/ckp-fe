@@ -1,7 +1,7 @@
-import classNames from 'classnames';
-import { Input } from 'src/components/Input';
-import { RadioBox } from 'src/components/Radio';
-import { ChangeEvent } from 'react';
+import classNames from 'classnames'
+import { Input } from 'src/components/Input'
+import { RadioBox } from 'src/components/Radio'
+import { ChangeEvent } from 'react'
 import {
   form,
   form_question,
@@ -9,20 +9,19 @@ import {
   label,
   input_wrapper,
   error_message,
-  invalid_form
-} from './style.module.css';
+  invalid_form,
+} from './style.module.css'
 
 interface IOptionalRadioForm {
-  onInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onRadioChange: (value: boolean) => void;
-  name: string;
-  questionLabel: string;
-  inputLabel?: string;
-  value: string;
-  answerState: boolean | undefined;
-  error?: string;
-  placeholder?: string;
-  checkRadio?: boolean;
+  onInputChange: (e: ChangeEvent<HTMLInputElement>) => void
+  onRadioChange: (value: boolean) => void
+  name: string
+  questionLabel: string
+  inputLabel?: string
+  value: string
+  answerState: boolean | undefined
+  error?: string
+  placeholder?: string
 }
 
 export const OptionalRadioForm = ({
@@ -36,11 +35,9 @@ export const OptionalRadioForm = ({
   error,
   placeholder,
 }: IOptionalRadioForm) => {
-
-
   const answerSetter = (option: boolean) => {
-    onRadioChange(option);
-  };
+    onRadioChange(option)
+  }
 
   return (
     <div className={form}>
@@ -49,13 +46,13 @@ export const OptionalRadioForm = ({
         <div className={form_radios}>
           <RadioBox
             name={name}
-            option='Yes'
+            option="Yes"
             onChange={() => answerSetter(true)}
             checked={answerState}
           />
           <RadioBox
             name={name}
-            option='No'
+            option="No"
             onChange={() => answerSetter(false)}
             checked={answerState === false}
           />
@@ -74,5 +71,5 @@ export const OptionalRadioForm = ({
         </div>
       )}
     </div>
-  );
-};
+  )
+}

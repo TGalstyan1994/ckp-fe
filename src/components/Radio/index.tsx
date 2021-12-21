@@ -12,7 +12,7 @@ export const RadioBox: FC<Props> = ({ onChange, option, name, checked }) => {
   const radioRef = useRef(null)
   return (
     <div className={radioBox_wrapper}>
-      <label className={label}>
+      <label className={label} htmlFor={name}>
         <input
           name={name}
           ref={radioRef}
@@ -20,6 +20,7 @@ export const RadioBox: FC<Props> = ({ onChange, option, name, checked }) => {
           className={radioBox}
           onChange={onChange}
           checked={checked}
+          id={name}
         />
         <span>{option}</span>
       </label>

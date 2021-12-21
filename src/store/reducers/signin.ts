@@ -1,6 +1,6 @@
-import { createSlice } from 'node_modules/@reduxjs/toolkit/dist';
-import { ISignInStore, ISignInRes } from '../../interfaces/signin/signin';
-import { removeToken } from '../../utils';
+import { createSlice } from 'node_modules/@reduxjs/toolkit/dist'
+import { ISignInStore, ISignInRes } from '../../interfaces/signin/signin'
+import { removeToken } from '../../utils'
 
 const initialSignInResState: ISignInRes = {
   accessToken: '',
@@ -9,25 +9,25 @@ const initialSignInResState: ISignInRes = {
     profile: false,
     securityCode: false,
     securityQuestion: false,
-    wallet: false
+    wallet: false,
   },
   user: {
     email: '',
     id: -1,
     status: '',
-    username: ''
-  }
-};
+    username: '',
+  },
+}
 
 const initialState: ISignInStore = {
   errors: {
     username: '',
-    password: ''
+    password: '',
   },
   fetching: false,
   fetchingErrors: '',
-  data: initialSignInResState
-};
+  data: initialSignInResState,
+}
 export type SignInState = typeof initialState
 
 const signin = createSlice({
@@ -35,37 +35,37 @@ const signin = createSlice({
   initialState,
   reducers: {
     setFetchingErrors(state, action) {
-      state.fetchingErrors = action.payload.response.data.message;
+      state.fetchingErrors = action.payload.response.data.message
     },
 
     startStageFetching(state) {
-      state.fetching = true;
+      state.fetching = true
     },
 
     validateForm(state, action) {
-      state.errors = action.payload.errors;
+      state.errors = action.payload.errors
     },
 
     stopFetching(state) {
-      state.fetching = false;
+      state.fetching = false
     },
 
     endStageFetching(state, action) {
-      state.data = action.payload;
-      state.fetching = false;
+      state.data = action.payload
+      state.fetching = false
     },
 
     storeAccessToken(state, action) {
-      state.data.accessToken = action.payload;
+      state.data.accessToken = action.payload
     },
 
     logOut(state) {
-      removeToken();
-      state.data = initialSignInResState;
-      state.fetchingErrors = '';
-    }
-  }
-});
+      removeToken()
+      state.data = initialSignInResState
+      state.fetchingErrors = ''
+    },
+  },
+})
 
 export const {
   validateForm,
@@ -74,7 +74,7 @@ export const {
   endStageFetching,
   stopFetching,
   logOut,
-  storeAccessToken
-} = signin.actions;
+  storeAccessToken,
+} = signin.actions
 
-export default signin.reducer;
+export default signin.reducer
