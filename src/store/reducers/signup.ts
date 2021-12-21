@@ -201,6 +201,10 @@ const signup = createSlice({
       };
     },
 
+    setNewError(state, action) {
+      state.stages[3].errors = { ...state.stages[3].errors, ...action.payload };
+    },
+
     resetSignup(state) {
       state.stages = initialState.stages;
       state.userInfo = initialState.userInfo;
@@ -224,6 +228,7 @@ export const {
   startStageFetching,
   endStageFetching,
   setUserGeo,
+  setNewError,
   resetSignup,
   setInitialPersonalDetails,
   backStage,

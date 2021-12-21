@@ -6,7 +6,8 @@ import { useSelectorTyped } from 'src/utils/hooks';
 import {
   endStageFetching,
   startStageFetching,
-  validateStage
+  validateStage,
+  setNewError
 } from 'src/store/reducers/signup';
 import { haveErrors } from 'src/utils';
 import { PhoneNumberForm } from 'src/containers/PhoneNumberForm';
@@ -60,7 +61,7 @@ const objectiveCodes = {
 } as { [key: string]: string };
 
 export const PersonalDetails: FC = () => {
-  const { errors,  fetchError, initialData } = useSelectorTyped((state) => state.signup.stages[3]);
+  const { errors, fetchError, initialData } = useSelectorTyped((state) => state.signup.stages[3]);
   const { country, states, cities } = useSelectorTyped((state) => state.signup.userInfo);
 
   const [personalDetailsState, setPersonalDetailsState] = useState({
@@ -113,9 +114,10 @@ export const PersonalDetails: FC = () => {
   });
 
   const [phoneState, setPhoneState] = useState({
-    phoneCode: country.phonecode.substring(1),
+    phoneCode: country.phonecode.slice(1),
     phoneNumber: ''
   });
+
 
   const dispatch = useDispatch();
 
@@ -161,8 +163,7 @@ export const PersonalDetails: FC = () => {
     const validationErrors = validate({
       ...personalDetailsState,
       dateOfBirth,
-      phone: `${phoneState.phoneCode}${phoneState.phoneNumber}`
-    });
+    }, phoneState);
 
     dispatch(validateStage({ errors: validationErrors }));
 
@@ -192,7 +193,6 @@ export const PersonalDetails: FC = () => {
   ) => setPersonalDetails(e.target.name, e.target.value);
 
   useEffect(() => {
-
     if (country.id < 0) return;
     dispatch({
       type: 'GEO_TAKE',
@@ -201,7 +201,7 @@ export const PersonalDetails: FC = () => {
 
     setPhoneState({
       ...phoneState,
-      phoneCode: country.phonecode
+      phoneCode: country.phonecode.slice(1)
     });
 
     setPersonalDetailsState({
@@ -225,7 +225,7 @@ export const PersonalDetails: FC = () => {
     });
 
     setPhoneState({
-      phoneCode: initialData?.phoneParsed.country.substring(1),
+      phoneCode: initialData?.phoneParsed.country.slice(1),
       phoneNumber: initialData?.phoneParsed.phone
     });
 
@@ -273,6 +273,13 @@ export const PersonalDetails: FC = () => {
       }
     }
   }, [cities]);
+
+  useEffect(() => {
+    fetchError && fetchError.map((result: { property: string, messages: string[] }) => {
+      const newError = {[result.property]: result.messages[0]}
+      dispatch(setNewError(newError))
+    });
+  }, [fetchError]);
 
   return (
     <div className={form}>
@@ -338,7 +345,7 @@ export const PersonalDetails: FC = () => {
       <div className={classNames(form_phone_address, row)}>
         <PhoneNumberForm
           changeStateCallback={changePhoneState}
-          phoneCode={country.phonecode.substring(1)}
+          phoneCode={country.phonecode.slice(1)}
           formState={{
             phoneCode: phoneState.phoneCode,
             phoneNumber: phoneState.phoneNumber
@@ -407,6 +414,7 @@ export const PersonalDetails: FC = () => {
           answerState={personalDetailsState.сurrentlyEmployed}
           value={personalDetailsState.jobTitle}
           error={errors?.сurrentlyEmployed}
+          inputError = {errors?.jobTitle}
         />
         {personalDetailsState.сurrentlyEmployed && (
           <div className={classNames(row, job_question_inputs, row_employed)}>
@@ -415,12 +423,14 @@ export const PersonalDetails: FC = () => {
               name='jobDescription'
               value={personalDetailsState.jobDescription}
               placeholder='Job Description'
+              inputError = {errors?.jobDescription}
             />
             <Input
               onChange={handleFormInputs}
               name='employeeAddress'
               value={personalDetailsState.employeeAddress}
               placeholder='Employee Address'
+              inputError = {errors?.employeeAddress}
             />
           </div>
         )}
@@ -434,6 +444,7 @@ export const PersonalDetails: FC = () => {
           answerState={personalDetailsState.businessOwner}
           value={personalDetailsState.businessDescription}
           error={errors?.businessOwner}
+          inputError = {errors?.businessDescription}
         />
         <OptionalRadioForm
           name='tradeDescription'
@@ -444,6 +455,8 @@ export const PersonalDetails: FC = () => {
           answerState={personalDetailsState.anyTrade}
           value={personalDetailsState.tradeDescription}
           error={errors?.anyTrade}
+          inputError = {errors?.tradeDescription}
+
         />
         <OptionalRadioForm
           name='technicalSkillsDescription'
@@ -456,6 +469,7 @@ export const PersonalDetails: FC = () => {
           answerState={personalDetailsState.anyTechnicalSkills}
           value={personalDetailsState.technicalSkillsDescription}
           error={errors?.anyTechnicalSkills}
+          inputError = {errors?.technicalSkillsDescription}
         />
         <OptionalRadioForm
           name='athleticSkillsDescription'
@@ -468,6 +482,7 @@ export const PersonalDetails: FC = () => {
           answerState={personalDetailsState.anyAthleticSkills}
           value={personalDetailsState.athleticSkillsDescription}
           error={errors?.anyAthleticSkills}
+          inputError = {errors?.athleticSkillsDescription}
         />
         <OptionalRadioForm
           name='totalNumberOfDependens'
@@ -479,6 +494,7 @@ export const PersonalDetails: FC = () => {
           value={personalDetailsState.totalNumberOfDependens}
           error={errors?.anyDependents}
           checkRadio={personalDetailsState.anyDependents}
+          inputError = {errors?.totalNumberOfDependens}
         />
       </div>
 
@@ -506,7 +522,6 @@ export const PersonalDetails: FC = () => {
           value={personalDetailsState.beneficiaryContactNumber}
           placeholder='Contact Number'
           error={errors?.beneficiaryContactNumber}
-          type="number"
         />
       </div>
 
