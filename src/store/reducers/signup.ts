@@ -202,7 +202,7 @@ const signup = createSlice({
     },
 
     setNewError(state, action) {
-      state.stages[3].errors = { ...state.stages[3].errors, ...action.payload };
+      state.stages[3].errors = { ...state.stages[3].errors, ...action.payload }
     },
 
     resetSignup(state) {

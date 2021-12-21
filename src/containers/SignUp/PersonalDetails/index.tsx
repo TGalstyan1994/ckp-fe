@@ -167,10 +167,13 @@ export const PersonalDetails: FC = () => {
   const handleForm = () => {
     dispatch(startStageFetching())
 
-    const validationErrors = validate({
-      ...personalDetailsState,
-      dateOfBirth,
-    }, phoneState);
+    const validationErrors = validate(
+      {
+        ...personalDetailsState,
+        dateOfBirth,
+      },
+      phoneState
+    )
 
     dispatch(validateStage({ errors: validationErrors }))
 
@@ -208,8 +211,8 @@ export const PersonalDetails: FC = () => {
 
     setPhoneState({
       ...phoneState,
-      phoneCode: country.phonecode.slice(1)
-    });
+      phoneCode: country.phonecode.slice(1),
+    })
 
     setPersonalDetailsState({
       ...personalDetailsState,
@@ -233,8 +236,8 @@ export const PersonalDetails: FC = () => {
 
     setPhoneState({
       phoneCode: initialData?.phoneParsed.country.slice(1),
-      phoneNumber: initialData?.phoneParsed.phone
-    });
+      phoneNumber: initialData?.phoneParsed.phone,
+    })
 
     const currentState = states?.find(
       (state: Record<string, string>) => state.id === initialData.stateId
@@ -282,11 +285,12 @@ export const PersonalDetails: FC = () => {
   }, [cities])
 
   useEffect(() => {
-    fetchError && fetchError.map((result: { property: string, messages: string[] }) => {
-      const newError = {[result.property]: result.messages[0]}
-      dispatch(setNewError(newError))
-    });
-  }, [fetchError]);
+    fetchError &&
+      fetchError.map((result: { property: string; messages: string[] }) => {
+        const newError = { [result.property]: result.messages[0] }
+        dispatch(setNewError(newError))
+      })
+  }, [fetchError])
 
   return (
     <div className={form}>
@@ -422,7 +426,7 @@ export const PersonalDetails: FC = () => {
           answerState={personalDetailsState.сurrentlyEmployed}
           value={personalDetailsState.jobTitle}
           error={errors?.сurrentlyEmployed}
-          inputError = {errors?.jobTitle}
+          inputError={errors?.jobTitle}
         />
         {personalDetailsState.сurrentlyEmployed && (
           <div className={classNames(row, job_question_inputs, row_employed)}>
@@ -431,14 +435,14 @@ export const PersonalDetails: FC = () => {
               name="jobDescription"
               value={personalDetailsState.jobDescription}
               placeholder="Job Description"
-              inputError = {errors?.jobDescription}
+              inputError={errors?.jobDescription}
             />
             <Input
               onChange={handleFormInputs}
               name="employeeAddress"
               value={personalDetailsState.employeeAddress}
               placeholder="Employee Address"
-              inputError = {errors?.employeeAddress}
+              inputError={errors?.employeeAddress}
             />
           </div>
         )}
@@ -452,7 +456,7 @@ export const PersonalDetails: FC = () => {
           answerState={personalDetailsState.businessOwner}
           value={personalDetailsState.businessDescription}
           error={errors?.businessOwner}
-          inputError = {errors?.businessDescription}
+          inputError={errors?.businessDescription}
         />
         <OptionalRadioForm
           name="tradeDescription"
@@ -463,8 +467,7 @@ export const PersonalDetails: FC = () => {
           answerState={personalDetailsState.anyTrade}
           value={personalDetailsState.tradeDescription}
           error={errors?.anyTrade}
-          inputError = {errors?.tradeDescription}
-
+          inputError={errors?.tradeDescription}
         />
         <OptionalRadioForm
           name="technicalSkillsDescription"
@@ -477,7 +480,7 @@ export const PersonalDetails: FC = () => {
           answerState={personalDetailsState.anyTechnicalSkills}
           value={personalDetailsState.technicalSkillsDescription}
           error={errors?.anyTechnicalSkills}
-          inputError = {errors?.technicalSkillsDescription}
+          inputError={errors?.technicalSkillsDescription}
         />
         <OptionalRadioForm
           name="athleticSkillsDescription"
@@ -490,7 +493,7 @@ export const PersonalDetails: FC = () => {
           answerState={personalDetailsState.anyAthleticSkills}
           value={personalDetailsState.athleticSkillsDescription}
           error={errors?.anyAthleticSkills}
-          inputError = {errors?.athleticSkillsDescription}
+          inputError={errors?.athleticSkillsDescription}
         />
         <OptionalRadioForm
           name="totalNumberOfDependens"
@@ -501,7 +504,7 @@ export const PersonalDetails: FC = () => {
           answerState={personalDetailsState.anyDependents}
           value={personalDetailsState.totalNumberOfDependens}
           error={errors?.anyDependents}
-          inputError = {errors?.totalNumberOfDependens}
+          inputError={errors?.totalNumberOfDependens}
         />
       </div>
 

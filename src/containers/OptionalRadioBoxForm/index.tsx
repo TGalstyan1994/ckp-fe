@@ -35,7 +35,7 @@ export const OptionalRadioForm = ({
   answerState,
   error,
   placeholder,
-  inputError
+  inputError,
 }: IOptionalRadioForm) => {
   const answerSetter = (option: boolean) => {
     onRadioChange(option)

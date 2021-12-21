@@ -28,12 +28,12 @@ export const Input: FC<Props> = ({
   defaultValue,
   inputError,
 }) => {
-  const [showPassword, setShowPassword] = useState(!(type === 'password'));
-  const togglePasswordView = () => setShowPassword((prev) => !prev);
+  const [showPassword, setShowPassword] = useState(!(type === 'password'))
+  const togglePasswordView = () => setShowPassword((prev) => !prev)
 
-  let InputType = type;
-  if (type === 'password') InputType = showPassword ? 'text' : 'password';
-  if (type === 'pin') InputType = 'password';
+  let InputType = type
+  if (type === 'password') InputType = showPassword ? 'text' : 'password'
+  if (type === 'pin') InputType = 'password'
 
   return (
     <div className={input_container}>
@@ -68,7 +68,7 @@ export const Input: FC<Props> = ({
             onClick={togglePasswordView}
           />
         )}
-        <span className={error_message}>{error ? error : inputError}</span>
+        <span className={error_message}>{error || inputError}</span>
       </div>
     </div>
   )

@@ -7,18 +7,16 @@ export function requireAuthentication(gssp: GetServerSideProps) {
     const notRequiredRouts = ['/signin', '/signup']
 
     if (req.cookies) {
-      const token = req.cookies['access_token']
-      if (token) {
-        if (req.url && notRequiredRouts.includes(req.url)) {
-          return {
-            redirect: {
-              permanent: false,
-              destination: '/profile',
-            },
-          }
+      const token = req.cookies.access_token
+      if (token && req.url && notRequiredRouts.includes(req.url)) {
+        return {
+          redirect: {
+            permanent: false,
+            destination: '/profile',
+          },
         }
       }
     }
-    return await gssp(ctx)
+    return gssp(ctx)
   }
 }

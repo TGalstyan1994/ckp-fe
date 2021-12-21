@@ -37,7 +37,7 @@ const signin = createSlice({
     setFetchingErrors(state, action) {
       state.fetchingErrors = action.payload.response.data.message
     },
-    resetFetchingError(state){
+    resetFetchingError(state) {
       state.fetchingErrors = ''
     },
     startStageFetching(state) {
@@ -47,8 +47,8 @@ const signin = createSlice({
     validateForm(state, action) {
       state.errors = {
         ...state.errors,
-        ...action.payload.errors
-      };
+        ...action.payload.errors,
+      }
     },
 
     stopFetching(state) {
@@ -80,7 +80,7 @@ export const {
   stopFetching,
   logOut,
   resetFetchingError,
-  storeAccessToken
+  storeAccessToken,
 } = signin.actions
 
 export default signin.reducer

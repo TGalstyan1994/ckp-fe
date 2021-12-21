@@ -11,7 +11,7 @@ import {
   startStageFetching,
   stopFetching,
   validateForm,
-  resetFetchingError
+  resetFetchingError,
 } from 'src/store/reducers/signin'
 import { useSelectorTyped } from 'src/utils/hooks'
 import { ErrorsSpan } from 'src/components/ErrorsSpan'
@@ -59,18 +59,16 @@ const SignInForm: FC = () => {
   }
 
   const handleFormInput = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(resetFetchingError());
+    dispatch(resetFetchingError())
     if (e.target.name === 'username') {
-      dispatch(validateForm({ errors: { username: '' } })
-      );
+      dispatch(validateForm({ errors: { username: '' } }))
     }
 
     if (e.target.name === 'password') {
-      dispatch(validateForm({ errors: { password: '' } })
-      );
+      dispatch(validateForm({ errors: { password: '' } }))
     }
 
-    if (e.target.type === 'checkbox') setRememberMe(e.target.checked);
+    if (e.target.type === 'checkbox') setRememberMe(e.target.checked)
     else
       setFormState((prev) => ({
         ...prev,
