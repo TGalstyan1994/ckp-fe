@@ -167,11 +167,13 @@ export const PersonalDetails: FC = () => {
   const handleForm = () => {
     dispatch(startStageFetching())
 
-    const validationErrors = validate({
-      ...personalDetailsState,
-      dateOfBirth,
-      phone: `${phoneState.phoneCode}${phoneState.phoneNumber}`,
-    })
+    const validationErrors = validate(
+      {
+        ...personalDetailsState,
+        dateOfBirth,
+      },
+      phoneState
+    )
 
     dispatch(validateStage({ errors: validationErrors }))
 
@@ -209,7 +211,7 @@ export const PersonalDetails: FC = () => {
 
     setPhoneState({
       ...phoneState,
-      phoneCode: country.phonecode,
+      phoneCode: country.phonecode.slice(1),
     })
 
     setPersonalDetailsState({
@@ -232,10 +234,8 @@ export const PersonalDetails: FC = () => {
       day: `${day}`,
     })
 
-    const pCode = initialData?.phoneParsed.country.split('+')
-
     setPhoneState({
-      phoneCode: `${pCode[1]}`,
+      phoneCode: initialData?.phoneParsed.country.slice(1),
       phoneNumber: initialData?.phoneParsed.phone,
     })
 
@@ -284,6 +284,14 @@ export const PersonalDetails: FC = () => {
     }
   }, [cities])
 
+  useEffect(() => {
+    fetchError &&
+      fetchError.map((result: { property: string; messages: string[] }) => {
+        const newError = { [result.property]: result.messages[0] }
+        dispatch(setNewError(newError))
+      })
+  }, [fetchError])
+
   return (
     <div className={form}>
       <H1 secondary>Personal Details</H1>
@@ -305,11 +313,12 @@ export const PersonalDetails: FC = () => {
         currentOption={objectiveCodes[personalDetailsState.objective]}
         placeholder="Start a Business"
         setCurrentOption={(option: string) => {
-          Object.keys(objectiveCodes).map((item: string) => {
+          // eslint-disable-next-line no-restricted-syntax
+          for (const item of Object.keys(objectiveCodes)) {
             if (objectiveCodes[item] === option) {
               setPersonalDetails('objective', item)
             }
-          })
+          }
         }}
       />
 
@@ -347,7 +356,7 @@ export const PersonalDetails: FC = () => {
       <div className={classNames(form_phone_address, row)}>
         <PhoneNumberForm
           changeStateCallback={changePhoneState}
-          phoneCode={country.phonecode}
+          phoneCode={country.phonecode.slice(1)}
           formState={{
             phoneCode: phoneState.phoneCode,
             phoneNumber: phoneState.phoneNumber,
@@ -417,6 +426,7 @@ export const PersonalDetails: FC = () => {
           answerState={personalDetailsState.сurrentlyEmployed}
           value={personalDetailsState.jobTitle}
           error={errors?.сurrentlyEmployed}
+          inputError={errors?.jobTitle}
         />
         {personalDetailsState.сurrentlyEmployed && (
           <div className={classNames(row, job_question_inputs, row_employed)}>
@@ -425,12 +435,14 @@ export const PersonalDetails: FC = () => {
               name="jobDescription"
               value={personalDetailsState.jobDescription}
               placeholder="Job Description"
+              inputError={errors?.jobDescription}
             />
             <Input
               onChange={handleFormInputs}
               name="employeeAddress"
               value={personalDetailsState.employeeAddress}
               placeholder="Employee Address"
+              inputError={errors?.employeeAddress}
             />
           </div>
         )}
@@ -444,6 +456,7 @@ export const PersonalDetails: FC = () => {
           answerState={personalDetailsState.businessOwner}
           value={personalDetailsState.businessDescription}
           error={errors?.businessOwner}
+          inputError={errors?.businessDescription}
         />
         <OptionalRadioForm
           name="tradeDescription"
@@ -454,6 +467,7 @@ export const PersonalDetails: FC = () => {
           answerState={personalDetailsState.anyTrade}
           value={personalDetailsState.tradeDescription}
           error={errors?.anyTrade}
+          inputError={errors?.tradeDescription}
         />
         <OptionalRadioForm
           name="technicalSkillsDescription"
@@ -466,6 +480,7 @@ export const PersonalDetails: FC = () => {
           answerState={personalDetailsState.anyTechnicalSkills}
           value={personalDetailsState.technicalSkillsDescription}
           error={errors?.anyTechnicalSkills}
+          inputError={errors?.technicalSkillsDescription}
         />
         <OptionalRadioForm
           name="athleticSkillsDescription"
@@ -478,6 +493,7 @@ export const PersonalDetails: FC = () => {
           answerState={personalDetailsState.anyAthleticSkills}
           value={personalDetailsState.athleticSkillsDescription}
           error={errors?.anyAthleticSkills}
+          inputError={errors?.athleticSkillsDescription}
         />
         <OptionalRadioForm
           name="totalNumberOfDependens"
@@ -488,6 +504,7 @@ export const PersonalDetails: FC = () => {
           answerState={personalDetailsState.anyDependents}
           value={personalDetailsState.totalNumberOfDependens}
           error={errors?.anyDependents}
+          inputError={errors?.totalNumberOfDependens}
         />
       </div>
 
@@ -588,7 +605,7 @@ export const PersonalDetails: FC = () => {
           </LinkText>
         </div>
         <div className={actions_buttons}>
-          <Button onClick={handleForm} disabled={!termsAcceptance || fetching}>
+          <Button onClick={handleForm} disabled={!termsAcceptance}>
             <>Continue</>
             <img src={vector} alt="vector" />
           </Button>

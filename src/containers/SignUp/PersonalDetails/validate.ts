@@ -1,7 +1,8 @@
 import is from 'is_js'
 
 export const validate = (
-  formState: Record<string, any>
+  formState: Record<string, any>,
+  phoneDate: Record<string, any>
 ): Record<string, string> => {
   const errorObject = {} as { [key: string]: string }
   Object.keys(formState).forEach((key) => (errorObject[key] = ''))
@@ -33,8 +34,38 @@ export const validate = (
   if (formState.stateId === undefined) errorObject.cityId = 'Field Required'
   if (formState.cityId === undefined) errorObject.stateId = 'Field Required'
 
-  if (is.empty(formState.phone))
+  if (is.empty(phoneDate.phoneCode) || is.empty(phoneDate.phoneNumber))
     errorObject.phone = 'Field is required and should contain only digits'
+
+  if (is.empty(formState.totalNumberOfDependens))
+    errorObject.totalNumberOfDependens =
+      'Field is required and should contain only digits'
+
+  if (is.empty(formState.businessDescription))
+    errorObject.businessDescription = 'Field is required '
+
+  if (is.empty(formState.jobTitle)) errorObject.jobTitle = 'Field is required '
+
+  if (is.empty(formState.jobDescription))
+    errorObject.jobDescription = 'Field is required '
+
+  if (is.empty(formState.employeeAddress))
+    errorObject.employeeAddress = 'Field is required '
+
+  if (is.empty(formState.totalNumberOfDependens))
+    errorObject.totalNumberOfDependens = 'Field is required '
+
+  if (is.empty(formState.athleticSkillsDescription))
+    errorObject.athleticSkillsDescription = 'Field is required '
+
+  if (is.empty(formState.technicalSkillsDescription))
+    errorObject.technicalSkillsDescription = 'Field is required '
+
+  if (is.empty(formState.tradeDescription))
+    errorObject.tradeDescription = 'Field is required '
+
+  if (is.empty(formState.businessDescription))
+    errorObject.businessDescription = 'Field is required '
 
   if (formState.address.length > 255 || is.empty(formState.address))
     errorObject.address = 'Field is required'
@@ -67,6 +98,7 @@ export const validate = (
   )
     errorObject.beneficiaryRelationship =
       'Field is required, min is 2 and max is 32 characters'
+
   if (
     formState.beneficiaryContactNumber.length < 2 ||
     formState.beneficiaryContactNumber.length > 32 ||

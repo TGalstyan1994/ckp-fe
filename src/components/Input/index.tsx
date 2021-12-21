@@ -26,6 +26,7 @@ export const Input: FC<Props> = ({
   maxLength,
   disabled,
   defaultValue,
+  inputError,
 }) => {
   const [showPassword, setShowPassword] = useState(!(type === 'password'))
   const togglePasswordView = () => setShowPassword((prev) => !prev)
@@ -67,7 +68,7 @@ export const Input: FC<Props> = ({
             onClick={togglePasswordView}
           />
         )}
-        <span className={error_message}>{error}</span>
+        <span className={error_message}>{error || inputError}</span>
       </div>
     </div>
   )

@@ -13,4 +13,5 @@ export type Props = {
   maxLength?: number
   disabled?: boolean
   defaultValue?: string
+  inputError?: string
 }
