@@ -48,7 +48,7 @@ export const OptionalRadioForm = ({
             name={name}
             option="Yes"
             onChange={() => answerSetter(true)}
-            checked={answerState}
+            checked={!!answerState}
           />
           <RadioBox
             name={name}

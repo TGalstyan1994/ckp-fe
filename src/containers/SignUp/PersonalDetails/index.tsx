@@ -305,11 +305,12 @@ export const PersonalDetails: FC = () => {
         currentOption={objectiveCodes[personalDetailsState.objective]}
         placeholder="Start a Business"
         setCurrentOption={(option: string) => {
-          Object.keys(objectiveCodes).map((item: string) => {
+          // eslint-disable-next-line no-restricted-syntax
+          for (const item of Object.keys(objectiveCodes)) {
             if (objectiveCodes[item] === option) {
               setPersonalDetails('objective', item)
             }
-          })
+          }
         }}
       />
 
