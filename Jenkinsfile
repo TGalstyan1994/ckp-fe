@@ -19,7 +19,7 @@ pipeline {
         PROJECT_FOLDER = "$WORKSPACE"
         SLACK_CHANNEL = 'project-calla-kofa-platfrom'
         SLACK_DOMAIN = 'rocketech-soft'
-        SLACK_CREDENTIALS = 'rocketech-soft-slack-credentials-id'
+        SLACK_CREDENTIALS = 'slack-token'
         NOTIFY_SUCCESS = true
         CHANGE_LIST = true
         TEST_SUMMARY = false
@@ -77,7 +77,7 @@ pipeline {
             }
             steps {
                 script {
-                    gitTagBuild('bitbucket-ssh-key')
+                    gitTagBuild('bbcreds')
                 }
             }
         }
