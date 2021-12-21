@@ -33,7 +33,9 @@
     "linebreak-style": "off",
     "import/prefer-default-export": "off",
     "react/require-default-props": "off",
-    "no-param-reassign": "off"
+    "no-param-reassign": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@next/next/no-img-element": "off"
   },
   "root": true
 }

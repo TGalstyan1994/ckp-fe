@@ -1,25 +1,24 @@
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 
 export function requireAuthentication(gssp: GetServerSideProps) {
-
   return async (ctx: GetServerSidePropsContext) => {
-    const { req } = ctx;
+    const { req } = ctx
 
-    const notRequiredRouts = ['/signin', '/signup'];
+    const notRequiredRouts = ['/signin', '/signup']
 
     if (req.cookies) {
-      const token = req.cookies['access_token'];
+      const token = req.cookies['access_token']
       if (token) {
         if (req.url && notRequiredRouts.includes(req.url)) {
           return {
             redirect: {
               permanent: false,
-              destination: '/profile'
-            }
-          };
+              destination: '/profile',
+            },
+          }
         }
       }
     }
-    return await gssp(ctx);
-  };
+    return await gssp(ctx)
+  }
 }

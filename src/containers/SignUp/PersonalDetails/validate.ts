@@ -76,7 +76,7 @@ export const validate = (
     is.empty(formState.firstName)
   )
     errorObject.firstName =
-      'Field is required, min is 2 and max is 32 characters';
+      'Field is required, min is 2 and max is 32 characters'
   if (
     formState.lastName.length < 2 ||
     formState.lastName.length > 32 ||

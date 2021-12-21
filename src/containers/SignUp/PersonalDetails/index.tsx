@@ -1,27 +1,30 @@
-import { Select } from 'src/components/Select';
-import { TextArea } from 'src/components/Textarea';
-import { ChangeEvent, FC, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useSelectorTyped } from 'src/utils/hooks';
+import { Select } from 'src/components/Select'
+import { TextArea } from 'src/components/Textarea'
+import { ChangeEvent, FC, useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useSelectorTyped } from 'src/utils/hooks'
 import {
   endStageFetching,
   startStageFetching,
   validateStage,
-  setNewError
-} from 'src/store/reducers/signup';
-import { haveErrors } from 'src/utils';
-import { PhoneNumberForm } from 'src/containers/PhoneNumberForm';
-import { LinkText } from 'src/components/LinkText';
-import { Button } from 'src/components/Button';
-import { Input } from 'src/components/Input';
-import { getPersonalDetails, sendPersonalDetails } from 'src/store/actions/signup';
-import { DatePickerForm } from 'src/containers/DatePickerForm';
-import classNames from 'classnames';
-import { ChooseGenderForm } from 'src/containers/ChooseGenderForm';
-import { OptionalRadioForm } from 'src/containers/OptionalRadioBoxForm';
-import { CheckBox } from 'src/components/CheckBox';
-import { ErrorsSpan } from 'src/components/ErrorsSpan';
-import { H1 } from 'src/components/H1';
+} from 'src/store/reducers/signup'
+import { haveErrors } from 'src/utils'
+import { PhoneNumberForm } from 'src/containers/PhoneNumberForm'
+import { LinkText } from 'src/components/LinkText'
+import { Button } from 'src/components/Button'
+import { Input } from 'src/components/Input'
+import {
+  getPersonalDetails,
+  sendPersonalDetails,
+} from 'src/store/actions/signup'
+import { DatePickerForm } from 'src/containers/DatePickerForm'
+import classNames from 'classnames'
+import { ChooseGenderForm } from 'src/containers/ChooseGenderForm'
+import { OptionalRadioForm } from 'src/containers/OptionalRadioBoxForm'
+import { CheckBox } from 'src/components/CheckBox'
+import { ErrorsSpan } from 'src/components/ErrorsSpan'
+import { H1 } from 'src/components/H1'
+import vector from 'src/UI/Vector.svg'
 import {
   form,
   form_actions,
@@ -35,34 +38,37 @@ import {
   job_question_inputs,
   row,
   margin_cont,
-  row_employed
-} from './style.module.css';
-import { validate } from './validate';
-import vector from 'src/UI/Vector.svg';
+  row_employed,
+} from './style.module.css'
+import { validate } from './validate'
 
 const maritalStatusCodes = {
-  'SINGLE': 'Single',
-  'MARRIED': 'Married',
-  'DIVORCED': 'Divorced',
-  'COMMON_LAW': 'Common-law',
-  'WIDOW_WIDOWER': 'Widow/widower'
-} as { [key: string]: string };
+  SINGLE: 'Single',
+  MARRIED: 'Married',
+  DIVORCED: 'Divorced',
+  COMMON_LAW: 'Common-law',
+  WIDOW_WIDOWER: 'Widow/widower',
+} as { [key: string]: string }
 
 const objectiveCodes = {
-  'START_BUSINESS': 'Start a business',
-  'PROPERTY_PURCHASE': 'Buy income generating property',
-  'SECURE_COLLEGE_FUNDS': 'Secure college funds',
-  'HOME_OWNERSHIP': 'Home ownership',
-  'HEALTHCARE': 'Better health care',
-  'VACATION': 'Dream vacation',
-  'FURNISH': 'Furnish home',
-  'VEHICLE_PURCHASE': 'Buy new vehicle',
-  'OTHER': 'Other'
-} as { [key: string]: string };
+  START_BUSINESS: 'Start a business',
+  PROPERTY_PURCHASE: 'Buy income generating property',
+  SECURE_COLLEGE_FUNDS: 'Secure college funds',
+  HOME_OWNERSHIP: 'Home ownership',
+  HEALTHCARE: 'Better health care',
+  VACATION: 'Dream vacation',
+  FURNISH: 'Furnish home',
+  VEHICLE_PURCHASE: 'Buy new vehicle',
+  OTHER: 'Other',
+} as { [key: string]: string }
 
 export const PersonalDetails: FC = () => {
-  const { errors, fetchError, initialData } = useSelectorTyped((state) => state.signup.stages[3]);
-  const { country, states, cities } = useSelectorTyped((state) => state.signup.userInfo);
+  const { errors, fetching, fetchError, initialData } = useSelectorTyped(
+    (state) => state.signup.stages[3]
+  )
+  const { country, states, cities } = useSelectorTyped(
+    (state) => state.signup.userInfo
+  )
 
   const [personalDetailsState, setPersonalDetailsState] = useState({
     objective: '',
@@ -72,7 +78,7 @@ export const PersonalDetails: FC = () => {
     phone: '',
     phoneParsed: {
       country: '',
-      phone: ''
+      phone: '',
     },
     address: '',
     gender: 'Male',
@@ -98,78 +104,79 @@ export const PersonalDetails: FC = () => {
     cityId: undefined,
     stateId: undefined,
     countryId: country.id,
-    zipCode: ''
-  });
+    zipCode: '',
+  })
 
-  const [termsAcceptance, setTermsAcceptance] = useState(false);
+  const [termsAcceptance, setTermsAcceptance] = useState(false)
   const [geoData, setGeoData] = useState({
     state: '',
-    city: ''
-  });
+    city: '',
+  })
 
   const [dateOfBirth, setDateOfBirth] = useState({
     day: '',
     month: '',
-    year: ''
-  });
+    year: '',
+  })
 
   const [phoneState, setPhoneState] = useState({
     phoneCode: country.phonecode.slice(1),
-    phoneNumber: ''
-  });
+    phoneNumber: '',
+  })
 
+  const dispatch = useDispatch()
 
-  const dispatch = useDispatch();
-
-  const setPersonalDetails = (key: string, value: string | boolean | number) => {
-    setPersonalDetailsState((prev) => ({ ...prev, [key]: value }));
-  };
+  const setPersonalDetails = (
+    key: string,
+    value: string | boolean | number
+  ) => {
+    setPersonalDetailsState((prev) => ({ ...prev, [key]: value }))
+  }
 
   const changePhoneState = (value: string, name: string) => {
-    setPhoneState((prev) => ({ ...prev, [name]: value }));
-  };
+    setPhoneState((prev) => ({ ...prev, [name]: value }))
+  }
 
   const changeGeoStates = (option: string) => {
-
     const currentState = states.find(
       (state: Record<string, string>) => state.name === option
-    ) as { id: number; name: string } | undefined;
+    ) as { id: number; name: string } | undefined
 
     if (currentState) {
       dispatch({
         type: 'GEO_TAKE',
         payload: {
           stateId: currentState.id,
-          at: 'cities'
-        }
-      });
-      setPersonalDetails('stateId', currentState.id);
+          at: 'cities',
+        },
+      })
+      setPersonalDetails('stateId', currentState.id)
     }
-    setGeoData((prev) => ({ ...prev, state: option, city: '' }));
-  };
+    setGeoData((prev) => ({ ...prev, state: option, city: '' }))
+  }
 
   const changeGeoCities = (option: string) => {
     const currentCity = cities.find(
       (city: Record<string, string>) => city.name === option
-    ) as { id: number; name: string } | undefined;
+    ) as { id: number; name: string } | undefined
 
-    setGeoData((prev) => ({ ...prev, city: option }));
-    if (currentCity) setPersonalDetails('cityId', currentCity.id);
-  };
+    setGeoData((prev) => ({ ...prev, city: option }))
+    if (currentCity) setPersonalDetails('cityId', currentCity.id)
+  }
 
   const handleForm = () => {
-    dispatch(startStageFetching());
+    dispatch(startStageFetching())
 
     const validationErrors = validate({
       ...personalDetailsState,
       dateOfBirth,
     }, phoneState);
 
-    dispatch(validateStage({ errors: validationErrors }));
+    dispatch(validateStage({ errors: validationErrors }))
 
     if (haveErrors(validationErrors)) {
-      dispatch(endStageFetching());
-      return;
+      dispatch(endStageFetching())
+      return
     }
 
     const currentFormState = {
@@ -181,23 +188,23 @@ export const PersonalDetails: FC = () => {
         +dateOfBirth.day + 1
       )
         .toJSON()
-        .slice(0, 10)
-    };
-    const { phoneParsed, ...body } = currentFormState;
+        .slice(0, 10),
+    }
+    const { phoneParsed, ...body } = currentFormState
     // @ts-ignore
-    dispatch(sendPersonalDetails(body));
-  };
+    dispatch(sendPersonalDetails(body))
+  }
 
   const handleFormInputs = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
-  ) => setPersonalDetails(e.target.name, e.target.value);
+  ) => setPersonalDetails(e.target.name, e.target.value)
 
   useEffect(() => {
-    if (country.id < 0) return;
+    if (country.id < 0) return
     dispatch({
       type: 'GEO_TAKE',
-      payload: { countryId: country.id, at: 'states' }
-    });
+      payload: { countryId: country.id, at: 'states' },
+    })
 
     setPhoneState({
       ...phoneState,
@@ -206,23 +213,23 @@ export const PersonalDetails: FC = () => {
 
     setPersonalDetailsState({
       ...personalDetailsState,
-      countryId: country.id
-    });
-  }, [country.id]);
+      countryId: country.id,
+    })
+  }, [country.id])
 
   useEffect(() => {
-    if (!(initialData && initialData.dateOfBirth)) return;
+    if (!(initialData && initialData.dateOfBirth)) return
 
-    const personalDateOfBirth = initialData.dateOfBirth?.split('-');
-    const year = personalDateOfBirth && personalDateOfBirth[0];
-    const month = personalDateOfBirth && +personalDateOfBirth[1] - 1;
-    const day = personalDateOfBirth && +personalDateOfBirth[2];
+    const personalDateOfBirth = initialData.dateOfBirth?.split('-')
+    const year = personalDateOfBirth && personalDateOfBirth[0]
+    const month = personalDateOfBirth && +personalDateOfBirth[1] - 1
+    const day = personalDateOfBirth && +personalDateOfBirth[2]
 
     setDateOfBirth({
-      year: year,
-      month: '' + month,
-      day: '' + day
-    });
+      year,
+      month: `${month}`,
+      day: `${day}`,
+    })
 
     setPhoneState({
       phoneCode: initialData?.phoneParsed.country.slice(1),
@@ -231,48 +238,48 @@ export const PersonalDetails: FC = () => {
 
     const currentState = states?.find(
       (state: Record<string, string>) => state.id === initialData.stateId
-    ) as { id: number; name: string } | undefined;
+    ) as { id: number; name: string } | undefined
 
     if (currentState) {
       dispatch({
         type: 'GEO_TAKE',
         payload: {
           stateId: currentState?.id,
-          at: 'cities'
-        }
-      });
+          at: 'cities',
+        },
+      })
     }
 
-    const cState = currentState?.name ?? '';
+    const cState = currentState?.name ?? ''
     setGeoData({
       ...geoData,
-      state: cState
-    });
+      state: cState,
+    })
 
     setPersonalDetailsState({
       ...personalDetailsState,
-      ...initialData
-    });
+      ...initialData,
+    })
 
     if (initialData?.zipCode) {
-      setTermsAcceptance(true);
+      setTermsAcceptance(true)
     }
-  }, [initialData]);
+  }, [initialData])
 
   useEffect(() => {
-    dispatch(getPersonalDetails());
-  }, []);
+    dispatch(getPersonalDetails())
+  }, [])
 
   useEffect(() => {
     if (initialData?.cityId) {
       const currentCity = states.find(
         (state: Record<string, string>) => state.id === initialData.stateId
-      ) as { id: number; name: string } | undefined;
+      ) as { id: number; name: string } | undefined
       if (currentCity) {
-        changeGeoCities(currentCity.name);
+        changeGeoCities(currentCity.name)
       }
     }
-  }, [cities]);
+  }, [cities])
 
   useEffect(() => {
     fetchError && fetchError.map((result: { property: string, messages: string[] }) => {
@@ -285,7 +292,7 @@ export const PersonalDetails: FC = () => {
     <div className={form}>
       <H1 secondary>Personal Details</H1>
       <Select
-        label='Objective'
+        label="Objective"
         required
         options={[
           'Start a business',
@@ -296,26 +303,26 @@ export const PersonalDetails: FC = () => {
           'Dream vacation',
           'Furnish home',
           'Buy new vehicle',
-          'Other'
+          'Other',
         ]}
         error={errors?.objective}
         currentOption={objectiveCodes[personalDetailsState.objective]}
-        placeholder='Start a Business'
+        placeholder="Start a Business"
         setCurrentOption={(option: string) => {
-          Object.keys(objectiveCodes).map((item: string) => {
+          // eslint-disable-next-line no-restricted-syntax
+          for (const item of Object.keys(objectiveCodes)) {
             if (objectiveCodes[item] === option) {
-              setPersonalDetails('objective', item);
+              setPersonalDetails('objective', item)
             }
-          });
-        }
-        }
+          }
+        }}
       />
 
       <TextArea
         value={personalDetailsState.objectiveNote}
         onChange={handleFormInputs}
-        name='objectiveNote'
-        label='Objective Note'
+        name="objectiveNote"
+        label="Objective Note"
         maxSymbols={512}
         required
         error={errors?.objectiveNote}
@@ -323,21 +330,21 @@ export const PersonalDetails: FC = () => {
 
       <div className={classNames(form_fullName, row)}>
         <Input
-          name='firstName'
+          name="firstName"
           onChange={handleFormInputs}
           value={personalDetailsState.firstName}
-          label='First Name'
+          label="First Name"
           required
-          placeholder='Enter First Name'
+          placeholder="Enter First Name"
           error={errors?.firstName}
         />
         <Input
-          name='lastName'
+          name="lastName"
           onChange={handleFormInputs}
           value={personalDetailsState.lastName}
-          label='Last Name'
+          label="Last Name"
           required
-          placeholder='Enter Last Name'
+          placeholder="Enter Last Name"
           error={errors?.lastName}
         />
       </div>
@@ -348,19 +355,19 @@ export const PersonalDetails: FC = () => {
           phoneCode={country.phonecode.slice(1)}
           formState={{
             phoneCode: phoneState.phoneCode,
-            phoneNumber: phoneState.phoneNumber
+            phoneNumber: phoneState.phoneNumber,
           }}
           personalDetailsStatePhone={personalDetailsState.phone}
           error={errors?.phone}
         />
 
         <Input
-          name='address'
+          name="address"
           onChange={handleFormInputs}
           value={personalDetailsState.address}
-          label='Address'
+          label="Address"
           required
-          placeholder='Enter Address'
+          placeholder="Enter Address"
           error={errors?.address}
           maxLength={255}
         />
@@ -379,38 +386,39 @@ export const PersonalDetails: FC = () => {
         />
         <div className={select_stabilizer}>
           <Select
-            label='Marital Status'
+            label="Marital Status"
             required
             options={[
               'Single',
               'Married',
               'Divorced',
               'Common-law',
-              'Widow/widower'
+              'Widow/widower',
             ]}
-            currentOption={maritalStatusCodes[personalDetailsState.maritalStatus]}
-            placeholder='Single'
+            currentOption={
+              maritalStatusCodes[personalDetailsState.maritalStatus]
+            }
+            placeholder="Single"
             setCurrentOption={(option: string) => {
               Object.keys(maritalStatusCodes).map((item: string) => {
                 if (maritalStatusCodes[item] === option) {
-                  setPersonalDetails('maritalStatus', item);
+                  setPersonalDetails('maritalStatus', item)
                 }
-              });
-            }
-            }
+              })
+            }}
             error={errors?.maritalStatus}
           />
         </div>
       </div>
       <div className={options_wrapper}>
         <OptionalRadioForm
-          name='jobTitle'
+          name="jobTitle"
           onInputChange={handleFormInputs}
           onRadioChange={(value) =>
             setPersonalDetails('сurrentlyEmployed', value)
           }
-          questionLabel='Are You Currently Employed?'
-          placeholder='Job Title'
+          questionLabel="Are You Currently Employed?"
+          placeholder="Job Title"
           answerState={personalDetailsState.сurrentlyEmployed}
           value={personalDetailsState.jobTitle}
           error={errors?.сurrentlyEmployed}
@@ -420,38 +428,38 @@ export const PersonalDetails: FC = () => {
           <div className={classNames(row, job_question_inputs, row_employed)}>
             <Input
               onChange={handleFormInputs}
-              name='jobDescription'
+              name="jobDescription"
               value={personalDetailsState.jobDescription}
-              placeholder='Job Description'
+              placeholder="Job Description"
               inputError = {errors?.jobDescription}
             />
             <Input
               onChange={handleFormInputs}
-              name='employeeAddress'
+              name="employeeAddress"
               value={personalDetailsState.employeeAddress}
-              placeholder='Employee Address'
+              placeholder="Employee Address"
               inputError = {errors?.employeeAddress}
             />
           </div>
         )}
 
         <OptionalRadioForm
-          name='businessDescription'
+          name="businessDescription"
           onInputChange={handleFormInputs}
           onRadioChange={(value) => setPersonalDetails('businessOwner', value)}
-          questionLabel='Are You a Business Owner?'
-          placeholder='Business Description'
+          questionLabel="Are You a Business Owner?"
+          placeholder="Business Description"
           answerState={personalDetailsState.businessOwner}
           value={personalDetailsState.businessDescription}
           error={errors?.businessOwner}
           inputError = {errors?.businessDescription}
         />
         <OptionalRadioForm
-          name='tradeDescription'
+          name="tradeDescription"
           onInputChange={handleFormInputs}
           onRadioChange={(value) => setPersonalDetails('anyTrade', value)}
-          questionLabel='Do You Have any Trade?'
-          placeholder='Trade Description'
+          questionLabel="Do You Have any Trade?"
+          placeholder="Trade Description"
           answerState={personalDetailsState.anyTrade}
           value={personalDetailsState.tradeDescription}
           error={errors?.anyTrade}
@@ -459,50 +467,49 @@ export const PersonalDetails: FC = () => {
 
         />
         <OptionalRadioForm
-          name='technicalSkillsDescription'
+          name="technicalSkillsDescription"
           onInputChange={handleFormInputs}
           onRadioChange={(value) =>
             setPersonalDetails('anyTechnicalSkills', value)
           }
-          questionLabel='Do you Have any Technical skills?'
-          placeholder='Skill Description'
+          questionLabel="Do you Have any Technical skills?"
+          placeholder="Skill Description"
           answerState={personalDetailsState.anyTechnicalSkills}
           value={personalDetailsState.technicalSkillsDescription}
           error={errors?.anyTechnicalSkills}
           inputError = {errors?.technicalSkillsDescription}
         />
         <OptionalRadioForm
-          name='athleticSkillsDescription'
+          name="athleticSkillsDescription"
           onInputChange={handleFormInputs}
           onRadioChange={(value) =>
             setPersonalDetails('anyAthleticSkills', value)
           }
-          questionLabel='Do you Have any Athletic skills?'
-          placeholder='Skill Description'
+          questionLabel="Do you Have any Athletic skills?"
+          placeholder="Skill Description"
           answerState={personalDetailsState.anyAthleticSkills}
           value={personalDetailsState.athleticSkillsDescription}
           error={errors?.anyAthleticSkills}
           inputError = {errors?.athleticSkillsDescription}
         />
         <OptionalRadioForm
-          name='totalNumberOfDependens'
+          name="totalNumberOfDependens"
           onInputChange={handleFormInputs}
           onRadioChange={(value) => setPersonalDetails('anyDependents', value)}
-          questionLabel='Do You Have Any Dependent?'
-          placeholder='Total Number of Dependents'
+          questionLabel="Do You Have Any Dependent?"
+          placeholder="Total Number of Dependents"
           answerState={personalDetailsState.anyDependents}
           value={personalDetailsState.totalNumberOfDependens}
           error={errors?.anyDependents}
-          checkRadio={personalDetailsState.anyDependents}
           inputError = {errors?.totalNumberOfDependens}
         />
       </div>
 
       <Input
-        label='Beneficiary'
-        placeholder='Name'
+        label="Beneficiary"
+        placeholder="Name"
         onChange={handleFormInputs}
-        name='beneficiaryName'
+        name="beneficiaryName"
         value={personalDetailsState.beneficiaryName}
         required
         error={errors?.beneficiaryName}
@@ -510,24 +517,24 @@ export const PersonalDetails: FC = () => {
 
       <div className={classNames(row, double_input)}>
         <Input
-          name='beneficiaryRelationship'
+          name="beneficiaryRelationship"
           onChange={handleFormInputs}
           value={personalDetailsState.beneficiaryRelationship}
-          placeholder='Relationship'
+          placeholder="Relationship"
           error={errors?.beneficiaryRelationship}
         />
         <Input
-          name='beneficiaryContactNumber'
+          name="beneficiaryContactNumber"
           onChange={handleFormInputs}
           value={personalDetailsState.beneficiaryContactNumber}
-          placeholder='Contact Number'
+          placeholder="Contact Number"
           error={errors?.beneficiaryContactNumber}
         />
       </div>
 
       <div className={classNames(row, double_input)}>
         <Input
-          label='Country'
+          label="Country"
           required
           disabled
           value={country.name}
@@ -535,7 +542,7 @@ export const PersonalDetails: FC = () => {
           error={errors?.countryId}
         />
         <Select
-          label='State'
+          label="State"
           required
           currentOption={geoData.state}
           placeholder={
@@ -553,7 +560,7 @@ export const PersonalDetails: FC = () => {
 
       <div className={classNames(row, double_input, margin_cont)}>
         <Select
-          label='Cities'
+          label="Cities"
           required
           disabled={cities.length === 0}
           currentOption={geoData.city}
@@ -569,9 +576,9 @@ export const PersonalDetails: FC = () => {
           error={errors?.cityId}
         />
         <Input
-          placeholder='Enter Zip Code'
-          name='zipCode'
-          label='Zip code'
+          placeholder="Enter Zip Code"
+          name="zipCode"
+          label="Zip code"
           value={personalDetailsState.zipCode}
           onChange={handleFormInputs}
           required
@@ -584,23 +591,23 @@ export const PersonalDetails: FC = () => {
       <div className={form_actions}>
         <div className={row}>
           <CheckBox
-            label=''
+            label=""
             checked={termsAcceptance}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setTermsAcceptance(e.target.checked)
             }
           />
-          <LinkText href='#' secondary>
+          <LinkText href="#" secondary>
             Accept Terms and Conditions *
           </LinkText>
         </div>
         <div className={actions_buttons}>
           <Button onClick={handleForm} disabled={!termsAcceptance}>
             <>Continue</>
-            <img src={vector} alt='vector' />
+            <img src={vector} alt="vector" />
           </Button>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   stages: [
@@ -9,36 +9,36 @@ const initialState = {
         username: '',
         email: '',
         password: '',
-        passwordConfirmation: ''
+        passwordConfirmation: '',
       },
       fetching: false,
       fetchError: '',
-      finished: false
+      finished: false,
     },
     {
       number: 2,
       title: 'security pin',
       errors: {
         pin: '',
-        confirmPin: ''
+        confirmPin: '',
       },
       fetching: false,
       fetchError: '',
-      finished: false
+      finished: false,
     },
     {
       number: 3,
       title: 'security question',
       currentOption: '',
       options: {
-        'Enter the name of your first pet': 'FIRST_PET_NAME'
+        'Enter the name of your first pet': 'FIRST_PET_NAME',
       },
       errors: {
-        answer: ''
+        answer: '',
       },
       fetching: false,
       fetchError: '',
-      finished: false
+      finished: false,
     },
     {
       number: 4,
@@ -50,7 +50,7 @@ const initialState = {
         phone: '',
         phoneParsed: {
           country: '',
-          phone: ''
+          phone: '',
         },
         address: '',
         gender: 'Male',
@@ -76,7 +76,7 @@ const initialState = {
         cityId: undefined,
         stateId: undefined,
         countryId: -1,
-        zipCode: ''
+        zipCode: '',
       },
       errors: {
         objective: '',
@@ -108,11 +108,11 @@ const initialState = {
         cityId: '',
         stateId: '',
         countryId: '',
-        zipCode: ''
+        zipCode: '',
       },
       finished: false,
       fetchError: '',
-      title: 'personal details'
+      title: 'personal details',
     },
     {
       number: 5,
@@ -129,27 +129,27 @@ const initialState = {
         isWalletComplete: false,
         lastName: '',
         phone: '',
-        sponsor: ''
-      }
+        sponsor: '',
+      },
     },
     {
       number: 6,
       finished: false,
-      title: 'confirm'
-    }
+      title: 'confirm',
+    },
   ],
   userInfo: {
     country: {
       id: -1,
       name: '',
       phonecode: '',
-      phonemask: ''
+      phonemask: '',
     },
     states: [],
-    cities: []
+    cities: [],
   },
-  currentStage: 0
-};
+  currentStage: 0,
+}
 
 export type SignUpState = typeof initialState
 
@@ -158,47 +158,47 @@ const signup = createSlice({
   initialState,
   reducers: {
     finishStage(state) {
-      state.stages[state.currentStage].finished = true;
-      state.currentStage += 1;
+      state.stages[state.currentStage].finished = true
+      state.currentStage += 1
     },
 
     backStage(state) {
-      state.currentStage -= 1;
-      state.stages[state.currentStage].finished = false;
+      state.currentStage -= 1
+      state.stages[state.currentStage].finished = false
     },
 
     stageFetchingErrors(state, action) {
       if (action.payload !== '')
         state.stages[state.currentStage].fetchError =
-          action.payload.response.data.message;
-      else state.stages[state.currentStage].fetchError = '';
+          action.payload.response.data.message
+      else state.stages[state.currentStage].fetchError = ''
     },
 
     startStageFetching(state) {
-      state.stages[state.currentStage].fetching = true;
+      state.stages[state.currentStage].fetching = true
     },
 
     endStageFetching(state) {
-      state.stages[state.currentStage].fetching = false;
+      state.stages[state.currentStage].fetching = false
     },
 
     changeStage(state, action) {
-      state.currentStage = action.payload;
+      state.currentStage = action.payload
     },
 
     validateStage(state, action) {
-      state.stages[state.currentStage].errors = action.payload.errors;
+      state.stages[state.currentStage].errors = action.payload.errors
     },
 
     setCurrentOption(state, action) {
-      state.stages[state.currentStage].currentOption = action.payload;
+      state.stages[state.currentStage].currentOption = action.payload
     },
 
     setUserGeo(state, action) {
       state.userInfo = {
         ...state.userInfo,
-        ...action.payload
-      };
+        ...action.payload,
+      }
     },
 
     setNewError(state, action) {
@@ -206,20 +206,20 @@ const signup = createSlice({
     },
 
     resetSignup(state) {
-      state.stages = initialState.stages;
-      state.userInfo = initialState.userInfo;
-      state.currentStage = initialState.currentStage;
+      state.stages = initialState.stages
+      state.userInfo = initialState.userInfo
+      state.currentStage = initialState.currentStage
     },
 
     setInitialPersonalDetails(state, action) {
-      state.stages[3].initialData = action.payload;
+      state.stages[3].initialData = action.payload
     },
 
     setConfirmDetails(state, action) {
-      state.stages[4].confirmData =  action.payload
-    }
-  }
-});
+      state.stages[4].confirmData = action.payload
+    },
+  },
+})
 export const {
   setCurrentOption,
   finishStage,
@@ -232,6 +232,6 @@ export const {
   resetSignup,
   setInitialPersonalDetails,
   backStage,
-  setConfirmDetails
-} = signup.actions;
-export default signup.reducer;
+  setConfirmDetails,
+} = signup.actions
+export default signup.reducer

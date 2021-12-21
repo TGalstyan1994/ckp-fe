@@ -1,33 +1,24 @@
-import { FC, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import Router from 'next/router'
-import { sendVerificationCode } from '../../../src/managers/signup/signup';
+import { FC, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { sendVerificationCode } from '../../../src/managers/signup/signup'
 
 const Confirm: FC = () => {
-  const router = useRouter();
+  const router = useRouter()
 
   const verifyUser = async () => {
-    try {
-      const { code } = router.query;
-      if (code) {
-        const payload = { code: code };
-        await sendVerificationCode(payload)
-        Router.push('/profile')
-      }
-    } catch (e) {
-
+    const { code } = router.query
+    if (code) {
+      const payload = { code }
+      await sendVerificationCode(payload)
+      router.push('/profile')
     }
   }
 
   useEffect(() => {
     verifyUser()
-  }, [router.query]);
+  }, [router.query])
 
-  return (
-    <>
-    </>
-  );
-};
+  return <></>
+}
 
-
-export default Confirm;
+export default Confirm

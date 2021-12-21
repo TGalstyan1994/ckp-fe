@@ -1,6 +1,6 @@
-import { FC, useState } from 'react';
-import { PasswordSwitchICO } from 'src/components/ICO/password-switch-ico';
-import classNames from 'classnames';
+import { FC, useState } from 'react'
+import { PasswordSwitchICO } from 'src/components/ICO/password-switch-ico'
+import classNames from 'classnames'
 import {
   input_container,
   input_wrapper,
@@ -9,9 +9,9 @@ import {
   input,
   invalid_input,
   error_message,
-  disabled_input
-} from './style.module.css';
-import { Props } from './props';
+  disabled_input,
+} from './style.module.css'
+import { Props } from './props'
 
 export const Input: FC<Props> = ({
   type = 'text',
@@ -26,7 +26,7 @@ export const Input: FC<Props> = ({
   maxLength,
   disabled,
   defaultValue,
-  inputError
+  inputError,
 }) => {
   const [showPassword, setShowPassword] = useState(!(type === 'password'));
   const togglePasswordView = () => setShowPassword((prev) => !prev);
@@ -71,5 +71,5 @@ export const Input: FC<Props> = ({
         <span className={error_message}>{error ? error : inputError}</span>
       </div>
     </div>
-  );
-};
+  )
+}
