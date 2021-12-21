@@ -1,36 +1,36 @@
 .form {
-    width: 972px;
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
+  width: 972px;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
 }
 .form h1 {
-    margin: 0 0 46px 0;
+  margin: 0 0 46px 0;
 }
 
 .double_input {
-    display: flex;
-    /*width: 100%;*/
-    justify-content: space-between;
-    /*margin-top: 29px;*/
+  display: flex;
+  /*width: 100%;*/
+  justify-content: space-between;
+  /*margin-top: 29px;*/
 }
 
 .actions_buttons button {
-    width: 232px;
+  width: 232px;
 }
 .actions_buttons button:nth-child(2) {
-    margin-left: 12px;
+  margin-left: 12px;
 }
 .actions_buttons {
-    margin-top: 22px;
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+  margin-top: 22px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
-.payment_rightSide{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+.payment_rightSide {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }

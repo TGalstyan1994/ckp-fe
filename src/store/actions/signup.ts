@@ -1,4 +1,4 @@
-import { RegistrationAction } from  '../index';
+import { RegistrationAction } from '../index'
 
 type RegistrationBody = {
   username: string
@@ -23,7 +23,7 @@ export const registerAction = ({
   email,
   password,
   passwordConfirmation,
-  token
+  token,
 }: RegistrationBody): RegistrationAction => ({
   type: 'COMPLETE_STAGE',
   apiUrl: `/api/account/registration`,
@@ -33,34 +33,34 @@ export const registerAction = ({
       username,
       email,
       password,
-      passwordConfirmation
-    }
-  }
-});
+      passwordConfirmation,
+    },
+  },
+})
 
 export const sendPinAction = ({
   pin: securityCode,
-  confirmPin: securityCodeConfirmation
+  confirmPin: securityCodeConfirmation,
 }: PinFormState): RegistrationAction => ({
   type: 'COMPLETE_STAGE',
   apiUrl: '/api/account/registration/security-code',
   payload: {
     securityCode,
-    securityCodeConfirmation
-  }
-});
+    securityCodeConfirmation,
+  },
+})
 
 export const sendSecurityQuestion = ({
   question,
-  answer
+  answer,
 }: SecurityQuestionState): RegistrationAction => ({
   type: 'COMPLETE_STAGE',
   apiUrl: '/api/account/registration/security-question',
   payload: {
     question,
-    answer
-  }
-});
+    answer,
+  },
+})
 
 export const sendPersonalDetails = (
   formState: Record<string, unknown>
@@ -68,17 +68,17 @@ export const sendPersonalDetails = (
   type: 'COMPLETE_STAGE',
   apiUrl: '/api/account/registration/personal-details',
   payload: {
-    ...formState
-  }
-});
+    ...formState,
+  },
+})
 
 export const getConfirmDetails = () => ({
   type: 'GET_CONFIRM_DETAILS',
-});
+})
 
 export const getPersonalDetails = () => ({
   type: 'GET_PERSONAL_DETAILS',
-});
+})
 
 export const sendPaymentDetails = (
   formState: Record<string, unknown>
@@ -86,9 +86,9 @@ export const sendPaymentDetails = (
   type: 'COMPLETE_STAGE',
   apiUrl: '/api/account/registration/payment-details',
   payload: {
-    ...formState
-  }
-});
+    ...formState,
+  },
+})
 
 export const sendVerificationMail = (
   formState: Record<string, unknown>
@@ -96,14 +96,14 @@ export const sendVerificationMail = (
   type: 'COMPLETE_STAGE',
   apiUrl: '/api/account/registration/confirm',
   payload: {
-    ...formState
-  }
-});
+    ...formState,
+  },
+})
 
 export const getGeoDetails = () => ({
-  type: 'GEO_DETAILS'
-});
+  type: 'GEO_DETAILS',
+})
 
 export const sendVerificationCode = () => ({
-  type: 'SEND_VERIFICATION_CODE'
-});
+  type: 'SEND_VERIFICATION_CODE',
+})

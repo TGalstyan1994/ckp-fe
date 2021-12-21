@@ -1,17 +1,18 @@
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { getAccessToken } from '../src/utils';
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { getAccessToken } from '../src/utils'
 
-export default function Custom404() {
-  const router = useRouter();
+const Custom404 = () => {
+  const router = useRouter()
 
   useEffect(() => {
     if (getAccessToken()) {
       router.push('/profile')
     } else {
-      router.push('/signin');
+      router.push('/signin')
     }
   }, [])
-
-  return null
+  return ''
 }
+
+export default Custom404

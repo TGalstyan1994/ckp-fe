@@ -1,8 +1,9 @@
 import { SignInLayout as Layout } from 'src/containers/Layouts/SignInLayout'
 import { ReactElement } from 'react'
 import sentSuccessSvg from 'src/UI/forgotPassword.svg'
+import Image from 'next/image'
 
-const sentSuccess = () => <img src={sentSuccessSvg} alt="Successfully sent" />
+const sentSuccess = () => <Image src={sentSuccessSvg} alt="Successfully sent" />
 
 export default sentSuccess
 
