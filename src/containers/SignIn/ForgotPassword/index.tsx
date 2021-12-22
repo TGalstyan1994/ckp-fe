@@ -8,6 +8,7 @@ import {
   form_buttons_wrapper,
   form_button,
 } from './ForgotPasswordForm.module.css'
+import { SignInLayout } from '../../Layouts/SignInLayout'
 
 export const ForgotPasswordForm = () => {
   const [email, setEmail] = useState('')
@@ -36,7 +37,6 @@ export const ForgotPasswordForm = () => {
         <Button
           className={form_button}
           onClick={() =>
-            // !!!!!! REMOVE !!!!!!!
             new Promise((res) =>
               setTimeout(
                 () => res(router.push('forgot_password/sent_success')),

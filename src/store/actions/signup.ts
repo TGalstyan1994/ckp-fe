@@ -5,7 +5,6 @@ type RegistrationBody = {
   email: string
   password: string
   passwordConfirmation: string
-  token: string
 }
 
 type SecurityQuestionState = {
@@ -23,12 +22,10 @@ export const registerAction = ({
   email,
   password,
   passwordConfirmation,
-  token,
 }: RegistrationBody): RegistrationAction => ({
   type: 'COMPLETE_STAGE',
   apiUrl: `/api/account/registration`,
   payload: {
-    captcha: token,
     body: {
       username,
       email,

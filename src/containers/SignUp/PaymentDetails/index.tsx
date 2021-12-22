@@ -2,16 +2,16 @@ import { ChangeEvent, FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Button } from 'src/components/Button'
 import { H1 } from 'src/components/H1'
+import { Input } from 'src/components/Input'
+import { ChooseCurrenciesForm } from 'src/containers/ChooseCurrenciesForm'
+import { useSelectorTyped } from 'src/utils/hooks'
+import vector from 'src/UI/Vector.svg'
 import {
   form,
   actions_buttons,
   payment_rightSide,
   double_input,
 } from './style.module.css'
-import { Input } from 'src/components/Input'
-import { ChooseCurrenciesForm } from 'src/containers/ChooseCurrenciesForm'
-import { useSelectorTyped } from 'src/utils/hooks'
-import vector from 'src/UI/Vector.svg'
 import {
   backStage,
   endStageFetching,
@@ -21,6 +21,7 @@ import {
 import { validate } from './validate'
 import { haveErrors } from '../../../utils'
 import { sendPaymentDetails } from '../../../store/actions/signup'
+import { ErrorsSpan } from '../../../components/ErrorsSpan'
 
 export const PaymentDetails: FC = () => {
   const dispatch = useDispatch()
@@ -65,6 +66,7 @@ export const PaymentDetails: FC = () => {
           onCurrenciesChange={handleCurrencyChange}
           currenciesState={paymentDetails.accountCurrency}
         />
+
         <div className={payment_rightSide}>
           <Input
             name="accountAddress"
@@ -75,6 +77,8 @@ export const PaymentDetails: FC = () => {
             placeholder="Enter Billing Address"
             maxLength={255}
           />
+          {stage.fetchError && <ErrorsSpan>{stage.fetchError}</ErrorsSpan>}
+
           <div className={actions_buttons}>
             <Button secondary onClick={handleBack}>
               <>Back</>

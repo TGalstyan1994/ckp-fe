@@ -78,7 +78,7 @@ const initialState = {
         countryId: -1,
         zipCode: '',
       },
-      errors: {
+      fetchError: {
         objective: '',
         objectiveNote: '',
         firstName: '',
@@ -111,12 +111,12 @@ const initialState = {
         zipCode: '',
       },
       finished: false,
-      fetchError: '',
       title: 'personal details',
     },
     {
       number: 5,
       finished: false,
+      fetching: true,
       title: 'payment details',
       confirmData: {
         email: '',
@@ -168,10 +168,22 @@ const signup = createSlice({
     },
 
     stageFetchingErrors(state, action) {
-      if (action.payload !== '')
-        state.stages[state.currentStage].fetchError =
-          action.payload.response.data.message
-      else state.stages[state.currentStage].fetchError = ''
+      if (action.payload !== false) {
+        if (state.currentStage === 3) {
+          const fetchingErrors: Record<string, string> = {}
+          for (const error of action.payload.response.data.message) {
+            if (!error) return
+            fetchingErrors[error.property] = error.messages[0]
+          }
+          console.log(fetchingErrors)
+          state.stages[state.currentStage].fetchError = fetchingErrors
+        } else {
+          state.stages[state.currentStage].fetchError =
+            action.payload.response.data.message
+        }
+      } else if (state.currentStage !== 3) {
+        state.stages[state.currentStage].fetchError = ''
+      }
     },
 
     startStageFetching(state) {
@@ -187,7 +199,11 @@ const signup = createSlice({
     },
 
     validateStage(state, action) {
-      state.stages[state.currentStage].errors = action.payload.errors
+      if (state.currentStage === 3) {
+        state.stages[state.currentStage].fetchError = action.payload.errors
+      } else {
+        state.stages[state.currentStage].errors = action.payload.errors
+      }
     },
 
     setCurrentOption(state, action) {
@@ -217,6 +233,7 @@ const signup = createSlice({
 
     setConfirmDetails(state, action) {
       state.stages[4].confirmData = action.payload
+      state.stages[4].fetching = false
     },
   },
 })

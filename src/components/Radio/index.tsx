@@ -11,14 +11,14 @@ type Props = {
 export const RadioBox: FC<Props> = ({ onChange, option, name, checked }) => {
   return (
     <div className={radioBox_wrapper}>
-      <label className={label} htmlFor={name}>
+      <label className={label} htmlFor={option}>
         <input
           name={name}
           type="radio"
           className={radioBox}
           onChange={onChange}
           checked={checked}
-          id={name}
+          id={option}
         />
         <span>{option}</span>
       </label>

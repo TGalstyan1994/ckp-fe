@@ -1,6 +1,5 @@
 import { takeEvery, put, call, select } from '@redux-saga/core/effects'
 import axios, { AxiosResponse } from 'axios'
-import { RegistrationAction, RootState } from '../../index'
 import {
   endStageFetching,
   finishStage,
@@ -10,7 +9,10 @@ import {
   SignUpState,
   stageFetchingErrors,
 } from 'src/store/reducers/signup'
-import { getSponsorByQuery, removeToken, setAccessToken } from 'src/utils'
+import { endSignInStageFetching } from 'src/store/reducers/signin'
+import { getSponsorByQuery } from 'src/utils'
+import { RegistrationAction, RootState } from '../../index'
+import { ISignInRes } from '../../../interfaces/signin/signin'
 
 declare global {
   interface Window {
@@ -39,11 +41,9 @@ const config = (token: string) => {
 function* completeStage(action: RegistrationAction) {
   const { currentStage }: SignUpState = yield select(getStages)
   const { payload, apiUrl } = action
-  const { accessToken }: { accessToken: string } = yield select(getToken)
 
   try {
     if (currentStage === 0) {
-      // first registration stage/step
       const { captcha, body } = payload as RegistrationPayload
 
       body.sponsor = getSponsorByQuery()
@@ -57,20 +57,23 @@ function* completeStage(action: RegistrationAction) {
         `${process.env.NEXT_PUBLIC_API}${apiUrl}`,
         registrationPayload
       )
-
-      setAccessToken(response.data.accessToken)
+      yield put(endSignInStageFetching(response.data))
     } else {
+      const { accessToken }: ISignInRes = yield select(getToken)
+
       yield call(
         axios.post,
         `${process.env.NEXT_PUBLIC_API}${apiUrl}`,
         payload,
         config(accessToken)
       )
+      if (currentStage !== 5) {
+        yield put(finishStage())
+      }
     }
 
-    yield put(stageFetchingErrors(''))
+    yield put(stageFetchingErrors(false))
     yield put(endStageFetching())
-    yield put(finishStage())
   } catch (error) {
     yield put(stageFetchingErrors(error))
     yield put(endStageFetching())
@@ -88,8 +91,8 @@ function* handelGeoDetails(): Generator {
       `${process.env.NEXT_PUBLIC_API}/api/helpers/geo/detect`
     )
     yield put(setUserGeo(geoResponse.data))
-  } catch (e) {
-    throw e
+  } catch (error) {
+    throw error
   }
 }
 
@@ -98,7 +101,7 @@ export function* handleGeoSaga(): Generator {
 }
 
 export function* handlePersonalDetails(): Generator {
-  const { accessToken }: { accessToken: string } = yield select(getToken)
+  const { accessToken }: ISignInRes = yield select(getToken)
 
   try {
     const response: AxiosResponse = yield call(
@@ -107,8 +110,8 @@ export function* handlePersonalDetails(): Generator {
       config(accessToken)
     )
     yield put(setInitialPersonalDetails(response.data))
-  } catch (e) {
-    throw e
+  } catch (error) {
+    throw error
   }
 }
 
@@ -117,7 +120,7 @@ export function* handlePersonalDetailsSaga(): Generator {
 }
 
 export function* handleConfirmDetails(): Generator {
-  const { accessToken }: { accessToken: string } = yield select(getToken)
+  const { accessToken }: ISignInRes = yield select(getToken)
 
   try {
     const response: AxiosResponse = yield call(
@@ -126,9 +129,10 @@ export function* handleConfirmDetails(): Generator {
       config(accessToken)
     )
     yield put(setConfirmDetails(response.data))
-  } catch (e) {
-    throw e
+  } catch (error) {
+    throw error
   }
+  yield put(endStageFetching())
 }
 
 export function* handleConfirmDetailsSaga(): Generator {
@@ -142,11 +146,12 @@ export function* handleConfirmUser(): Generator {
       `${process.env.NEXT_PUBLIC_API}/api/account/registration/verify`,
       config()
     )
-  } catch (e) {
-    throw e
+  } catch (error) {
+    throw error
   }
+  yield put(endStageFetching())
 }
 
 export function* handleConfirmUserSaga(): Generator {
-  yield takeEvery('GET_CONFIRM_DETAILS', handleConfirmUser)
+  yield takeEvery('GET_CONFIRM_USER', handleConfirmUser)
 }

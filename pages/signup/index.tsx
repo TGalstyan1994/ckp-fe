@@ -3,7 +3,6 @@ import { SignUpStages } from 'src/containers/Layouts/SignUpLayout'
 import { AccountDetails } from 'src/containers/SignUp/AccountDetails'
 import { CreateSecurityPin } from 'src/containers/SignUp/CreateSecurityPin'
 import { SecurityQuestion } from 'src/containers/SignUp/SecurityQuestion'
-import Head from 'next/head'
 import { FC, useEffect } from 'react'
 import { PersonalDetails } from 'src/containers/SignUp/PersonalDetails'
 import { useDispatch } from 'react-redux'
@@ -18,7 +17,6 @@ import { getGeoDetails } from '../../src/store/actions/signup'
 import { requireAuthentication } from '../../HOC/requireAuthentication'
 
 const RegistrationPage: FC = () => {
-  const captchaUrl = `https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_SITE_KEY}`
   const { data } = useSelectorTyped((state) => state.signin)
   const dispatch = useDispatch()
   const router = useRouter()
@@ -54,19 +52,14 @@ const RegistrationPage: FC = () => {
   }, [data.accessToken])
 
   return (
-    <>
-      <Head>
-        <script defer src={captchaUrl} />
-      </Head>
-      <SignUpStages>
-        <AccountDetails />
-        <CreateSecurityPin />
-        <SecurityQuestion />
-        <PersonalDetails />
-        <PaymentDetails />
-        <ConfirmInformation />
-      </SignUpStages>
-    </>
+    <SignUpStages>
+      <AccountDetails />
+      <CreateSecurityPin />
+      <SecurityQuestion />
+      <PersonalDetails />
+      <PaymentDetails />
+      <ConfirmInformation />
+    </SignUpStages>
   )
 }
 

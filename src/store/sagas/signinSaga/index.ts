@@ -1,16 +1,16 @@
 import { call, takeEvery, put } from '@redux-saga/core/effects'
 import axios from 'axios'
-import { Action } from '../../index'
 import {
-  endStageFetching,
+  endSignInStageFetching,
   setFetchingErrors,
   stopFetching,
 } from 'src/store/reducers/signin'
+import { Action } from '../../index'
 import { ResponseGenerator } from '../../../interfaces/saga/saga'
 import { setAccessToken } from '../../../utils'
 
-const LogIn = async (data: any) => {
-  return await axios.post(`${process.env.NEXT_PUBLIC_API}/api/auth/login`, data)
+const LogIn = async (data: Record<string, unknown>) => {
+  return axios.post(`${process.env.NEXT_PUBLIC_API}/api/auth/login`, data)
 }
 
 function* LoginUser(action: Action) {
@@ -19,7 +19,7 @@ function* LoginUser(action: Action) {
     if (Object.values(res.data.registrationStatus).every((el) => el)) {
       setAccessToken(res.data.accessToken)
     }
-    yield put(endStageFetching(res.data))
+    yield put(endSignInStageFetching(res.data))
   } catch (error) {
     yield put(setFetchingErrors(error))
     yield put(stopFetching())

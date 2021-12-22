@@ -1,4 +1,4 @@
-import { FC, ReactElement, ReactNode, useEffect, useState } from 'react'
+import { FC, ReactElement, ReactNode, useEffect } from 'react'
 import { Provider } from 'react-redux'
 import { AppProps } from 'next/app'
 import { store } from 'src/store'
@@ -19,16 +19,11 @@ type Props = AppProps & {
 const MyApp: FC<Props> = ({ Component, pageProps }) => {
   const getLayout = Component.getLayout || ((page: ReactElement) => page)
   const router = useRouter()
-  const [loading, setLoading] = useState(true)
   useEffect(() => {
     if (getAccessToken()) {
       router.push('/profile')
     }
-    setLoading(false)
   }, [])
-
-  if (loading) return <div>Loading ...</div>
-
   return (
     <Provider store={store}>{getLayout(<Component {...pageProps} />)}</Provider>
   )
