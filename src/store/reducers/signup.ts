@@ -53,7 +53,7 @@ const initialState = {
           phone: '',
         },
         address: '',
-        gender: 'Male',
+        gender: 'MALE',
         maritalStatus: '',
         dateOfBirth: '',
         сurrentlyEmployed: undefined,

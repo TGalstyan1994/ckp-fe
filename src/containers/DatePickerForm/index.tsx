@@ -66,7 +66,7 @@ export const DatePickerForm: FC<Props> = ({ dateForm, setDateForm, error }) => {
   const setDay = (option: string) => {
     setDateForm((prev) => ({ ...prev, day: option }))
   }
-
+  // console.log(error);
   return (
     <div className={datePicker_wrapper}>
       <span className={datePicker_header}>Date of birth</span>

@@ -6,6 +6,7 @@ import {
   required_label,
   textarea_wrapper,
   error_message,
+  invalid_textarea,
 } from './style.module.css'
 
 type Props = {
@@ -40,7 +41,8 @@ export const TextArea: FC<Props> = ({
         </label>
       )}
       <textarea
-        className={textarea}
+        className={classNames(textarea, { [invalid_textarea]: error })}
+        // className={textarea}
         value={value}
         onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
           if (maxSymbols && e.target.value.length >= maxSymbols) return

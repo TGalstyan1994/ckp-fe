@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux'
 import { useSelectorTyped } from 'src/utils/hooks'
 import {
   endStageFetching,
-  setNewError,
   startStageFetching,
   validateStage,
 } from 'src/store/reducers/signup'
@@ -82,7 +81,7 @@ export const PersonalDetails: FC = () => {
       phone: '',
     },
     address: '',
-    gender: 'Male',
+    gender: 'MALE',
     maritalStatus: '',
     dateOfBirth: '',
     сurrentlyEmployed: undefined,

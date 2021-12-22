@@ -31,7 +31,9 @@
   opacity: 1;
   transition: 0.2s;
 }
-
+.textarea.invalid_textarea {
+  border: 1px solid red;
+}
 .textarea_label {
   margin-bottom: 19px;
   opacity: 40%;

@@ -27,15 +27,17 @@ export const validate = (
     errorObject.lastName =
       'Field is required, min is 2 and max is 32 characters'
   }
+
   if (is.empty(phoneDate.phoneCode) || is.empty(phoneDate.phoneNumber))
     errorObject.phone = 'Field is required and should contain only digits'
 
   if (formState.address.length > 255 || is.empty(formState.address))
     errorObject.address = 'Field is required'
 
-  if (Object.values(formState.dateOfBirth).every((value) => !value))
+  if (!Object.values(formState.dateOfBirth).every((value) => value))
     errorObject.dateOfBirth = 'Field required'
 
+  console.log(errorObject)
   if (is.empty(formState.maritalStatus))
     errorObject.maritalStatus = 'Field Required'
 
