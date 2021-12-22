@@ -2,6 +2,8 @@
 
 @Library('jenkins-shared-libraries') _
 
+def notifier = new org.gradiant.jenkins.slack.SlackNotifier()
+
 pipeline {
     agent {
         node {
@@ -37,8 +39,11 @@ pipeline {
                 }
             }
             steps {
-                script {
-                    prepareBuildVersion()
+                withEnv(["SLACK_CHANNEL=${SLACK_CHANNEL}", "SLACK_DOMAIN=${SLACK_DOMAIN}", "SLACK_CREDENTIALS=${SLACK_CREDENTIALS}"]) {
+                    script {
+                        prepareBuildVersion()
+                        notifier.notifyStart()
+                    }
                 }
                 stash name: 'src', includes: '**', excludes: '**/.git,**/.git/**'
             }
@@ -84,13 +89,27 @@ pipeline {
     }
     post {
         failure {
+            withEnv(["SLACK_CHANNEL=${SLACK_CHANNEL}", "SLACK_DOMAIN=${SLACK_DOMAIN}", "SLACK_CREDENTIALS=${SLACK_CREDENTIALS}"]) {
+                script {
+                    notifier.notifyResult()
+                }
+            }
             echo 'Build failed! 👿'
         }
-        success {
-            echo 'Success! 😇'
+        aborted {
+            withEnv(["SLACK_CHANNEL=${SLACK_CHANNEL}", "SLACK_DOMAIN=${SLACK_DOMAIN}", "SLACK_CREDENTIALS=${SLACK_CREDENTIALS}"]) {
+                script {
+                    notifier.notifyResult()
+                }
+            }
         }
-        always {
-            cleanWs()
+        success {
+            withEnv(["SLACK_CHANNEL=${SLACK_CHANNEL}", "SLACK_DOMAIN=${SLACK_DOMAIN}", "SLACK_CREDENTIALS=${SLACK_CREDENTIALS}"]) {
+                script {
+                    notifier.notifyResult()
+                }
+            }
+            echo 'Success! 😇'
         }
     }
 }
