@@ -12,6 +12,7 @@ import {
   stopFetching,
   validateForm,
   resetFetchingError,
+  resetToken,
 } from 'src/store/reducers/signin'
 import { useSelectorTyped } from 'src/utils/hooks'
 import { ErrorsSpan } from 'src/components/ErrorsSpan'
@@ -77,18 +78,18 @@ const SignInForm: FC = () => {
   }
 
   useEffect(() => {
+    if (getAccessToken()) {
+      router.push('/profile')
+      return
+    }
     if (firstUpdate.current) {
       firstUpdate.current = false
-      dispatch(logOut())
       dispatch(resetSignup())
+      dispatch(resetToken())
       return
     }
     if (data.accessToken) {
-      if (getAccessToken()) {
-        router.push('/profile')
-      } else {
-        router.push('/signup')
-      }
+      router.push('/signup')
     }
   }, [data.accessToken])
 
@@ -123,9 +124,7 @@ const SignInForm: FC = () => {
             label="Remember me"
             name="rememberMe"
           />
-          <LinkText href="/signin/forgot_password">
-            Forgot your password ?
-          </LinkText>
+          <LinkText href="/forgot_password">Forgot your password ?</LinkText>
         </div>
 
         <div className={form_buttons}>

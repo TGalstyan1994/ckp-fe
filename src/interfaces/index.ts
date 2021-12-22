@@ -2,7 +2,7 @@ import { SignUpState } from 'src/store/reducers/signup'
 import { SignInState } from 'src/store/reducers/signin'
 
 export interface UserData {
-  access_token: string
+  accessToken: string
   user: User
 }
 

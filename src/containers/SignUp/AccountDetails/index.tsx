@@ -11,9 +11,9 @@ import { H1 } from 'src/components/H1'
 import { Input } from 'src/components/Input'
 import { useSelectorTyped } from 'src/utils/hooks'
 import { ErrorsSpan } from 'src/components/ErrorsSpan'
+import vector from 'src/UI/Vector.svg'
 import { validate } from './validate'
 import { form, form_inputs, form_buttons } from './style.module.css'
-import vector from 'src/UI/Vector.svg'
 
 export const AccountDetails: FC = () => {
   const stage = useSelectorTyped((state) => state.signup.stages[0])
@@ -36,17 +36,7 @@ export const AccountDetails: FC = () => {
       return
     }
 
-    window.grecaptcha.ready(async () => {
-      try {
-        const token = await window.grecaptcha.execute(
-          process.env.NEXT_PUBLIC_SITE_KEY,
-          { action: 'submit' }
-        )
-        dispatch(registerAction({ ...formState, token }))
-      } catch (error) {
-        console.error(error)
-      }
-    })
+    dispatch(registerAction({ ...formState }))
   }
 
   const handleFormInput = (e: ChangeEvent<HTMLInputElement>) =>

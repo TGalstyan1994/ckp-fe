@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { useSelectorTyped } from 'src/utils/hooks'
 import {
   endStageFetching,
+  setNewError,
   startStageFetching,
   validateStage,
 } from 'src/store/reducers/signup'
@@ -63,7 +64,7 @@ const objectiveCodes = {
 } as { [key: string]: string }
 
 export const PersonalDetails: FC = () => {
-  const { errors, fetching, fetchError, initialData } = useSelectorTyped(
+  const { fetchError, initialData } = useSelectorTyped(
     (state) => state.signup.stages[3]
   )
   const { country, states, cities } = useSelectorTyped(
@@ -174,7 +175,6 @@ export const PersonalDetails: FC = () => {
       },
       phoneState
     )
-
     dispatch(validateStage({ errors: validationErrors }))
 
     if (haveErrors(validationErrors)) {
@@ -182,7 +182,7 @@ export const PersonalDetails: FC = () => {
       return
     }
 
-    const currentFormState = {
+    const formData = {
       ...personalDetailsState,
       phone: `+${phoneState.phoneCode}${phoneState.phoneNumber}`,
       dateOfBirth: new Date(
@@ -193,7 +193,7 @@ export const PersonalDetails: FC = () => {
         .toJSON()
         .slice(0, 10),
     }
-    const { phoneParsed, ...body } = currentFormState
+    const { phoneParsed, ...body } = formData
     // @ts-ignore
     dispatch(sendPersonalDetails(body))
   }
@@ -284,14 +284,6 @@ export const PersonalDetails: FC = () => {
     }
   }, [cities])
 
-  useEffect(() => {
-    fetchError &&
-      fetchError.map((result: { property: string; messages: string[] }) => {
-        const newError = { [result.property]: result.messages[0] }
-        dispatch(setNewError(newError))
-      })
-  }, [fetchError])
-
   return (
     <div className={form}>
       <H1 secondary>Personal Details</H1>
@@ -309,7 +301,7 @@ export const PersonalDetails: FC = () => {
           'Buy new vehicle',
           'Other',
         ]}
-        error={errors?.objective}
+        error={fetchError?.objective}
         currentOption={objectiveCodes[personalDetailsState.objective]}
         placeholder="Start a Business"
         setCurrentOption={(option: string) => {
@@ -329,7 +321,7 @@ export const PersonalDetails: FC = () => {
         label="Objective Note"
         maxSymbols={512}
         required
-        error={errors?.objectiveNote}
+        error={fetchError?.objectiveNote}
       />
 
       <div className={classNames(form_fullName, row)}>
@@ -340,7 +332,7 @@ export const PersonalDetails: FC = () => {
           label="First Name"
           required
           placeholder="Enter First Name"
-          error={errors?.firstName}
+          error={fetchError?.firstName}
         />
         <Input
           name="lastName"
@@ -349,7 +341,7 @@ export const PersonalDetails: FC = () => {
           label="Last Name"
           required
           placeholder="Enter Last Name"
-          error={errors?.lastName}
+          error={fetchError?.lastName}
         />
       </div>
 
@@ -362,7 +354,7 @@ export const PersonalDetails: FC = () => {
             phoneNumber: phoneState.phoneNumber,
           }}
           personalDetailsStatePhone={personalDetailsState.phone}
-          error={errors?.phone}
+          error={fetchError?.phone}
         />
 
         <Input
@@ -372,7 +364,7 @@ export const PersonalDetails: FC = () => {
           label="Address"
           required
           placeholder="Enter Address"
-          error={errors?.address}
+          error={fetchError?.address}
           maxLength={255}
         />
       </div>
@@ -380,7 +372,7 @@ export const PersonalDetails: FC = () => {
       <DatePickerForm
         dateForm={dateOfBirth}
         setDateForm={setDateOfBirth}
-        error={errors?.dateOfBirth}
+        error={fetchError?.dateOfBirth}
       />
 
       <div className={martial_gender}>
@@ -410,7 +402,7 @@ export const PersonalDetails: FC = () => {
                 }
               })
             }}
-            error={errors?.maritalStatus}
+            error={fetchError?.maritalStatus}
           />
         </div>
       </div>
@@ -425,8 +417,8 @@ export const PersonalDetails: FC = () => {
           placeholder="Job Title"
           answerState={personalDetailsState.сurrentlyEmployed}
           value={personalDetailsState.jobTitle}
-          error={errors?.сurrentlyEmployed}
-          inputError={errors?.jobTitle}
+          error={fetchError?.сurrentlyEmployed}
+          inputError={fetchError?.jobTitle}
         />
         {personalDetailsState.сurrentlyEmployed && (
           <div className={classNames(row, job_question_inputs, row_employed)}>
@@ -435,14 +427,14 @@ export const PersonalDetails: FC = () => {
               name="jobDescription"
               value={personalDetailsState.jobDescription}
               placeholder="Job Description"
-              inputError={errors?.jobDescription}
+              inputError={fetchError?.jobDescription}
             />
             <Input
               onChange={handleFormInputs}
               name="employeeAddress"
               value={personalDetailsState.employeeAddress}
               placeholder="Employee Address"
-              inputError={errors?.employeeAddress}
+              inputError={fetchError?.employeeAddress}
             />
           </div>
         )}
@@ -455,8 +447,8 @@ export const PersonalDetails: FC = () => {
           placeholder="Business Description"
           answerState={personalDetailsState.businessOwner}
           value={personalDetailsState.businessDescription}
-          error={errors?.businessOwner}
-          inputError={errors?.businessDescription}
+          error={fetchError?.businessOwner}
+          inputError={fetchError?.businessDescription}
         />
         <OptionalRadioForm
           name="tradeDescription"
@@ -466,8 +458,8 @@ export const PersonalDetails: FC = () => {
           placeholder="Trade Description"
           answerState={personalDetailsState.anyTrade}
           value={personalDetailsState.tradeDescription}
-          error={errors?.anyTrade}
-          inputError={errors?.tradeDescription}
+          error={fetchError?.anyTrade}
+          inputError={fetchError?.tradeDescription}
         />
         <OptionalRadioForm
           name="technicalSkillsDescription"
@@ -479,8 +471,8 @@ export const PersonalDetails: FC = () => {
           placeholder="Skill Description"
           answerState={personalDetailsState.anyTechnicalSkills}
           value={personalDetailsState.technicalSkillsDescription}
-          error={errors?.anyTechnicalSkills}
-          inputError={errors?.technicalSkillsDescription}
+          error={fetchError?.anyTechnicalSkills}
+          inputError={fetchError?.technicalSkillsDescription}
         />
         <OptionalRadioForm
           name="athleticSkillsDescription"
@@ -492,8 +484,8 @@ export const PersonalDetails: FC = () => {
           placeholder="Skill Description"
           answerState={personalDetailsState.anyAthleticSkills}
           value={personalDetailsState.athleticSkillsDescription}
-          error={errors?.anyAthleticSkills}
-          inputError={errors?.athleticSkillsDescription}
+          error={fetchError?.anyAthleticSkills}
+          inputError={fetchError?.athleticSkillsDescription}
         />
         <OptionalRadioForm
           name="totalNumberOfDependens"
@@ -503,8 +495,8 @@ export const PersonalDetails: FC = () => {
           placeholder="Total Number of Dependents"
           answerState={personalDetailsState.anyDependents}
           value={personalDetailsState.totalNumberOfDependens}
-          error={errors?.anyDependents}
-          inputError={errors?.totalNumberOfDependens}
+          error={fetchError?.anyDependents}
+          inputError={fetchError?.totalNumberOfDependens}
         />
       </div>
 
@@ -515,7 +507,7 @@ export const PersonalDetails: FC = () => {
         name="beneficiaryName"
         value={personalDetailsState.beneficiaryName}
         required
-        error={errors?.beneficiaryName}
+        error={fetchError?.beneficiaryName}
       />
 
       <div className={classNames(row, double_input)}>
@@ -524,14 +516,14 @@ export const PersonalDetails: FC = () => {
           onChange={handleFormInputs}
           value={personalDetailsState.beneficiaryRelationship}
           placeholder="Relationship"
-          error={errors?.beneficiaryRelationship}
+          error={fetchError?.beneficiaryRelationship}
         />
         <Input
           name="beneficiaryContactNumber"
           onChange={handleFormInputs}
           value={personalDetailsState.beneficiaryContactNumber}
           placeholder="Contact Number"
-          error={errors?.beneficiaryContactNumber}
+          error={fetchError?.beneficiaryContactNumber}
         />
       </div>
 
@@ -542,7 +534,7 @@ export const PersonalDetails: FC = () => {
           disabled
           value={country.name}
           onChange={handleFormInputs}
-          error={errors?.countryId}
+          error={fetchError?.countryId}
         />
         <Select
           label="State"
@@ -557,7 +549,7 @@ export const PersonalDetails: FC = () => {
           options={states.map(
             (stateInfo: Record<string, string>) => stateInfo.name
           )}
-          error={errors?.stateId}
+          error={fetchError?.stateId}
         />
       </div>
 
@@ -576,7 +568,7 @@ export const PersonalDetails: FC = () => {
           options={cities.map(
             (cityInfo: Record<string, string>) => cityInfo.name
           )}
-          error={errors?.cityId}
+          error={fetchError?.cityId}
         />
         <Input
           placeholder="Enter Zip Code"
@@ -585,7 +577,7 @@ export const PersonalDetails: FC = () => {
           value={personalDetailsState.zipCode}
           onChange={handleFormInputs}
           required
-          error={errors?.zipCode}
+          error={fetchError?.zipCode}
         />
       </div>
       {fetchError && typeof fetchError !== 'object' && (

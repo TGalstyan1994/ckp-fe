@@ -55,7 +55,7 @@ const signin = createSlice({
       state.fetching = false
     },
 
-    endStageFetching(state, action) {
+    endSignInStageFetching(state, action) {
       state.data = action.payload
       state.fetching = false
     },
@@ -64,6 +64,10 @@ const signin = createSlice({
       state.data.accessToken = action.payload
     },
 
+    resetToken(state) {
+      state.data = initialSignInResState
+      state.fetchingErrors = ''
+    },
     logOut(state) {
       removeToken()
       state.data = initialSignInResState
@@ -76,11 +80,12 @@ export const {
   validateForm,
   setFetchingErrors,
   startStageFetching,
-  endStageFetching,
+  endSignInStageFetching,
   stopFetching,
   logOut,
   resetFetchingError,
   storeAccessToken,
+  resetToken,
 } = signin.actions
 
 export default signin.reducer

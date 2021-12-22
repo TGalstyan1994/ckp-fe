@@ -3,6 +3,7 @@ import { H1 } from 'src/components/H1'
 import { PinInput } from 'src/components/PinInput'
 import { ChangeEvent, FC, useState } from 'react'
 import { form, form_buttons } from './EnterPin.module.css'
+import { SignInLayout } from '../../Layouts/SignInLayout'
 
 export const EnterPin: FC = () => {
   const [pin, setPin] = useState('')
@@ -13,12 +14,14 @@ export const EnterPin: FC = () => {
   }
 
   return (
-    <div className={form}>
-      <H1 secondary>Enter your security PIN?</H1>
-      <PinInput onChange={handlePin} value={pin} />
-      <div className={form_buttons}>
-        <Button>Continue</Button>
+    <SignInLayout>
+      <div className={form}>
+        <H1 secondary>Enter your security PIN?</H1>
+        <PinInput onChange={handlePin} value={pin} />
+        <div className={form_buttons}>
+          <Button>Continue</Button>
+        </div>
       </div>
-    </div>
+    </SignInLayout>
   )
 }
