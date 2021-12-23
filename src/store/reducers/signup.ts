@@ -122,7 +122,6 @@ const initialState = {
         email: '',
         firstName: '',
         gender: '',
-        iSConfirmed: false,
         isProfileComplete: false,
         isSecurityCodeComplete: false,
         isSecurityQuestionComplete: false,
@@ -135,8 +134,9 @@ const initialState = {
     {
       number: 6,
       finished: false,
-      title: 'confirm',
+      title: 'confirm details',
     },
+    { number: 7, finished: false, title: 'confirm mail' },
   ],
   userInfo: {
     country: {
@@ -175,7 +175,6 @@ const signup = createSlice({
             if (!error) return
             fetchingErrors[error.property] = error.messages[0]
           }
-          console.log(fetchingErrors)
           state.stages[state.currentStage].fetchError = fetchingErrors
         } else {
           state.stages[state.currentStage].fetchError =
@@ -245,7 +244,6 @@ export const {
   startStageFetching,
   endStageFetching,
   setUserGeo,
-  setNewError,
   resetSignup,
   setInitialPersonalDetails,
   backStage,

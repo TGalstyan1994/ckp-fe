@@ -37,7 +37,6 @@ export const validate = (
   if (!Object.values(formState.dateOfBirth).every((value) => value))
     errorObject.dateOfBirth = 'Field required'
 
-  console.log(errorObject)
   if (is.empty(formState.maritalStatus))
     errorObject.maritalStatus = 'Field Required'
 
@@ -128,8 +127,8 @@ export const validate = (
 
   /// stateId  cityId
 
-  if (formState.stateId === undefined) errorObject.cityId = 'Field Required'
-  if (formState.cityId === undefined) errorObject.stateId = 'Field Required'
+  if (formState.stateId === undefined) errorObject.stateId = 'Field Required'
+  if (formState.cityId === undefined) errorObject.cityId = 'Field Required'
 
   /// zip code
 

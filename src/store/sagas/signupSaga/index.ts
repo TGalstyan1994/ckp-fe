@@ -67,9 +67,7 @@ function* completeStage(action: RegistrationAction) {
         payload,
         config(accessToken)
       )
-      if (currentStage !== 5) {
-        yield put(finishStage())
-      }
+      yield put(finishStage())
     }
 
     yield put(stageFetchingErrors(false))
@@ -132,7 +130,6 @@ export function* handleConfirmDetails(): Generator {
   } catch (error) {
     throw error
   }
-  yield put(endStageFetching())
 }
 
 export function* handleConfirmDetailsSaga(): Generator {

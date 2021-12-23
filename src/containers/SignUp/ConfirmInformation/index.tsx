@@ -15,7 +15,10 @@ import {
   getConfirmDetails,
   sendVerificationMail,
 } from '../../../store/actions/signup'
-import { startStageFetching } from '../../../store/reducers/signup'
+import {
+  endStageFetching,
+  startStageFetching,
+} from '../../../store/reducers/signup'
 
 export const ConfirmInformation: FC = () => {
   const dispatch = useDispatch()
@@ -30,18 +33,20 @@ export const ConfirmInformation: FC = () => {
 
     dispatch(startStageFetching())
     const payload = {
-      url: `${host} /signup/confirm`,
+      url: `${host}/signup/confirm`,
       param: 'code',
     }
+
     dispatch(sendVerificationMail(payload))
+    dispatch(endStageFetching())
   }
 
   useEffect(() => {
-    if (status !== 'NOT_VERIFIED' && !fetching) {
+    if (status !== 'NOT_VERIFIED') {
       dispatch(startStageFetching())
       dispatch(getConfirmDetails())
     }
-  }, [fetching])
+  }, [])
 
   return (
     <div className={form}>
@@ -78,7 +83,6 @@ export const ConfirmInformation: FC = () => {
                 rowValue={confirmData?.phone}
               />
               <ConfirmRow rowName="Login & Password" confirm />
-              <ConfirmRow rowName="Email Confirmation" confirm={false} />
               <ConfirmRow
                 rowName="Personal Details"
                 confirm={confirmData?.isProfileComplete}
