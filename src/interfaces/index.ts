@@ -1,5 +1,7 @@
 import { SignUpState } from 'src/store/reducers/signup'
 import { SignInState } from 'src/store/reducers/signin'
+import { ForgotPasswordState } from 'src/store/reducers/forgotpassword'
+import { NewPasswordState } from 'src/store/reducers/newPassword'
 
 export interface UserData {
   accessToken: string
@@ -25,4 +27,6 @@ export type UserAuthData = {
 export type StateType = {
   signup: SignUpState
   signin: SignInState
+  forgotPassword: ForgotPasswordState
+  newPassword: NewPasswordState
 }
