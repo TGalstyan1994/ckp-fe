@@ -15,6 +15,7 @@ import { IRegistrationStatus } from '../../src/interfaces/signin/signin'
 import { useSelectorTyped } from '../../src/utils/hooks'
 import { getGeoDetails } from '../../src/store/actions/signup'
 import { requireAuthentication } from '../../HOC/requireAuthentication'
+import { ConfirmMail } from '../../src/containers/SignUp/ConfirmMail'
 
 const RegistrationPage: FC = () => {
   const { data } = useSelectorTyped((state) => state.signin)
@@ -38,6 +39,9 @@ const RegistrationPage: FC = () => {
           dispatch(finishStage())
         }
       }
+      if (data.user.status === 'NOT_VERIFIED') {
+        dispatch(finishStage())
+      }
     }
   }, [data])
 
@@ -59,6 +63,7 @@ const RegistrationPage: FC = () => {
       <PersonalDetails />
       <PaymentDetails />
       <ConfirmInformation />
+      <ConfirmMail />
     </SignUpStages>
   )
 }

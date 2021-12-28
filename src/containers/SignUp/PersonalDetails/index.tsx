@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux'
 import { useSelectorTyped } from 'src/utils/hooks'
 import {
   endStageFetching,
-  setNewError,
   startStageFetching,
   validateStage,
 } from 'src/store/reducers/signup'
@@ -43,6 +42,13 @@ import {
 } from './style.module.css'
 import { validate } from './validate'
 
+interface ICountries {
+  id: number
+  name: string
+  phonecode: string
+  phonemask: string
+}
+
 const maritalStatusCodes = {
   SINGLE: 'Single',
   MARRIED: 'Married',
@@ -67,7 +73,7 @@ export const PersonalDetails: FC = () => {
   const { fetchError, initialData } = useSelectorTyped(
     (state) => state.signup.stages[3]
   )
-  const { country, states, cities } = useSelectorTyped(
+  const { countries, country, states } = useSelectorTyped(
     (state) => state.signup.userInfo
   )
 
@@ -82,7 +88,7 @@ export const PersonalDetails: FC = () => {
       phone: '',
     },
     address: '',
-    gender: 'Male',
+    gender: 'MALE',
     maritalStatus: '',
     dateOfBirth: '',
     сurrentlyEmployed: undefined,
@@ -102,16 +108,16 @@ export const PersonalDetails: FC = () => {
     beneficiaryName: '',
     beneficiaryRelationship: '',
     beneficiaryContactNumber: '',
-    cityId: undefined,
+    city: '',
     stateId: undefined,
-    countryId: country.id,
+    countryId: undefined,
     zipCode: '',
   })
 
   const [termsAcceptance, setTermsAcceptance] = useState(false)
   const [geoData, setGeoData] = useState({
     state: '',
-    city: '',
+    country: '',
   })
 
   const [dateOfBirth, setDateOfBirth] = useState({
@@ -138,31 +144,31 @@ export const PersonalDetails: FC = () => {
     setPhoneState((prev) => ({ ...prev, [name]: value }))
   }
 
-  const changeGeoStates = (option: string) => {
-    const currentState = states.find(
+  const changeGeoCountry = (option: string) => {
+    const currentCountry = countries.find(
       (state: Record<string, string>) => state.name === option
     ) as { id: number; name: string } | undefined
 
-    if (currentState) {
+    if (currentCountry) {
       dispatch({
         type: 'GEO_TAKE',
         payload: {
-          stateId: currentState.id,
-          at: 'cities',
+          countryId: currentCountry.id,
+          at: 'states',
         },
       })
-      setPersonalDetails('stateId', currentState.id)
+      setPersonalDetails('countryId', currentCountry.id)
     }
-    setGeoData((prev) => ({ ...prev, state: option, city: '' }))
+    setGeoData((prev) => ({ ...prev, country: option, state: '' }))
   }
 
-  const changeGeoCities = (option: string) => {
-    const currentCity = cities.find(
+  const changeGeoStates = (option: string) => {
+    const currentState = states.find(
       (city: Record<string, string>) => city.name === option
     ) as { id: number; name: string } | undefined
 
-    setGeoData((prev) => ({ ...prev, city: option }))
-    if (currentCity) setPersonalDetails('cityId', currentCity.id)
+    setGeoData((prev) => ({ ...prev, state: option }))
+    if (currentState) setPersonalDetails('stateId', currentState.id)
   }
 
   const handleForm = () => {
@@ -243,16 +249,6 @@ export const PersonalDetails: FC = () => {
       (state: Record<string, string>) => state.id === initialData.stateId
     ) as { id: number; name: string } | undefined
 
-    if (currentState) {
-      dispatch({
-        type: 'GEO_TAKE',
-        payload: {
-          stateId: currentState?.id,
-          at: 'cities',
-        },
-      })
-    }
-
     const cState = currentState?.name ?? ''
     setGeoData({
       ...geoData,
@@ -271,18 +267,29 @@ export const PersonalDetails: FC = () => {
 
   useEffect(() => {
     dispatch(getPersonalDetails())
+    dispatch({
+      type: 'GEO_TAKE',
+      payload: {
+        at: 'countries',
+      },
+    })
   }, [])
 
   useEffect(() => {
-    if (initialData?.cityId) {
-      const currentCity = states.find(
-        (state: Record<string, string>) => state.id === initialData.stateId
-      ) as { id: number; name: string } | undefined
-      if (currentCity) {
-        changeGeoCities(currentCity.name)
-      }
-    }
-  }, [cities])
+    if (!countries) return
+    const initialCountry = countries.find(
+      (item: ICountries) => item.id === country.id
+    )
+    if (!initialCountry) return
+    setPersonalDetailsState({
+      ...personalDetailsState,
+      countryId: initialCountry?.id,
+    })
+    setGeoData({
+      ...geoData,
+      country: initialCountry?.name,
+    })
+  }, [countries])
 
   return (
     <div className={form}>
@@ -526,15 +533,21 @@ export const PersonalDetails: FC = () => {
           error={fetchError?.beneficiaryContactNumber}
         />
       </div>
-
       <div className={classNames(row, double_input)}>
-        <Input
+        <Select
           label="Country"
           required
-          disabled
-          value={country.name}
-          onChange={handleFormInputs}
-          error={fetchError?.countryId}
+          currentOption={geoData.country}
+          placeholder={
+            countries?.map(
+              (countryInfo: Record<string, string>) => countryInfo.name
+            )[0] || 'Choose Country'
+          }
+          setCurrentOption={changeGeoCountry}
+          options={countries.map(
+            (stateInfo: Record<string, string>) => stateInfo.name
+          )}
+          error={fetchError?.country}
         />
         <Select
           label="State"
@@ -554,21 +567,14 @@ export const PersonalDetails: FC = () => {
       </div>
 
       <div className={classNames(row, double_input, margin_cont)}>
-        <Select
-          label="Cities"
+        <Input
+          placeholder="Enter City"
+          name="city"
+          label="City"
+          value={personalDetailsState.city}
+          onChange={handleFormInputs}
           required
-          disabled={cities.length === 0}
-          currentOption={geoData.city}
-          placeholder={
-            cities.map(
-              (cityInfo: Record<string, string>) => cityInfo.name
-            )[0] || 'Choose city'
-          }
-          setCurrentOption={changeGeoCities}
-          options={cities.map(
-            (cityInfo: Record<string, string>) => cityInfo.name
-          )}
-          error={fetchError?.cityId}
+          error={fetchError?.city}
         />
         <Input
           placeholder="Enter Zip Code"

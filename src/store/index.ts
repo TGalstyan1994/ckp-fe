@@ -9,12 +9,16 @@ import createSagaMiddleware from 'redux-saga'
 import rootSaga from './sagas'
 import signin from './reducers/signin'
 import signup from './reducers/signup'
+import forgotPassword from './reducers/forgotpassword'
+import newPassword from './reducers/newPassword'
 
 const sagaMiddleware = createSagaMiddleware()
 
 const reducer = combineReducers({
   signin,
   signup,
+  forgotPassword,
+  newPassword,
 }) as Reducer
 
 export const store: Store<any, AnyAction> = configureStore({

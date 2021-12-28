@@ -5,9 +5,9 @@ import {
   setFetchingErrors,
   stopFetching,
 } from 'src/store/reducers/signin'
+import { ResponseGenerator } from 'src/interfaces/saga/saga'
+import { setAccessToken } from 'src/utils'
 import { Action } from '../../index'
-import { ResponseGenerator } from '../../../interfaces/saga/saga'
-import { setAccessToken } from '../../../utils'
 
 const LogIn = async (data: Record<string, unknown>) => {
   return axios.post(`${process.env.NEXT_PUBLIC_API}/api/auth/login`, data)

@@ -7,17 +7,17 @@ import { ChooseCurrenciesForm } from 'src/containers/ChooseCurrenciesForm'
 import { useSelectorTyped } from 'src/utils/hooks'
 import vector from 'src/UI/Vector.svg'
 import {
+  backStage,
+  endStageFetching,
+  startStageFetching,
+  validateStage,
+} from 'src/store/reducers/signup'
+import {
   form,
   actions_buttons,
   payment_rightSide,
   double_input,
 } from './style.module.css'
-import {
-  backStage,
-  endStageFetching,
-  startStageFetching,
-  validateStage,
-} from '../../../store/reducers/signup'
 import { validate } from './validate'
 import { haveErrors } from '../../../utils'
 import { sendPaymentDetails } from '../../../store/actions/signup'

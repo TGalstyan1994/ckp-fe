@@ -1,3 +1,4 @@
+// eslint-disable-next-line unicorn/filename-case
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 
 export function requireAuthentication(gssp: GetServerSideProps) {
