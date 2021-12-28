@@ -128,7 +128,6 @@ export const validate = (
   /// stateId  cityId
 
   if (formState.stateId === undefined) errorObject.stateId = 'Field Required'
-  if (formState.cityId === undefined) errorObject.cityId = 'Field Required'
 
   /// zip code
 

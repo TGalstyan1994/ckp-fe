@@ -3,6 +3,7 @@ import axios from 'axios'
 import {
   endFetching,
   setFetchingErrors,
+  setIsPasswordChanged,
   stopFetching,
 } from 'src/store/reducers/newPassword'
 
@@ -18,10 +19,8 @@ const newPassword = async (data: any) => {
 
 function* SetNewPassword(action: Action) {
   try {
-    const res: ResponseGenerator = yield call(newPassword, action.payload)
-    return
-
-    yield put(endFetching(res.data))
+    yield call(newPassword, action.payload)
+    yield put(setIsPasswordChanged())
   } catch (error) {
     yield put(setFetchingErrors(error))
     yield put(stopFetching())

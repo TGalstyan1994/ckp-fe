@@ -1,32 +1,36 @@
 import is from 'is_js'
 
 type FormState = {
-  newPass: string
-  repeatPass: string
+  password: string
+  passwordConfirmation: string
 }
 type ErrorsObject = FormState
 
-export const validate = ({ newPass, repeatPass }: FormState): ErrorsObject => {
+export const validate = ({
+  password,
+  passwordConfirmation,
+}: FormState): ErrorsObject => {
   const errors = {
-    newPass: '',
-    repeatPass: '',
+    password: '',
+    passwordConfirmation: '',
   }
 
-  if (is.empty(newPass)) {
-    errors.newPass = 'Field is required'
+  if (is.empty(password)) {
+    errors.password = 'Field is required'
   }
 
-  if (!is.empty(newPass) && newPass.length < 2) {
-    errors.newPass = 'Minimum length is 2 letters, digits'
+  if (!is.empty(password) && password.length < 2) {
+    errors.password = 'Minimum length is 2 letters, digits'
   }
 
-  if (newPass.length > 64)
-    errors.newPass = 'The value must not be more than 64 characters long'
+  if (password.length > 64)
+    errors.password = 'The value must not be more than 64 characters long'
 
-  if (is.empty(repeatPass)) errors.repeatPass = 'Field is required'
+  if (is.empty(passwordConfirmation))
+    errors.passwordConfirmation = 'Field is required'
 
-  if (newPass !== repeatPass) {
-    errors.repeatPass = "Passwords don't match"
+  if (password !== passwordConfirmation) {
+    errors.passwordConfirmation = "Passwords don't match"
   }
   return errors
 }
