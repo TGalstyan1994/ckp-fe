@@ -6,8 +6,8 @@
   background: #fff;
   border: none;
   width: 120px;
-  height:100vh;
-  box-shadow: 0px 0px 8px #DEDEDE;
+  height: 100vh;
+  box-shadow: 0px 0px 8px #dedede;
   position: relative;
   transition: all 0.5s ease;
   z-index: 11111;
@@ -51,18 +51,19 @@
     grid-template-columns: auto 1fr auto;
     list-style: none;
     height: 35px;
-    font-family: "SF Pro Display", sans-serif;
+    font-family: 'SF Pro Display', sans-serif;
     font-weight: 600;
     font-size: 13px;
     line-height: 15.51px;
     color: #c8c8c8;
     padding: 0 31px 0 52px;
 
-    >span {
+    > span {
       align-self: center;
     }
 
-    .name, .arrow {
+    .name,
+    .arrow {
       display: none;
     }
 
@@ -72,27 +73,26 @@
 
     .arrow {
       transform: rotate(-90deg);
-      path{
-        fill:$icon-gray
+      path {
+        fill: $icon-gray;
       }
     }
 
     .svgIcon {
       path {
-        fill: $icon-gray
+        fill: $icon-gray;
       }
     }
   }
 
   .icon:hover {
     color: #000000;
-    background: #F7F7F7;
+    background: #f7f7f7;
     transition: 0.5s ease;
 
     .svgIcon {
-
       path {
-        fill: $green
+        fill: $green;
       }
     }
   }
@@ -103,9 +103,9 @@
     position: absolute;
     right: -76%;
     margin-top: -1.6rem;
-    transform: translateX(-31px);;
-    background: #FFFFFF;
-    box-shadow: 0px 0px 8px #DEDEDE;
+    transform: translateX(-31px);
+    background: #ffffff;
+    box-shadow: 0px 0px 8px #dedede;
     display: none;
     padding: 30px;
     z-index: 1;
@@ -113,7 +113,7 @@
 
   .field {
     list-style: none;
-    font-family: "SF Pro Display", sans-serif;
+    font-family: 'SF Pro Display', sans-serif;
     font-weight: 600;
     font-size: 13px;
     color: #c8c8c8;
@@ -131,21 +131,21 @@
     bottom: 38px;
     .logout-icon {
       path {
-        fill:$icon-gray
+        fill: $icon-gray;
       }
       padding: 0 10px 0 52px;
       rect {
-        fill:$icon-gray
+        fill: $icon-gray;
       }
     }
-    .name{
+    .name {
       display: none;
       margin-top: -5px;
-      font-family: "SF Pro Display", sans-serif;
+      font-family: 'SF Pro Display', sans-serif;
       font-weight: 600;
       font-size: 13px;
       color: #c8c8c8;
-      transition:all 0.3s ease;
+      transition: all 0.3s ease;
     }
   }
   .field:hover {
@@ -165,7 +165,7 @@
       height: 100%;
     }
     .logout {
-      .name{
+      .name {
         display: inline-block;
         transition: 0.2s ease-in-out;
       }
@@ -174,7 +174,8 @@
       padding: 0;
 
       .icon {
-        .name, .arrow {
+        .name,
+        .arrow {
           display: block;
         }
       }
@@ -185,4 +186,3 @@
     }
   }
 }
-

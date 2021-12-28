@@ -3,13 +3,14 @@
   width: 100%;
   max-height: 100vh;
   height: 100vh;
-  grid-template-areas:"side-menu head"
-                      "side-menu container"
-                      "side-menu footer-holder";
+  grid-template-areas:
+    'side-menu head'
+    'side-menu container'
+    'side-menu footer-holder';
 
   grid-template-rows: auto 1fr auto;
   grid-template-columns: auto 1fr;
-  background: #FBFBFB;
+  background: #fbfbfb;
   overflow: hidden;
 
   .side-menu {

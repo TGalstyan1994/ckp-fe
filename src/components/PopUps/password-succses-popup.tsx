@@ -8,10 +8,8 @@ const PasswordSuccessPopup = () => {
       <div>
         <img src={success_monochromatic} alt="success monochromatic" />
         <h1>Password was updated successfully</h1>
-        <Link href="/signin">
-          <a>
-            <button>OK</button>
-          </a>
+        <Link href="/signin" passHref>
+          <button>OK</button>
         </Link>
       </div>
     </div>

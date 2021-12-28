@@ -120,8 +120,7 @@ export const SideMenu: FC = () => {
           ))}
         </ul>
       </div>
-
-      <div onClick={() => dispatch(logOut())} className="logout">
+      <div onClick={() => dispatch(logOut())} className="logout" aria-hidden>
         <div className="logout-icon">
           <LogoutIcon />
         </div>
