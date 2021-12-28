@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
-import { useSelectorTyped } from '../../utils/hooks'
-import { getAccessToken } from '../../utils'
-import { storeAccessToken } from '../../store/reducers/signin'
+import { useSelectorTyped } from '../../../utils/hooks'
+import { getAccessToken } from '../../../utils'
+import { storeAccessToken } from '../../../store/reducers/signin'
+import { SideMenu } from '../../../components/SideMenu'
+import { Header } from '../../../components/Header'
+import { Footer } from '../../../components/Footer'
 
 interface IMainLayout {
   children: JSX.Element
@@ -29,10 +32,11 @@ const MainLayout = ({ children }: IMainLayout) => {
   if (loading) return <div>Loading...</div>
 
   return (
-    <div>
-      <div>header</div>
-      <div>said menu</div>
-      {children}
+    <div className="main-wrapper">
+      <Header />
+      <SideMenu />
+      <div className="main-container">{children}</div>
+      <Footer />
     </div>
   )
 }
