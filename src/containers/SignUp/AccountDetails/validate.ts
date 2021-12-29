@@ -25,14 +25,17 @@ export const validate = ({
     email: '',
     passwordConfirmation: '',
   }
+  console.log(username.search(usernameRegExp))
 
-  if (
-    is.empty(username) ||
-    username.length < 2 ||
-    username.search(usernameRegExp) !== -1
-  ) {
-    errors.username =
-      'Minimal amount of characters is 2, Allowed symbols: letters, digits'
+  if (username.search(usernameRegExp) !== -1) {
+    errors.username = 'Allowed symbols: letters, digits'
+  }
+  if (username.length < 2) {
+    errors.username = 'Minimal amount of characters is not reached'
+  }
+
+  if (username.length > 32) {
+    errors.username = 'The value must not be more than 32 characters long'
   }
 
   if (is.empty(email) || !is.email(email)) {
