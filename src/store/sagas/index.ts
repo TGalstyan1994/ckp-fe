@@ -7,7 +7,10 @@ import {
   handleConfirmDetailsSaga,
 } from './signupSaga'
 import { handleGeoTakeSaga } from './signupSaga/geo-take'
-import { handleChangePasswordSaga } from './forgotPassword'
+import {
+  handleChangePasswordSaga,
+  handleCodeVerificationSaga,
+} from './forgotPassword'
 import { handleSetNewPasswordSaga } from './newPassword'
 
 export default function* rootSaga() {
@@ -20,6 +23,7 @@ export default function* rootSaga() {
     handleConfirmDetailsSaga,
     handleChangePasswordSaga,
     handleSetNewPasswordSaga,
+    handleCodeVerificationSaga,
   ]
   // @ts-ignore
   const retrySagas = yield sagas.map((saga) =>

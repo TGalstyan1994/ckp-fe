@@ -6,13 +6,19 @@ interface INewPassword {
     passwordConfirmation: string
   }
 }
+interface IResetPasswordReq {
+  payload: {
+    body: {
+      code: string | Array<string>
+    }
+  }
+}
+export const verifyCode = ({ payload }: IResetPasswordReq): Action => ({
+  type: 'VERIFY_CODE',
+  payload,
+})
 
 export const setNewPassword = ({ body }: INewPassword): Action => ({
   type: 'SET_NEW_PASSWORD',
   payload: { body },
 })
-
-// export const validateCode = ({ c }: INewPassword): Action => ({
-//   type: 'SET_NEW_PASSWORD',
-//   payload: { body },
-// })

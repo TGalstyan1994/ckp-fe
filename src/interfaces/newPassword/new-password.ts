@@ -1,12 +1,16 @@
 export interface INewPasswordStore {
   errors: {
-    newPass: string
-    repeatPass: string
+    password: string
+    passwordConfirmation: string
   }
+  isCodeValid: boolean
   fetching: boolean
+  isCodeChecked: boolean
+  isPinOpened: boolean
   fetchingErrors: string
-  data: {
-    new: string
-    repeat: string
+  isPasswordChanged: boolean
+  body: {
+    password: string
+    passwordConfirmation: string
   }
 }

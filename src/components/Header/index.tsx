@@ -77,14 +77,18 @@ export const Header: FC = () => {
         </div>
         <div className="profile-name">
           <span>John Doe</span>
-          <span onClick={toggleOpen}>
+          <span onClick={toggleOpen} role="button" aria-hidden>
             <ArrowOpenIcon />
           </span>
           {isOpen && (
             <div className="drop-name">
               <ul>
                 <li className="drop-item">My profile</li>
-                <li onClick={() => dispatch(logOut())} className="drop-item">
+                <li
+                  onClick={() => dispatch(logOut())}
+                  className="drop-item"
+                  aria-hidden
+                >
                   Logout
                 </li>
               </ul>

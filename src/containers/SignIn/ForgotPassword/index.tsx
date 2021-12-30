@@ -48,8 +48,7 @@ export const ForgotPasswordForm = () => {
   }
 
   const sendEmail = () => {
-    const { host } = window.location
-
+    const { origin } = window.location
     dispatch(startFetching())
     const ValidationErrors = validate(email)
 
@@ -62,7 +61,7 @@ export const ForgotPasswordForm = () => {
     const payload = {
       body: {
         email,
-        url: `${host}/forgot_password/reset`,
+        url: `${origin}/forgot_password/reset`,
         param: 'code',
       },
     }
