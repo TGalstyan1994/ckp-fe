@@ -15,7 +15,7 @@
   border: none;
   outline: none;
   background: rgba(251, 251, 251, 0.8);
-  box-shadow: 0 0 4px #D8D8D8;
+  box-shadow: 0 0 4px #d8d8d8;
   padding: 20px 30px;
   font-weight: 600;
   font-size: 13px;
@@ -46,7 +46,7 @@
 
 .input_label {
   margin-bottom: 20px;
-  opacity: .4;
+  opacity: 0.4;
   font-weight: 600;
   font-size: 13px;
   color: #000000;

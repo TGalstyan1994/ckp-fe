@@ -10,19 +10,19 @@
     margin-bottom: 35px;
 
     .container-title {
-      font-family: "SF Pro Display", sans-serif;
+      font-family: 'SF Pro Display', sans-serif;
       font-style: normal;
       font-weight: 800;
       font-size: 36px;
-      color: #0E0E0E;
+      color: #0e0e0e;
     }
 
     .title-info {
-      font-family: "SF Pro Display", sans-serif;
+      font-family: 'SF Pro Display', sans-serif;
       font-style: normal;
       font-weight: 600;
       font-size: 13px;
-      color: #D7D7D7;
+      color: #d7d7d7;
     }
   }
 
@@ -40,16 +40,16 @@
       .profile-card {
         width: 100%;
         height: 644px;
-        background: #FFFFFF;
-        box-shadow: 0px 0px 8px #DEDEDE;
+        background: #ffffff;
+        box-shadow: 0px 0px 8px #dedede;
         border-radius: 5px;
 
         .profile-avatar {
           width: 100%;
           height: 373px;
-          background: #F8F8F8;
+          background: #f8f8f8;
 
-          box-shadow: 0px 0px 8px #DEDEDE;
+          box-shadow: 0px 0px 8px #dedede;
           text-align: center;
           display: flex;
           justify-content: center;
@@ -73,7 +73,7 @@
               display: block;
               width: 17px;
               height: 17px;
-              background: #C8C8C8;
+              background: #c8c8c8;
               border-radius: 50%;
               display: flex;
               justify-content: center;
@@ -88,7 +88,7 @@
                 height: 5.45px;
 
                 path {
-                  fill: $white
+                  fill: $white;
                 }
               }
             }
@@ -97,11 +97,11 @@
           .name {
             margin-top: 13px;
             margin-bottom: 21px;
-            font-family: "SF Pro Display", sans-serif;
+            font-family: 'SF Pro Display', sans-serif;
             font-style: normal;
             font-weight: bold;
             font-size: 24px;
-            color: #0E0E0E;
+            color: #0e0e0e;
           }
 
           .btn {
@@ -109,12 +109,12 @@
             height: 56px;
             background: $green;
             border-radius: 5px;
-            font-family: "SF Pro Display", sans-serif;
+            font-family: 'SF Pro Display', sans-serif;
             font-style: normal;
             font-weight: bold;
             font-size: 11px;
             text-transform: uppercase;
-            color: #FBFBFB;
+            color: #fbfbfb;
             border: none;
           }
         }
@@ -122,7 +122,7 @@
         ul {
           margin: 54px 0 39px 0;
 
-          .tabs{
+          .tabs {
             width: 100%;
             height: 45px;
             border-radius: 0px;
@@ -133,20 +133,20 @@
             color: $icon-gray;
             transition: all 0.3s;
             cursor: pointer;
-              &:hover {
+            &:hover {
               display: flex;
               align-items: center;
               justify-content: center;
               list-style: none;
               width: 100%;
               height: 45px;
-              background: #F6F6F6;
-              font-family: "SF Pro Display", sans-serif;
+              background: #f6f6f6;
+              font-family: 'SF Pro Display', sans-serif;
               font-style: normal;
               font-weight: 600;
               font-size: 16px;
               text-align: center;
-              color: #0E0E0E;
+              color: #0e0e0e;
             }
           }
 
@@ -157,13 +157,13 @@
             list-style: none;
             width: 100%;
             height: 45px;
-            background: #F6F6F6;
-            font-family: "SF Pro Display", sans-serif;
+            background: #f6f6f6;
+            font-family: 'SF Pro Display', sans-serif;
             font-style: normal;
             font-weight: 600;
             font-size: 16px;
             text-align: center;
-            color: #0E0E0E;
+            color: #0e0e0e;
           }
         }
       }
@@ -180,18 +180,18 @@
         width: auto;
         height: auto;
         padding: 35px;
-        background: #FEFEFE;
+        background: #fefefe;
 
-        box-shadow: 0px 0px 8px #DEDEDE;
+        box-shadow: 0px 0px 8px #dedede;
         border-radius: 5px;
 
         .card-title {
-          font-family: "SF Pro Display", sans-serif;
+          font-family: 'SF Pro Display', sans-serif;
           font-style: normal;
           font-weight: 600;
           font-size: 16px;
           line-height: 1.3;
-          color: #0E0E0E;
+          color: #0e0e0e;
           padding-bottom: 35px;
         }
 
@@ -205,43 +205,43 @@
           line-height: 1.9;
 
           span:first-child {
-            font-family: "SF Pro Display", sans-serif;
+            font-family: 'SF Pro Display', sans-serif;
             font-style: normal;
             font-weight: 600;
             font-size: 16px;
-            color: #BEBDBD;
+            color: #bebdbd;
           }
 
           span:nth-child(2) {
-            font-family: "SF Pro Display", sans-serif;
+            font-family: 'SF Pro Display', sans-serif;
             font-style: normal;
             font-weight: 600;
             font-size: 16px;
-            color: #0E0E0E;
+            color: #0e0e0e;
           }
         }
       }
     }
     .edit-container {
       flex-grow: 1;
-      height:644px;
-      background: #FDFDFD;
+      height: 644px;
+      background: #fdfdfd;
       opacity: 0.8;
-      box-shadow: 0px 0px 8px #DEDEDE;
+      box-shadow: 0px 0px 8px #dedede;
       border-radius: 5px;
       position: relative;
       overflow: hidden;
       hr {
-        border: 1px solid #C8C8C8
+        border: 1px solid #c8c8c8;
       }
       .sec-title {
-        padding:25px 32px;
-        span{
-          font-family: "SF Pro Display", sans-serif;
+        padding: 25px 32px;
+        span {
+          font-family: 'SF Pro Display', sans-serif;
           font-style: normal;
           font-weight: 600;
           font-size: 16px;
-          color: #0E0E0E;
+          color: #0e0e0e;
         }
       }
       .edit-holder {
@@ -252,7 +252,7 @@
 
         .sections {
           border-radius: 5px 0px 0px 0px;
-          grid-template-columns: repeat(3,1fr);
+          grid-template-columns: repeat(3, 1fr);
           cursor: pointer;
           display: grid;
           .info {
@@ -261,49 +261,52 @@
             align-items: center;
             width: 100%;
             height: 66px;
-            background: #F7F7F7;
+            background: #f7f7f7;
             opacity: 0.8;
-            border: 1px solid #C8C8C8;
-            span{
-              font-family:" SF Pro Display",sans-serif;
+            border: 1px solid #c8c8c8;
+            span {
+              font-family: ' SF Pro Display', sans-serif;
               font-style: normal;
               font-weight: 600;
               font-size: 13px;
-              color: #C8C8C8;
+              color: #c8c8c8;
             }
-            &:hover{
+            &:hover {
               background: $white;
-              span{color:$green}
+              span {
+                color: $green;
+              }
               transition: 0.5s;
             }
           }
-          .activeInfo{
+          .activeInfo {
             background: $white;
-            span{color:$green}
+            span {
+              color: $green;
+            }
           }
         }
         .content {
-
           .personal-paragraph {
             position: absolute;
-            top:50%;
+            top: 50%;
             left: 50%;
-            transform: translate(-50%,-50%);
+            transform: translate(-50%, -50%);
             .para {
               width: 71%;
               text-align: center;
               margin: 0 auto;
-              color: #0E0E0E;
-              font-family: "SF Pro Display",sans-serif;
+              color: #0e0e0e;
+              font-family: 'SF Pro Display', sans-serif;
               font-style: normal;
               font-weight: 600;
               font-size: 16px;
-              .sup-span{
-                font-family: "SF Pro Display",sans-serif;
+              .sup-span {
+                font-family: 'SF Pro Display', sans-serif;
                 font-style: normal;
                 font-weight: 600;
                 font-size: 16px;
-                color:$green;
+                color: $green;
                 text-decoration: underline;
                 cursor: pointer;
               }
@@ -316,12 +319,12 @@
             padding: 0 8px;
             overflow-y: scroll;
             margin: 0 auto;
-            height:43vh;
+            height: 43vh;
             &::-webkit-scrollbar {
               display: none;
             }
             label {
-              font-family: "SF Pro Display",sans-serif;
+              font-family: 'SF Pro Display', sans-serif;
               font-style: normal;
               font-weight: 600;
               font-size: 13px;
@@ -330,24 +333,24 @@
               margin: 20px 0;
             }
             input {
-              background: #FBFBFB;
+              background: #fbfbfb;
               opacity: 0.8;
-              box-shadow: 0 0 8px #D8D8D8;
+              box-shadow: 0 0 8px #d8d8d8;
               border-radius: 5px;
               min-height: 56px;
               height: 56px;
               border: none;
               padding-left: 30px;
             }
-            .btn-container{
+            .btn-container {
               display: flex;
               margin: 20px 0;
               button {
-                border:none;
+                border: none;
                 outline: none;
                 width: 232px;
                 height: 56px;
-                font-family: "SF Pro Display",sans-serif;
+                font-family: 'SF Pro Display', sans-serif;
                 font-style: normal;
                 font-weight: bold;
                 font-size: 11px;
@@ -356,27 +359,26 @@
                 cursor: pointer;
               }
               .btn-cancel {
-                background: #EBEBEB;
-                font-family: "SF Pro Display",sans-serif;
+                background: #ebebeb;
+                font-family: 'SF Pro Display', sans-serif;
                 font-style: normal;
                 font-weight: bold;
                 font-size: 11px;
                 letter-spacing: 0.14em;
                 text-transform: uppercase;
                 border-radius: 5px;
-                color:#0E0E0E;
+                color: #0e0e0e;
                 margin-right: 12px;
               }
               .btn-save {
                 background: #009345;
                 border-radius: 5px;
-                color:$white;
+                color: $white;
               }
             }
           }
         }
       }
     }
-
   }
 }

@@ -6,9 +6,7 @@ import classNames from 'classnames'
 import { requireAuthentication } from '../../HOC/requireAuthentication'
 import MainLayout from '../../src/containers/Layouts/MainLayout/MainLayout'
 import ArrowNextIcon from '../../src/assets/images/icons/arrow-next-icon'
-import {
-  changeTab,
-} from '../../src/store/ProfileDataStore/ProfileDataStore'
+import { changeTab } from '../../src/store/ProfileDataStore/ProfileDataStore'
 import { useSelectorTyped } from '../../src/utils/hooks'
 import { Overview } from '../../src/Pages/Profile/overview'
 import { Edit } from '../../src/Pages/Profile/edit'
