@@ -62,6 +62,7 @@ export const AccountDetails: FC = () => {
           required
           placeholder="Enter Username"
           error={stage.errors?.username}
+          autoFocus
         />
         <Input
           type="email"

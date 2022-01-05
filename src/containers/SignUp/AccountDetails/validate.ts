@@ -25,7 +25,6 @@ export const validate = ({
     email: '',
     passwordConfirmation: '',
   }
-  console.log(username.search(usernameRegExp))
 
   if (username.search(usernameRegExp) !== -1) {
     errors.username = 'Allowed symbols: letters, digits'
@@ -50,6 +49,14 @@ export const validate = ({
   ) {
     errors.password =
       'Password is not valid. It must include at least 1 uppercase letter, 1 lowercase letter and 1 digit'
+  }
+
+  if (password.length > 64) {
+    errors.password = 'The value must not be more than 64 characters long'
+  }
+
+  if (password.length < 8) {
+    errors.password = 'The value must not be less than 8 characters long'
   }
 
   if (passwordConfirmation !== password || errors.password) {

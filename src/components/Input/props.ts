@@ -14,4 +14,5 @@ export type Props = {
   disabled?: boolean
   defaultValue?: string
   inputError?: string
+  autoFocus?: boolean
 }

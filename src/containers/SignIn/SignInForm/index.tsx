@@ -67,6 +67,11 @@ const SignInForm: FC = () => {
     if (e.target.name === 'password') {
       dispatch(validateForm({ errors: { password: '' } }))
     }
+
+    setFormState((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
   }
 
   useEffect(() => {
