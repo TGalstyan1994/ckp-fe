@@ -26,13 +26,15 @@ export const validate = ({
     passwordConfirmation: '',
   }
 
-  if (
-    is.empty(username) ||
-    username.length < 2 ||
-    username.search(usernameRegExp) !== -1
-  ) {
-    errors.username =
-      'Minimal amount of characters is 2, Allowed symbols: letters, digits'
+  if (username.search(usernameRegExp) !== -1) {
+    errors.username = 'Allowed symbols: letters, digits'
+  }
+  if (username.length < 2) {
+    errors.username = 'Minimal amount of characters is not reached'
+  }
+
+  if (username.length > 32) {
+    errors.username = 'The value must not be more than 32 characters long'
   }
 
   if (is.empty(email) || !is.email(email)) {
@@ -47,6 +49,14 @@ export const validate = ({
   ) {
     errors.password =
       'Password is not valid. It must include at least 1 uppercase letter, 1 lowercase letter and 1 digit'
+  }
+
+  if (password.length > 64) {
+    errors.password = 'The value must not be more than 64 characters long'
+  }
+
+  if (password.length < 8) {
+    errors.password = 'The value must not be less than 8 characters long'
   }
 
   if (passwordConfirmation !== password || errors.password) {

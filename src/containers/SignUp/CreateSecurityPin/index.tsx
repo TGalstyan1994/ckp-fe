@@ -6,13 +6,14 @@ import { useDispatch } from 'react-redux'
 import { sendPinAction } from 'src/store/actions/signup'
 import {
   endStageFetching,
+  removeError,
   startStageFetching,
   validateStage,
 } from 'src/store/reducers/signup'
 import { haveErrors } from 'src/utils'
 import { useSelectorTyped } from 'src/utils/hooks'
-import { form, form_buttons, form_fetching_error } from './style.module.css'
 import vector from 'src/UI/Vector.svg'
+import { form, form_buttons, form_fetching_error } from './style.module.css'
 import { validate } from './validation'
 
 export const CreateSecurityPin: FC = () => {
@@ -25,8 +26,10 @@ export const CreateSecurityPin: FC = () => {
   const dispatch = useDispatch()
 
   const handlePin = (e: ChangeEvent<HTMLInputElement>) => {
-    if (+e.target.value || e.target.value === '')
+    if (+e.target.value || e.target.value === '') {
+      dispatch(removeError(e.target.name))
       setPin((prev) => ({ ...prev, [e.target.name]: e.target.value.trim() }))
+    }
   }
 
   const handleForm = () => {
@@ -58,7 +61,7 @@ export const CreateSecurityPin: FC = () => {
         error={stage.errors?.confirmPin}
         placeholder="Confirm PIN"
         name="confirmPin"
-        confirm
+        confirm={!pinForm.confirmPin}
       />
       {stage.fetchError && (
         <span className={form_fetching_error}>{stage.fetchError}</span>

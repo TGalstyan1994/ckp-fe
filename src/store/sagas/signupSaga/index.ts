@@ -52,6 +52,8 @@ function* completeStage(action: RegistrationAction) {
         captcha,
         body,
       }
+      yield put(stageFetchingErrors(false))
+
       const response: AxiosResponse = yield call(
         axios.post,
         `${process.env.NEXT_PUBLIC_API}${apiUrl}`,

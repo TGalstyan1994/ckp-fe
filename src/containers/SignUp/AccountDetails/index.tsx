@@ -2,6 +2,7 @@ import { ChangeEvent, FC, MouseEvent, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import {
   endStageFetching,
+  removeError,
   startStageFetching,
   validateStage,
 } from 'src/store/reducers/signup'
@@ -39,8 +40,15 @@ export const AccountDetails: FC = () => {
     dispatch(registerAction({ ...formState }))
   }
 
-  const handleFormInput = (e: ChangeEvent<HTMLInputElement>) =>
-    setFormState((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+  const handleFormInput = (e: ChangeEvent<HTMLInputElement>) => {
+    let { value } = e.target
+    if (e.target.name === 'username') value = value.replace(/\s/g, '')
+    dispatch(removeError(e.target.name))
+    setFormState({
+      ...formState,
+      [e.target.name]: value,
+    })
+  }
 
   return (
     <form className={form}>
@@ -54,6 +62,7 @@ export const AccountDetails: FC = () => {
           required
           placeholder="Enter Username"
           error={stage.errors?.username}
+          autoFocus
         />
         <Input
           type="email"

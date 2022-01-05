@@ -205,6 +205,10 @@ const signup = createSlice({
       }
     },
 
+    removeError(state, action) {
+      state.stages[state.currentStage].errors[action.payload] = ''
+    },
+
     setCurrentOption(state, action) {
       state.stages[state.currentStage].currentOption = action.payload
     },
@@ -240,6 +244,7 @@ export const {
   setCurrentOption,
   finishStage,
   validateStage,
+  removeError,
   stageFetchingErrors,
   startStageFetching,
   endStageFetching,

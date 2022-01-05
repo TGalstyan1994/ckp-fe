@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux'
 
 import {
   endStageFetching,
+  removeError,
   setCurrentOption,
   startStageFetching,
   validateStage,
@@ -14,6 +15,7 @@ import {
 import { useSelectorTyped } from 'src/utils/hooks'
 import { haveErrors } from 'src/utils'
 import { sendSecurityQuestion } from 'src/store/actions/signup'
+import vector from 'src/UI/Vector.svg'
 import { validate } from './validation'
 import {
   form,
@@ -21,7 +23,6 @@ import {
   form_description,
   form_buttons,
 } from './style.module.css'
-import vector from 'src/UI/Vector.svg'
 
 export const SecurityQuestion: FC = () => {
   const [securityAnswer, setSecurityAnswer] = useState('')
@@ -35,6 +36,7 @@ export const SecurityQuestion: FC = () => {
   }
 
   const handleAnswer = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(removeError(e.target.name))
     setSecurityAnswer(e.target.value)
   }
 
@@ -79,6 +81,7 @@ export const SecurityQuestion: FC = () => {
           value={securityAnswer}
           placeholder="Enter the name of your first pet"
           error={errors?.answer}
+          name="answer"
         />
       </div>
       <div className={form_buttons}>

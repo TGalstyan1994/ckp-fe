@@ -10,6 +10,7 @@ type Props = {
   placeholder?: string
   confirm?: boolean
   name?: string
+  autoFocus?: boolean
 }
 
 export const PinInput: FC<Props> = ({
@@ -19,6 +20,7 @@ export const PinInput: FC<Props> = ({
   value,
   error,
   placeholder,
+  autoFocus,
 }) => {
   return (
     <Input
@@ -32,6 +34,7 @@ export const PinInput: FC<Props> = ({
       type="pin"
       value={value}
       error={error}
+      autoFocus={!!autoFocus}
     />
   )
 }

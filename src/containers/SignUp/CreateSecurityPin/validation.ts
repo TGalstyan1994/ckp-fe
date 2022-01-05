@@ -13,5 +13,8 @@ export const validate = ({ pin, confirmPin }: FormState): ErrorObject => {
   if (errors.pin || pin !== confirmPin)
     errors.confirmPin = 'Confirm Security PIN Mismatch'
 
+  if (confirmPin.length !== 6)
+    errors.confirmPin = "Security PIN can't be less then 6 digits"
+
   return errors
 }

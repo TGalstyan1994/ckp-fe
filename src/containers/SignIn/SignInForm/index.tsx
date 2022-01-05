@@ -42,7 +42,6 @@ const SignInForm: FC = () => {
     username: '',
     password: '',
   })
-  const [rememberMe, setRememberMe] = useState<boolean>(false)
   const dispatch = useDispatch()
   const router = useRouter()
   const firstUpdate = useRef(true)
@@ -69,12 +68,10 @@ const SignInForm: FC = () => {
       dispatch(validateForm({ errors: { password: '' } }))
     }
 
-    if (e.target.type === 'checkbox') setRememberMe(e.target.checked)
-    else
-      setFormState((prev) => ({
-        ...prev,
-        [e.target.name]: e.target.value,
-      }))
+    setFormState((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
   }
 
   useEffect(() => {
@@ -118,12 +115,6 @@ const SignInForm: FC = () => {
         {fetchingErrors && <ErrorsSpan>{fetchingErrors}</ErrorsSpan>}
 
         <div className={form_password_actions}>
-          <CheckBox
-            checked={rememberMe}
-            onChange={handleFormInput}
-            label="Remember me"
-            name="rememberMe"
-          />
           <LinkText href="/forgot_password">Forgot your password ?</LinkText>
         </div>
 

@@ -35,7 +35,8 @@
     "react/require-default-props": "off",
     "no-param-reassign": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@next/next/no-img-element": "off"
+    "@next/next/no-img-element": "off",
+    "jsx-a11y/no-autofocus": "off"
   },
   "root": true
 }
