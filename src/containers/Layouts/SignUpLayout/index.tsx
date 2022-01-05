@@ -31,8 +31,9 @@ export const SignUpStages = ({ children: allStages }: IProps) => {
 
   return (
     <div className={registration_page}>
-      <LinkText href="" />
-      <Logo />
+      <LinkText href="/signin">
+        <Logo />
+      </LinkText>
       <div className={stages_wrapper}>
         {currentStageWithProps ?? <span>Not Found :(</span>}
       </div>

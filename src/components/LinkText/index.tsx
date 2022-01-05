@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { link_text, secondary_linked } from './LinkText.module.css'
 
 type Props = {
-  children: string
+  children: string | JSX.Element
   href: string
   secondary?: boolean
 }
