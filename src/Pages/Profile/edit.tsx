@@ -29,7 +29,7 @@ export const Edit: FC = () => {
       case 'social':
         return <Social />
       default:
-        break
+        return <Social />
     }
   }
   const handelChangeTab = async (tab: 'personal' | 'security' | 'social') => {
@@ -58,6 +58,7 @@ export const Edit: FC = () => {
               activeInfo: activeProfileTab === 'personal',
             })}
             onClick={() => handelChangeTab('personal')}
+            aria-hidden
           >
             <span>Personal Info</span>
           </div>
@@ -66,6 +67,7 @@ export const Edit: FC = () => {
               activeInfo: activeProfileTab === 'security',
             })}
             onClick={() => handelChangeTab('security')}
+            aria-hidden
           >
             <span>Security Info</span>
           </div>
@@ -74,6 +76,7 @@ export const Edit: FC = () => {
               activeInfo: activeProfileTab === 'social',
             })}
             onClick={() => handelChangeTab('social')}
+            aria-hidden
           >
             <span>Social Info</span>
           </div>

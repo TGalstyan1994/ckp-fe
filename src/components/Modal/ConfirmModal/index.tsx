@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { ConfirmModal } from './ConfirmModal'
+import { ConfirmModal } from './confirm-modal'
 
 export const CancelModal: FC = () => {
   return (

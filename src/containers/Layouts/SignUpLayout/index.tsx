@@ -16,6 +16,7 @@ import {
   navbar_button,
   disabled_stage_link,
 } from './style.module.css'
+import { LinkText } from '../../../components/LinkText'
 
 interface IProps {
   children: Array<ReactElement>
@@ -30,7 +31,9 @@ export const SignUpStages = ({ children: allStages }: IProps) => {
 
   return (
     <div className={registration_page}>
-      <Logo />
+      <LinkText href="/signin">
+        <Logo />
+      </LinkText>
       <div className={stages_wrapper}>
         {currentStageWithProps ?? <span>Not Found :(</span>}
       </div>

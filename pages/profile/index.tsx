@@ -81,6 +81,7 @@ const ProfilePage = () => {
                     activeTab: activeTab === 'overview',
                   })}
                   onClick={() => confirmChangeTabs('overview')}
+                  aria-hidden
                 >
                   Overview
                 </li>
@@ -89,6 +90,7 @@ const ProfilePage = () => {
                     activeTab: activeTab === 'edit',
                   })}
                   onClick={() => confirmChangeTabs('edit')}
+                  aria-hidden
                 >
                   Edit Profile
                 </li>
@@ -97,6 +99,7 @@ const ProfilePage = () => {
                     activeTab: activeTab === 'pin',
                   })}
                   onClick={() => confirmChangeTabs('pin')}
+                  aria-hidden
                 >
                   Security PIN
                 </li>
@@ -105,6 +108,7 @@ const ProfilePage = () => {
                     activeTab: activeTab === 'default',
                   })}
                   onClick={() => confirmChangeTabs('default')}
+                  aria-hidden
                 >
                   Set Default
                 </li>

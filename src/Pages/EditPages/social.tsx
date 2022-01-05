@@ -49,35 +49,35 @@ export const Social: FC = () => {
     <>
       <div className="content">
         <div className="input-container">
-          <label>About me</label>
+          <div className="input-label">About me</div>
           <input
             name="info"
             value={inputValue.info}
             onChange={handleChange}
             placeholder="Add info here"
           />
-          <label htmlFor="">Facebook</label>
+          <div className="input-label">Facebook</div>
           <input
             name="facebook"
             value={inputValue.facebook}
             onChange={handleChange}
             placeholder="https://www.facebook.com"
           />
-          <label>Twitter</label>
+          <div className="input-label">Twitter</div>
           <input
             name="twitter"
             value={inputValue.twitter}
             onChange={handleChange}
             placeholder="https://www.twitter.com"
           />
-          <label>Linked in</label>
+          <div className="input-label">Linked in</div>
           <input
             name="linked"
             value={inputValue.linked}
             onChange={handleChange}
             placeholder="https://www.linkedin.com"
           />
-          <label>Google plus</label>
+          <div className="input-label">Google plus</div>
           <input
             name="google"
             value={inputValue.google}
