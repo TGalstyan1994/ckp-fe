@@ -29,7 +29,7 @@ export const Default: FC = () => {
       <div className="edit-holder">
         <div className="content">
           <div className="input-container">
-            <label>Set Default Language</label>
+            <div className="input-label">Set Default Language</div>
             <input
               type="select"
               name="language"
@@ -37,7 +37,7 @@ export const Default: FC = () => {
               onChange={handleChange}
               placeholder="Select"
             />
-            <label>Set Default Currency</label>
+            <div className="input-label">Set Default Currency</div>
             <input
               type="select"
               name="currency"

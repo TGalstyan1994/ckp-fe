@@ -25,21 +25,21 @@ export const Pin: FC = () => {
       <div className="edit-holder">
         <div className="content">
           <div className="input-container">
-            <label>Existing Pin</label>
+            <div className="input-label">Existing Pin</div>
             <input
               name="info"
               value={value}
               onChange={handleChange}
               placeholder="************"
             />
-            <label>New Pin</label>
+            <div className="input-label">New Pin</div>
             <input
               name="facebook"
               value={value}
               onChange={handleChange}
               placeholder="************"
             />
-            <label>Re type PIN</label>
+            <div className="input-label">Re type PIN</div>
             <input
               name="twitter"
               value={value}

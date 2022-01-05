@@ -46,21 +46,21 @@ export const Security: FC = () => {
     <>
       <div className="content">
         <div className="input-container">
-          <label>Current Password</label>
+          <div className="input-label">Current Password</div>
           <input
             name="currentPassword"
             value={inputValue.currentPassword}
             onChange={handleChange}
             placeholder="************"
           />
-          <label htmlFor="">New Password</label>
+          <div className="input-label">New Password</div>
           <input
             name="newPassword"
             value={inputValue.newPassword}
             onChange={handleChange}
             placeholder="************"
           />
-          <label>Retype Password</label>
+          <div className="input-label">Retype Password</div>
           <input
             name="retypePassword"
             value={inputValue.retypePassword}

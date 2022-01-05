@@ -1,10 +1,10 @@
 import { FC } from 'react'
 import { useSelectorTyped } from '../../utils/hooks'
 import { RootState } from '../../store'
-import { FromSecurity } from './ModalPages/fromSecurity'
-import { FromSocial } from './ModalPages/fromSocial'
-import { FromPin } from './ModalPages/fromPin'
-import { FromDefault } from './ModalPages/fromDefault'
+import { FromSecurity } from './ModalPages/from-security'
+import { FromSocial } from './ModalPages/from-social'
+import { FromPin } from './ModalPages/from-pin'
+import { FromDefault } from './ModalPages/from-default'
 
 export const Modal: FC = () => {
   const { modalFrom } = useSelectorTyped(
@@ -21,7 +21,7 @@ export const Modal: FC = () => {
       case 'default':
         return <FromDefault />
       default:
-        break
+        return <FromDefault />
     }
   }
   return <div className="modal-container">{renderModalFrom()}</div>
