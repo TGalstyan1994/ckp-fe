@@ -7,9 +7,12 @@ export const validate = (
   const errorObject = {} as { [key: string]: string }
   for (const key of Object.keys(formState)) errorObject[key] = ''
 
-  if (is.empty(formState.objective)) errorObject.objective = 'Field Required'
+  if (is.empty(formState.objective)) errorObject.objective = 'Field is required'
   if (is.empty(formState.objectiveNote))
-    errorObject.objectiveNote = 'Field Required'
+    errorObject.objectiveNote = 'Field is required'
+  if (formState.objectiveNote.length > 512)
+    errorObject.objectiveNote =
+      'The value must not be more than 512 characters long'
 
   if (
     formState.firstName.length < 2 ||
@@ -31,19 +34,20 @@ export const validate = (
   if (is.empty(phoneDate.phoneCode) || is.empty(phoneDate.phoneNumber))
     errorObject.phone = 'Field is required and should contain only digits'
 
-  if (formState.address.length > 255 || is.empty(formState.address))
-    errorObject.address = 'Field is required'
+  if (is.empty(formState.address)) errorObject.address = 'Field is required'
+  if (formState.address.length > 255)
+    errorObject.address = 'The value must not be more than 255 characters long'
 
   if (!Object.values(formState.dateOfBirth).every((value) => value))
-    errorObject.dateOfBirth = 'Field required'
+    errorObject.dateOfBirth = 'Field is required'
 
   if (is.empty(formState.maritalStatus))
-    errorObject.maritalStatus = 'Field Required'
+    errorObject.maritalStatus = 'Field is required'
 
   /// сurrentlyEmployed
 
   if (formState.сurrentlyEmployed === undefined)
-    errorObject.сurrentlyEmployed = 'Field Required'
+    errorObject.сurrentlyEmployed = 'Field is required'
 
   if (formState.сurrentlyEmployed) {
     if (is.empty(formState.jobTitle)) errorObject.jobTitle = 'Field is required'
@@ -58,7 +62,7 @@ export const validate = (
   /// businessOwner
 
   if (formState.businessOwner === undefined)
-    errorObject.businessOwner = 'Field Required'
+    errorObject.businessOwner = 'Field is required'
 
   if (formState.businessOwner && is.empty(formState.businessDescription))
     errorObject.businessDescription = 'Field is required'
@@ -72,7 +76,7 @@ export const validate = (
   /// anyTechnicalSkills
 
   if (formState.anyTechnicalSkills === undefined)
-    errorObject.anyTechnicalSkills = 'Field Required'
+    errorObject.anyTechnicalSkills = 'Field is required'
 
   if (
     formState.anyTechnicalSkills &&
@@ -83,7 +87,7 @@ export const validate = (
   /// anyAthleticSkills
 
   if (formState.anyAthleticSkills === undefined)
-    errorObject.anyAthleticSkills = 'Field Required'
+    errorObject.anyAthleticSkills = 'Field is required'
 
   if (
     formState.anyAthleticSkills &&
@@ -99,23 +103,32 @@ export const validate = (
   if (formState.anyDependents && is.empty(formState.totalNumberOfDependens))
     errorObject.totalNumberOfDependens = 'Field is required '
 
+  if (formState.totalNumberOfDependens <= 0)
+    errorObject.totalNumberOfDependens = 'Fill correct digits'
+
   /// beneficiary
 
   if (
-    formState.beneficiaryName.length < 2 ||
-    formState.beneficiaryName.length > 32 ||
-    is.empty(formState.beneficiaryName)
+    is.empty(formState.beneficiaryName) ||
+    formState.beneficiaryName.length < 2
   )
     errorObject.beneficiaryName =
-      'Field is required, min is 2 and max is 32 characters'
+      'Field is required, the value must not be less than 2 characters long'
+
+  if (formState.beneficiaryName.length > 32)
+    errorObject.beneficiaryName =
+      'The value must not be more than 32 characters long'
 
   if (
     formState.beneficiaryRelationship.length < 2 ||
-    formState.beneficiaryRelationship.length > 32 ||
     is.empty(formState.beneficiaryRelationship)
   )
     errorObject.beneficiaryRelationship =
-      'Field is required, min is 2 and max is 32 characters'
+      'Field is required, the value must not be less than 2 characters long'
+
+  if (formState.beneficiaryRelationship.length > 32)
+    errorObject.beneficiaryRelationship =
+      'The value must not be more than 32 characters long'
 
   if (
     formState.beneficiaryContactNumber.length < 2 ||
@@ -123,15 +136,21 @@ export const validate = (
     is.empty(formState.beneficiaryContactNumber)
   )
     errorObject.beneficiaryContactNumber =
-      'Field is required, min is 2 and max is 32 characters and should contain only digits '
+      'Field is required, min is 2 and max is 32 characters and should contain only digits'
 
   /// stateId  cityId
 
-  if (formState.stateId === undefined) errorObject.stateId = 'Field Required'
+  if (formState.stateId === undefined) errorObject.stateId = 'Field is required'
+  if (
+    is.empty(formState.city) ||
+    formState.city.length < 2 ||
+    formState.city.length > 32
+  )
+    errorObject.city = 'Field is required, min is 2 and max is 32 characters'
 
   /// zip code
 
-  if (is.empty(formState.zipCode)) errorObject.zipCode = 'Field Required'
+  if (is.empty(formState.zipCode)) errorObject.zipCode = 'Field is required'
 
   return errorObject
 }

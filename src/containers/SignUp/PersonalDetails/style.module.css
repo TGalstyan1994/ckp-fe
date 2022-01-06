@@ -45,7 +45,9 @@
   justify-content: space-between;
   align-items: center;
 }
-
+div.form_actions:last-child {
+  margin-top: 0;
+}
 .actions_buttons button {
   width: 232px;
 }
@@ -123,9 +125,11 @@
 
   margin-top: 29px;
 }
-
+.bottom_area {
+  margin-bottom: 29px;
+}
 .margin_cont {
-  margin-bottom: 25px;
+  margin-bottom: 27px;
 }
 .row_employed {
   flex-direction: column;

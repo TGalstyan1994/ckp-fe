@@ -28,8 +28,6 @@ export const PhoneNumberForm: FC<Props> = ({
   personalDetailsStatePhone,
 }) => {
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value.slice(1).search(phoneNumberRegExp))
-
     if (
       e.target.name === 'phoneCode' &&
       e.target.value.slice(1).search(phoneNumberRegExp) !== -1
@@ -58,7 +56,6 @@ export const PhoneNumberForm: FC<Props> = ({
           value={`+${formState.phoneCode}`}
           required
           placeholder={`+${phoneCode}`}
-          error={error && ' '}
         />
         <Input
           name="phoneNumber"

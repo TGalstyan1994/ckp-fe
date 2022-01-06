@@ -62,7 +62,11 @@ export const Input: FC<Props> = ({
           required
           autoFocus={!!autoFocus}
           defaultValue={defaultValue}
-          className={classNames(input, { [invalid_input]: error }, className)}
+          className={classNames(
+            input,
+            { [invalid_input]: error || inputError },
+            className
+          )}
         />
         {type === 'password' && (
           <PasswordSwitchICO
