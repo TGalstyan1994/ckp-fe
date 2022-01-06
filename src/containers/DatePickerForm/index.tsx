@@ -1,10 +1,12 @@
 import { Select } from 'src/components/Select'
 import { Dispatch, FC, SetStateAction, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import {
   datePicker_wrapper,
   datePicker_header,
   datePicker_options,
 } from './style.module.css'
+import { validateStage } from '../../store/reducers/signup'
 
 const daysInMonth = (month: number, year: number) =>
   new Date(year, month, 0).getDate()
@@ -37,14 +39,20 @@ type Props = {
 }
 
 export const DatePickerForm: FC<Props> = ({ dateForm, setDateForm, error }) => {
+  const dispatch = useDispatch()
   const [options, setOptions] = useState({
     days: [] as number[],
     months: monthNames,
     years: Array.from({ length: 60 }, (_, i) => i + 1960),
   })
 
+  const removeErrors = () => {
+    dispatch(validateStage({ errors: { dateOfBirth: '' } }))
+  }
+
   const setYear = (option: string) => {
     setDateForm((prev) => ({ ...prev, year: option, day: '', month: '' }))
+    removeErrors()
   }
 
   const setMonth = (option: string) => {
@@ -61,10 +69,12 @@ export const DatePickerForm: FC<Props> = ({ dateForm, setDateForm, error }) => {
         (_, i) => i + 1
       ),
     }))
+    removeErrors()
   }
 
   const setDay = (option: string) => {
     setDateForm((prev) => ({ ...prev, day: option }))
+    removeErrors()
   }
 
   return (

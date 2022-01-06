@@ -199,7 +199,10 @@ const signup = createSlice({
 
     validateStage(state, action) {
       if (state.currentStage === 3) {
-        state.stages[state.currentStage].fetchError = action.payload.errors
+        state.stages[state.currentStage].fetchError = {
+          ...state.stages[state.currentStage].fetchError,
+          ...action.payload.errors,
+        }
       } else {
         state.stages[state.currentStage].errors = action.payload.errors
       }

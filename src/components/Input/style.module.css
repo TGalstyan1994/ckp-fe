@@ -21,6 +21,7 @@
   font-size: 13px;
   line-height: 16px;
   color: #000000;
+  opacity: 0.6;
   transition: 0.2s;
   margin: 0;
 }
@@ -45,7 +46,7 @@
 }
 
 .input_label {
-  margin-bottom: 20px;
+  margin-bottom: 19px;
   opacity: 0.4;
   font-weight: 600;
   font-size: 13px;
@@ -62,7 +63,7 @@
   bottom: -18px;
   left: 0px;
   font-weight: 600;
-  font-size: 11px;
+  font-size: 10px;
   line-height: 12px;
   color: #fe0000;
 }

@@ -39,6 +39,7 @@ import {
   row,
   margin_cont,
   row_employed,
+  bottom_area,
 } from './style.module.css'
 import { validate } from './validate'
 
@@ -76,7 +77,6 @@ export const PersonalDetails: FC = () => {
   const { countries, country, states } = useSelectorTyped(
     (state) => state.signup.userInfo
   )
-
   const [personalDetailsState, setPersonalDetailsState] = useState({
     objective: '',
     objectiveNote: '',
@@ -91,19 +91,19 @@ export const PersonalDetails: FC = () => {
     gender: 'MALE',
     maritalStatus: '',
     dateOfBirth: '',
-    сurrentlyEmployed: undefined,
+    сurrentlyEmployed: false,
     jobTitle: '',
     jobDescription: '',
     employeeAddress: '',
-    businessOwner: undefined,
+    businessOwner: false,
     businessDescription: '',
-    anyTrade: undefined,
+    anyTrade: false,
     tradeDescription: '',
-    anyTechnicalSkills: undefined,
+    anyTechnicalSkills: false,
     technicalSkillsDescription: '',
-    anyAthleticSkills: undefined,
+    anyAthleticSkills: false,
     athleticSkillsDescription: '',
-    anyDependents: undefined,
+    anyDependents: false,
     totalNumberOfDependens: '',
     beneficiaryName: '',
     beneficiaryRelationship: '',
@@ -133,6 +133,10 @@ export const PersonalDetails: FC = () => {
 
   const dispatch = useDispatch()
 
+  const removeErrors = (name: string) => {
+    dispatch(validateStage({ errors: { [name]: '' } }))
+  }
+
   const setPersonalDetails = (
     key: string,
     value: string | boolean | number
@@ -142,6 +146,7 @@ export const PersonalDetails: FC = () => {
 
   const changePhoneState = (value: string, name: string) => {
     setPhoneState((prev) => ({ ...prev, [name]: value }))
+    removeErrors('phone')
   }
 
   const changeGeoCountry = (option: string) => {
@@ -169,6 +174,7 @@ export const PersonalDetails: FC = () => {
 
     setGeoData((prev) => ({ ...prev, state: option }))
     if (currentState) setPersonalDetails('stateId', currentState.id)
+    removeErrors('stateId')
   }
 
   const handleForm = () => {
@@ -206,7 +212,10 @@ export const PersonalDetails: FC = () => {
 
   const handleFormInputs = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
-  ) => setPersonalDetails(e.target.name, e.target.value)
+  ) => {
+    setPersonalDetails(e.target.name, e.target.value)
+    removeErrors(e.target.name)
+  }
 
   useEffect(() => {
     if (country.id < 0) return
@@ -310,12 +319,13 @@ export const PersonalDetails: FC = () => {
         ]}
         error={fetchError?.objective}
         currentOption={objectiveCodes[personalDetailsState.objective]}
-        placeholder="Start a Business"
+        placeholder="Select objective"
         setCurrentOption={(option: string) => {
           // eslint-disable-next-line no-restricted-syntax
           for (const item of Object.keys(objectiveCodes)) {
             if (objectiveCodes[item] === option) {
               setPersonalDetails('objective', item)
+              removeErrors('objective')
             }
           }
         }}
@@ -326,7 +336,7 @@ export const PersonalDetails: FC = () => {
         onChange={handleFormInputs}
         name="objectiveNote"
         label="Objective Note"
-        maxSymbols={512}
+        // maxSymbols={512}
         required
         error={fetchError?.objectiveNote}
       />
@@ -372,7 +382,7 @@ export const PersonalDetails: FC = () => {
           required
           placeholder="Enter Address"
           error={fetchError?.address}
-          maxLength={255}
+          // maxLength={255}
         />
       </div>
 
@@ -401,11 +411,12 @@ export const PersonalDetails: FC = () => {
             currentOption={
               maritalStatusCodes[personalDetailsState.maritalStatus]
             }
-            placeholder="Single"
+            placeholder="Select marital status"
             setCurrentOption={(option: string) => {
               Object.keys(maritalStatusCodes).map((item: string) => {
                 if (maritalStatusCodes[item] === option) {
                   setPersonalDetails('maritalStatus', item)
+                  removeErrors('maritalStatus')
                 }
               })
             }}
@@ -417,9 +428,12 @@ export const PersonalDetails: FC = () => {
         <OptionalRadioForm
           name="jobTitle"
           onInputChange={handleFormInputs}
-          onRadioChange={(value) =>
+          onRadioChange={(value) => {
             setPersonalDetails('сurrentlyEmployed', value)
-          }
+            removeErrors('jobTitle')
+            removeErrors('jobDescription')
+            removeErrors('employeeAddress')
+          }}
           questionLabel="Are You Currently Employed?"
           placeholder="Job Title"
           answerState={personalDetailsState.сurrentlyEmployed}
@@ -449,7 +463,10 @@ export const PersonalDetails: FC = () => {
         <OptionalRadioForm
           name="businessDescription"
           onInputChange={handleFormInputs}
-          onRadioChange={(value) => setPersonalDetails('businessOwner', value)}
+          onRadioChange={(value) => {
+            setPersonalDetails('businessOwner', value)
+            removeErrors('businessDescription')
+          }}
           questionLabel="Are You a Business Owner?"
           placeholder="Business Description"
           answerState={personalDetailsState.businessOwner}
@@ -460,7 +477,10 @@ export const PersonalDetails: FC = () => {
         <OptionalRadioForm
           name="tradeDescription"
           onInputChange={handleFormInputs}
-          onRadioChange={(value) => setPersonalDetails('anyTrade', value)}
+          onRadioChange={(value) => {
+            setPersonalDetails('anyTrade', value)
+            removeErrors('tradeDescription')
+          }}
           questionLabel="Do You Have any Trade?"
           placeholder="Trade Description"
           answerState={personalDetailsState.anyTrade}
@@ -471,9 +491,10 @@ export const PersonalDetails: FC = () => {
         <OptionalRadioForm
           name="technicalSkillsDescription"
           onInputChange={handleFormInputs}
-          onRadioChange={(value) =>
+          onRadioChange={(value) => {
             setPersonalDetails('anyTechnicalSkills', value)
-          }
+            removeErrors('technicalSkillsDescription')
+          }}
           questionLabel="Do you Have any Technical skills?"
           placeholder="Skill Description"
           answerState={personalDetailsState.anyTechnicalSkills}
@@ -484,9 +505,10 @@ export const PersonalDetails: FC = () => {
         <OptionalRadioForm
           name="athleticSkillsDescription"
           onInputChange={handleFormInputs}
-          onRadioChange={(value) =>
+          onRadioChange={(value) => {
             setPersonalDetails('anyAthleticSkills', value)
-          }
+            removeErrors('athleticSkillsDescription')
+          }}
           questionLabel="Do you Have any Athletic skills?"
           placeholder="Skill Description"
           answerState={personalDetailsState.anyAthleticSkills}
@@ -497,7 +519,10 @@ export const PersonalDetails: FC = () => {
         <OptionalRadioForm
           name="totalNumberOfDependens"
           onInputChange={handleFormInputs}
-          onRadioChange={(value) => setPersonalDetails('anyDependents', value)}
+          onRadioChange={(value) => {
+            setPersonalDetails('anyDependents', value)
+            removeErrors('totalNumberOfDependens')
+          }}
           questionLabel="Do You Have Any Dependent?"
           placeholder="Total Number of Dependents"
           answerState={personalDetailsState.anyDependents}
@@ -517,7 +542,7 @@ export const PersonalDetails: FC = () => {
         error={fetchError?.beneficiaryName}
       />
 
-      <div className={classNames(row, double_input)}>
+      <div className={classNames(row, double_input, bottom_area)}>
         <Input
           name="beneficiaryRelationship"
           onChange={handleFormInputs}
@@ -553,11 +578,12 @@ export const PersonalDetails: FC = () => {
           label="State"
           required
           currentOption={geoData.state}
-          placeholder={
-            states?.map(
-              (stateInfo: Record<string, string>) => stateInfo.name
-            )[0] || 'Choose State'
-          }
+          // placeholder={
+          //   states?.map(
+          //     (stateInfo: Record<string, string>) => stateInfo.name
+          //   )[0] || 'Choose State'
+          // }
+          placeholder="Select State"
           setCurrentOption={changeGeoStates}
           options={states.map(
             (stateInfo: Record<string, string>) => stateInfo.name
