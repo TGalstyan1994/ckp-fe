@@ -212,6 +212,10 @@ const signup = createSlice({
       state.stages[state.currentStage].errors[action.payload] = ''
     },
 
+    removeBackError(state) {
+      state.stages[state.currentStage].fetchError = ''
+    },
+
     setCurrentOption(state, action) {
       state.stages[state.currentStage].currentOption = action.payload
     },
@@ -256,5 +260,6 @@ export const {
   setInitialPersonalDetails,
   backStage,
   setConfirmDetails,
+  removeBackError,
 } = signup.actions
 export default signup.reducer

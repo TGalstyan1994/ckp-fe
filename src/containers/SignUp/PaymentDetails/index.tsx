@@ -10,7 +10,7 @@ import {
   backStage,
   endStageFetching,
   startStageFetching,
-  validateStage,
+  removeBackError,
 } from 'src/store/reducers/signup'
 import {
   form,
@@ -18,17 +18,15 @@ import {
   payment_rightSide,
   double_input,
 } from './style.module.css'
-import { validate } from './validate'
-import { haveErrors } from '../../../utils'
+
 import { sendPaymentDetails } from '../../../store/actions/signup'
-import { ErrorsSpan } from '../../../components/ErrorsSpan'
 
 export const PaymentDetails: FC = () => {
   const dispatch = useDispatch()
-  const stage = useSelectorTyped((state) => state.signup.stages[4])
+  const { fetchError } = useSelectorTyped((state) => state.signup.stages[4])
 
   const [paymentDetails, setPaymentDetails] = useState({
-    accountCurrency: '',
+    accountCurrency: 'USDT_ERC20',
     accountAddress: '',
   })
 
@@ -38,15 +36,13 @@ export const PaymentDetails: FC = () => {
 
   const handleFormInputs = (e: ChangeEvent<HTMLInputElement>) => {
     handleCurrencyChange(e.target.name, e.target.value)
+    dispatch(removeBackError())
   }
 
   const handleForm = () => {
     dispatch(startStageFetching())
 
-    const validationErrors = validate(paymentDetails)
-    dispatch(validateStage({ errors: validationErrors }))
-
-    if (haveErrors(validationErrors)) {
+    if (fetchError) {
       dispatch(endStageFetching())
       return
     }
@@ -76,8 +72,8 @@ export const PaymentDetails: FC = () => {
             required
             placeholder="Enter Billing Address"
             maxLength={255}
+            error={fetchError}
           />
-          {stage.fetchError && <ErrorsSpan>{stage.fetchError}</ErrorsSpan>}
 
           <div className={actions_buttons}>
             <Button secondary onClick={handleBack}>

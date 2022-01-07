@@ -103,7 +103,13 @@ export const validate = (
   if (formState.anyDependents && is.empty(formState.totalNumberOfDependens))
     errorObject.totalNumberOfDependens = 'Field is required '
 
-  if (formState.totalNumberOfDependens <= 0)
+  if (formState.anyDependents && formState.totalNumberOfDependens <= 0)
+    errorObject.totalNumberOfDependens = 'Fill correct digits'
+
+  if (
+    formState.anyDependents &&
+    !/^\d+$/.test(formState.totalNumberOfDependens)
+  )
     errorObject.totalNumberOfDependens = 'Fill correct digits'
 
   /// beneficiary

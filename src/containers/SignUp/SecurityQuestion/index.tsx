@@ -70,7 +70,7 @@ export const SecurityQuestion: FC = () => {
 
       <div className={form_inputs}>
         <Select
-          placeholder="Enter the name of your first pet"
+          placeholder="Select security question"
           options={options ? Object.keys(options) : []}
           currentOption={currentOption || ''}
           setCurrentOption={setCurrentOptionCallback}
@@ -79,7 +79,7 @@ export const SecurityQuestion: FC = () => {
         <Input
           onChange={handleAnswer}
           value={securityAnswer}
-          placeholder="Enter the name of your first pet"
+          placeholder="Enter security response"
           error={errors?.answer}
           name="answer"
         />

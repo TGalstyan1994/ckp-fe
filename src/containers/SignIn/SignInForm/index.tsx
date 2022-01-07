@@ -38,6 +38,7 @@ const SignInForm: FC = () => {
   const { errors, fetching, fetchingErrors, data } = useSelectorTyped(
     (state) => state.signin
   )
+
   const [formState, setFormState] = useState<FormState>({
     username: '',
     password: '',

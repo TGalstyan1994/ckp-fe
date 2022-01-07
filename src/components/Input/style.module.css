@@ -16,7 +16,7 @@
   outline: none;
   background: rgba(251, 251, 251, 0.8);
   box-shadow: 0 0 4px #d8d8d8;
-  padding: 20px 30px;
+  padding: 20px 42px 20px 30px;
   font-weight: 600;
   font-size: 13px;
   line-height: 16px;
@@ -74,7 +74,7 @@
 }
 
 .input_container svg {
-  top: 28px;
+  top: 24px;
   right: 19px;
   position: absolute;
   fill: #d8d8d8;
