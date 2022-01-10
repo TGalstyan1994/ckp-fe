@@ -19,9 +19,9 @@
 .button:active {
   background-color: #32c577;
 }
- .button > img{
-   margin-left: 12px;
- }
+.button > img {
+  margin-left: 12px;
+}
 .secondary_button {
   background: #ebebeb;
   color: #000000;

@@ -140,6 +140,6 @@ div.form_actions:last-child {
   margin-right: 0;
   margin-bottom: 32px;
 }
-.row_employed > div:nth-child(2){
+.row_employed > div:nth-child(2) {
   margin-bottom: 13px;
 }
