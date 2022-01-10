@@ -1,6 +1,6 @@
 .button {
   width: 100%;
-  height: 66px;
+  height: 56px;
   background: #009345;
   color: #fff;
   opacity: 0.8;
@@ -8,7 +8,7 @@
   border: none;
   outline: none;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 11px;
   line-height: 13px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -19,7 +19,9 @@
 .button:active {
   background-color: #32c577;
 }
-
+.button > img {
+  margin-left: 12px;
+}
 .secondary_button {
   background: #ebebeb;
   color: #000000;

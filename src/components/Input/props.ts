@@ -4,7 +4,7 @@ export type Props = {
   name?: string
   value?: string | number
   onChange: ChangeEventHandler<HTMLInputElement>
-  error?: string
+  error?: string | Record<string, unknown>
   placeholder?: string
   label?: string
   required?: boolean

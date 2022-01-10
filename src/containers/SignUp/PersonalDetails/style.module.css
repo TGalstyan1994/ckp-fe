@@ -79,8 +79,8 @@ div.form_actions:last-child {
   z-index: 1;
 }
 
-.options_wrapper > div {
-  margin-bottom: 23px;
+.options_wrapper > div:not(:first-child) {
+  margin-bottom: 22px;
 }
 
 .form_fullName {
@@ -138,8 +138,8 @@ div.form_actions:last-child {
 
 .row_employed > div:nth-child(1) {
   margin-right: 0;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
 }
-/*.row_employed  div{*/
-/*  margin-right: 0;*/
-/*}*/
+.row_employed > div:nth-child(2) {
+  margin-bottom: 13px;
+}
