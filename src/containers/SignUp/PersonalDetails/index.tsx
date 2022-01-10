@@ -578,11 +578,6 @@ export const PersonalDetails: FC = () => {
           label="State"
           required
           currentOption={geoData.state}
-          // placeholder={
-          //   states?.map(
-          //     (stateInfo: Record<string, string>) => stateInfo.name
-          //   )[0] || 'Choose State'
-          // }
           placeholder="Select State"
           setCurrentOption={changeGeoStates}
           options={states.map(
