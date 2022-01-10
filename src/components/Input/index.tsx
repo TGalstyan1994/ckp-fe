@@ -60,7 +60,7 @@ export const Input: FC<Props> = ({
           onChange={onChange}
           placeholder={placeholder}
           required
-          autoFocus={!!autoFocus}
+          autoFocus={name === 'pin' ? (autoFocus = true) : !!autoFocus}
           defaultValue={defaultValue}
           className={classNames(
             input,

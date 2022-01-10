@@ -43,6 +43,7 @@ const SignInForm: FC = () => {
     username: '',
     password: '',
   })
+
   const dispatch = useDispatch()
   const router = useRouter()
   const firstUpdate = useRef(true)
@@ -59,6 +60,19 @@ const SignInForm: FC = () => {
     dispatch(signInAction(formState))
   }
 
+  useEffect(() => {
+    const listener = (event: any) => {
+      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+        event.preventDefault()
+        submitForm()
+      }
+    }
+    document.addEventListener('keydown', listener)
+    return () => {
+      document.removeEventListener('keydown', listener)
+    }
+  }, [formState.username, formState.password])
+
   const handleFormInput = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(resetFetchingError())
     if (e.target.name === 'username') {
@@ -71,7 +85,7 @@ const SignInForm: FC = () => {
 
     setFormState((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value.trim(),
     }))
   }
 
@@ -99,7 +113,7 @@ const SignInForm: FC = () => {
         <div className={form_inputs}>
           <Input
             name="username"
-            placeholder="Username"
+            placeholder="Username/Email"
             value={formState.username}
             onChange={handleFormInput}
             error={errors.username}

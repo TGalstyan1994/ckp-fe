@@ -29,11 +29,11 @@ export const ConfirmInformation: FC = () => {
   const { status } = useSelectorTyped((state) => state.signin.data.user)
 
   const handleForm = () => {
-    const { host } = window.location
+    const { origin } = window.location
 
     dispatch(startStageFetching())
     const payload = {
-      url: `${host}/signup/confirm`,
+      url: `${origin}/signup/confirm`,
       param: 'code',
     }
 
