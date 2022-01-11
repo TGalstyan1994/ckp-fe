@@ -18,7 +18,7 @@ export const validate = (email: EmailFormState): ErrorsObject => {
   if (email.length < 2)
     errors.email = 'The value must be not less than 2 characters length'
 
-  if (is.empty(email)) errors.email = 'Field required'
+  if (is.empty(email)) errors.email = 'E-mail is required'
 
   return errors
 }

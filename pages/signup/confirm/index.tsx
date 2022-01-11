@@ -6,11 +6,15 @@ const Confirm: FC = () => {
   const router = useRouter()
 
   const verifyUser = async () => {
-    const { code } = router.query
-    if (code) {
-      const payload = { code }
-      await sendVerificationCode(payload)
-      router.push('/profile')
+    try {
+      const { code } = router.query
+      if (code) {
+        const payload = { code }
+        await sendVerificationCode(payload)
+        router.push('/profile')
+      }
+    } catch (Error) {
+      throw Error
     }
   }
 

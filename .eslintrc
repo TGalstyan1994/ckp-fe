@@ -36,7 +36,8 @@
     "no-param-reassign": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@next/next/no-img-element": "off",
-    "jsx-a11y/no-autofocus": "off"
+    "jsx-a11y/no-autofocus": "off",
+    "no-useless-catch": "off"
   },
   "root": true
 }

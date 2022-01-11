@@ -8,8 +8,7 @@ export const validate = (
   for (const key of Object.keys(formState)) errorObject[key] = ''
 
   if (is.empty(formState.objective)) errorObject.objective = 'Field is required'
-  if (is.empty(formState.objectiveNote))
-    errorObject.objectiveNote = 'Field is required'
+
   if (formState.objectiveNote.length > 512)
     errorObject.objectiveNote =
       'The value must not be more than 512 characters long'
@@ -153,10 +152,6 @@ export const validate = (
     formState.city.length > 32
   )
     errorObject.city = 'Field is required, min is 2 and max is 32 characters'
-
-  /// zip code
-
-  if (is.empty(formState.zipCode)) errorObject.zipCode = 'Field is required'
 
   return errorObject
 }

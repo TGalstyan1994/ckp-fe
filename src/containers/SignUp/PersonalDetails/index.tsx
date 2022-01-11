@@ -74,6 +74,7 @@ export const PersonalDetails: FC = () => {
   const { fetchError, initialData } = useSelectorTyped(
     (state) => state.signup.stages[3]
   )
+
   const { countries, country, states } = useSelectorTyped(
     (state) => state.signup.userInfo
   )
@@ -269,7 +270,7 @@ export const PersonalDetails: FC = () => {
       ...initialData,
     })
 
-    if (initialData?.zipCode) {
+    if (initialData?.objective) {
       setTermsAcceptance(true)
     }
   }, [initialData])
@@ -337,7 +338,7 @@ export const PersonalDetails: FC = () => {
         name="objectiveNote"
         label="Objective Note"
         // maxSymbols={512}
-        required
+        // required
         error={fetchError?.objectiveNote}
       />
 
@@ -603,7 +604,7 @@ export const PersonalDetails: FC = () => {
           label="Zip code"
           value={personalDetailsState.zipCode}
           onChange={handleFormInputs}
-          required
+          // required
           error={fetchError?.zipCode}
         />
       </div>

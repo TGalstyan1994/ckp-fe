@@ -1,12 +1,11 @@
 import { Select } from 'src/components/Select'
-import { Dispatch, FC, SetStateAction, useState } from 'react'
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import {
   datePicker_wrapper,
   datePicker_header,
   datePicker_options,
 } from './style.module.css'
-import { validateStage } from '../../store/reducers/signup'
 
 const daysInMonth = (month: number, year: number) =>
   new Date(year, month, 0).getDate()
@@ -39,27 +38,20 @@ type Props = {
 }
 
 export const DatePickerForm: FC<Props> = ({ dateForm, setDateForm, error }) => {
-  const dispatch = useDispatch()
   const [options, setOptions] = useState({
     days: [] as number[],
     months: monthNames,
     years: Array.from({ length: 60 }, (_, i) => i + 1960),
   })
 
-  const removeErrors = () => {
-    dispatch(validateStage({ errors: { dateOfBirth: '' } }))
-  }
-
   const setYear = (option: string) => {
-    setDateForm((prev) => ({ ...prev, year: option, day: '', month: '' }))
-    removeErrors()
+    setDateForm((prev) => ({ ...prev, year: option }))
   }
 
   const setMonth = (option: string) => {
     setDateForm((prev) => ({
       ...prev,
       month: monthNames.indexOf(option).toString(),
-      day: '',
     }))
 
     setOptions((prev) => ({
@@ -69,13 +61,21 @@ export const DatePickerForm: FC<Props> = ({ dateForm, setDateForm, error }) => {
         (_, i) => i + 1
       ),
     }))
-    removeErrors()
   }
 
   const setDay = (option: string) => {
     setDateForm((prev) => ({ ...prev, day: option }))
-    removeErrors()
   }
+
+  useEffect(() => {
+    setOptions((prev) => ({
+      ...prev,
+      days: Array.from(
+        { length: daysInMonth(+dateForm.month, +dateForm.year) },
+        (_, i) => i + 1
+      ),
+    }))
+  }, [dateForm])
 
   return (
     <div className={datePicker_wrapper}>
@@ -86,6 +86,7 @@ export const DatePickerForm: FC<Props> = ({ dateForm, setDateForm, error }) => {
           currentOption={dateForm.year}
           setCurrentOption={setYear}
           placeholder="Select Year"
+          required
           error={dateForm.year === '' ? error : ''}
         />
         <Select
@@ -93,7 +94,7 @@ export const DatePickerForm: FC<Props> = ({ dateForm, setDateForm, error }) => {
           currentOption={(dateForm.month && monthNames[+dateForm.month]) || ''}
           setCurrentOption={setMonth}
           placeholder="Select Month"
-          disabled={!dateForm.year}
+          required
           error={dateForm.month === '' ? error : ''}
         />
         <Select
@@ -101,7 +102,8 @@ export const DatePickerForm: FC<Props> = ({ dateForm, setDateForm, error }) => {
           currentOption={dateForm.day}
           setCurrentOption={setDay}
           placeholder="Select Day"
-          disabled={!dateForm.year || !dateForm.month}
+          required
+          disabled={!dateForm.month}
           error={dateForm.day === '' ? error : ''}
         />
       </div>

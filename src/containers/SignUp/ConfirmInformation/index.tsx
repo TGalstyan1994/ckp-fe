@@ -29,11 +29,12 @@ export const ConfirmInformation: FC = () => {
   const { status } = useSelectorTyped((state) => state.signin.data.user)
 
   const handleForm = () => {
-    const { host } = window.location
+    const { origin } = window.location
 
     dispatch(startStageFetching())
     const payload = {
-      url: `${host}/signup/confirm`,
+      // url: `${origin}/signup/confirm`,
+      url: `https://fe.ckp.rocketech.net/signup/confirm`,
       param: 'code',
     }
 
@@ -77,7 +78,10 @@ export const ConfirmInformation: FC = () => {
                 rowName="Last Name"
                 rowValue={confirmData?.lastName}
               />
-              <ConfirmRow rowName="Gender" rowValue={confirmData?.gender} />
+              <ConfirmRow
+                rowName="Gender"
+                rowValue={confirmData?.gender.toLowerCase()}
+              />
               <ConfirmRow
                 rowName="Mobile Number"
                 rowValue={confirmData?.phone}

@@ -22,7 +22,7 @@ export const removeToken = (): void => {
 export const setAccessToken = (token: string): void => {
   let expires = ''
   const date = new Date()
-  date.setTime(date.getTime() + 2 * 24 * 60 * 60 * 1000)
+  date.setTime(date.getTime() + 24 * 60 * 60 * 1000)
   expires = `; expires=${date.toUTCString()}`
   document.cookie = `accessToken=${token || ''}${expires}; path=/`
 }

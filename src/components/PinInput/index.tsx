@@ -10,7 +10,7 @@ type Props = {
   placeholder?: string
   confirm?: boolean
   name?: string
-  autoFocus?: boolean
+  autoFocus?: boolean | string
 }
 
 export const PinInput: FC<Props> = ({
@@ -29,7 +29,7 @@ export const PinInput: FC<Props> = ({
       className={classNames(pin_input, {
         [confirmation_pin_input]: confirm,
       })}
-      placeholder={placeholder || 'XXXXXX'}
+      placeholder={placeholder || 'xxxxxx'}
       onChange={onChange}
       type="pin"
       value={value}

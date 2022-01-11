@@ -74,11 +74,10 @@
 }
 
 .input_container svg {
-  top: 24px;
   right: 19px;
   position: absolute;
   fill: #d8d8d8;
-  width: 22px;
+  /*width: 22px;*/
   height: auto;
 }
 

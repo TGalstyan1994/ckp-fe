@@ -15,12 +15,25 @@ export const validate = ({
     passwordConfirmation: '',
   }
 
+  const lowerCaseRegExp = '[a-z]'
+  const upperCaseRegExp = '[A-Z]'
+  const digitRegExp = '[0-9]'
+
+  if (
+    (password && password.search(lowerCaseRegExp) === -1) ||
+    password.search(upperCaseRegExp) === -1 ||
+    password.search(digitRegExp) === -1
+  ) {
+    errors.password =
+      'Password is not valid. It must include at least 1 uppercase letter, 1 lowercase letter and 1 digit'
+  }
+
   if (is.empty(password)) {
     errors.password = 'Field is required'
   }
 
-  if (!is.empty(password) && password.length < 2) {
-    errors.password = 'Minimum length is 2 letters, digits'
+  if (!is.empty(password) && password.length <= 8) {
+    errors.password = 'Minimum length is 8 letters, digits'
   }
 
   if (password.length > 64)
@@ -30,7 +43,7 @@ export const validate = ({
     errors.passwordConfirmation = 'Field is required'
 
   if (password !== passwordConfirmation) {
-    errors.passwordConfirmation = "Passwords don't match"
+    errors.passwordConfirmation = 'Confirm Password Mismatch'
   }
   return errors
 }

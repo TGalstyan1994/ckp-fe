@@ -54,6 +54,7 @@ export const CreateSecurityPin: FC = () => {
         value={pinForm.pin}
         error={stage.errors?.pin}
         name="pin"
+        autoFocus="true"
       />
       <PinInput
         onChange={handlePin}

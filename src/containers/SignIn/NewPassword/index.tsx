@@ -25,7 +25,6 @@ import PasswordSuccessPopup from '../../../components/PopUps/password-succses-po
 type FormState = {
   password: string
   passwordConfirmation: string
-  securityCode: string
 }
 
 export const NewPasswordForm: FC = () => {
@@ -42,8 +41,9 @@ export const NewPasswordForm: FC = () => {
   const [passwords, setPasswords] = useState<FormState>({
     password: '',
     passwordConfirmation: '',
-    securityCode: '',
   })
+
+  const [securityCode, setSecurityCode] = useState<string>('')
 
   const handleFormInputs = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(resetError(e.target.name))
@@ -53,29 +53,38 @@ export const NewPasswordForm: FC = () => {
     }))
   }
 
+  const sendNewPassword = () => {
+    dispatch(startFetching())
+    const { code } = router.query
+    if (!code) return
+
+    const reqData = isPinOpened
+      ? { ...passwords, securityCode }
+      : { ...passwords }
+
+    const req = {
+      body: {
+        code,
+        ...reqData,
+      },
+    }
+
+    dispatch(resetFetchingError())
+    dispatch(setNewPassword(req))
+  }
+
   const validatePasswords = () => {
+    const { pin } = router.query
     dispatch(startFetching())
     const ValidationErrors = validate(passwords)
     dispatch(validateForm({ errors: ValidationErrors }))
     if (!Object.values(ValidationErrors).every((elem) => elem === '')) {
       dispatch(stopFetching())
-    } else {
+    } else if (pin === 'true') {
       dispatch(setIsPinOpened(true))
+    } else {
+      sendNewPassword()
     }
-  }
-
-  const sendNewPassword = () => {
-    dispatch(startFetching())
-    const { code } = router.query
-    if (!code) return
-    const req = {
-      body: {
-        code,
-        ...passwords,
-      },
-    }
-    dispatch(resetFetchingError())
-    dispatch(setNewPassword(req))
   }
 
   useEffect(() => {
@@ -124,21 +133,21 @@ export const NewPasswordForm: FC = () => {
               <>
                 <H1 secondary>Enter your security PIN?</H1>
                 <PinInput
-                  onChange={handleFormInputs}
-                  value={passwords.securityCode}
+                  onChange={(event) => setSecurityCode(event.target.value)}
+                  value={securityCode}
                   name="securityCode"
                 />
                 {fetchingErrors && <ErrorsSpan>{fetchingErrors}</ErrorsSpan>}
                 <div className={form_buttons}>
                   <Button onClick={sendNewPassword}>Continue</Button>
                 </div>
-                {isPasswordChanged && <PasswordSuccessPopup />}
               </>
             )}
           </div>
         ) : (
           <div>Code is invalid</div>
         ))}
+      {isPasswordChanged && <PasswordSuccessPopup />}
     </SignInLayout>
   )
 }

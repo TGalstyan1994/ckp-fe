@@ -1,13 +1,19 @@
 import { Action } from '../index'
 
 interface IFormState {
-  username: string
+  username?: string
+  email?: string
   password: string
 }
-export const signInAction = ({ username, password }: IFormState): Action => ({
+export const signInAction = ({
+  username,
+  email,
+  password,
+}: IFormState): Action => ({
   type: 'LOGIN_USER',
   payload: {
     username,
+    email,
     password,
   },
 })
