@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { H1 } from 'src/components/H1'
 import { Button } from 'src/components/Button'
 import { Input } from 'src/components/Input'
@@ -17,7 +17,6 @@ import {
   stopFetching,
 } from 'src/store/reducers/forgotpassword'
 
-import Image from 'next/image'
 import {
   form,
   form_buttons_wrapper,
@@ -29,7 +28,7 @@ import sentSuccessSvg from '../../../UI/forgotPassword.svg'
 
 type FormState = string
 export const ForgotPasswordForm = () => {
-  const { errors, fetching, fetchingErrors, data } = useSelectorTyped(
+  const { errors } = useSelectorTyped(
     (state: RootState) => state.forgotPassword
   )
   const router = useRouter()
@@ -44,7 +43,7 @@ export const ForgotPasswordForm = () => {
     if (e.target.name === 'email') {
       dispatch(validateForm({ errors: { email: '' } }))
     }
-    setEmail(e.target.value)
+    setEmail(e.target.value.trim())
   }
 
   const sendEmail = () => {
@@ -68,6 +67,18 @@ export const ForgotPasswordForm = () => {
     dispatch(getPasswordFromEmail(payload))
     setIsSuccess(true)
   }
+  useEffect(() => {
+    const listener = (event: any) => {
+      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+        event.preventDefault()
+        sendEmail()
+      }
+    }
+    document.addEventListener('keydown', listener)
+    return () => {
+      document.removeEventListener('keydown', listener)
+    }
+  }, [email])
 
   return (
     <SignInLayout>
@@ -81,6 +92,7 @@ export const ForgotPasswordForm = () => {
             placeholder="E-mail"
             label="Enter your e-mail address below to reset your password."
             error={errors.email}
+            autoFocus="true"
           />
           <div className={form_buttons_wrapper}>
             <Button

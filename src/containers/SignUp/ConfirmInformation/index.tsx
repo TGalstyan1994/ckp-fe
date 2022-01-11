@@ -33,7 +33,8 @@ export const ConfirmInformation: FC = () => {
 
     dispatch(startStageFetching())
     const payload = {
-      url: `${origin}/signup/confirm`,
+      // url: `${origin}/signup/confirm`,
+      url: `https://fe.ckp.rocketech.net/signup/confirm`,
       param: 'code',
     }
 
@@ -77,7 +78,10 @@ export const ConfirmInformation: FC = () => {
                 rowName="Last Name"
                 rowValue={confirmData?.lastName}
               />
-              <ConfirmRow rowName="Gender" rowValue={confirmData?.gender} />
+              <ConfirmRow
+                rowName="Gender"
+                rowValue={confirmData?.gender.toLowerCase()}
+              />
               <ConfirmRow
                 rowName="Mobile Number"
                 rowValue={confirmData?.phone}

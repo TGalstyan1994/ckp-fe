@@ -28,7 +28,7 @@ type Props = {
   disabled?: boolean
   error?: string
 }
-// type SvgInHtml = HTMLElement & SVGElement
+
 export const Select: FC<Props> = ({
   options,
   currentOption,

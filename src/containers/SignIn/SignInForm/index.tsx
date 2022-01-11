@@ -1,13 +1,12 @@
 import { ChangeEvent, FC, useEffect, useRef, useState } from 'react'
 import { Button } from 'src/components/Button'
-import { CheckBox } from 'src/components/CheckBox'
+import is from 'is_js'
 import { Input } from 'src/components/Input'
 import { LinkText } from 'src/components/LinkText'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import { signInAction } from 'src/store/actions/signin'
 import {
-  logOut,
   startStageFetching,
   stopFetching,
   validateForm,
@@ -16,6 +15,7 @@ import {
 } from 'src/store/reducers/signin'
 import { useSelectorTyped } from 'src/utils/hooks'
 import { ErrorsSpan } from 'src/components/ErrorsSpan'
+
 import {
   form,
   form_header,
@@ -34,6 +34,11 @@ type FormState = {
   password: string
 }
 
+interface IReqData {
+  password: string
+  email?: string
+  username?: string
+}
 const SignInForm: FC = () => {
   const { errors, fetching, fetchingErrors, data } = useSelectorTyped(
     (state) => state.signin
@@ -57,7 +62,15 @@ const SignInForm: FC = () => {
       dispatch(stopFetching())
       return
     }
-    dispatch(signInAction(formState))
+    const req: IReqData = {
+      password: formState.password,
+    }
+    if (!is.email(formState.username)) {
+      req.username = formState.username
+    } else {
+      req.email = formState.username
+    }
+    dispatch(signInAction(req))
   }
 
   useEffect(() => {
@@ -117,6 +130,7 @@ const SignInForm: FC = () => {
             value={formState.username}
             onChange={handleFormInput}
             error={errors.username}
+            autoFocus="true"
           />
           <Input
             name="password"

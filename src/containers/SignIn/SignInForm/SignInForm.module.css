@@ -33,8 +33,13 @@
 .form_buttons button:nth-child(2) {
   margin-top: 19px;
 }
-
+.ico_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .ico_button:after {
   content: url('../../../UI/arrow.svg');
-  margin-left: 14px;
+  margin-left: 12px;
+  margin-top: 4px;
 }
