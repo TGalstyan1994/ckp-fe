@@ -4,6 +4,8 @@ interface INewPassword {
   body: {
     password: string
     passwordConfirmation: string
+    code: string | string[]
+    securityCode?: string
   }
 }
 interface IResetPasswordReq {
