@@ -10,6 +10,7 @@ import {
   invalid_input,
   error_message,
   disabled_input,
+  forgotE_label,
 } from './style.module.css'
 import { Props } from './props'
 
@@ -41,7 +42,11 @@ export const Input: FC<Props> = ({
       {label && (
         <label
           htmlFor={name}
-          className={classNames(input_label, { [required_label]: required })}
+          className={classNames(
+            input_label,
+            { [required_label]: required },
+            { [forgotE_label]: placeholder === 'E-mail' }
+          )}
         >
           {label}
         </label>

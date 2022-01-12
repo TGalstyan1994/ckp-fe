@@ -1,6 +1,5 @@
 import { Select } from 'src/components/Select'
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import {
   datePicker_wrapper,
   datePicker_header,
@@ -45,7 +44,7 @@ export const DatePickerForm: FC<Props> = ({ dateForm, setDateForm, error }) => {
   })
 
   const setYear = (option: string) => {
-    setDateForm((prev) => ({ ...prev, year: option }))
+    setDateForm((prev) => ({ ...prev, year: option, month: '', day: '' }))
   }
 
   const setMonth = (option: string) => {
@@ -96,6 +95,7 @@ export const DatePickerForm: FC<Props> = ({ dateForm, setDateForm, error }) => {
           placeholder="Select Month"
           required
           error={dateForm.month === '' ? error : ''}
+          disabled={!dateForm.year}
         />
         <Select
           options={options.days.map((e) => e.toString())}
@@ -103,7 +103,7 @@ export const DatePickerForm: FC<Props> = ({ dateForm, setDateForm, error }) => {
           setCurrentOption={setDay}
           placeholder="Select Day"
           required
-          disabled={!dateForm.month}
+          disabled={!dateForm.year || !dateForm.month}
           error={dateForm.day === '' ? error : ''}
         />
       </div>

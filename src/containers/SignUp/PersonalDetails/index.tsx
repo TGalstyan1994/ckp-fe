@@ -337,8 +337,6 @@ export const PersonalDetails: FC = () => {
         onChange={handleFormInputs}
         name="objectiveNote"
         label="Objective Note"
-        // maxSymbols={512}
-        // required
         error={fetchError?.objectiveNote}
       />
 
@@ -604,7 +602,6 @@ export const PersonalDetails: FC = () => {
           label="Zip code"
           value={personalDetailsState.zipCode}
           onChange={handleFormInputs}
-          // required
           error={fetchError?.zipCode}
         />
       </div>
