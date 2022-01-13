@@ -33,8 +33,7 @@ export const ConfirmInformation: FC = () => {
 
     dispatch(startStageFetching())
     const payload = {
-      // url: `${origin}/signup/confirm`,
-      url: `https://fe.ckp.rocketech.net/signup/confirm`,
+      url: `${origin}/signup/confirm`,
       param: 'code',
     }
 
@@ -48,6 +47,19 @@ export const ConfirmInformation: FC = () => {
       dispatch(getConfirmDetails())
     }
   }, [])
+
+  useEffect(() => {
+    const listener = (event: any) => {
+      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+        event.preventDefault()
+        handleForm()
+      }
+    }
+    document.addEventListener('keydown', listener)
+    return () => {
+      document.removeEventListener('keydown', listener)
+    }
+  }, [confirmData])
 
   return (
     <div className={form}>

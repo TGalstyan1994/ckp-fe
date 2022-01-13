@@ -1,4 +1,5 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react'
+import Link from 'next/link'
 import { useDispatch } from 'react-redux'
 import { useSelectorTyped } from 'src/utils/hooks'
 import {
@@ -16,11 +17,13 @@ import { ErrorsSpan } from 'src/components/ErrorsSpan'
 import { SignInLayout } from 'src/containers/Layouts/SignInLayout'
 import { useRouter } from 'next/router'
 import { validate } from './validate'
-import { form, form_buttons } from './NewPasswordForm.module.css'
+import { form, form_buttons, link_expired } from './NewPasswordForm.module.css'
 import { RootState } from '../../../store'
 import { setNewPassword, verifyCode } from '../../../store/actions/newpassword'
 import { PinInput } from '../../../components/PinInput'
 import PasswordSuccessPopup from '../../../components/PopUps/password-succses-popup'
+import { validatePin } from './validatePin'
+import { haveErrors } from '../../../utils'
 
 type FormState = {
   password: string
@@ -55,9 +58,16 @@ export const NewPasswordForm: FC = () => {
 
   const sendNewPassword = () => {
     dispatch(startFetching())
+    const ValidationErrors = validatePin({ securityCode })
+    dispatch(validateForm({ errors: ValidationErrors }))
+
+    if (haveErrors(ValidationErrors)) {
+      dispatch(stopFetching())
+      return
+    }
+
     const { code } = router.query
     if (!code) return
-
     const reqData = isPinOpened
       ? { ...passwords, securityCode }
       : { ...passwords }
@@ -71,6 +81,14 @@ export const NewPasswordForm: FC = () => {
 
     dispatch(resetFetchingError())
     dispatch(setNewPassword(req))
+  }
+
+  const handlePin = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(resetFetchingError())
+    dispatch(resetError(e.target.name))
+    if (+e.target.value || e.target.value === '') {
+      setSecurityCode(e.target.value.trim())
+    }
   }
 
   const validatePasswords = () => {
@@ -99,6 +117,23 @@ export const NewPasswordForm: FC = () => {
     }
     dispatch(verifyCode(req))
   }, [])
+
+  useEffect(() => {
+    const listener = (event: any) => {
+      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+        event.preventDefault()
+        if (isPinOpened) {
+          sendNewPassword()
+        } else {
+          validatePasswords()
+        }
+      }
+    }
+    document.addEventListener('keydown', listener)
+    return () => {
+      document.removeEventListener('keydown', listener)
+    }
+  }, [securityCode, passwords])
 
   return (
     <SignInLayout>
@@ -133,11 +168,11 @@ export const NewPasswordForm: FC = () => {
               <>
                 <H1 secondary>Enter your security PIN?</H1>
                 <PinInput
-                  onChange={(event) => setSecurityCode(event.target.value)}
+                  onChange={handlePin}
                   value={securityCode}
                   name="securityCode"
+                  error={errors.securityCode || fetchingErrors}
                 />
-                {fetchingErrors && <ErrorsSpan>{fetchingErrors}</ErrorsSpan>}
                 <div className={form_buttons}>
                   <Button onClick={sendNewPassword}>Continue</Button>
                 </div>
@@ -145,7 +180,12 @@ export const NewPasswordForm: FC = () => {
             )}
           </div>
         ) : (
-          <div>Code is invalid</div>
+          <div className={link_expired}>
+            <h1>Recovery link is expired</h1>
+            <Link href="/signin" passHref>
+              <button>OK</button>
+            </Link>
+          </div>
         ))}
       {isPasswordChanged && <PasswordSuccessPopup />}
     </SignInLayout>

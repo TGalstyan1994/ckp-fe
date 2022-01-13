@@ -77,8 +77,8 @@
   right: 19px;
   position: absolute;
   fill: #d8d8d8;
-  /*width: 22px;*/
-  height: auto;
+  top: 28px;
+  transform: translate(0px, -50%);
 }
 
 .disabled_input {
