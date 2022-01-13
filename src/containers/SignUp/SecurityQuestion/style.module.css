@@ -23,7 +23,6 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-top: 45px;
 }
 
 .form_buttons button:nth-child(2) {

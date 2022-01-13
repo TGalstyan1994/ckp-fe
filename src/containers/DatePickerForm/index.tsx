@@ -1,6 +1,5 @@
 import { Select } from 'src/components/Select'
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import {
   datePicker_wrapper,
   datePicker_header,
@@ -8,7 +7,7 @@ import {
 } from './style.module.css'
 
 const daysInMonth = (month: number, year: number) =>
-  new Date(year, month, 0).getDate()
+  new Date(year, month + 1, 0).getDate()
 
 const monthNames = [
   'January',
@@ -45,7 +44,7 @@ export const DatePickerForm: FC<Props> = ({ dateForm, setDateForm, error }) => {
   })
 
   const setYear = (option: string) => {
-    setDateForm((prev) => ({ ...prev, year: option }))
+    setDateForm((prev) => ({ ...prev, year: option, month: '', day: '' }))
   }
 
   const setMonth = (option: string) => {
@@ -57,7 +56,7 @@ export const DatePickerForm: FC<Props> = ({ dateForm, setDateForm, error }) => {
     setOptions((prev) => ({
       ...prev,
       days: Array.from(
-        { length: daysInMonth(monthNames.indexOf(option) + 1, +dateForm.year) },
+        { length: daysInMonth(monthNames.indexOf(option), +dateForm.year) },
         (_, i) => i + 1
       ),
     }))
@@ -68,6 +67,7 @@ export const DatePickerForm: FC<Props> = ({ dateForm, setDateForm, error }) => {
   }
 
   useEffect(() => {
+    if (!dateForm.month) return
     setOptions((prev) => ({
       ...prev,
       days: Array.from(
@@ -96,6 +96,7 @@ export const DatePickerForm: FC<Props> = ({ dateForm, setDateForm, error }) => {
           placeholder="Select Month"
           required
           error={dateForm.month === '' ? error : ''}
+          disabled={!dateForm.year}
         />
         <Select
           options={options.days.map((e) => e.toString())}
@@ -103,7 +104,7 @@ export const DatePickerForm: FC<Props> = ({ dateForm, setDateForm, error }) => {
           setCurrentOption={setDay}
           placeholder="Select Day"
           required
-          disabled={!dateForm.month}
+          disabled={!dateForm.year || !dateForm.month}
           error={dateForm.day === '' ? error : ''}
         />
       </div>

@@ -1,6 +1,11 @@
-import { FC } from 'react'
+import { FC, MouseEventHandler } from 'react'
 
-export const LogoICO: FC<{ className: string }> = ({ className }) => (
+type Props = {
+  className?: string
+  onClick?: MouseEventHandler<SVGSVGElement>
+}
+
+export const LogoICO: FC<Props> = ({ className, onClick }) => (
   <svg
     className={className}
     width="134"
@@ -8,6 +13,7 @@ export const LogoICO: FC<{ className: string }> = ({ className }) => (
     viewBox="0 0 134 113"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    onClick={onClick}
   >
     <rect width="134" height="113" fill="url(#pattern0)" />
     <defs>
