@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import classNames from 'classnames'
 import { FC, useEffect, useRef, useState } from 'react'
 import {
@@ -41,7 +39,7 @@ export const Select: FC<Props> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const selectComponent = useRef<HTMLDivElement>(null)
-  const myRef = useRef('')
+  const myRef = useRef<SVGSVGElement>(null)
   useEffect(() => {
     const clickedOutside = (e: MouseEvent) => {
       if (
@@ -84,6 +82,7 @@ export const Select: FC<Props> = ({
             [empty_header]: !currentOption,
           })}
           onClick={toggleIsOpen}
+          aria-hidden
         >
           {currentOption || placeholder}
         </p>
@@ -95,6 +94,7 @@ export const Select: FC<Props> = ({
                 key={option}
                 className={select_item}
                 onClick={() => handleOptionsChange(option)}
+                aria-hidden
               >
                 {option}
               </li>

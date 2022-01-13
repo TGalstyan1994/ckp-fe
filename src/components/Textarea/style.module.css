@@ -14,9 +14,8 @@
   border-radius: 8px;
   border: none;
   outline: none;
-  background: #ffffff;
-  /*opacity: 0.8;*/
-  box-shadow: 0px 0px 8px #d8d8d8;
+  background: #fbfbfb;
+  box-shadow: 0 0 8px #d8d8d8;
   padding: 20px 30px;
   font-weight: 600;
   font-size: 13px;
@@ -28,8 +27,7 @@
 }
 
 .textarea:focus {
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.9);
-  /*opacity: 1;*/
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.9);
   transition: 0.2s;
 }
 .textarea.invalid_textarea {
@@ -50,7 +48,7 @@
 .error_message {
   position: absolute;
   bottom: -18px;
-  left: 0px;
+  left: 0;
   font-weight: 600;
   font-size: 10px;
   line-height: 12px;
