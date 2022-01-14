@@ -32,7 +32,7 @@ export const validate = ({
     errors.password = 'Field is required'
   }
 
-  if (!is.empty(password) && password.length <= 8) {
+  if (!is.empty(password) && password.length < 8) {
     errors.password = 'The value must not be less than 8 characters longs'
   }
 

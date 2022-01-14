@@ -24,7 +24,7 @@
 .radioBox {
   -webkit-appearance: none;
   appearance: none;
-  background: rgba(251, 251, 251, 0.8);
+  background: #fbfbfb;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
   color: #000;
   width: 20px;

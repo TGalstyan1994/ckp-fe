@@ -176,9 +176,16 @@ const signup = createSlice({
             fetchingErrors[error.property] = error.messages[0]
           }
           state.stages[state.currentStage].fetchError = fetchingErrors
-        } else {
+        } else if (action.payload.response.data.message) {
           state.stages[state.currentStage].fetchError =
             action.payload.response.data.message
+        } else {
+          const fetchingErrors: Record<string, string> = {}
+          for (const error of action.payload.response.data.errors[0].messages) {
+            if (!error) break
+            fetchingErrors[error.property] = error.messages[0]
+          }
+          state.stages[state.currentStage].errors = fetchingErrors
         }
       } else if (state.currentStage !== 3) {
         state.stages[state.currentStage].fetchError = ''

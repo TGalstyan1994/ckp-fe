@@ -133,7 +133,7 @@ export const NewPasswordForm: FC = () => {
     return () => {
       document.removeEventListener('keydown', listener)
     }
-  }, [securityCode, passwords])
+  }, [securityCode, passwords, isPinOpened])
 
   return (
     <SignInLayout>

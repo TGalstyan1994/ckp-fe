@@ -14,7 +14,7 @@ export const validate = ({ username, password }: FormState): ErrorsObject => {
 
   // username
   if (!is.email(username)) {
-    if (username.length > 0 && username.length < 3)
+    if (username.length > 0 && username.length < 2)
       errors.username = 'Minimal amount of characters is not reached'
 
     if (is.empty(username)) errors.username = 'Email/Username is required'

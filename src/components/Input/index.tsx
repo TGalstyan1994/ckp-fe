@@ -29,6 +29,7 @@ export const Input: FC<Props> = ({
   defaultValue,
   inputError,
   autoFocus,
+  autoComplete,
 }) => {
   const [showPassword, setShowPassword] = useState(!(type === 'password'))
   const togglePasswordView = () => setShowPassword((prev) => !prev)
@@ -65,13 +66,14 @@ export const Input: FC<Props> = ({
           onChange={onChange}
           placeholder={placeholder}
           required
-          autoFocus={typeof autoFocus === 'string' ? true : !!autoFocus}
+          autoFocus={typeof autoFocus === 'string' ? true : autoFocus}
           defaultValue={defaultValue}
           className={classNames(
             input,
             { [invalid_input]: error || inputError },
             className
           )}
+          autoComplete={autoComplete ? 'on' : 'off'}
         />
         {type === 'password' && (
           <PasswordSwitchICO
