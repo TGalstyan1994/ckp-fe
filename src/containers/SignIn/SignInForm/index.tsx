@@ -1,6 +1,7 @@
 import { ChangeEvent, FC, useEffect, useRef, useState } from 'react'
 import { Button } from 'src/components/Button'
 import is from 'is_js'
+import { H1 } from 'src/components/H1'
 import { Input } from 'src/components/Input'
 import { LinkText } from 'src/components/LinkText'
 import { useRouter } from 'next/router'
@@ -18,7 +19,6 @@ import { ErrorsSpan } from 'src/components/ErrorsSpan'
 
 import {
   form,
-  form_header,
   form_inputs,
   form_password_actions,
   form_buttons,
@@ -121,7 +121,7 @@ const SignInForm: FC = () => {
   return (
     <SignInLayout>
       <div className={form}>
-        <h1 className={form_header}>Sign In.</h1>
+        <H1>Sign In</H1>
 
         <div className={form_inputs}>
           <Input
@@ -138,10 +138,10 @@ const SignInForm: FC = () => {
             value={formState.password}
             onChange={handleFormInput}
             type="password"
-            error={errors.password}
+            error={errors.password || fetchingErrors}
           />
         </div>
-        {fetchingErrors && <ErrorsSpan>{fetchingErrors}</ErrorsSpan>}
+        {/* {fetchingErrors && <ErrorsSpan>{fetchingErrors}</ErrorsSpan>} */}
 
         <div className={form_password_actions}>
           <LinkText href="/forgot_password">Forgot your password ?</LinkText>

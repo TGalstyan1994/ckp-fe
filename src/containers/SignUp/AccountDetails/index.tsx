@@ -5,6 +5,7 @@ import {
   removeError,
   startStageFetching,
   validateStage,
+  removeBackError,
 } from 'src/store/reducers/signup'
 import { registerAction } from 'src/store/actions/signup'
 import { Button } from 'src/components/Button'
@@ -41,6 +42,7 @@ export const AccountDetails: FC = () => {
   }
 
   const handleFormInput = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(removeBackError())
     let { value } = e.target
     if (e.target.name === 'username') value = value.replace(/\s/g, '')
     dispatch(removeError(e.target.name))

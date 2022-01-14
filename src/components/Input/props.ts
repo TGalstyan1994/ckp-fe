@@ -15,4 +15,5 @@ export type Props = {
   defaultValue?: string
   inputError?: string
   autoFocus?: boolean | string
+  autoComplete?: boolean
 }

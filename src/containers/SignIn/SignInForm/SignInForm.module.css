@@ -1,15 +1,8 @@
 .form {
   display: flex;
   flex-direction: column;
-  width: 576px;
+  width: 476px;
   height: 390px;
-}
-
-.form_header {
-  color: #33a96a;
-  margin: 0 0 25px 0;
-  font-size: 46px;
-  line-height: 43px;
 }
 
 .form_inputs > div:nth-child(1) {

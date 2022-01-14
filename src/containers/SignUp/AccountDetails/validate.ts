@@ -40,9 +40,6 @@ export const validate = ({
   if (is.empty(email) || !is.email(email)) {
     errors.email = 'Email format is not valid'
   }
-  if (email.length > 64) {
-    errors.email = 'Email can not be long than 64 characters'
-  }
 
   if (
     is.empty(password) ||

@@ -34,7 +34,8 @@ export const PinInput: FC<Props> = ({
       type="pin"
       value={value}
       error={error}
-      autoFocus={!!autoFocus}
+      autoFocus={autoFocus}
+      autoComplete={false}
     />
   )
 }

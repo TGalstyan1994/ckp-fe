@@ -2,7 +2,7 @@ import { Button } from 'src/components/Button'
 import { H1 } from 'src/components/H1'
 import { Input } from 'src/components/Input'
 import { Select } from 'src/components/Select'
-import { ChangeEvent, FC, useState } from 'react'
+import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 import {
@@ -59,6 +59,19 @@ export const SecurityQuestion: FC = () => {
       })
     )
   }
+
+  useEffect(() => {
+    const listener = (event: any) => {
+      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+        event.preventDefault()
+        handleForm()
+      }
+    }
+    document.addEventListener('keydown', listener)
+    return () => {
+      document.removeEventListener('keydown', listener)
+    }
+  }, [securityAnswer, currentOption])
 
   return (
     <div className={form}>

@@ -108,12 +108,29 @@ export const ForgotPasswordForm = () => {
           </div>
         </div>
       ) : (
-        <img
-          src={sentSuccessSvg}
-          alt="Successfully sent"
-          width="auto"
-          height="auto"
-        />
+        <div className={form}>
+          <img
+            src={sentSuccessSvg}
+            alt="Successfully sent"
+            width="auto"
+            height="auto"
+          />
+          <div className={form_buttons_wrapper}>
+            <Button
+              className={form_button}
+              onClick={() => setIsSuccess(false)}
+              secondary
+            >
+              Back
+            </Button>
+            <Button
+              className={form_button}
+              onClick={() => router.push('/signin')}
+            >
+              Sign in
+            </Button>
+          </div>
+        </div>
       )}
     </SignInLayout>
   )

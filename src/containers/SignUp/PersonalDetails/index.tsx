@@ -195,7 +195,7 @@ export const PersonalDetails: FC = () => {
       return
     }
 
-    const formData = {
+    const formData: any = {
       ...personalDetailsState,
       phone: `+${phoneState.phoneCode}${phoneState.phoneNumber}`,
       dateOfBirth: new Date(
@@ -206,8 +206,16 @@ export const PersonalDetails: FC = () => {
         .toJSON()
         .slice(0, 10),
     }
+
+    if (formData.objectiveNote === '') {
+      delete formData.objectiveNote
+    }
+
+    if (formData.zipCode === '') {
+      delete formData.zipCode
+    }
+
     const { phoneParsed, ...body } = formData
-    // @ts-ignore
     dispatch(sendPersonalDetails(body))
   }
 
@@ -301,6 +309,19 @@ export const PersonalDetails: FC = () => {
     })
   }, [countries])
 
+  useEffect(() => {
+    const listener = (event: any) => {
+      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+        event.preventDefault()
+        handleForm()
+      }
+    }
+    document.addEventListener('keydown', listener)
+    return () => {
+      document.removeEventListener('keydown', listener)
+    }
+  }, [personalDetailsState])
+
   return (
     <div className={form}>
       <H1 secondary>Personal Details</H1>
@@ -337,8 +358,6 @@ export const PersonalDetails: FC = () => {
         onChange={handleFormInputs}
         name="objectiveNote"
         label="Objective Note"
-        // maxSymbols={512}
-        // required
         error={fetchError?.objectiveNote}
       />
 
@@ -604,7 +623,6 @@ export const PersonalDetails: FC = () => {
           label="Zip code"
           value={personalDetailsState.zipCode}
           onChange={handleFormInputs}
-          // required
           error={fetchError?.zipCode}
         />
       </div>
