@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import logo from '../../assets/images/logo.svg'
 import HomeIcon from '../../assets/images/icons/home-icon'
@@ -88,43 +88,56 @@ const menuItems: Array<IMenuItem> = [
   },
 ]
 export const SideMenu: FC = () => {
+  const [isOpen, setIsOpen] = useState({
+    openSidebar: false,
+  })
   const dispatch = useDispatch()
+  const toggleSideBar = () => {
+    setIsOpen({ openSidebar: !isOpen.openSidebar })
+  }
   return (
     <div className="side-menu">
-      <div className="logo">
-        <div className="logo-box">
-          <img src={logo} alt="logo" />
+      <div
+        className={!isOpen.openSidebar ? 'side-menu-toggle' : 'side-menu-open'}
+      >
+        <div className="logo">
+          <div className="logo-box">
+            <img src={logo} alt="logo" />
+          </div>
         </div>
-      </div>
-      <div className="side-menu__items">
-        <ul className="icons">
-          {menuItems.map((item: IMenuItem) => (
-            <li className="icon" key={item.name}>
-              <span className="svgIcon">{item.svg}</span>
-              <span className="name">{item.name}</span>
-              {item.children && (
-                <>
-                  <span className="arrow">
-                    {item.children?.length && <ArrowOpenIcon />}
-                  </span>
-                  <ul className={item.children?.length ? 'fields' : ''}>
-                    {item.children.map((child) => (
-                      <li className="field" key={child.field}>
-                        {child.field}
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div onClick={() => dispatch(logOut())} className="logout" aria-hidden>
-        <div className="logout-icon">
-          <LogoutIcon />
+        <div className="side-menu__items">
+          <ul className="icons">
+            {menuItems.map((item: IMenuItem) => (
+              <li className="icon" key={item.name}>
+                <span className="svgIcon">{item.svg}</span>
+                <span className="name">{item.name}</span>
+                {item.children && (
+                  <>
+                    <span className="arrow">
+                      {item.children?.length && <ArrowOpenIcon />}
+                    </span>
+                    <ul className={item.children?.length ? 'fields' : ''}>
+                      {item.children.map((child) => (
+                        <li className="field" key={child.field}>
+                          {child.field}
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+          <div onClick={toggleSideBar} aria-hidden className="open-side-menu">
+            <span />
+          </div>
         </div>
-        <span className="name">Logout</span>
+        <div onClick={() => dispatch(logOut())} className="logout" aria-hidden>
+          <div className="logout-icon">
+            <LogoutIcon />
+          </div>
+          <span className="name">Logout</span>
+        </div>
       </div>
     </div>
   )

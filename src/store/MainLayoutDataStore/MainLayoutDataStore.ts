@@ -2,35 +2,79 @@ import { createSlice } from 'node_modules/@reduxjs/toolkit/dist'
 
 interface IMainLayoutDataStore {
   promiseInfo: Record<string, unknown>
-  showModal: boolean
+  showConfirmModal: boolean
+  showAlertModal: boolean
+  showPromptModal: boolean
+  showPinModal: boolean
+  showQuestionModal: boolean
   modalType: string
+  userData: Record<string, unknown>
+  avatarPath: string
 }
 
 const initialState: IMainLayoutDataStore = {
   promiseInfo: {},
-  showModal: false,
+  showConfirmModal: false,
+  showAlertModal: false,
+  showPromptModal: false,
+  showPinModal: false,
+  showQuestionModal: false,
   modalType: '',
+  userData: {},
+  avatarPath: '',
 }
 
 const MainLayoutDataStore = createSlice({
   name: 'MainLayoutDataStore',
   initialState,
   reducers: {
-    openModal(state, action) {
-      state.showModal = true
-      state.modalType = action.payload
+    toggleAlertModal(state, action) {
+      state.showAlertModal = action.payload
+    },
+    setShowPinModal(state, action) {
+      state.showPinModal = true
+      state.promiseInfo = action.payload
+    },
+    setShowQuestionModal(state, action) {
+      state.showQuestionModal = true
+      state.promiseInfo = action.payload
+    },
+    closeQuestionModal(state) {
+      state.showQuestionModal = false
+    },
+    closePinModal(state) {
+      state.showPinModal = false
     },
     closeModal(state) {
-      state.showModal = false
+      state.showConfirmModal = false
     },
     setShowModal(state, action) {
       state.promiseInfo = action.payload
-      state.showModal = true
+      state.showConfirmModal = true
+    },
+    setShowPropmtModal(state, action) {
+      state.showPromptModal = action.payload
+    },
+    setUserData(state, action) {
+      state.userData = action.payload
+    },
+    setAvatarPath(state, action) {
+      state.avatarPath = action.payload
     },
   },
 })
 
-export const { openModal, closeModal, setShowModal } =
-  MainLayoutDataStore.actions
+export const {
+  toggleAlertModal,
+  closeModal,
+  setShowModal,
+  setShowPropmtModal,
+  setShowPinModal,
+  closePinModal,
+  setShowQuestionModal,
+  closeQuestionModal,
+  setUserData,
+  setAvatarPath,
+} = MainLayoutDataStore.actions
 
 export default MainLayoutDataStore.reducer

@@ -16,23 +16,26 @@ import { modalPromise } from '../../helpers/modal-helper'
 export const Edit: FC = () => {
   const dispatch = useDispatch()
 
-  const { activeProfileTab, isFormFilled } = useSelectorTyped(
+  type ITabNames = 'security' | 'personal' | 'social'
+
+  interface IActiveProfileTab {
+    activeProfileTab: ITabNames
+  }
+
+  const tabs = {
+    security: <Security />,
+    personal: <Personal />,
+    social: <Social />,
+  }
+  const { activeProfileTab }: IActiveProfileTab = useSelectorTyped(
     (state: RootState) => state.ProfileDataStore
   )
 
-  const renderInfo = () => {
-    switch (activeProfileTab) {
-      case 'security':
-        return <Security />
-      case 'personal':
-        return <Personal />
-      case 'social':
-        return <Social />
-      default:
-        return <Social />
-    }
-  }
-  const handelChangeTab = async (tab: 'personal' | 'security' | 'social') => {
+  const { isFormFilled } = useSelectorTyped(
+    (state: RootState) => state.ProfileDataStore
+  )
+
+  const handleChangeTab = async (tab: ITabNames) => {
     if (!isFormFilled) {
       dispatch(changeProfileTab(tab))
     } else {
@@ -57,7 +60,7 @@ export const Edit: FC = () => {
             className={classNames('personal info', {
               activeInfo: activeProfileTab === 'personal',
             })}
-            onClick={() => handelChangeTab('personal')}
+            onClick={() => handleChangeTab('personal')}
             aria-hidden
           >
             <span>Personal Info</span>
@@ -66,7 +69,7 @@ export const Edit: FC = () => {
             className={classNames('security info', {
               activeInfo: activeProfileTab === 'security',
             })}
-            onClick={() => handelChangeTab('security')}
+            onClick={() => handleChangeTab('security')}
             aria-hidden
           >
             <span>Security Info</span>
@@ -75,13 +78,13 @@ export const Edit: FC = () => {
             className={classNames('social info', {
               activeInfo: activeProfileTab === 'social',
             })}
-            onClick={() => handelChangeTab('social')}
+            onClick={() => handleChangeTab('social')}
             aria-hidden
           >
             <span>Social Info</span>
           </div>
         </div>
-        {renderInfo()}
+        {tabs[activeProfileTab]}
       </div>
     </div>
   )

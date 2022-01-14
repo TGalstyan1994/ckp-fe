@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { useDispatch } from 'react-redux'
 import { RootState } from 'src/store'
@@ -15,14 +15,19 @@ import { Default } from '../../src/Pages/Profile/default'
 import { modalPromise } from '../../src/helpers/modal-helper'
 import {
   closeModal,
+  setAvatarPath,
   setShowModal,
+  setUserData,
 } from '../../src/store/MainLayoutDataStore/MainLayoutDataStore'
+import TrashIcon from '../../src/assets/images/icons/trash-icon'
+import { ProfileManager } from '../../src/managers/profile'
 
 type ITabNames = 'overview' | 'edit' | 'pin' | 'default'
 
 interface IActiveTab {
   activeTab: ITabNames
 }
+type IImgPreview = File
 
 const tabs = {
   overview: <Overview />,
@@ -35,11 +40,15 @@ const ProfilePage = () => {
   const { activeTab }: IActiveTab = useSelectorTyped(
     (state: RootState) => state.ProfileDataStore
   )
+
   const { isFormFilled } = useSelectorTyped(
     (state: RootState) => state.ProfileDataStore
   )
-
+  const { userData, avatarPath } = useSelectorTyped(
+    (state: RootState) => state.MainLayoutDataStore
+  )
   const dispatch = useDispatch()
+  const [imgPreview, setImgPreview] = useState<IImgPreview>()
 
   const confirmChangeTabs = async (page: ITabNames) => {
     if (!isFormFilled) {
@@ -55,6 +64,50 @@ const ProfilePage = () => {
     }
   }
 
+  const handleUploadImage = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return
+    const selectedFile = e.target.files[0]
+    const FILE_TYPE = ['image/png', 'image/jpeg', 'image/jpg']
+    if (selectedFile && FILE_TYPE.includes(selectedFile.type)) {
+      setImgPreview(selectedFile)
+    }
+  }
+
+  const onSave = async () => {
+    if (!imgPreview) return
+    const form = new FormData()
+    form.append('file', imgPreview)
+    try {
+      await ProfileManager.uploadAvatar(form)
+    } catch (error: any) {
+      console.log('error', error.data.error)
+    }
+  }
+
+  const onRemove = async () => {
+    if (!imgPreview) return
+    try {
+      await ProfileManager.removeAvatar()
+    } catch (error: any) {
+      console.log(error.data.error)
+    }
+  }
+
+  useEffect(() => {
+    ;(async () => {
+      const res = await ProfileManager.getAccountUser()
+      dispatch(setUserData(res))
+    })()
+  }, [])
+  useEffect(() => {
+    if (userData.avatar) {
+      ;(async () => {
+        const imagePath = userData.avatar
+        const res = await ProfileManager.getAvatarPath(imagePath)
+        dispatch(setAvatarPath(res))
+      })()
+    }
+  }, [userData])
   return (
     <MainLayout>
       <div className="container">
@@ -66,14 +119,47 @@ const ProfilePage = () => {
           <div className="row">
             <div className="profile-card">
               <div className="profile-avatar">
-                <div className="avatar">
-                  <p>JD</p>
-                  <span>
+                <div className="avatar-container">
+                  {imgPreview && (
+                    <span
+                      className="delete-upload"
+                      onClick={onRemove}
+                      aria-hidden
+                    >
+                      <TrashIcon />
+                    </span>
+                  )}
+                  <div className="avatar">
+                    {imgPreview ? (
+                      <img
+                        className="upload-img"
+                        src={URL.createObjectURL(imgPreview)}
+                        alt="avatar"
+                      />
+                    ) : avatarPath ? (
+                      <img
+                        className="upload-img"
+                        src={avatarPath}
+                        alt="avatar"
+                      />
+                    ) : (
+                      <p>JD</p>
+                    )}
+                  </div>
+                  <label htmlFor="file-input" className="image_upload">
                     <ArrowNextIcon />
-                  </span>
+                    <input
+                      type="file"
+                      id="file-input"
+                      onChange={handleUploadImage}
+                      accept="image/png, image/jpeg,image/jpg"
+                    />
+                  </label>
                 </div>
-                <p className="name">Aaron Hassette</p>
-                <button className="btn">Save</button>
+                <p className="name">{userData.username}</p>
+                <button onClick={onSave} className="btn">
+                  Save
+                </button>
               </div>
               <ul>
                 <li

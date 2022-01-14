@@ -33,15 +33,14 @@
     .row {
       display: flex;
       margin-bottom: 35px;
-      width: 430px;
+      min-width: 350px;
       max-width: 30%;
       height: 100%;
 
       .profile-card {
         width: 100%;
-        height: 644px;
         background: #ffffff;
-        box-shadow: 0px 0px 8px #dedede;
+        box-shadow: 0 0 8px #dedede;
         border-radius: 5px;
 
         .profile-avatar {
@@ -49,44 +48,73 @@
           height: 373px;
           background: #f8f8f8;
 
-          box-shadow: 0px 0px 8px #dedede;
+          box-shadow: 0 0 8px #dedede;
           text-align: center;
           display: flex;
           justify-content: center;
           align-items: center;
           flex-direction: column;
           padding: 69px 0;
-
-          .avatar {
-            width: 116px;
-            height: 116px;
-            background: $green;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-            color: #ffffff;
+          .avatar-container {
             position: relative;
-
-            span {
-              display: block;
+            .delete-upload {
+              position: absolute;
+              left: 0;
+              bottom: 0;
+              transform: translate(-2px, 1px);
+              cursor: pointer;
+              svg {
+                width: 15px;
+                height: 16px;
+                path {
+                  fill: #c8c8c8;
+                }
+              }
+            }
+            .avatar {
+              width: 116px;
+              height: 116px;
+              background: $green;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 36px;
+              color: #ffffff;
+              position: relative;
+              overflow: hidden;
+              .upload-img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                vertical-align: middle;
+              }
+            }
+            .image_upload {
+              display: flex;
+              justify-content: center;
+              align-items: center;
               width: 17px;
               height: 17px;
               background: #c8c8c8;
               border-radius: 50%;
-              display: flex;
-              justify-content: center;
-              align-items: center;
               position: absolute;
               right: 0;
               bottom: 0;
-
+              cursor: pointer;
+              label {
+                overflow: hidden;
+              }
+              input {
+                display: none;
+              }
               svg {
                 transform: rotate(-90deg);
                 width: 6.66px;
                 height: 5.45px;
-
                 path {
                   fill: $white;
                 }
@@ -102,6 +130,7 @@
             font-weight: bold;
             font-size: 24px;
             color: #0e0e0e;
+            white-space: nowrap;
           }
 
           .btn {
@@ -116,6 +145,7 @@
             text-transform: uppercase;
             color: #fbfbfb;
             border: none;
+            cursor: pointer;
           }
         }
 
@@ -125,7 +155,7 @@
           .tabs {
             width: 100%;
             height: 45px;
-            border-radius: 0px;
+            border-radius: 0;
             list-style: none;
             display: flex;
             justify-content: center;
@@ -181,8 +211,7 @@
         height: auto;
         padding: 35px;
         background: #fefefe;
-
-        box-shadow: 0px 0px 8px #dedede;
+        box-shadow: 0 0 8px #dedede;
         border-radius: 5px;
 
         .card-title {
@@ -200,16 +229,17 @@
         }
 
         .info {
-          display: flex;
-          justify-content: space-between;
+          display: grid;
+          grid-template-columns: auto 1fr;
           line-height: 1.9;
-
+          gap: 10px;
           span:first-child {
             font-family: 'SF Pro Display', sans-serif;
             font-style: normal;
             font-weight: 600;
             font-size: 16px;
             color: #bebdbd;
+            white-space: nowrap;
           }
 
           span:nth-child(2) {
@@ -218,16 +248,21 @@
             font-weight: 600;
             font-size: 16px;
             color: #0e0e0e;
+            text-align: right;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
         }
       }
     }
     .edit-container {
       flex-grow: 1;
-      height: 644px;
+      min-height: 644px;
+      height: 100%;
       background: #fdfdfd;
       opacity: 0.8;
-      box-shadow: 0px 0px 8px #dedede;
+      box-shadow: 0 0 8px #dedede;
       border-radius: 5px;
       position: relative;
       overflow: hidden;
@@ -251,7 +286,7 @@
         gap: 30px;
 
         .sections {
-          border-radius: 5px 0px 0px 0px;
+          border-radius: 5px 0 0 0;
           grid-template-columns: repeat(3, 1fr);
           cursor: pointer;
           display: grid;
@@ -315,11 +350,11 @@
           .input-container {
             display: flex;
             flex-direction: column;
-            width: 862px;
-            padding: 0 8px;
+            max-width: 870px;
+            padding: 0 30px;
             overflow-y: scroll;
             margin: 0 auto;
-            height: 43vh;
+            height: 100%;
             &::-webkit-scrollbar {
               display: none;
             }
@@ -341,6 +376,15 @@
               height: 56px;
               border: none;
               padding-left: 30px;
+            }
+
+            .error-span {
+              color:red;
+              font-family: 'SF Pro Display', sans-serif;
+              font-style: normal;
+              font-weight: 600;
+              margin-top: 4px;
+              font-size: 12px;
             }
             .btn-container {
               display: flex;
@@ -374,6 +418,12 @@
                 background: #009345;
                 border-radius: 5px;
                 color: $white;
+              }
+              .btn-disable {
+                background: #009345;
+                border-radius: 5px;
+                color: $white;
+                opacity: 0.4;
               }
             }
           }

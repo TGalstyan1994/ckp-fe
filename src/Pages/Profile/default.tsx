@@ -1,25 +1,50 @@
 import React, { ChangeEvent, FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import {
-  toggleModalFrom,
-  toggleModalOpen,
-} from '../../store/ProfileDataStore/ProfileDataStore'
+import { toggleAlertModal } from '../../store/MainLayoutDataStore/MainLayoutDataStore'
+import { ProfileManager } from '../../managers/profile'
+import { useSelectorTyped } from '../../utils/hooks'
+import { RootState } from '../../store'
+import { setIsFormFilled } from '../../store/ProfileDataStore/ProfileDataStore'
 
 export const Default: FC = () => {
-  const [value, setValue] = useState('')
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value)
-  }
+  const [inputValue, setInputValue] = useState({
+    currency: '',
+    language: '',
+  })
+
+  const { isFormFilled } = useSelectorTyped(
+    (state: RootState) => state.ProfileDataStore
+  )
+
   const dispatch = useDispatch()
 
-  const toggleOpen = () => {
-    dispatch(toggleModalOpen(true))
-    dispatch(toggleModalFrom('default'))
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputValue({
+      ...inputValue,
+      [e.target.name]: e.target.value,
+    })
+    dispatch(setIsFormFilled(true))
   }
 
   const resetValue = () => {
-    setValue('')
+    setInputValue({
+      currency: '',
+      language: '',
+    })
+    dispatch(setIsFormFilled(false))
   }
+
+  const onSave = async () => {
+    if (Object.values(inputValue).every((name: string) => name === '')) return
+    try {
+      await ProfileManager.changeDefaults(inputValue)
+      dispatch(toggleAlertModal(true))
+      resetValue()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <div className="edit-container">
       <div className="sec-title">
@@ -31,26 +56,30 @@ export const Default: FC = () => {
           <div className="input-container">
             <div className="input-label">Set Default Language</div>
             <input
-              type="select"
+              type="text"
               name="language"
-              value={value}
+              value={inputValue.language.toLocaleUpperCase()}
               onChange={handleChange}
               placeholder="Select"
             />
+            {/* <span className="error-span">{errorMessage}</span> */}
             <div className="input-label">Set Default Currency</div>
             <input
-              type="select"
+              type="text"
               name="currency"
-              value={value}
+              value={inputValue.currency.toLocaleUpperCase()}
               onChange={handleChange}
               placeholder="Select"
             />
-
+            {/* <span className="error-span">{errorMessage}</span> */}
             <div className="btn-container">
               <button onClick={resetValue} className="btn-cancel">
                 Cancel
               </button>
-              <button onClick={toggleOpen} className="btn-save">
+              <button
+                onClick={onSave}
+                className={isFormFilled ? 'btn-save' : 'btn-disable'}
+              >
                 Save Changes
               </button>
             </div>

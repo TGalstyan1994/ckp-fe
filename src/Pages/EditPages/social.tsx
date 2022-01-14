@@ -1,27 +1,30 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import {
-  setIsFormFilled,
-  toggleModalFrom,
-  toggleModalOpen,
-} from '../../store/ProfileDataStore/ProfileDataStore'
+import { setIsFormFilled } from '../../store/ProfileDataStore/ProfileDataStore'
+import { toggleAlertModal } from '../../store/MainLayoutDataStore/MainLayoutDataStore'
+import { ProfileManager } from '../../managers/profile'
+import { useSelectorTyped } from '../../utils/hooks'
+import { RootState } from '../../store'
 
 export const Social: FC = () => {
   const dispatch = useDispatch()
 
   const [inputValue, setInputValue] = useState({
-    info: '',
+    about: '',
     facebook: '',
     twitter: '',
-    linked: '',
-    google: '',
+    linkedIn: '',
   })
 
+  const { isFormFilled } = useSelectorTyped(
+    (state: RootState) => state.ProfileDataStore
+  )
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue({
       ...inputValue,
       [e.target.name]: e.target.value,
     })
+    dispatch(setIsFormFilled(true))
   }
   useEffect(() => {
     if (Object.values(inputValue).every((name: string) => name === '')) {
@@ -30,19 +33,25 @@ export const Social: FC = () => {
       dispatch(setIsFormFilled(true))
     }
   }, [inputValue])
-
-  const openModal = () => {
-    dispatch(toggleModalOpen(true))
-    dispatch(toggleModalFrom('social'))
-  }
   const resetValue = () => {
     setInputValue({
-      info: '',
+      about: '',
       facebook: '',
       twitter: '',
-      linked: '',
-      google: '',
+      linkedIn: '',
     })
+    dispatch(setIsFormFilled(false))
+  }
+
+  const onSubmit = async () => {
+    if (Object.values(inputValue).every((name: string) => name === '')) return
+    try {
+      await ProfileManager.changeSocialInfo(inputValue)
+      dispatch(toggleAlertModal(true))
+      resetValue()
+    } catch (error: any) {
+      console.log('error', error)
+    }
   }
 
   return (
@@ -51,11 +60,12 @@ export const Social: FC = () => {
         <div className="input-container">
           <div className="input-label">About me</div>
           <input
-            name="info"
-            value={inputValue.info}
+            name="about"
+            value={inputValue.about}
             onChange={handleChange}
             placeholder="Add info here"
           />
+          {/* <span className="error-span">{errorMessage}</span> */}
           <div className="input-label">Facebook</div>
           <input
             name="facebook"
@@ -63,6 +73,7 @@ export const Social: FC = () => {
             onChange={handleChange}
             placeholder="https://www.facebook.com"
           />
+          {/* <span className="error-span">{errorMessage}</span> */}
           <div className="input-label">Twitter</div>
           <input
             name="twitter"
@@ -70,25 +81,24 @@ export const Social: FC = () => {
             onChange={handleChange}
             placeholder="https://www.twitter.com"
           />
+          {/* <span className="error-span">{errorMessage}</span> */}
           <div className="input-label">Linked in</div>
           <input
-            name="linked"
-            value={inputValue.linked}
+            name="linkedIn"
+            value={inputValue.linkedIn}
             onChange={handleChange}
             placeholder="https://www.linkedin.com"
           />
-          <div className="input-label">Google plus</div>
-          <input
-            name="google"
-            value={inputValue.google}
-            onChange={handleChange}
-            placeholder="https://www.google.com"
-          />
+          {/* <span className="error-span">{errorMessage}</span> */}
+
           <div className="btn-container">
             <button onClick={resetValue} className="btn-cancel">
               Cancel
             </button>
-            <button onClick={openModal} className="btn-save">
+            <button
+              onClick={onSubmit}
+              className={isFormFilled ? 'btn-save' : 'btn-disable'}
+            >
               Save Changes
             </button>
           </div>
