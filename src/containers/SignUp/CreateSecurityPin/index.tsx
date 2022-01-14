@@ -1,7 +1,7 @@
+import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { Button } from 'src/components/Button'
 import { H1 } from 'src/components/H1'
 import { PinInput } from 'src/components/PinInput'
-import { ChangeEvent, FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { sendPinAction } from 'src/store/actions/signup'
 import {
@@ -46,9 +46,22 @@ export const CreateSecurityPin: FC = () => {
     dispatch(sendPinAction(pinForm))
   }
 
+  useEffect(() => {
+    const listener = (event: any) => {
+      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+        event.preventDefault()
+        handleForm()
+      }
+    }
+    document.addEventListener('keydown', listener)
+    return () => {
+      document.removeEventListener('keydown', listener)
+    }
+  }, [pinForm.pin, pinForm.confirmPin])
+
   return (
     <div className={form}>
-      <H1 secondary>Create security PIN.</H1>
+      <H1 secondary>Create security PIN</H1>
       <PinInput
         onChange={handlePin}
         value={pinForm.pin}

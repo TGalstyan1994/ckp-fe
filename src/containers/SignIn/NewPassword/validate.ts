@@ -33,17 +33,18 @@ export const validate = ({
   }
 
   if (!is.empty(password) && password.length <= 8) {
-    errors.password = 'Minimum length is 8 letters, digits'
+    errors.password = 'The value must not be less than 8 characters longs'
   }
 
   if (password.length > 64)
     errors.password = 'The value must not be more than 64 characters long'
 
-  if (is.empty(passwordConfirmation))
-    errors.passwordConfirmation = 'Field is required'
-
   if (password !== passwordConfirmation) {
     errors.passwordConfirmation = 'Confirm Password Mismatch'
   }
+
+  if (is.empty(passwordConfirmation))
+    errors.passwordConfirmation = 'Field is required'
+
   return errors
 }

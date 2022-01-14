@@ -121,7 +121,7 @@ const SignInForm: FC = () => {
   return (
     <SignInLayout>
       <div className={form}>
-        <H1>Sign In.</H1>
+        <H1>Sign In</H1>
 
         <div className={form_inputs}>
           <Input
@@ -140,8 +140,8 @@ const SignInForm: FC = () => {
             type="password"
             error={errors.password}
           />
+          {fetchingErrors && <ErrorsSpan>{fetchingErrors}</ErrorsSpan>}
         </div>
-        {fetchingErrors && <ErrorsSpan>{fetchingErrors}</ErrorsSpan>}
 
         <div className={form_password_actions}>
           <LinkText href="/forgot_password">Forgot your password ?</LinkText>

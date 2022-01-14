@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from 'react'
+import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Button } from 'src/components/Button'
 import { H1 } from 'src/components/H1'
@@ -53,6 +53,21 @@ export const PaymentDetails: FC = () => {
   const handleBack = () => {
     dispatch(backStage())
   }
+
+  useEffect(() => {
+    const listener = (event: any) => {
+      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+        event.preventDefault()
+        handleForm()
+      }
+    }
+    if (paymentDetails.accountAddress && paymentDetails.accountCurrency) {
+      document.addEventListener('keydown', listener)
+    }
+    return () => {
+      document.removeEventListener('keydown', listener)
+    }
+  }, [paymentDetails])
 
   return (
     <div className={form}>

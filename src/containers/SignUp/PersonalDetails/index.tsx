@@ -301,6 +301,19 @@ export const PersonalDetails: FC = () => {
     })
   }, [countries])
 
+  useEffect(() => {
+    const listener = (event: any) => {
+      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+        event.preventDefault()
+        handleForm()
+      }
+    }
+    document.addEventListener('keydown', listener)
+    return () => {
+      document.removeEventListener('keydown', listener)
+    }
+  }, [personalDetailsState])
+
   return (
     <div className={form}>
       <H1 secondary>Personal Details</H1>

@@ -51,6 +51,7 @@ export const DatePickerForm: FC<Props> = ({ dateForm, setDateForm, error }) => {
     setDateForm((prev) => ({
       ...prev,
       month: monthNames.indexOf(option).toString(),
+      day: '',
     }))
 
     setOptions((prev) => ({
