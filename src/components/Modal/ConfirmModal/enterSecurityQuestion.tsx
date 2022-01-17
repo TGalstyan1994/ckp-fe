@@ -29,7 +29,7 @@ export const EnterSecurityQuestion: FC = () => {
   }
   return (
     <div className="modal-container">
-      <div className="pin">
+      <div className="security-question__modal">
         <span className="closeModal" onClick={reject} aria-hidden>
           <CloseIcon />
         </span>

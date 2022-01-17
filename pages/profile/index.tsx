@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { useDispatch } from 'react-redux'
 import { RootState } from 'src/store'
@@ -15,7 +15,6 @@ import { Default } from '../../src/Pages/Profile/default'
 import { modalPromise } from '../../src/helpers/modal-helper'
 import {
   closeModal,
-  setAvatarPath,
   setShowModal,
   setUserData,
 } from '../../src/store/MainLayoutDataStore/MainLayoutDataStore'
@@ -27,7 +26,8 @@ type ITabNames = 'overview' | 'edit' | 'pin' | 'default'
 interface IActiveTab {
   activeTab: ITabNames
 }
-type IImgPreview = File
+
+type IImgPreview = File | ''
 
 const tabs = {
   overview: <Overview />,
@@ -44,11 +44,11 @@ const ProfilePage = () => {
   const { isFormFilled } = useSelectorTyped(
     (state: RootState) => state.ProfileDataStore
   )
-  const { userData, avatarPath } = useSelectorTyped(
+  const { userData } = useSelectorTyped(
     (state: RootState) => state.MainLayoutDataStore
   )
   const dispatch = useDispatch()
-  const [imgPreview, setImgPreview] = useState<IImgPreview>()
+  const [imgPreview, setImgPreview] = useState<IImgPreview>('')
 
   const confirmChangeTabs = async (page: ITabNames) => {
     if (!isFormFilled) {
@@ -79,35 +79,24 @@ const ProfilePage = () => {
     form.append('file', imgPreview)
     try {
       await ProfileManager.uploadAvatar(form)
-    } catch (error: any) {
-      console.log('error', error.data.error)
+      const res = await ProfileManager.getAccountUser()
+      dispatch(setUserData(res))
+      setImgPreview('')
+    } catch (error) {
+      throw error
     }
   }
 
   const onRemove = async () => {
-    if (!imgPreview) return
     try {
       await ProfileManager.removeAvatar()
-    } catch (error: any) {
-      console.log(error.data.error)
+      const res = await ProfileManager.getAccountUser()
+      dispatch(setUserData(res))
+    } catch (error) {
+      throw error
     }
   }
 
-  useEffect(() => {
-    ;(async () => {
-      const res = await ProfileManager.getAccountUser()
-      dispatch(setUserData(res))
-    })()
-  }, [])
-  useEffect(() => {
-    if (userData.avatar) {
-      ;(async () => {
-        const imagePath = userData.avatar
-        const res = await ProfileManager.getAvatarPath(imagePath)
-        dispatch(setAvatarPath(res))
-      })()
-    }
-  }, [userData])
   return (
     <MainLayout>
       <div className="container">
@@ -120,7 +109,7 @@ const ProfilePage = () => {
             <div className="profile-card">
               <div className="profile-avatar">
                 <div className="avatar-container">
-                  {imgPreview && (
+                  {userData.avatar && (
                     <span
                       className="delete-upload"
                       onClick={onRemove}
@@ -136,10 +125,10 @@ const ProfilePage = () => {
                         src={URL.createObjectURL(imgPreview)}
                         alt="avatar"
                       />
-                    ) : avatarPath ? (
+                    ) : userData.avatar ? (
                       <img
                         className="upload-img"
-                        src={avatarPath}
+                        src={`${process.env.NEXT_PUBLIC_API}/avatar/${userData.avatar}`}
                         alt="avatar"
                       />
                     ) : (

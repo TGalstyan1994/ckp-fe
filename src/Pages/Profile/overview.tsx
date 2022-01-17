@@ -29,9 +29,9 @@ interface IUserSocialInfo {
 }
 
 interface IUserData {
-  account: IUserAccountInfo | Record<any, any>
-  personal: IUserPersonalInfo | Record<any, any>
-  social: IUserSocialInfo | Record<any, any>
+  account: IUserAccountInfo | Record<string, string>
+  personal: IUserPersonalInfo | Record<string, string>
+  social: IUserSocialInfo | Record<string, string>
 }
 
 export const Overview: FC = () => {

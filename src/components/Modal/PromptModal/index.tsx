@@ -1,10 +1,7 @@
 import { ChangeEvent, FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import ArrowNextIcon from '../../../assets/images/icons/arrow-next-icon'
-import {
-  setShowPropmtModal,
-  togglePinModal,
-} from '../../../store/MainLayoutDataStore/MainLayoutDataStore'
+import { setShowPropmtModal } from '../../../store/MainLayoutDataStore/MainLayoutDataStore'
 import CloseIcon from '../../../assets/images/icons/close-icon'
 
 const PromptModal: FC = () => {
@@ -13,7 +10,6 @@ const PromptModal: FC = () => {
   const confirmTokken = () => {
     if (!Object.values(inputValue).every((value: string) => value === '')) {
       dispatch(setShowPropmtModal(false))
-      dispatch(togglePinModal(true))
     }
   }
   return (
@@ -22,6 +18,7 @@ const PromptModal: FC = () => {
         <span
           className="closeModal"
           onClick={() => dispatch(setShowPropmtModal(false))}
+          aria-hidden
         >
           <CloseIcon />
         </span>

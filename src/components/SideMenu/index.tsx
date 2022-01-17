@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import React, { FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import logo from '../../assets/images/logo.svg'
 import HomeIcon from '../../assets/images/icons/home-icon'
@@ -87,6 +87,16 @@ const menuItems: Array<IMenuItem> = [
     url: '',
   },
 ]
+// type IActivePage =
+//   | 'dashboard'
+//   | 'universe'
+//   | 'donations'
+//   | 'academy'
+//   | 'communication'
+//   | 'support'
+//   | 'reports'
+//  | 'profile'
+
 export const SideMenu: FC = () => {
   const [isOpen, setIsOpen] = useState({
     openSidebar: false,

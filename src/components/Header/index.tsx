@@ -1,7 +1,6 @@
-import React, { ChangeEvent, FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import SearchIcon from '../../assets/images/icons/search-icon'
-import ClockIcon from '../../assets/images/icons/clock-icon'
+
 import united from '../../assets/images/united.svg'
 import BellIcon from '../../assets/images/icons/bell-icon'
 import ArrowOpenIcon from '../../assets/images/icons/arrow-open-icon'
@@ -9,10 +8,7 @@ import { logOut } from '../../store/reducers/signin'
 import { ProfileManager } from '../../managers/profile'
 import { useSelectorTyped } from '../../utils/hooks'
 import { RootState } from '../../store'
-import {
-  setAvatarPath,
-  setUserData,
-} from '../../store/MainLayoutDataStore/MainLayoutDataStore'
+import { setUserData } from '../../store/MainLayoutDataStore/MainLayoutDataStore'
 
 interface IAccountData {
   currency: string
@@ -20,10 +16,10 @@ interface IAccountData {
 }
 export const Header: FC = () => {
   const dispatch = useDispatch()
-  const { userData, avatarPath } = useSelectorTyped(
+  const { userData } = useSelectorTyped(
     (state: RootState) => state.MainLayoutDataStore
   )
-  const [searchValue, setSearchValue] = useState('')
+  // const [searchValue, setSearchValue] = useState('')
 
   const [accountData, setAccountData] = useState<IAccountData>({
     currency: '',
@@ -32,9 +28,9 @@ export const Header: FC = () => {
 
   const [isOpen, setIsOpen] = useState(false)
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value)
-  }
+  // const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   setSearchValue(e.target.value)
+  // }
 
   const toggleOpen = () => {
     setIsOpen(!isOpen)
@@ -49,30 +45,22 @@ export const Header: FC = () => {
     })()
   }, [])
 
-  useEffect(() => {
-    if (userData.avatar) {
-      ;(async () => {
-        const imagePath = userData.avatar
-        const res = await ProfileManager.getAvatarPath(imagePath)
-        dispatch(setAvatarPath(res))
-      })()
-    }
-  }, [userData])
-
   return (
     <div className="header">
-      <div className="search">
+      {/* <div className="search">
         <SearchIcon />
         <input
           value={searchValue}
           className="search-input"
           placeholder="Search for anything"
-          onChange={handleChange}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setSearchValue(e.target.value)
+          }
           type="text"
         />
-      </div>
+       </div> */}
       <div className="content">
-        <div className="rows-content">
+        {/* <div className="rows-content">
           <div className="date">
             <div className="current-date">
               <span className="mount">Jul</span>
@@ -101,7 +89,7 @@ export const Header: FC = () => {
               <span className="weak">09:25:51 AM</span>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="currency">
           <span>{accountData.currency}</span>
         </div>
@@ -117,9 +105,12 @@ export const Header: FC = () => {
         </div>
         <div className="user-profile">
           <div className="avatar" onClick={toggleOpen} aria-hidden>
-            {avatarPath ? (
+            {userData.avatar ? (
               <figure className="figure">
-                <img src={avatarPath} alt="aaaa" />
+                <img
+                  src={`${process.env.NEXT_PUBLIC_API}/avatar/${userData.avatar}`}
+                  alt="aaaa"
+                />
               </figure>
             ) : (
               <figure className="figure">JD</figure>

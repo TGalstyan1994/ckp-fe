@@ -41,7 +41,7 @@ export const Default: FC = () => {
       dispatch(toggleAlertModal(true))
       resetValue()
     } catch (error) {
-      console.log(error)
+      throw error
     }
   }
 

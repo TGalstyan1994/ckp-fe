@@ -14,6 +14,8 @@ import { AlertModal } from '../../../components/Modal/AlertModal'
 import PromptModal from '../../../components/Modal/PromptModal'
 import { EnterSecurityPin } from '../../../components/Modal/ConfirmModal/enterSecurityPin'
 import { EnterSecurityQuestion } from '../../../components/Modal/ConfirmModal/enterSecurityQuestion'
+import { ProfileManager } from '../../../managers/profile'
+import { setUserData } from '../../../store/MainLayoutDataStore/MainLayoutDataStore'
 
 interface IMainLayout {
   children: JSX.Element
@@ -51,6 +53,13 @@ const MainLayout = ({ children }: IMainLayout) => {
   useEffect(() => {
     dispatch(setIsFormFilled(false))
   }, [activeProfileTab, activeTab])
+
+  useEffect(() => {
+    ;(async () => {
+      const res = await ProfileManager.getAccountUser()
+      dispatch(setUserData(res))
+    })()
+  }, [])
 
   if (loading) return <div>Loading...</div>
 

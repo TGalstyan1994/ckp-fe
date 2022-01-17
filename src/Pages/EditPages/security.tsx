@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { setIsFormFilled } from '../../store/ProfileDataStore/ProfileDataStore'
-// import { togglePinModal } from '../../store/MainLayoutDataStore/MainLayoutDataStore'
+
 import { useSelectorTyped } from '../../utils/hooks'
 import { RootState } from '../../store'
 import { ProfileManager } from '../../managers/profile'
@@ -10,6 +10,7 @@ import {
   setShowPinModal,
   toggleAlertModal,
 } from '../../store/MainLayoutDataStore/MainLayoutDataStore'
+import { Input } from '../../components/Input'
 
 export const Security: FC = () => {
   const dispatch = useDispatch()
@@ -49,7 +50,6 @@ export const Security: FC = () => {
     const promise = await modalPromise(({ resolve, reject }) =>
       dispatch(setShowPinModal({ resolve, reject }))
     )
-    console.log(promise)
     if (promise) {
       try {
         await ProfileManager.changePassword({
@@ -58,8 +58,8 @@ export const Security: FC = () => {
         })
         await dispatch(toggleAlertModal(true))
         resetValue()
-      } catch (error: any) {
-        console.log('error', error)
+      } catch (error) {
+        throw error
       }
     }
   }
@@ -69,7 +69,7 @@ export const Security: FC = () => {
       <div className="content">
         <div className="input-container">
           <div className="input-label">Current Password</div>
-          <input
+          <Input
             name="oldPassword"
             value={inputValue.oldPassword}
             onChange={handleChange}
@@ -77,7 +77,7 @@ export const Security: FC = () => {
             type="password"
           />
           <div className="input-label">New Password</div>
-          <input
+          <Input
             name="password"
             value={inputValue.password}
             onChange={handleChange}
@@ -85,7 +85,7 @@ export const Security: FC = () => {
             type="password"
           />
           <div className="input-label">Retype Password</div>
-          <input
+          <Input
             name="passwordConfirmation"
             value={inputValue.passwordConfirmation}
             onChange={handleChange}

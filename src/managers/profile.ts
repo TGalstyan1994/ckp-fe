@@ -10,9 +10,6 @@ function getAccountInfo() {
 function getPersonalInfo() {
   return RequestAPI.get('api/account/info/personal-info')
 }
-function getAvatarPath(name: string) {
-  return RequestAPI.get(`avatar/files%2F${name}`)
-}
 
 function getSocialInfo() {
   return RequestAPI.get('api/account/info/social-info')
@@ -58,5 +55,4 @@ export const ProfileManager = {
   getDefaults,
   changeSecurityPin,
   getAccountUser,
-  getAvatarPath,
 }

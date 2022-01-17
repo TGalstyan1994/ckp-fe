@@ -9,6 +9,7 @@ import { RootState } from '../../store'
 import { setIsFormFilled } from '../../store/ProfileDataStore/ProfileDataStore'
 import { modalPromise } from '../../helpers/modal-helper'
 import { ProfileManager } from '../../managers/profile'
+import { PinInput } from '../../components/PinInput'
 
 export const Pin: FC = () => {
   const [inputValue, setInputValue] = useState({
@@ -44,7 +45,6 @@ export const Pin: FC = () => {
       const promise = await modalPromise(({ resolve, reject }) =>
         dispatch(setShowQuestionModal({ resolve, reject }))
       )
-      console.log(promise)
       if (promise) {
         try {
           await ProfileManager.changeSecurityPin({
@@ -53,8 +53,8 @@ export const Pin: FC = () => {
           })
           dispatch(toggleAlertModal(true))
           resetValue()
-        } catch (error: any) {
-          console.log('error', error)
+        } catch (error) {
+          throw error
         }
       }
     }
@@ -70,28 +70,23 @@ export const Pin: FC = () => {
         <div className="content">
           <div className="input-container">
             <div className="input-label">Existing Pin</div>
-            <input
+            <PinInput
               name="oldSecurityCode"
               value={inputValue.oldSecurityCode}
               onChange={handleChange}
-              placeholder="************"
-              type="password"
             />
+
             <div className="input-label">New Pin</div>
-            <input
+            <PinInput
               name="securityCode"
               value={inputValue.securityCode}
               onChange={handleChange}
-              placeholder="************"
-              type="password"
             />
             <div className="input-label">Re type PIN</div>
-            <input
+            <PinInput
               name="securityCodeRepeat"
               value={inputValue.securityCodeRepeat}
               onChange={handleChange}
-              placeholder="************"
-              type="password"
             />
 
             <div className="btn-container">

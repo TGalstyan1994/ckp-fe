@@ -49,8 +49,8 @@ export const Social: FC = () => {
       await ProfileManager.changeSocialInfo(inputValue)
       dispatch(toggleAlertModal(true))
       resetValue()
-    } catch (error: any) {
-      console.log('error', error)
+    } catch (error) {
+      throw error
     }
   }
 
