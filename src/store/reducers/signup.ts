@@ -170,8 +170,8 @@ const signup = createSlice({
     stageFetchingErrors(state, action) {
       if (action.payload !== false) {
         if (state.currentStage === 3) {
-          const fetchingErrors: Record<string, string> = {}
-          for (const error of action.payload.response.data.message) {
+          const fetchingErrors: Record<string, string | number> = {}
+          for (const error of action.payload.response.data.errors) {
             if (!error) return
             fetchingErrors[error.property] = error.messages[0]
           }

@@ -86,7 +86,7 @@ export const NewPasswordForm: FC = () => {
   const handlePin = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(resetFetchingError())
     dispatch(resetError(e.target.name))
-    if (+e.target.value || e.target.value === '') {
+    if (+e.target.value === 0 || e.target.value === '' || +e.target.value) {
       setSecurityCode(e.target.value.trim())
     }
   }
