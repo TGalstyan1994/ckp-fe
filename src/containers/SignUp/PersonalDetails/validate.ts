@@ -9,7 +9,7 @@ export const validate = (
 
   if (is.empty(formState.objective)) errorObject.objective = 'Field is required'
 
-  if (formState.objectiveNote.length > 512)
+  if (formState.objectiveNote?.length > 512)
     errorObject.objectiveNote =
       'The value must not be more than 512 characters long'
 
