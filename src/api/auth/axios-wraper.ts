@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
-import { getAccessToken } from '../../utils'
+import { getAccessToken, removeToken } from '../../utils'
 
 export interface ApiResponse {
   success: boolean
@@ -85,13 +85,10 @@ const setHeaders = (headers?: Record<string, any>): Record<string, any> => {
 const requestWrapper = async (request: () => Promise<any>): Promise<any> => {
   try {
     return await request()
-  } catch (error) {
+  } catch (error: any) {
     if (error.status === 401) {
-      try {
-        return request()
-      } catch (Error) {
-        return Error
-      }
+      removeToken()
+      window.location.href = 'signin'
     }
     return Promise.reject(error)
   }
