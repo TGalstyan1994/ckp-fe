@@ -18,6 +18,7 @@ import { validate } from './validation'
 
 export const CreateSecurityPin: FC = () => {
   const stage = useSelectorTyped((state) => state.signup.stages[1])
+
   const [pinForm, setPin] = useState({
     pin: '',
     confirmPin: '',
@@ -26,7 +27,7 @@ export const CreateSecurityPin: FC = () => {
   const dispatch = useDispatch()
 
   const handlePin = (e: ChangeEvent<HTMLInputElement>) => {
-    if (+e.target.value || e.target.value === '') {
+    if (+e.target.value === 0 || e.target.value === '' || +e.target.value) {
       dispatch(removeError(e.target.name))
       setPin((prev) => ({ ...prev, [e.target.name]: e.target.value.trim() }))
     }

@@ -36,10 +36,15 @@ const signin = createSlice({
   reducers: {
     setFetchingErrors(state, action) {
       const mess = action.payload.response.data.message
-      state.fetchingErrors =
-        typeof mess === 'string'
-          ? action.payload.response.data.message
-          : mess?.map((item: any) => item.messages[0])
+      if (mess) {
+        state.fetchingErrors = mess
+      } else {
+        const messArray = action.payload.response.data.errors[0]
+        state.errors[messArray.property] = messArray.messages
+        // typeof mess === 'string'
+        //   ? action.payload.response.data.message
+        //   : mess?.map((item: any) => item.messages[0])
+      }
     },
     resetFetchingError(state) {
       state.fetchingErrors = ''

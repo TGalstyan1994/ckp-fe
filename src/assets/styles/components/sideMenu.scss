@@ -1,5 +1,4 @@
 .side-menu {
-
   .side-menu-toggle {
     display: flex;
     flex-direction: column;
@@ -28,32 +27,31 @@
     }
     &__items {
       max-width: 100%;
-
     }
 
     .open-side-menu {
-     width:20px;
-      height:70px;
+      width: 20px;
+      height: 70px;
       position: absolute;
-      top:50%;
+      top: 50%;
       right: 0;
       transform: translateY(-50%);
       cursor: pointer;
       transition: 0.5s;
       overflow: hidden;
-      &:hover  span{
+      &:hover span {
         background: #33a96a;
         transition: 0.5s;
       }
-      span{
-        width:2px;
-        height:54px;
-        background: #C8C8C8;
+      span {
+        width: 2px;
+        height: 54px;
+        background: #c8c8c8;
         border-radius: 1px;
         display: block;
         position: absolute;
-        top:50%;
-        right:5px;
+        top: 50%;
+        right: 5px;
         transform: translateY(-50%);
         transition: 0.5s;
       }
@@ -69,7 +67,6 @@
       .item {
         display: none;
       }
-
     }
 
     .icon {
@@ -243,31 +240,30 @@
 
     &__items {
       max-width: 100%;
-
     }
     .open-side-menu {
-      width:20px;
-      height:70px;
+      width: 20px;
+      height: 70px;
       position: absolute;
-      top:50%;
+      top: 50%;
       right: 0;
       transform: translateY(-50%);
       cursor: pointer;
       transition: 0.5s;
       overflow: hidden;
-      &:hover  span{
+      &:hover span {
         background: #33a96a;
         transition: 0.5s;
       }
-      span{
-        width:2px;
-        height:54px;
+      span {
+        width: 2px;
+        height: 54px;
         background: #33a96a;
         border-radius: 1px;
         display: block;
         position: absolute;
-        top:50%;
-        right:5px;
+        top: 50%;
+        right: 5px;
         transform: translateY(-50%);
         transition: 0.5s;
       }
@@ -283,7 +279,6 @@
       .item {
         display: none;
       }
-
     }
 
     .icon {
@@ -303,9 +298,6 @@
       > span {
         align-self: center;
       }
-
-
-
 
       .name {
         margin-left: 14px;
@@ -380,7 +372,6 @@
         }
       }
       .name {
-
         margin-top: -5px;
         font-family: 'SF Pro Display', sans-serif;
         font-weight: 600;
@@ -399,6 +390,4 @@
       }
     }
   }
-
 }
-

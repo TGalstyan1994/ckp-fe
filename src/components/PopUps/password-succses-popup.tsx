@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { useEffect } from 'react'
+import { useEffect, KeyboardEvent } from 'react'
 import { useRouter } from 'next/router'
 import success_monochromatic from '../../assets/images/success_monochromatic.svg'
 import { password_success_popup } from '../../containers/SignIn/NewPassword/NewPasswordForm.module.css'
@@ -12,7 +12,7 @@ const PasswordSuccessPopup = () => {
   }
 
   useEffect(() => {
-    const listener = (event: any) => {
+    const listener = (event: KeyboardEvent) => {
       if (event.code === 'Enter' || event.code === 'NumpadEnter') {
         event.preventDefault()
         routhToSignIn()
