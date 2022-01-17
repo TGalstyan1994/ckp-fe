@@ -74,7 +74,6 @@ export const PersonalDetails: FC = () => {
   const { fetchError, initialData } = useSelectorTyped(
     (state) => state.signup.stages[3]
   )
-  console.log(fetchError)
   const { countries, country, states } = useSelectorTyped(
     (state) => state.signup.userInfo
   )
