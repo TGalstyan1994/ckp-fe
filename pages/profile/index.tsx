@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { useDispatch } from 'react-redux'
 import { RootState } from 'src/store'
@@ -16,13 +16,18 @@ import { modalPromise } from '../../src/helpers/modal-helper'
 import {
   closeModal,
   setShowModal,
+  setUserData,
 } from '../../src/store/MainLayoutDataStore/MainLayoutDataStore'
+import TrashIcon from '../../src/assets/images/icons/trash-icon'
+import { ProfileManager } from '../../src/managers/profile'
 
 type ITabNames = 'overview' | 'edit' | 'pin' | 'default'
 
 interface IActiveTab {
   activeTab: ITabNames
 }
+
+type IImgPreview = File | ''
 
 const tabs = {
   overview: <Overview />,
@@ -35,11 +40,15 @@ const ProfilePage = () => {
   const { activeTab }: IActiveTab = useSelectorTyped(
     (state: RootState) => state.ProfileDataStore
   )
+
   const { isFormFilled } = useSelectorTyped(
     (state: RootState) => state.ProfileDataStore
   )
-
+  const { userData } = useSelectorTyped(
+    (state: RootState) => state.MainLayoutDataStore
+  )
   const dispatch = useDispatch()
+  const [imgPreview, setImgPreview] = useState<IImgPreview>('')
 
   const confirmChangeTabs = async (page: ITabNames) => {
     if (!isFormFilled) {
@@ -55,6 +64,39 @@ const ProfilePage = () => {
     }
   }
 
+  const handleUploadImage = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return
+    const selectedFile = e.target.files[0]
+    const FILE_TYPE = ['image/png', 'image/jpeg', 'image/jpg']
+    if (selectedFile && FILE_TYPE.includes(selectedFile.type)) {
+      setImgPreview(selectedFile)
+    }
+  }
+
+  const onSave = async () => {
+    if (!imgPreview) return
+    const form = new FormData()
+    form.append('file', imgPreview)
+    try {
+      await ProfileManager.uploadAvatar(form)
+      const res = await ProfileManager.getAccountUser()
+      dispatch(setUserData(res))
+      setImgPreview('')
+    } catch (error) {
+      throw error
+    }
+  }
+
+  const onRemove = async () => {
+    try {
+      await ProfileManager.removeAvatar()
+      const res = await ProfileManager.getAccountUser()
+      dispatch(setUserData(res))
+    } catch (error) {
+      throw error
+    }
+  }
+
   return (
     <MainLayout>
       <div className="container">
@@ -66,14 +108,47 @@ const ProfilePage = () => {
           <div className="row">
             <div className="profile-card">
               <div className="profile-avatar">
-                <div className="avatar">
-                  <p>JD</p>
-                  <span>
+                <div className="avatar-container">
+                  {userData.avatar && (
+                    <span
+                      className="delete-upload"
+                      onClick={onRemove}
+                      aria-hidden
+                    >
+                      <TrashIcon />
+                    </span>
+                  )}
+                  <div className="avatar">
+                    {imgPreview ? (
+                      <img
+                        className="upload-img"
+                        src={URL.createObjectURL(imgPreview)}
+                        alt="avatar"
+                      />
+                    ) : userData.avatar ? (
+                      <img
+                        className="upload-img"
+                        src={`${process.env.NEXT_PUBLIC_API}/avatar/${userData.avatar}`}
+                        alt="avatar"
+                      />
+                    ) : (
+                      <p>JD</p>
+                    )}
+                  </div>
+                  <label htmlFor="file-input" className="image_upload">
                     <ArrowNextIcon />
-                  </span>
+                    <input
+                      type="file"
+                      id="file-input"
+                      onChange={handleUploadImage}
+                      accept="image/png, image/jpeg,image/jpg"
+                    />
+                  </label>
                 </div>
-                <p className="name">Aaron Hassette</p>
-                <button className="btn">Save</button>
+                <p className="name">{userData.username}</p>
+                <button onClick={onSave} className="btn">
+                  Save
+                </button>
               </div>
               <ul>
                 <li

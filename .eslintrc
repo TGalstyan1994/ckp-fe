@@ -37,7 +37,8 @@
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@next/next/no-img-element": "off",
     "jsx-a11y/no-autofocus": "off",
-    "no-useless-catch": "off"
+    "no-useless-catch": "off",
+    "unicorn/filename-case": "off"
   },
   "root": true
 }

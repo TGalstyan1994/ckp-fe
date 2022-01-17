@@ -195,7 +195,7 @@ export const PersonalDetails: FC = () => {
       return
     }
 
-    const formData = {
+    const formData: any = {
       ...personalDetailsState,
       phone: `+${phoneState.phoneCode}${phoneState.phoneNumber}`,
       dateOfBirth: new Date(
@@ -206,8 +206,16 @@ export const PersonalDetails: FC = () => {
         .toJSON()
         .slice(0, 10),
     }
+
+    if (formData.objectiveNote === '') {
+      delete formData.objectiveNote
+    }
+
+    if (formData.zipCode === '') {
+      delete formData.zipCode
+    }
+
     const { phoneParsed, ...body } = formData
-    // @ts-ignore
     dispatch(sendPersonalDetails(body))
   }
 

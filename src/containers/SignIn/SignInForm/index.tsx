@@ -138,10 +138,10 @@ const SignInForm: FC = () => {
             value={formState.password}
             onChange={handleFormInput}
             type="password"
-            error={errors.password}
+            error={errors.password || fetchingErrors}
           />
-          {fetchingErrors && <ErrorsSpan>{fetchingErrors}</ErrorsSpan>}
         </div>
+        {/* {fetchingErrors && <ErrorsSpan>{fetchingErrors}</ErrorsSpan>} */}
 
         <div className={form_password_actions}>
           <LinkText href="/forgot_password">Forgot your password ?</LinkText>

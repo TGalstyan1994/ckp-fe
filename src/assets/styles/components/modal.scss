@@ -62,7 +62,7 @@
       }
     }
   }
-  .fromPin {
+  .from-pin {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -77,6 +77,19 @@
     border-radius: 5px;
     opacity: 1;
     z-index: 111;
+    .closeModal {
+      position: absolute;
+      right: 30px;
+      top: 30px;
+      cursor: pointer;
+      svg {
+        width: 12px;
+        height: 12px;
+        path {
+          fill: #000000;
+        }
+      }
+    }
     .pin-modal {
       width: 900px;
       display: flex;
@@ -97,44 +110,256 @@
         line-height: 17px;
         opacity: 0.4;
       }
-      div {
+      .input-holder {
         width: 100%;
         display: flex;
         flex-direction: column;
         align-items: flex-end;
+        .pin-input {
+          width: 100%;
+          height: 56px;
+          background: #fbfbfb;
+          box-shadow: 0 0 8px #d8d8d8;
+          border-radius: 5px;
+          border: none;
+          padding-left: 25px;
+          outline: none;
+          &::placeholder {
+            color: #000000;
+            opacity: 0.4;
+            font-family: 'SF Pro Display', sans-serif;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 13px;
+          }
+        }
+        .pin-btn {
+          width: 232px;
+          height: 56px;
+          background: #009345;
+          border-radius: 5px;
+          border: none;
+          color: $white;
+          font-family: 'SF Pro Display', sans-serif;
+          font-style: normal;
+          font-weight: bold;
+          font-size: 11px;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          margin-top: 20px;
+          cursor: pointer;
+          span {
+            padding-left: 12px;
+            svg {
+              width: 10px;
+              height: 8.8px;
+              path {
+                fill: $white;
+              }
+            }
+          }
+        }
       }
-      input {
-        width: 100%;
-        height: 56px;
-        background: #fbfbfb;
-        box-shadow: 0 0 8px #d8d8d8;
-        border-radius: 5px;
-        border: none;
-        padding-left: 25px;
+    }
+  }
+  .security-question__modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1439px;
+    height: 551px;
+    background: #fdfdfd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 8px #dedede;
+    border-radius: 5px;
+    opacity: 1;
+    z-index: 111;
+    .closeModal {
+      position: absolute;
+      right: 30px;
+      top: 30px;
+      cursor: pointer;
+      svg {
+        width: 12px;
+        height: 12px;
+        path {
+          fill: #000000;
+        }
       }
-      button {
-        width: 232px;
-        height: 56px;
-        background: #009345;
-        border-radius: 5px;
-        border: none;
-        color: $white;
+    }
+    .pin-holder {
+      p {
         font-family: 'SF Pro Display', sans-serif;
         font-style: normal;
         font-weight: bold;
-        font-size: 11px;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: #fbfbfb;
-        margin-top: 20px;
-        cursor: pointer;
-        span {
-          padding-left: 12px;
-          svg {
-            width: 10px;
-            height: 8.8px;
-            path {
-              fill: #fbfbfb;
+        font-size: 36px;
+        color: #000000;
+        margin-bottom: 11px;
+      }
+      .span {
+        margin-bottom: 20px;
+        font-family: 'SF Pro Display', sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        opacity: 0.4;
+        display: block;
+      }
+      .input-holder {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        .pin-input {
+          width: 972px;
+          height: 56px;
+          background: #fbfbfb;
+          box-shadow: 0 0 8px #d8d8d8;
+          border-radius: 5px;
+          border: none;
+          padding-left: 25px;
+          outline: #d8d8d8;
+
+          &::placeholder {
+            color: #000000;
+            opacity: 0.4;
+            font-family: 'SF Pro Display', sans-serif;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 13px;
+          }
+        }
+
+        .pin-btn {
+          width: 232px;
+          height: 56px;
+          background: #009345;
+          border-radius: 5px;
+          border: none;
+          color: $white;
+          font-family: 'SF Pro Display', sans-serif;
+          font-style: normal;
+          font-weight: bold;
+          font-size: 11px;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          margin-top: 20px;
+          cursor: pointer;
+
+          span {
+            padding-left: 12px;
+            svg {
+              width: 10px;
+              height: 8.8px;
+
+              path {
+                fill: $white;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .pin {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 808px;
+    height: 440px;
+    background: #fdfdfd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 8px #dedede;
+    border-radius: 5px;
+    opacity: 1;
+    z-index: 111;
+    .closeModal {
+      position: absolute;
+      right: 30px;
+      top: 30px;
+      cursor: pointer;
+      svg {
+        width: 12px;
+        height: 12px;
+        path {
+          fill: #000000;
+        }
+      }
+    }
+    .pin-holder {
+      p {
+        font-family: 'SF Pro Display', sans-serif;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 36px;
+        color: #000000;
+        margin-bottom: 11px;
+      }
+      .span {
+        margin-bottom: 20px;
+        font-family: 'SF Pro Display', sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        opacity: 0.4;
+        display: block;
+      }
+      .input-holder {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        .pin-input {
+          width: 972px;
+          height: 56px;
+          background: #fbfbfb;
+          box-shadow: 0 0 8px #d8d8d8;
+          border-radius: 5px;
+          border: none;
+          padding-left: 25px;
+          outline: #d8d8d8;
+
+          &::placeholder {
+            color: #000000;
+            opacity: 0.4;
+            font-family: 'SF Pro Display', sans-serif;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 13px;
+          }
+        }
+
+        .pin-btn {
+          width: 232px;
+          height: 56px;
+          background: #009345;
+          border-radius: 5px;
+          border: none;
+          color: $white;
+          font-family: 'SF Pro Display', sans-serif;
+          font-style: normal;
+          font-weight: bold;
+          font-size: 11px;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          margin-top: 20px;
+          cursor: pointer;
+
+          span {
+            padding-left: 12px;
+            svg {
+              width: 10px;
+              height: 8.8px;
+
+              path {
+                fill: $white;
+              }
             }
           }
         }
