@@ -17,12 +17,14 @@ import {
 import { useSelectorTyped } from 'src/utils/hooks'
 import { ErrorsSpan } from 'src/components/ErrorsSpan'
 
+import classNames from 'classnames'
 import {
   form,
   form_inputs,
   form_password_actions,
   form_buttons,
   ico_button,
+  account_lastRow,
 } from './SignInForm.module.css'
 import { validate } from './validate'
 import { getAccessToken } from '../../../utils'
@@ -43,7 +45,7 @@ const SignInForm: FC = () => {
   const { errors, fetching, fetchingErrors, data } = useSelectorTyped(
     (state) => state.signin
   )
-
+  console.log(fetchingErrors)
   const [formState, setFormState] = useState<FormState>({
     username: '',
     password: '',
@@ -123,7 +125,7 @@ const SignInForm: FC = () => {
       <div className={form}>
         <H1>Sign In</H1>
 
-        <div className={form_inputs}>
+        <div className={classNames(form_inputs, account_lastRow)}>
           <Input
             name="username"
             placeholder="Username/Email"
@@ -138,10 +140,10 @@ const SignInForm: FC = () => {
             value={formState.password}
             onChange={handleFormInput}
             type="password"
-            error={errors.password || fetchingErrors}
+            error={errors.password}
           />
+          {fetchingErrors && <ErrorsSpan>{fetchingErrors}</ErrorsSpan>}
         </div>
-        {/* {fetchingErrors && <ErrorsSpan>{fetchingErrors}</ErrorsSpan>} */}
 
         <div className={form_password_actions}>
           <LinkText href="/forgot_password">Forgot your password ?</LinkText>

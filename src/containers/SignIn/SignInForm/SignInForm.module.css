@@ -36,3 +36,11 @@
   margin-left: 12px;
   margin-top: 4px;
 }
+
+.account_lastRow {
+  position: relative;
+}
+.account_lastRow span {
+  position: absolute;
+  bottom: -18px;
+}

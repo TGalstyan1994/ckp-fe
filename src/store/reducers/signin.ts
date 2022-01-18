@@ -40,10 +40,10 @@ const signin = createSlice({
         state.fetchingErrors = mess
       } else {
         const messArray = action.payload.response.data.errors[0]
-        state.errors[messArray.property] = messArray.messages
-        // typeof mess === 'string'
-        //   ? action.payload.response.data.message
-        //   : mess?.map((item: any) => item.messages[0])
+        if (messArray.property === 'email') {
+          state.errors.username = messArray.messages[0]
+        }
+        state.errors[messArray.property] = messArray.messages[0]
       }
     },
     resetFetchingError(state) {
