@@ -18,7 +18,7 @@ interface IOptionalRadioForm {
   name: string
   questionLabel: string
   inputLabel?: string
-  value: string
+  value: string | number
   answerState: boolean | undefined
   error?: string
   placeholder?: string

@@ -30,3 +30,10 @@
 .form_buttons button {
   width: 232px;
 }
+.account_lastRow {
+  position: relative;
+}
+.account_lastRow span {
+  position: absolute;
+  bottom: -18px;
+}

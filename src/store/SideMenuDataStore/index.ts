@@ -1,22 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 interface ISideMenuDataStore {
-  activePage:
-    | 'dashboard'
-    | 'universe'
-    | 'donations'
-    | 'academy'
-    | 'communication'
-    | 'support'
-    | 'reports'
-    | 'profile'
+  activePage: boolean
 }
 const initialState: ISideMenuDataStore = {
-  activePage: 'dashboard',
+  activePage: false,
 }
 
 const SideMenuDataStore = createSlice({
-  name: 'SideMenuDataStore',
+  name: 'sideMenuDataStore',
   initialState,
   reducers: {
     changePage(state, action) {
@@ -25,3 +17,4 @@ const SideMenuDataStore = createSlice({
   },
 })
 export const { changePage } = SideMenuDataStore.actions
+export default SideMenuDataStore.reducer

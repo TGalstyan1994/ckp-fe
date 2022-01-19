@@ -4,12 +4,14 @@ interface IProfileDataStore {
   activeTab: 'overview' | 'edit' | 'pin' | 'default'
   activeProfileTab: 'personal' | 'security' | 'social'
   isFormFilled: boolean
+  errorMessage: string
 }
 
 const initialState: IProfileDataStore = {
   activeTab: 'overview',
   activeProfileTab: 'personal',
   isFormFilled: false,
+  errorMessage: '',
 }
 
 const ProfileDataStore = createSlice({
@@ -25,10 +27,13 @@ const ProfileDataStore = createSlice({
     setIsFormFilled(state, action) {
       state.isFormFilled = action.payload
     },
+    setErrorMessage(state, action) {
+      state.errorMessage = action.payload
+    },
   },
 })
 
-export const { changeTab, changeProfileTab, setIsFormFilled } =
+export const { changeTab, changeProfileTab, setIsFormFilled, setErrorMessage } =
   ProfileDataStore.actions
 
 export default ProfileDataStore.reducer

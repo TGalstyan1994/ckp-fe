@@ -1,10 +1,10 @@
 import React, { ChangeEvent, FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { toggleAlertModal } from '../../store/MainLayoutDataStore/MainLayoutDataStore'
-import { ProfileManager } from '../../managers/profile'
-import { useSelectorTyped } from '../../utils/hooks'
-import { RootState } from '../../store'
-import { setIsFormFilled } from '../../store/ProfileDataStore/ProfileDataStore'
+import { toggleAlertModal } from '../../../store/MainLayoutDataStore/MainLayoutDataStore'
+import { ProfileManager } from '../../../managers/profile'
+import { useSelectorTyped } from '../../../utils/hooks'
+import { RootState } from '../../../store'
+import { setIsFormFilled } from '../../../store/ProfileDataStore/ProfileDataStore'
 
 export const Default: FC = () => {
   const [inputValue, setInputValue] = useState({
@@ -38,6 +38,7 @@ export const Default: FC = () => {
     if (Object.values(inputValue).every((name: string) => name === '')) return
     try {
       await ProfileManager.changeDefaults(inputValue)
+      console.log(inputValue)
       dispatch(toggleAlertModal(true))
       resetValue()
     } catch (error) {

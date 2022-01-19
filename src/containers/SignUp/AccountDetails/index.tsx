@@ -7,6 +7,7 @@ import {
   validateStage,
   removeBackError,
 } from 'src/store/reducers/signup'
+import classNames from 'classnames'
 import { registerAction } from 'src/store/actions/signup'
 import { Button } from 'src/components/Button'
 import { H1 } from 'src/components/H1'
@@ -15,7 +16,12 @@ import { useSelectorTyped } from 'src/utils/hooks'
 import { ErrorsSpan } from 'src/components/ErrorsSpan'
 import vector from 'src/UI/Vector.svg'
 import { validate } from './validate'
-import { form, form_inputs, form_buttons } from './style.module.css'
+import {
+  form,
+  form_inputs,
+  form_buttons,
+  account_lastRow,
+} from './style.module.css'
 
 export const AccountDetails: FC = () => {
   const stage = useSelectorTyped((state) => state.signup.stages[0])
@@ -77,7 +83,7 @@ export const AccountDetails: FC = () => {
           error={stage.errors?.email}
         />
       </div>
-      <div className={form_inputs}>
+      <div className={classNames(form_inputs, account_lastRow)}>
         <Input
           type="password"
           name="password"
@@ -98,8 +104,8 @@ export const AccountDetails: FC = () => {
           placeholder="Enter Password Again"
           error={stage.errors?.passwordConfirmation}
         />
+        {stage.fetchError && <ErrorsSpan>{stage.fetchError}</ErrorsSpan>}
       </div>
-      {stage.fetchError && <ErrorsSpan>{stage.fetchError}</ErrorsSpan>}
 
       <div className={form_buttons}>
         <Button onClick={handleOnClick} disabled={stage.finished}>

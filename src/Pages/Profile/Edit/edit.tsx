@@ -1,17 +1,17 @@
 import React, { FC } from 'react'
 import { useDispatch } from 'react-redux'
 import classNames from 'classnames'
-import { useSelectorTyped } from '../../utils/hooks'
-import { RootState } from '../../store'
-import { changeProfileTab } from '../../store/ProfileDataStore/ProfileDataStore'
-import { Personal } from '../EditPages/personal'
-import { Security } from '../EditPages/security'
-import { Social } from '../EditPages/social'
+import { useSelectorTyped } from '../../../utils/hooks'
+import { RootState } from '../../../store'
+import { changeProfileTab } from '../../../store/ProfileDataStore/ProfileDataStore'
+import { Personal } from './EditPages/personal'
+import { Security } from './EditPages/Security/security'
+import { Social } from './EditPages/Social/social'
 import {
   closeModal,
   setShowModal,
-} from '../../store/MainLayoutDataStore/MainLayoutDataStore'
-import { modalPromise } from '../../helpers/modal-helper'
+} from '../../../store/MainLayoutDataStore/MainLayoutDataStore'
+import { modalPromise } from '../../../helpers/modal-helper'
 
 export const Edit: FC = () => {
   const dispatch = useDispatch()
@@ -36,7 +36,7 @@ export const Edit: FC = () => {
   )
 
   const handleChangeTab = async (tab: ITabNames) => {
-    if (!isFormFilled) {
+    if (!isFormFilled || activeProfileTab === tab) {
       dispatch(changeProfileTab(tab))
     } else {
       const promise = await modalPromise(({ resolve, reject }) =>

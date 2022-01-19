@@ -18,9 +18,6 @@ export const EnterSecurityQuestion: FC = () => {
   const resolve = () => {
     promiseInfo.resolve(inputValue)
   }
-  const reject = () => {
-    promiseInfo.resolve(false)
-  }
   const onSave = async () => {
     if (inputValue === '') return
 
@@ -30,7 +27,11 @@ export const EnterSecurityQuestion: FC = () => {
   return (
     <div className="modal-container">
       <div className="security-question__modal">
-        <span className="closeModal" onClick={reject} aria-hidden>
+        <span
+          className="closeModal"
+          onClick={() => dispatch(closeQuestionModal())}
+          aria-hidden
+        >
           <CloseIcon />
         </span>
         <div className="pin-holder">

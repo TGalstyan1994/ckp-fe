@@ -121,7 +121,52 @@
         }
       }
     }
+    .active-icons {
+      width: 240px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      list-style: none;
+      height: 35px;
+      font-family: 'SF Pro Display', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      line-height: 15.51px;
+      padding: 0 31px 0 52px;
 
+      > span {
+        align-self: center;
+      }
+
+      .name,
+      .arrow {
+        display: none;
+      }
+
+      .name {
+        margin-left: 14px;
+      }
+
+      .arrow {
+        transform: rotate(-90deg);
+        path {
+          fill: $icon-gray;
+        }
+      }
+
+      .svgIcon {
+        path {
+          fill: #009345;
+        }
+      }
+    }
+    .active-icons:hover {
+      color: #000000;
+      background: #f7f7f7;
+      .fields {
+        display: block;
+      }
+    }
     .fields {
       width: 150px;
       height: auto;
@@ -163,16 +208,7 @@
           fill: $icon-gray;
         }
       }
-      &:hover {
-        .logout-icon {
-          path {
-            fill: #009345;
-          }
-          rect {
-            fill: #009345;
-          }
-        }
-      }
+
       .name {
         display: none;
         margin-top: -5px;
@@ -180,10 +216,19 @@
         font-weight: 600;
         font-size: 13px;
         color: #c8c8c8;
-        transition: all 0.3s ease;
-        &:hover {
-          color: #000000;
+      }
+    }
+    .logout:hover {
+      .logout-icon {
+        path {
+          fill: #009345;
         }
+        rect {
+          fill: #009345;
+        }
+      }
+      .name {
+        color: #009345;
       }
     }
     .field:hover {
@@ -195,7 +240,6 @@
         display: block;
       }
     }
-
     &:hover {
       width: 240px;
 
@@ -205,7 +249,6 @@
       .logout {
         .name {
           display: inline-block;
-          transition: 0.2s ease-in-out;
         }
       }
       .icons {
@@ -217,7 +260,12 @@
             display: block;
           }
         }
-
+        .active-icons {
+          .name,
+          .arrow {
+            display: block;
+          }
+        }
         .hide {
           display: block;
         }
@@ -342,7 +390,44 @@
         }
       }
     }
+    .active-icons {
+      width: 240px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      list-style: none;
+      height: 35px;
+      font-family: 'SF Pro Display', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      line-height: 15.51px;
+      padding: 0 31px 0 52px;
 
+      > span {
+        align-self: center;
+      }
+
+      .name {
+        margin-left: 14px;
+      }
+
+      .arrow {
+        transform: rotate(-90deg);
+        path {
+          fill: $icon-gray;
+        }
+      }
+
+      .svgIcon {
+        path {
+          fill: #009345;
+        }
+      }
+    }
+    .active-icons:hover {
+      color: #000000;
+      background: #f7f7f7;
+    }
     .fields {
       width: 150px;
       height: auto;
@@ -390,7 +475,19 @@
         font-weight: 600;
         font-size: 13px;
         color: #c8c8c8;
-        transition: all 0.3s ease;
+      }
+    }
+    .logout:hover {
+      .logout-icon {
+        path {
+          fill: #009345;
+        }
+        rect {
+          fill: #009345;
+        }
+      }
+      .name {
+        color: #009345;
       }
     }
     .field:hover {

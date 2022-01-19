@@ -221,7 +221,11 @@ export const PersonalDetails: FC = () => {
   const handleFormInputs = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
   ) => {
-    setPersonalDetails(e.target.name, e.target.value)
+    if (e.target.name === 'totalNumberOfDependens' && +e.target.value) {
+      setPersonalDetails(e.target.name, +e.target.value)
+    } else {
+      setPersonalDetails(e.target.name, e.target.value)
+    }
     removeErrors(e.target.name)
   }
 

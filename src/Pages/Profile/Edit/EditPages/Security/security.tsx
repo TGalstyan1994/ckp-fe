@@ -1,20 +1,29 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { setIsFormFilled } from '../../store/ProfileDataStore/ProfileDataStore'
-
-import { useSelectorTyped } from '../../utils/hooks'
-import { RootState } from '../../store'
-import { ProfileManager } from '../../managers/profile'
-import { modalPromise } from '../../helpers/modal-helper'
 import {
+  setErrorMessage,
+  setIsFormFilled,
+} from '../../../../../store/ProfileDataStore/ProfileDataStore'
+import { useSelectorTyped } from '../../../../../utils/hooks'
+import { RootState } from '../../../../../store'
+import { ProfileManager } from '../../../../../managers/profile'
+import { modalPromise } from '../../../../../helpers/modal-helper'
+import {
+  closePinModal,
   setShowPinModal,
   toggleAlertModal,
-} from '../../store/MainLayoutDataStore/MainLayoutDataStore'
-import { Input } from '../../components/Input'
+} from '../../../../../store/MainLayoutDataStore/MainLayoutDataStore'
+import { Input } from '../../../../../components/Input'
+import { validate } from './validate'
 
 export const Security: FC = () => {
   const dispatch = useDispatch()
   const [inputValue, setInputValue] = useState({
+    oldPassword: '',
+    password: '',
+    passwordConfirmation: '',
+  })
+  const [inputError, setInputError] = useState({
     oldPassword: '',
     password: '',
     passwordConfirmation: '',
@@ -43,10 +52,20 @@ export const Security: FC = () => {
       password: '',
       passwordConfirmation: '',
     })
+    setInputError({
+      oldPassword: '',
+      password: '',
+      passwordConfirmation: '',
+    })
     dispatch(setIsFormFilled(false))
   }
   const onSubmit = async () => {
     if (Object.values(inputValue).every((name: string) => name === '')) return
+    const validateForm = validate(inputValue)
+    setInputError({ ...validateForm })
+    if (!Object.values(validateForm).every((name: string) => name === ''))
+      return
+    console.log(validateForm)
     const promise = await modalPromise(({ resolve, reject }) =>
       dispatch(setShowPinModal({ resolve, reject }))
     )
@@ -56,10 +75,12 @@ export const Security: FC = () => {
           ...inputValue,
           securityCode: promise,
         })
+        dispatch(closePinModal())
         await dispatch(toggleAlertModal(true))
         resetValue()
       } catch (error) {
         throw error
+        // dispatch(setErrorMessage(error.data.message))
       }
     }
   }
@@ -76,6 +97,7 @@ export const Security: FC = () => {
             placeholder="************"
             type="password"
           />
+          <span className="error-span">{inputError.oldPassword}</span>
           <div className="input-label">New Password</div>
           <Input
             name="password"
@@ -84,6 +106,7 @@ export const Security: FC = () => {
             placeholder="************"
             type="password"
           />
+          <span className="error-span">{inputError.password}</span>
           <div className="input-label">Retype Password</div>
           <Input
             name="passwordConfirmation"
@@ -92,7 +115,7 @@ export const Security: FC = () => {
             placeholder="************"
             type="password"
           />
-
+          <span className="error-span">{inputError.passwordConfirmation}</span>
           <div className="btn-container">
             <button onClick={resetValue} className="btn-cancel">
               Cancel

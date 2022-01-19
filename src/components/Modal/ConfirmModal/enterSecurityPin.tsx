@@ -5,6 +5,7 @@ import { closePinModal } from '../../../store/MainLayoutDataStore/MainLayoutData
 import { PinInput } from '../../PinInput'
 import { useSelectorTyped } from '../../../utils/hooks'
 import { RootState } from '../../../store'
+import CloseIcon from '../../../assets/images/icons/close-icon'
 
 export const EnterSecurityPin: FC = () => {
   const { promiseInfo } = useSelectorTyped(
@@ -18,16 +19,21 @@ export const EnterSecurityPin: FC = () => {
   const resolve = () => {
     promiseInfo.resolve(inputValue)
   }
-
   const onSave = async () => {
     if (inputValue === '') return
-
     resolve()
     dispatch(closePinModal())
   }
   return (
     <div className="modal-container">
       <div className="pin">
+        <span
+          className="closeModal"
+          onClick={() => dispatch(closePinModal())}
+          aria-hidden
+        >
+          <CloseIcon />
+        </span>
         <div className="pin-holder">
           <p>Enter Security Pin</p>
           <div className="input-holder">

@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react'
-import { ProfileManager } from '../../managers/profile'
+import { ProfileManager } from '../../../managers/profile'
 
 interface IUserAccountInfo {
   username: string
