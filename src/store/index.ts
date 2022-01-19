@@ -13,6 +13,7 @@ import forgotPassword from './reducers/forgotpassword'
 import newPassword from './reducers/newPassword'
 import ProfileDataStore from './ProfileDataStore/ProfileDataStore'
 import MainLayoutDataStore from './MainLayoutDataStore/MainLayoutDataStore'
+import sideMenuDataStore from './SideMenuDataStore'
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -23,6 +24,7 @@ const reducer = combineReducers({
   newPassword,
   ProfileDataStore,
   MainLayoutDataStore,
+  sideMenuDataStore,
 }) as Reducer
 
 export const store: Store<any, AnyAction> = configureStore({

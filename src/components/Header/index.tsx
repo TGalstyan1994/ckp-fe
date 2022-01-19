@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-
 import united from '../../assets/images/united.svg'
 import BellIcon from '../../assets/images/icons/bell-icon'
 import ArrowOpenIcon from '../../assets/images/icons/arrow-open-icon'
@@ -19,18 +18,12 @@ export const Header: FC = () => {
   const { userData } = useSelectorTyped(
     (state: RootState) => state.MainLayoutDataStore
   )
-  // const [searchValue, setSearchValue] = useState('')
-
   const [accountData, setAccountData] = useState<IAccountData>({
     currency: '',
     language: '',
   })
 
   const [isOpen, setIsOpen] = useState(false)
-
-  // const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   setSearchValue(e.target.value)
-  // }
 
   const toggleOpen = () => {
     setIsOpen(!isOpen)
@@ -47,49 +40,7 @@ export const Header: FC = () => {
 
   return (
     <div className="header">
-      {/* <div className="search">
-        <SearchIcon />
-        <input
-          value={searchValue}
-          className="search-input"
-          placeholder="Search for anything"
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setSearchValue(e.target.value)
-          }
-          type="text"
-        />
-       </div> */}
       <div className="content">
-        {/* <div className="rows-content">
-          <div className="date">
-            <div className="current-date">
-              <span className="mount">Jul</span>
-              <ClockIcon />
-            </div>
-            <div className="current-date">
-              <span className="year">2021</span>
-              <span className="weak">TUE 06</span>
-            </div>
-          </div>
-          <div className="date">
-            <div className="current-date">
-              <span className="mount">Local</span>
-              <ClockIcon />
-            </div>
-            <div className="current-date">
-              <span className="weak">09:25:51 AM</span>
-            </div>
-          </div>
-          <div className="date">
-            <div className="current-date">
-              <span className="mount">Server</span>
-              <ClockIcon />
-            </div>
-            <div className="current-date">
-              <span className="weak">09:25:51 AM</span>
-            </div>
-          </div>
-        </div> */}
         <div className="currency">
           <span>{accountData.currency}</span>
         </div>

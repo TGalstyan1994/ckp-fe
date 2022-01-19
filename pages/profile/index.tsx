@@ -8,10 +8,10 @@ import MainLayout from '../../src/containers/Layouts/MainLayout/MainLayout'
 import ArrowNextIcon from '../../src/assets/images/icons/arrow-next-icon'
 import { changeTab } from '../../src/store/ProfileDataStore/ProfileDataStore'
 import { useSelectorTyped } from '../../src/utils/hooks'
-import { Overview } from '../../src/Pages/Profile/overview'
-import { Edit } from '../../src/Pages/Profile/edit'
-import { Pin } from '../../src/Pages/Profile/pin'
-import { Default } from '../../src/Pages/Profile/default'
+import { Overview } from '../../src/Pages/Profile/Overview/overview'
+import { Edit } from '../../src/Pages/Profile/Edit/edit'
+import { Pin } from '../../src/Pages/Profile/Pin/pin'
+import { Default } from '../../src/Pages/Profile/Defaults/default'
 import { modalPromise } from '../../src/helpers/modal-helper'
 import {
   closeModal,
@@ -51,7 +51,7 @@ const ProfilePage = () => {
   const [imgPreview, setImgPreview] = useState<IImgPreview>('')
 
   const confirmChangeTabs = async (page: ITabNames) => {
-    if (!isFormFilled) {
+    if (!isFormFilled || activeTab === page) {
       dispatch(changeTab(page))
     } else {
       const promise = await modalPromise(({ resolve, reject }) =>
@@ -98,102 +98,100 @@ const ProfilePage = () => {
   }
 
   return (
-    <MainLayout>
-      <div className="container">
-        <div className="relative">
-          <h1 className="profile-title">My Profile</h1>
-          <span className="title-info">Home / My Profile</span>
-        </div>
-        <div className="d-flex">
-          <div className="row">
-            <div className="profile-card">
-              <div className="profile-avatar">
-                <div className="avatar-container">
-                  {userData.avatar && (
-                    <span
-                      className="delete-upload"
-                      onClick={onRemove}
-                      aria-hidden
-                    >
-                      <TrashIcon />
-                    </span>
-                  )}
-                  <div className="avatar">
-                    {imgPreview ? (
-                      <img
-                        className="upload-img"
-                        src={URL.createObjectURL(imgPreview)}
-                        alt="avatar"
-                      />
-                    ) : userData.avatar ? (
-                      <img
-                        className="upload-img"
-                        src={`${process.env.NEXT_PUBLIC_API}/avatar/${userData.avatar}`}
-                        alt="avatar"
-                      />
-                    ) : (
-                      <p>JD</p>
-                    )}
-                  </div>
-                  <label htmlFor="file-input" className="image_upload">
-                    <ArrowNextIcon />
-                    <input
-                      type="file"
-                      id="file-input"
-                      onChange={handleUploadImage}
-                      accept="image/png, image/jpeg,image/jpg"
-                    />
-                  </label>
-                </div>
-                <p className="name">{userData.username}</p>
-                <button onClick={onSave} className="btn">
-                  Save
-                </button>
-              </div>
-              <ul>
-                <li
-                  className={classNames('overview tabs', {
-                    activeTab: activeTab === 'overview',
-                  })}
-                  onClick={() => confirmChangeTabs('overview')}
-                  aria-hidden
-                >
-                  Overview
-                </li>
-                <li
-                  className={classNames('edit tabs', {
-                    activeTab: activeTab === 'edit',
-                  })}
-                  onClick={() => confirmChangeTabs('edit')}
-                  aria-hidden
-                >
-                  Edit Profile
-                </li>
-                <li
-                  className={classNames('pin tabs', {
-                    activeTab: activeTab === 'pin',
-                  })}
-                  onClick={() => confirmChangeTabs('pin')}
-                  aria-hidden
-                >
-                  Security PIN
-                </li>
-                <li
-                  className={classNames('default tabs', {
-                    activeTab: activeTab === 'default',
-                  })}
-                  onClick={() => confirmChangeTabs('default')}
-                  aria-hidden
-                >
-                  Set Default
-                </li>
-              </ul>
-            </div>
-          </div>
-          {tabs[activeTab]}
-        </div>
+    <div className="container">
+      <div className="relative">
+        <h1 className="profile-title">My Profile</h1>
+        <span className="title-info">Home / My Profile</span>
       </div>
-    </MainLayout>
+      <div className="d-flex">
+        <div className="row">
+          <div className="profile-card">
+            <div className="profile-avatar">
+              <div className="avatar-container">
+                {userData.avatar && (
+                  <span
+                    className="delete-upload"
+                    onClick={onRemove}
+                    aria-hidden
+                  >
+                    <TrashIcon />
+                  </span>
+                )}
+                <div className="avatar">
+                  {imgPreview ? (
+                    <img
+                      className="upload-img"
+                      src={URL.createObjectURL(imgPreview)}
+                      alt="avatar"
+                    />
+                  ) : userData.avatar ? (
+                    <img
+                      className="upload-img"
+                      src={`${process.env.NEXT_PUBLIC_API}/avatar/${userData.avatar}`}
+                      alt="avatar"
+                    />
+                  ) : (
+                    <p>JD</p>
+                  )}
+                </div>
+                <label htmlFor="file-input" className="image_upload">
+                  <ArrowNextIcon />
+                  <input
+                    type="file"
+                    id="file-input"
+                    onChange={handleUploadImage}
+                    accept="image/png, image/jpeg,image/jpg"
+                  />
+                </label>
+              </div>
+              <p className="name">{userData.username}</p>
+              <button onClick={onSave} className="btn">
+                Save
+              </button>
+            </div>
+            <ul>
+              <li
+                className={classNames('overview tabs', {
+                  activeTab: activeTab === 'overview',
+                })}
+                onClick={() => confirmChangeTabs('overview')}
+                aria-hidden
+              >
+                Overview
+              </li>
+              <li
+                className={classNames('edit tabs', {
+                  activeTab: activeTab === 'edit',
+                })}
+                onClick={() => confirmChangeTabs('edit')}
+                aria-hidden
+              >
+                Edit Profile
+              </li>
+              <li
+                className={classNames('pin tabs', {
+                  activeTab: activeTab === 'pin',
+                })}
+                onClick={() => confirmChangeTabs('pin')}
+                aria-hidden
+              >
+                Security PIN
+              </li>
+              <li
+                className={classNames('default tabs', {
+                  activeTab: activeTab === 'default',
+                })}
+                onClick={() => confirmChangeTabs('default')}
+                aria-hidden
+              >
+                Set Default
+              </li>
+            </ul>
+          </div>
+        </div>
+        {tabs[activeTab]}
+      </div>
+    </div>
   )
 }
 
@@ -206,3 +204,7 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
     }
   }
 )
+
+ProfilePage.getLayout = function getLayout(page: JSX.Element) {
+  return <MainLayout>{page}</MainLayout>
+}

@@ -1,10 +1,10 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { setIsFormFilled } from '../../store/ProfileDataStore/ProfileDataStore'
-import { toggleAlertModal } from '../../store/MainLayoutDataStore/MainLayoutDataStore'
-import { ProfileManager } from '../../managers/profile'
-import { useSelectorTyped } from '../../utils/hooks'
-import { RootState } from '../../store'
+import { setIsFormFilled } from '../../../../../store/ProfileDataStore/ProfileDataStore'
+import { toggleAlertModal } from '../../../../../store/MainLayoutDataStore/MainLayoutDataStore'
+import { ProfileManager } from '../../../../../managers/profile'
+import { useSelectorTyped } from '../../../../../utils/hooks'
+import { RootState } from '../../../../../store'
 
 export const Social: FC = () => {
   const dispatch = useDispatch()

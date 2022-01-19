@@ -51,7 +51,7 @@ const RegistrationPage: FC = () => {
 
   useEffect(() => {
     if (data.accessToken && getAccessToken()) {
-      router.push('/profile')
+      router.push('/route')
     }
   }, [data.accessToken])
 

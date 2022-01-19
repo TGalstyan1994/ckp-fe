@@ -3,13 +3,14 @@ import { useDispatch } from 'react-redux'
 import {
   setShowQuestionModal,
   toggleAlertModal,
-} from '../../store/MainLayoutDataStore/MainLayoutDataStore'
-import { useSelectorTyped } from '../../utils/hooks'
-import { RootState } from '../../store'
-import { setIsFormFilled } from '../../store/ProfileDataStore/ProfileDataStore'
-import { modalPromise } from '../../helpers/modal-helper'
-import { ProfileManager } from '../../managers/profile'
-import { PinInput } from '../../components/PinInput'
+} from '../../../store/MainLayoutDataStore/MainLayoutDataStore'
+import { useSelectorTyped } from '../../../utils/hooks'
+import { RootState } from '../../../store'
+import { setIsFormFilled } from '../../../store/ProfileDataStore/ProfileDataStore'
+import { modalPromise } from '../../../helpers/modal-helper'
+import { ProfileManager } from '../../../managers/profile'
+import { PinInput } from '../../../components/PinInput'
+import { validate } from './validate'
 
 export const Pin: FC = () => {
   const [inputValue, setInputValue] = useState({
@@ -17,7 +18,11 @@ export const Pin: FC = () => {
     securityCode: '',
     securityCodeRepeat: '',
   })
-
+  const [inputError, setInputError] = useState({
+    oldSecurityCode: '',
+    securityCode: '',
+    securityCodeRepeat: '',
+  })
   const { isFormFilled } = useSelectorTyped(
     (state: RootState) => state.ProfileDataStore
   )
@@ -38,24 +43,32 @@ export const Pin: FC = () => {
       securityCode: '',
       securityCodeRepeat: '',
     })
+    setInputError({
+      oldSecurityCode: '',
+      securityCode: '',
+      securityCodeRepeat: '',
+    })
   }
 
   const onSave = async () => {
-    if (!Object.values(inputValue).every((name: string) => name === '')) {
-      const promise = await modalPromise(({ resolve, reject }) =>
-        dispatch(setShowQuestionModal({ resolve, reject }))
-      )
-      if (promise) {
-        try {
-          await ProfileManager.changeSecurityPin({
-            ...inputValue,
-            securityQuestionAnswer: promise,
-          })
-          dispatch(toggleAlertModal(true))
-          resetValue()
-        } catch (error) {
-          throw error
-        }
+    if (Object.values(inputValue).every((name: string) => name === '')) return
+    const validateForm = validate(inputValue)
+    setInputError({ ...validateForm })
+    if (!Object.values(validateForm).every((name: string) => name === ''))
+      return
+    const promise = await modalPromise(({ resolve, reject }) =>
+      dispatch(setShowQuestionModal({ resolve, reject }))
+    )
+    if (promise) {
+      try {
+        await ProfileManager.changeSecurityPin({
+          ...inputValue,
+          securityQuestionAnswer: promise,
+        })
+        dispatch(toggleAlertModal(true))
+        resetValue()
+      } catch (error) {
+        throw error
       }
     }
   }
@@ -75,20 +88,21 @@ export const Pin: FC = () => {
               value={inputValue.oldSecurityCode}
               onChange={handleChange}
             />
-
+            <span className="error-span">{inputError.oldSecurityCode}</span>
             <div className="input-label">New Pin</div>
             <PinInput
               name="securityCode"
               value={inputValue.securityCode}
               onChange={handleChange}
             />
+            <span className="error-span">{inputError.securityCode}</span>
             <div className="input-label">Re type PIN</div>
             <PinInput
               name="securityCodeRepeat"
               value={inputValue.securityCodeRepeat}
               onChange={handleChange}
             />
-
+            <span className="error-span">{inputError.securityCodeRepeat}</span>
             <div className="btn-container">
               <button
                 onClick={onSave}

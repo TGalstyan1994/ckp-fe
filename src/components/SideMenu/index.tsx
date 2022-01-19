@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useRouter } from 'next/router'
 import logo from '../../assets/images/logo.svg'
 import HomeIcon from '../../assets/images/icons/home-icon'
 import GlobeIcon from '../../assets/images/icons/globe-icon'
@@ -12,6 +13,7 @@ import EMailIcon from '../../assets/images/icons/e-mail-icon'
 import ArrowOpenIcon from '../../assets/images/icons/arrow-open-icon'
 import LogoutIcon from '../../assets/images/icons/logout-icon'
 import { logOut } from '../../store/reducers/signin'
+import { LinkText } from '../LinkText'
 
 interface IMenuItem {
   svg: JSX.Element
@@ -21,6 +23,7 @@ interface IMenuItem {
     field: string
   }[]
   url?: string
+  pathname: string
 }
 
 const menuItems: Array<IMenuItem> = [
@@ -29,6 +32,7 @@ const menuItems: Array<IMenuItem> = [
     name: 'Dashboard',
     clickable: true,
     url: '',
+    pathname: '/dashboard',
   },
   {
     svg: <GlobeIcon />,
@@ -39,6 +43,7 @@ const menuItems: Array<IMenuItem> = [
       { field: 'Sponsor tree' },
       { field: 'Referral list' },
     ],
+    pathname: '/universe',
   },
   {
     svg: <MoneyBoxIcon />,
@@ -51,18 +56,21 @@ const menuItems: Array<IMenuItem> = [
       { field: 'Membership fee' },
       { field: 'Waiting room' },
     ],
+    pathname: '/donation',
   },
   {
     svg: <MortarboardIcon />,
     name: 'Academy',
-    clickable: false,
+    clickable: true,
     url: '',
+    pathname: '/academy',
   },
   {
     svg: <EMailIcon />,
     name: 'Communication',
-    clickable: false,
+    clickable: true,
     url: '',
+    pathname: '/communication',
   },
   {
     svg: <SupportIcon />,
@@ -73,38 +81,37 @@ const menuItems: Array<IMenuItem> = [
       { field: 'Payment settings' },
       { field: 'Feedback' },
     ],
+    pathname: '/support',
   },
   {
     svg: <ReportsIcon />,
     name: 'Reports',
-    clickable: false,
+    clickable: true,
     url: '',
+    pathname: '/activities',
   },
   {
     svg: <UserIcon />,
     name: 'My Profile',
-    clickable: false,
+    clickable: true,
     url: '',
+    pathname: '/profile',
   },
 ]
-// type IActivePage =
-//   | 'dashboard'
-//   | 'universe'
-//   | 'donations'
-//   | 'academy'
-//   | 'communication'
-//   | 'support'
-//   | 'reports'
-//  | 'profile'
 
 export const SideMenu: FC = () => {
   const [isOpen, setIsOpen] = useState({
     openSidebar: false,
   })
+
+  const router = useRouter()
+
   const dispatch = useDispatch()
+
   const toggleSideBar = () => {
     setIsOpen({ openSidebar: !isOpen.openSidebar })
   }
+
   return (
     <div className="side-menu">
       <div
@@ -118,23 +125,33 @@ export const SideMenu: FC = () => {
         <div className="side-menu__items">
           <ul className="icons">
             {menuItems.map((item: IMenuItem) => (
-              <li className="icon" key={item.name}>
-                <span className="svgIcon">{item.svg}</span>
-                <span className="name">{item.name}</span>
-                {item.children && (
-                  <>
+              <li key={item.name}>
+                <LinkText href={item.pathname} key={item.pathname}>
+                  <div
+                    className={
+                      router.pathname === item.pathname
+                        ? 'active-icons'
+                        : 'icon'
+                    }
+                  >
+                    <span className="svgIcon">{item.svg}</span>
+                    <span className="name">{item.name}</span>
                     <span className="arrow">
-                      {item.children?.length && <ArrowOpenIcon />}
+                      {item.children && <ArrowOpenIcon />}
                     </span>
-                    <ul className={item.children?.length ? 'fields' : ''}>
-                      {item.children.map((child) => (
-                        <li className="field" key={child.field}>
-                          {child.field}
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                )}
+                    {item.children && (
+                      <>
+                        <ul className={item.children?.length ? 'fields' : ''}>
+                          {item.children.map((child) => (
+                            <li className="field" key={child.field}>
+                              {child.field}
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    )}
+                  </div>
+                </LinkText>
               </li>
             ))}
           </ul>
