@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import united from '../../assets/images/united.svg'
 import BellIcon from '../../assets/images/icons/bell-icon'
@@ -15,6 +15,8 @@ interface IAccountData {
 }
 export const Header: FC = () => {
   const dispatch = useDispatch()
+  // const wrapperRef = useRef() as React.MutableRefObject<HTMLDivElement>
+  const wrapperRef = useRef<HTMLDivElement>(null)
   const { userData } = useSelectorTyped(
     (state: RootState) => state.MainLayoutDataStore
   )
@@ -38,6 +40,21 @@ export const Header: FC = () => {
     })()
   }, [])
 
+  function useOutsideToggle(ref: any) {
+    useEffect(() => {
+      function handleClickOutside(event: MouseEvent) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setIsOpen(false)
+        }
+      }
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside)
+      }
+    }, [ref])
+  }
+
+  useOutsideToggle(wrapperRef)
   return (
     <div className="header">
       <div className="content">
@@ -54,7 +71,7 @@ export const Header: FC = () => {
           <BellIcon />
           <span>3</span>
         </div>
-        <div className="user-profile">
+        <div className="user-profile" ref={wrapperRef}>
           <div className="avatar" onClick={toggleOpen} aria-hidden>
             {userData.avatar ? (
               <figure className="figure">
