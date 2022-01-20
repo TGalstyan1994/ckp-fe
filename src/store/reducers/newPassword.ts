@@ -52,7 +52,7 @@ const newPassword = createSlice({
       state.isCodeChecked = true
     },
     setFetchingErrors(state, action) {
-      state.fetchingErrors = action.payload.response.data.message
+      state.fetchingErrors = `${action.payload.response.data.errors[0].messages[0]}`
     },
   },
 })
