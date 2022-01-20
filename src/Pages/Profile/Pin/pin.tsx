@@ -1,12 +1,13 @@
-import React, { ChangeEvent, FC, useState } from 'react'
+import React, { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import {
   setShowQuestionModal,
   toggleAlertModal,
 } from '../../../store/MainLayoutDataStore/MainLayoutDataStore'
-import { useSelectorTyped } from '../../../utils/hooks'
-import { RootState } from '../../../store'
-import { setIsFormFilled } from '../../../store/ProfileDataStore/ProfileDataStore'
+import {
+  setErrorMessage,
+  setIsFormFilled,
+} from '../../../store/ProfileDataStore/ProfileDataStore'
 import { modalPromise } from '../../../helpers/modal-helper'
 import { ProfileManager } from '../../../managers/profile'
 import { PinInput } from '../../../components/PinInput'
@@ -23,18 +24,20 @@ export const Pin: FC = () => {
     securityCode: '',
     securityCodeRepeat: '',
   })
-  const { isFormFilled } = useSelectorTyped(
-    (state: RootState) => state.ProfileDataStore
-  )
 
   const dispatch = useDispatch()
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputValue({
-      ...inputValue,
-      [e.target.name]: e.target.value,
-    })
-    dispatch(setIsFormFilled(true))
+    if (+e.target.value === 0 || e.target.value === '' || +e.target.value) {
+      setInputValue({
+        ...inputValue,
+        [e.target.name]: e.target.value.trim(),
+      })
+      setInputError({
+        ...inputError,
+        [e.target.name]: '',
+      })
+    }
   }
 
   const resetValue = () => {
@@ -52,13 +55,18 @@ export const Pin: FC = () => {
 
   const onSave = async () => {
     if (Object.values(inputValue).every((name: string) => name === '')) return
+
     const validateForm = validate(inputValue)
+
     setInputError({ ...validateForm })
+
     if (!Object.values(validateForm).every((name: string) => name === ''))
       return
+
     const promise = await modalPromise(({ resolve, reject }) =>
       dispatch(setShowQuestionModal({ resolve, reject }))
     )
+
     if (promise) {
       try {
         await ProfileManager.changeSecurityPin({
@@ -67,11 +75,33 @@ export const Pin: FC = () => {
         })
         dispatch(toggleAlertModal(true))
         resetValue()
-      } catch (error) {
+      } catch (error: any) {
+        const errors = error.data.errors[0]
+        if (errors.property === 'securityQuestionAnswer') {
+          dispatch(setErrorMessage(errors.messages[0]))
+          await onSave()
+        } else {
+          setInputError({
+            ...inputError,
+            [errors.property]: errors.messages[0],
+          })
+        }
         throw error
       }
     }
   }
+
+  const isFormFilled = () => {
+    return Object.values(inputValue).every((val: string) => val)
+  }
+
+  useEffect(() => {
+    if (Object.values(inputValue).every((name: string) => name === '')) {
+      dispatch(setIsFormFilled(false))
+    } else {
+      dispatch(setIsFormFilled(true))
+    }
+  }, [inputValue])
 
   return (
     <div className="edit-container">
@@ -106,7 +136,7 @@ export const Pin: FC = () => {
             <div className="btn-container">
               <button
                 onClick={onSave}
-                className={isFormFilled ? 'btn-save' : 'btn-disable'}
+                className={isFormFilled() ? 'btn-save' : 'btn-disable'}
               >
                 Submit
               </button>

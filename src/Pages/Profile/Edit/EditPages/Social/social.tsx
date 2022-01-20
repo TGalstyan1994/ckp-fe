@@ -5,6 +5,7 @@ import { toggleAlertModal } from '../../../../../store/MainLayoutDataStore/MainL
 import { ProfileManager } from '../../../../../managers/profile'
 import { useSelectorTyped } from '../../../../../utils/hooks'
 import { RootState } from '../../../../../store'
+import { Input } from '../../../../../components/Input'
 
 export const Social: FC = () => {
   const dispatch = useDispatch()
@@ -26,13 +27,7 @@ export const Social: FC = () => {
     })
     dispatch(setIsFormFilled(true))
   }
-  useEffect(() => {
-    if (Object.values(inputValue).every((name: string) => name === '')) {
-      dispatch(setIsFormFilled(false))
-    } else {
-      dispatch(setIsFormFilled(true))
-    }
-  }, [inputValue])
+
   const resetValue = () => {
     setInputValue({
       about: '',
@@ -54,18 +49,25 @@ export const Social: FC = () => {
     }
   }
 
+  useEffect(() => {
+    if (Object.values(inputValue).every((name: string) => name === '')) {
+      dispatch(setIsFormFilled(false))
+    } else {
+      dispatch(setIsFormFilled(true))
+    }
+  }, [inputValue])
+
   return (
     <>
       <div className="content">
         <div className="input-container">
           <div className="input-label">About me</div>
-          <input
+          <Input
             name="about"
             value={inputValue.about}
             onChange={handleChange}
             placeholder="Add info here"
           />
-          {/* <span className="error-span">{errorMessage}</span> */}
           <div className="input-label">Facebook</div>
           <input
             name="facebook"
@@ -73,24 +75,20 @@ export const Social: FC = () => {
             onChange={handleChange}
             placeholder="https://www.facebook.com"
           />
-          {/* <span className="error-span">{errorMessage}</span> */}
           <div className="input-label">Twitter</div>
-          <input
+          <Input
             name="twitter"
             value={inputValue.twitter}
             onChange={handleChange}
             placeholder="https://www.twitter.com"
           />
-          {/* <span className="error-span">{errorMessage}</span> */}
           <div className="input-label">Linked in</div>
-          <input
+          <Input
             name="linkedIn"
             value={inputValue.linkedIn}
             onChange={handleChange}
             placeholder="https://www.linkedin.com"
           />
-          {/* <span className="error-span">{errorMessage}</span> */}
-
           <div className="btn-container">
             <button onClick={resetValue} className="btn-cancel">
               Cancel

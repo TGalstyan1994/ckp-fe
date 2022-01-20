@@ -6,11 +6,9 @@ export const ConfirmModal: FC = () => {
   const { promiseInfo } = useSelectorTyped(
     (state: RootState) => state.MainLayoutDataStore
   )
-
   const resolve = () => {
     promiseInfo.resolve(true)
   }
-
   const reject = () => {
     promiseInfo.resolve(false)
   }

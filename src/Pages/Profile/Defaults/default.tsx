@@ -38,7 +38,6 @@ export const Default: FC = () => {
     if (Object.values(inputValue).every((name: string) => name === '')) return
     try {
       await ProfileManager.changeDefaults(inputValue)
-      console.log(inputValue)
       dispatch(toggleAlertModal(true))
       resetValue()
     } catch (error) {

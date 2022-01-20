@@ -5,46 +5,73 @@ import { closeQuestionModal } from '../../../store/MainLayoutDataStore/MainLayou
 import CloseIcon from '../../../assets/images/icons/close-icon'
 import { useSelectorTyped } from '../../../utils/hooks'
 import { RootState } from '../../../store'
+import { setErrorMessage } from '../../../store/ProfileDataStore/ProfileDataStore'
+import { enterSecurityQuestionValidation } from './enterSecurityQuestionValidation'
+import { Input } from '../../Input'
+
+const questions: Record<string, string> = {
+  FIRST_PET_NAME: 'Enter the name of your first pet*',
+}
 
 export const EnterSecurityQuestion: FC = () => {
-  const { promiseInfo } = useSelectorTyped(
+  const { promiseInfo, userData } = useSelectorTyped(
     (state: RootState) => state.MainLayoutDataStore
   )
-  const [inputValue, setInputValue] = useState('')
+  const { errorMessage } = useSelectorTyped(
+    (state: RootState) => state.ProfileDataStore
+  )
+  const [answer, setAnswer] = useState('')
+
+  const [answerError, setAnswerError] = useState('')
+
   const dispatch = useDispatch()
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value)
+    dispatch(setErrorMessage(''))
+    setAnswerError('')
+    setAnswer(e.target.value)
   }
+
   const resolve = () => {
-    promiseInfo.resolve(inputValue)
+    promiseInfo.resolve(answer)
   }
   const onSave = async () => {
-    if (inputValue === '') return
-
+    const validationErrors = enterSecurityQuestionValidation(answer)
+    if (validationErrors) {
+      setAnswerError(validationErrors)
+      return
+    }
     resolve()
     dispatch(closeQuestionModal())
   }
+  console.log(errorMessage)
   return (
     <div className="modal-container">
       <div className="security-question__modal">
         <span
           className="closeModal"
-          onClick={() => dispatch(closeQuestionModal())}
+          onClick={() => {
+            dispatch(closeQuestionModal())
+          }}
           aria-hidden
         >
           <CloseIcon />
         </span>
         <div className="pin-holder">
           <p>Security Question</p>
-          <span className="span">Enter the name of your first pet*</span>
+          <span className="span">{questions[userData.question]}</span>
           <div className="input-holder">
-            <input
+            <Input
               className="pin-input"
-              value={inputValue}
+              value={answer}
               onChange={handleChange}
               placeholder="admin"
+              error={answerError || errorMessage}
             />
-            <button className="pin-btn" onClick={onSave}>
+            <button
+              className={answer ? 'pin-btn' : 'pin-btn_disabled'}
+              onClick={onSave}
+            >
               Continue{' '}
               <span>
                 <ArrowNextIcon />

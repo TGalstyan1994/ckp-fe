@@ -115,6 +115,9 @@
         display: flex;
         flex-direction: column;
         align-items: flex-end;
+        .error-message {
+          color:red;
+        }
         .pin-input {
           width: 100%;
           height: 56px;
@@ -133,6 +136,7 @@
             font-size: 13px;
           }
         }
+
         .pin-btn {
           width: 232px;
           height: 56px;
@@ -256,6 +260,33 @@
               width: 10px;
               height: 8.8px;
 
+              path {
+                fill: $white;
+              }
+            }
+          }
+        }
+        .pin-btn_disabled {
+          width: 232px;
+          height: 56px;
+          background: #009345;
+          border-radius: 5px;
+          border: none;
+          color: $white;
+          font-family: 'SF Pro Display', sans-serif;
+          font-style: normal;
+          font-weight: bold;
+          font-size: 11px;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          margin-top: 20px;
+          cursor: pointer;
+          opacity: 0.4;
+          span {
+            padding-left: 12px;
+            svg {
+              width: 10px;
+              height: 8.8px;
               path {
                 fill: $white;
               }

@@ -9,8 +9,8 @@ export interface INewPasswordStore {
   isPinOpened: boolean
   fetchingErrors: string
   isPasswordChanged: boolean
-  body: {
-    password: string
-    passwordConfirmation: string
-  }
+  // body: {
+  //   password: string
+  //   passwordConfirmation: string
+  // }
 }
