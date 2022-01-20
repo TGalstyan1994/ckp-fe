@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState, useRef } from 'react'
 import { useDispatch } from 'react-redux'
+import { useRouter } from 'next/router'
 import united from '../../assets/images/united.svg'
 import BellIcon from '../../assets/images/icons/bell-icon'
 import ArrowOpenIcon from '../../assets/images/icons/arrow-open-icon'
@@ -30,7 +31,10 @@ export const Header: FC = () => {
   const toggleOpen = () => {
     setIsOpen(!isOpen)
   }
-
+  const router = useRouter()
+  const goMyProfilePage = () => {
+    router.push('/profile')
+  }
   useEffect(() => {
     ;(async () => {
       const res = await ProfileManager.getDefaults()
@@ -92,7 +96,13 @@ export const Header: FC = () => {
             {isOpen && (
               <div className="drop-name">
                 <ul>
-                  <li className="drop-item">My profile</li>
+                  <li
+                    onClick={goMyProfilePage}
+                    className="drop-item"
+                    aria-hidden
+                  >
+                    My profile
+                  </li>
                   <li
                     onClick={() => dispatch(logOut())}
                     className="drop-item"

@@ -28,10 +28,13 @@ export const Security: FC = () => {
     password: '',
     passwordConfirmation: '',
   })
+
   const { isFormFilled } = useSelectorTyped(
     (state: RootState) => state.ProfileDataStore
   )
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputError({ ...inputError, [e.target.name]: '' })
     setInputValue({
       ...inputValue,
       [e.target.name]: e.target.value,
@@ -46,6 +49,7 @@ export const Security: FC = () => {
       dispatch(setIsFormFilled(true))
     }
   }, [inputValue])
+
   const resetValue = () => {
     setInputValue({
       oldPassword: '',
@@ -59,13 +63,13 @@ export const Security: FC = () => {
     })
     dispatch(setIsFormFilled(false))
   }
+
   const onSubmit = async () => {
     if (Object.values(inputValue).every((name: string) => name === '')) return
     const validateForm = validate(inputValue)
     setInputError({ ...validateForm })
     if (!Object.values(validateForm).every((name: string) => name === ''))
       return
-    console.log(validateForm)
     const promise = await modalPromise(({ resolve, reject }) =>
       dispatch(setShowPinModal({ resolve, reject }))
     )
@@ -78,9 +82,14 @@ export const Security: FC = () => {
         dispatch(closePinModal())
         await dispatch(toggleAlertModal(true))
         resetValue()
-      } catch (error) {
+      } catch (error: any) {
+        const errors = error.data.errors[0]
+        if (errors.property === 'securityCode') {
+          dispatch(setErrorMessage(errors.messages[0]))
+          await onSubmit()
+        }
+        setInputError({ ...inputError, [errors.property]: errors.messages[0] })
         throw error
-        // dispatch(setErrorMessage(error.data.message))
       }
     }
   }

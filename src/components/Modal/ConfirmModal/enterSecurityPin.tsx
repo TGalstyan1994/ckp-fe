@@ -6,30 +6,53 @@ import { PinInput } from '../../PinInput'
 import { useSelectorTyped } from '../../../utils/hooks'
 import { RootState } from '../../../store'
 import CloseIcon from '../../../assets/images/icons/close-icon'
+import { enterSecurityPinValidation } from './enterSecurityPinValidation'
+import { setErrorMessage } from '../../../store/ProfileDataStore/ProfileDataStore'
 
 export const EnterSecurityPin: FC = () => {
   const { promiseInfo } = useSelectorTyped(
     (state: RootState) => state.MainLayoutDataStore
   )
-  const [inputValue, setInputValue] = useState('')
+  const { errorMessage } = useSelectorTyped(
+    (state: RootState) => state.ProfileDataStore
+  )
+
+  const [pin, setPin] = useState<string>('')
+  const [pinError, setPinError] = useState<string>('')
   const dispatch = useDispatch()
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value)
+    if (+e.target.value === 0 || e.target.value === '' || +e.target.value) {
+      dispatch(setErrorMessage(''))
+      setPinError('')
+      setPin(e.target.value)
+    }
   }
+
   const resolve = () => {
-    promiseInfo.resolve(inputValue)
+    promiseInfo.resolve(pin)
   }
+
   const onSave = async () => {
-    if (inputValue === '') return
+    const validationErrors = enterSecurityPinValidation(pin)
+    if (validationErrors) {
+      setPinError(validationErrors)
+      return
+    }
     resolve()
     dispatch(closePinModal())
+    dispatch(setErrorMessage(''))
   }
+
   return (
     <div className="modal-container">
       <div className="pin">
         <span
           className="closeModal"
-          onClick={() => dispatch(closePinModal())}
+          onClick={() => {
+            dispatch(closePinModal())
+            dispatch(setErrorMessage(''))
+          }}
           aria-hidden
         >
           <CloseIcon />
@@ -37,7 +60,11 @@ export const EnterSecurityPin: FC = () => {
         <div className="pin-holder">
           <p>Enter Security Pin</p>
           <div className="input-holder">
-            <PinInput value={inputValue} onChange={handleChange} />
+            <PinInput
+              value={pin}
+              onChange={handleChange}
+              error={pinError || errorMessage}
+            />
             <button className="pin-btn" onClick={onSave}>
               Continue{' '}
               <span>
