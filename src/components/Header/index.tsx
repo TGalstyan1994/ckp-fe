@@ -97,9 +97,9 @@ export const Header: FC = () => {
               <div className="drop-name">
                 <ul>
                   <li
+                    aria-hidden
                     onClick={goMyProfilePage}
                     className="drop-item"
-                    aria-hidden
                   >
                     My profile
                   </li>

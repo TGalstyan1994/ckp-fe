@@ -4,8 +4,6 @@ import {
   setErrorMessage,
   setIsFormFilled,
 } from '../../../../../store/ProfileDataStore/ProfileDataStore'
-import { useSelectorTyped } from '../../../../../utils/hooks'
-import { RootState } from '../../../../../store'
 import { ProfileManager } from '../../../../../managers/profile'
 import { modalPromise } from '../../../../../helpers/modal-helper'
 import {
@@ -29,26 +27,13 @@ export const Security: FC = () => {
     passwordConfirmation: '',
   })
 
-  const { isFormFilled } = useSelectorTyped(
-    (state: RootState) => state.ProfileDataStore
-  )
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputError({ ...inputError, [e.target.name]: '' })
     setInputValue({
       ...inputValue,
       [e.target.name]: e.target.value,
     })
-    dispatch(setIsFormFilled(true))
   }
-
-  useEffect(() => {
-    if (Object.values(inputValue).every((name: string) => name === '')) {
-      dispatch(setIsFormFilled(false))
-    } else {
-      dispatch(setIsFormFilled(true))
-    }
-  }, [inputValue])
 
   const resetValue = () => {
     setInputValue({
@@ -87,12 +72,28 @@ export const Security: FC = () => {
         if (errors.property === 'securityCode') {
           dispatch(setErrorMessage(errors.messages[0]))
           await onSubmit()
+        } else {
+          setInputError({
+            ...inputError,
+            [errors.property]: errors.messages[0],
+          })
         }
-        setInputError({ ...inputError, [errors.property]: errors.messages[0] })
         throw error
       }
     }
   }
+
+  const isFormFilled = () => {
+    return Object.values(inputValue).every((val: string) => val)
+  }
+
+  useEffect(() => {
+    if (Object.values(inputValue).every((name: string) => name === '')) {
+      dispatch(setIsFormFilled(false))
+    } else {
+      dispatch(setIsFormFilled(true))
+    }
+  }, [inputValue])
 
   return (
     <>
@@ -131,7 +132,7 @@ export const Security: FC = () => {
             </button>
             <button
               onClick={onSubmit}
-              className={isFormFilled ? 'btn-save' : 'btn-disable'}
+              className={isFormFilled() ? 'btn-save' : 'btn-disable'}
             >
               Save Changes
             </button>

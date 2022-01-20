@@ -41,12 +41,7 @@ export const validate = ({
   ) {
     errors.securityCodeRepeat = 'Pin is not valid. It must include 6 digit'
   }
-  if (
-    is.empty(!securityCodeRepeat) ||
-    (securityCodeRepeat.search(digitRegExp) !== -1 &&
-      securityCodeRepeat !== securityCode) ||
-    errors.securityCode
-  ) {
+  if (securityCodeRepeat !== securityCode || errors.securityCode) {
     errors.securityCodeRepeat = 'Confirm Pin Mismatch'
   }
 
