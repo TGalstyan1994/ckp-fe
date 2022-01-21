@@ -95,6 +95,11 @@ const ProfilePage = () => {
   }
 
   const onRemove = async () => {
+    if (imgPreview) {
+      setImgPreview('')
+      return
+    }
+
     try {
       await ProfileManager.removeAvatar()
       const res = await ProfileManager.getAccountUser()
@@ -114,7 +119,7 @@ const ProfilePage = () => {
           <div className="profile-card">
             <div className="profile-avatar">
               <div className="avatar-container">
-                {!imgPreview && userData.avatar && (
+                {(imgPreview || userData.avatar) && (
                   <span
                     className="delete-upload"
                     onClick={onRemove}
