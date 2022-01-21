@@ -112,21 +112,21 @@ export const Pin: FC = () => {
       <div className="edit-holder">
         <div className="content">
           <div className="input-container">
-            <div className="input-label">Existing Pin</div>
+            <div className="input-label">Existing PIN</div>
             <PinInput
               name="oldSecurityCode"
               value={inputValue.oldSecurityCode}
               onChange={handleChange}
             />
             <span className="error-span">{inputError.oldSecurityCode}</span>
-            <div className="input-label">New Pin</div>
+            <div className="input-label">New PIN</div>
             <PinInput
               name="securityCode"
               value={inputValue.securityCode}
               onChange={handleChange}
             />
             <span className="error-span">{inputError.securityCode}</span>
-            <div className="input-label">Re type PIN</div>
+            <div className="input-label">Retype PIN</div>
             <PinInput
               name="securityCodeRepeat"
               value={inputValue.securityCodeRepeat}
