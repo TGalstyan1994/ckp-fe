@@ -3,13 +3,15 @@ import { useDispatch } from 'react-redux'
 import { setIsFormFilled } from '../../../../../store/ProfileDataStore/ProfileDataStore'
 import { toggleAlertModal } from '../../../../../store/MainLayoutDataStore/MainLayoutDataStore'
 import { ProfileManager } from '../../../../../managers/profile'
+import { Input } from '../../../../../components/Input'
 import { useSelectorTyped } from '../../../../../utils/hooks'
 import { RootState } from '../../../../../store'
-import { Input } from '../../../../../components/Input'
 
 export const Social: FC = () => {
   const dispatch = useDispatch()
-
+  const { socialInfo } = useSelectorTyped(
+    (state: RootState) => state.ProfileDataStore
+  )
   const [inputValue, setInputValue] = useState({
     about: '',
     facebook: '',
@@ -17,19 +19,35 @@ export const Social: FC = () => {
     linkedIn: '',
   })
 
-  const { isFormFilled } = useSelectorTyped(
-    (state: RootState) => state.ProfileDataStore
-  )
+  const [inputError, setInputError] = useState({
+    about: '',
+    facebook: '',
+    twitter: '',
+    linkedIn: '',
+  })
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue({
       ...inputValue,
       [e.target.name]: e.target.value,
+    })
+    setInputError({
+      about: '',
+      facebook: '',
+      twitter: '',
+      linkedIn: '',
     })
     dispatch(setIsFormFilled(true))
   }
 
   const resetValue = () => {
     setInputValue({
+      about: '',
+      facebook: '',
+      twitter: '',
+      linkedIn: '',
+    })
+    setInputError({
       about: '',
       facebook: '',
       twitter: '',
@@ -43,11 +61,34 @@ export const Social: FC = () => {
     try {
       await ProfileManager.changeSocialInfo(inputValue)
       dispatch(toggleAlertModal(true))
-      resetValue()
-    } catch (error) {
-      throw error
+    } catch (error_: any) {
+      const { errors } = error_.data
+      const newInputErrors = {
+        about: '',
+        facebook: '',
+        twitter: '',
+        linkedIn: '',
+      }
+
+      if (typeof errors !== 'object' && errors.length === 0) return
+      for (const error of errors) {
+        newInputErrors[error.property] = error.messages[0]
+      }
+      setInputError({
+        ...inputError,
+        ...newInputErrors,
+      })
+      throw error_
     }
   }
+
+  const isFormFilled = () => {
+    return !Object.values(inputValue).every((val: string) => val === '')
+  }
+
+  useEffect(() => {
+    setInputValue(socialInfo)
+  }, [socialInfo])
 
   useEffect(() => {
     if (Object.values(inputValue).every((name: string) => name === '')) {
@@ -67,13 +108,15 @@ export const Social: FC = () => {
             value={inputValue.about}
             onChange={handleChange}
             placeholder="Add info here"
+            error={inputError.about}
           />
           <div className="input-label">Facebook</div>
-          <input
+          <Input
             name="facebook"
             value={inputValue.facebook}
             onChange={handleChange}
             placeholder="https://www.facebook.com"
+            error={inputError.facebook}
           />
           <div className="input-label">Twitter</div>
           <Input
@@ -81,6 +124,7 @@ export const Social: FC = () => {
             value={inputValue.twitter}
             onChange={handleChange}
             placeholder="https://www.twitter.com"
+            error={inputError.twitter}
           />
           <div className="input-label">Linked in</div>
           <Input
@@ -88,6 +132,7 @@ export const Social: FC = () => {
             value={inputValue.linkedIn}
             onChange={handleChange}
             placeholder="https://www.linkedin.com"
+            error={inputError.linkedIn}
           />
           <div className="btn-container">
             <button onClick={resetValue} className="btn-cancel">
@@ -95,7 +140,7 @@ export const Social: FC = () => {
             </button>
             <button
               onClick={onSubmit}
-              className={isFormFilled ? 'btn-save' : 'btn-disable'}
+              className={isFormFilled() ? 'btn-save' : 'btn-disable'}
             >
               Save Changes
             </button>

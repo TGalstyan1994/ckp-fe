@@ -116,7 +116,7 @@
         flex-direction: column;
         align-items: flex-end;
         .error-message {
-          color:red;
+          color: red;
         }
         .pin-input {
           width: 100%;
@@ -196,6 +196,8 @@
       }
     }
     .pin-holder {
+      width: 100%;
+      max-width: 972px;
       p {
         font-family: 'SF Pro Display', sans-serif;
         font-style: normal;
@@ -219,7 +221,7 @@
         flex-direction: column;
         align-items: flex-end;
         .pin-input {
-          width: 972px;
+          width: 100%;
           height: 56px;
           background: #fbfbfb;
           box-shadow: 0 0 8px #d8d8d8;
@@ -325,6 +327,7 @@
       }
     }
     .pin-holder {
+      width: 517px;
       p {
         font-family: 'SF Pro Display', sans-serif;
         font-style: normal;

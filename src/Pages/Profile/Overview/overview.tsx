@@ -1,5 +1,9 @@
 import React, { FC, useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { ProfileManager } from '../../../managers/profile'
+import { setSocialInfo } from '../../../store/ProfileDataStore/ProfileDataStore'
+import { useSelectorTyped } from '../../../utils/hooks'
+import { RootState } from '../../../store'
 
 interface IUserAccountInfo {
   username: string
@@ -21,25 +25,43 @@ interface IUserPersonalInfo {
   zipCode: string
 }
 
-interface IUserSocialInfo {
-  about: string
-  facebook: string
-  twitter: string
-  linkedIn: string
+interface ILine {
+  name: string
+  text: string
+  isLink?: boolean
 }
 
 interface IUserData {
   account: IUserAccountInfo | Record<string, string>
   personal: IUserPersonalInfo | Record<string, string>
-  social: IUserSocialInfo | Record<string, string>
 }
 
 export const Overview: FC = () => {
+  const dispatch = useDispatch()
+  const { socialInfo } = useSelectorTyped(
+    (state: RootState) => state.ProfileDataStore
+  )
   const [userInfo, setUserInfo] = useState<IUserData>({
     account: {},
     personal: {},
-    social: {},
   })
+
+  const Line = ({ text, name, isLink }: ILine) => {
+    return (
+      <div className="info">
+        <span>{name}:</span>
+        {isLink ? (
+          <span title={text}>
+            <a target="_blank" href={text} rel="noreferrer">
+              {text}
+            </a>
+          </span>
+        ) : (
+          <span title={text}>{text}</span>
+        )}
+      </div>
+    )
+  }
 
   useEffect(() => {
     ;(async () => {
@@ -48,11 +70,10 @@ export const Overview: FC = () => {
         ProfileManager.getPersonalInfo(),
         ProfileManager.getSocialInfo(),
       ])
-
+      dispatch(setSocialInfo(social))
       setUserInfo({
         account,
         personal,
-        social,
       })
     })()
   }, [])
@@ -64,18 +85,9 @@ export const Overview: FC = () => {
         <hr />
         {userInfo.account && (
           <div className="p-30">
-            <div className="info">
-              <span>Member:</span>
-              <span>{userInfo.account.member}</span>
-            </div>
-            <div className="info">
-              <span>Username:</span>
-              <span>{userInfo.account.username}</span>
-            </div>
-            <div className="info">
-              <span>Sponser name:</span>
-              <span>{userInfo.account.sponser}</span>
-            </div>
+            <Line text={userInfo.account.member} name="Member" />
+            <Line text={userInfo.account.username} name="Username" />
+            <Line text={userInfo.account.sponser} name="Sponser" />
           </div>
         )}
       </div>
@@ -84,76 +96,29 @@ export const Overview: FC = () => {
         <hr />
         {userInfo.personal && (
           <div className="p-30">
-            <div className="info">
-              <span>First Name:</span>
-              <span>{userInfo.personal.firstName}</span>
-            </div>
-            <div className="info">
-              <span>Last Name:</span>
-              <span>{userInfo.personal.lastName}</span>
-            </div>
-            <div className="info">
-              <span>Email:</span>
-              <span>{userInfo.personal.email}</span>
-            </div>
-            <div className="info">
-              <span>Mobile:</span>
-              <span> {userInfo.personal.phone}</span>
-            </div>
-            <div className="info">
-              <span>DOB:</span>
-              <span> {userInfo.personal.dateOfBirth}</span>
-            </div>
-            <div className="info">
-              <span>Gender:</span>
-              <span>{userInfo.personal.gender}</span>
-            </div>
-            <div className="info">
-              <span>Address:</span>
-              <span>{userInfo.personal.address}</span>
-            </div>
-            <div className="info">
-              <span>State:</span>
-              <span>{userInfo.personal.state}</span>
-            </div>
-            <div className="info">
-              <span>Country:</span>
-              <span>{userInfo.personal.country}</span>
-            </div>
-            <div className="info">
-              <span>City:</span>
-              <span>{userInfo.personal.city}</span>
-            </div>
-            <div className="info">
-              <span>Zip Code:</span>
-              <span>{userInfo.personal.zipCode}</span>
-            </div>
+            <Line text={userInfo.personal.firstName} name="First Name" />
+            <Line text={userInfo.personal.lastName} name="Last Name" />
+            <Line text={userInfo.personal.email} name="Email" />
+            <Line text={userInfo.personal.phone} name="Mobile" />
+            <Line text={userInfo.personal.dateOfBirth} name="DOB" />
+            <Line text={userInfo.personal.gender} name="Gender" />
+            <Line text={userInfo.personal.address} name="Address" />
+            <Line text={userInfo.personal.state} name="State" />
+            <Line text={userInfo.personal.country} name="Country" />
+            <Line text={userInfo.personal.city} name="City" />
+            <Line text={userInfo.personal.zipCode} name="Zip Code" />
           </div>
         )}
       </div>
       <div className="card-column">
         <div className="card-title">SOCIAL INFO</div>
         <hr />
-        {userInfo.social && (
-          <div className="p-30">
-            <div className="info">
-              <span>About me:</span>
-              <span>{userInfo.social.about}</span>
-            </div>
-            <div className="info">
-              <span>Facebook:</span>
-              <span>{userInfo.social.facebook}</span>
-            </div>
-            <div className="info">
-              <span>Twitter:</span>
-              <span>{userInfo.social.twitter}</span>
-            </div>
-            <div className="info">
-              <span>Linked In:</span>
-              <span>{userInfo.social.linkedIn}</span>
-            </div>
-          </div>
-        )}
+        <div className="p-30">
+          <Line text={socialInfo.about} name="About me:" />
+          <Line text={socialInfo.facebook} name="Facebook:" isLink />
+          <Line text={socialInfo.twitter} name="Twitter:" isLink />
+          <Line text={socialInfo.linkedIn} name="Linked In:" isLink />
+        </div>
       </div>
     </div>
   )
