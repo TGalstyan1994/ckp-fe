@@ -88,8 +88,7 @@ const ProfilePage = () => {
       const res = await ProfileManager.getAccountUser()
       dispatch(setUserData(res))
       setImgPreview('')
-    } catch (error: any) {
-      dispatch(setErrorMessage(error.data.message))
+    } catch (error) {
       throw error
     }
   }

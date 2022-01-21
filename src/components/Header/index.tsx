@@ -44,21 +44,20 @@ export const Header: FC = () => {
     })()
   }, [])
 
-  function useOutsideToggle(ref: any) {
-    useEffect(() => {
-      function handleClickOutside(event: MouseEvent) {
-        if (ref.current && !ref.current.contains(event.target)) {
-          setIsOpen(false)
-        }
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false)
       }
-      document.addEventListener('mousedown', handleClickOutside)
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside)
-      }
-    }, [ref])
-  }
-
-  useOutsideToggle(wrapperRef)
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [wrapperRef])
   return (
     <div className="header">
       <div className="content">
