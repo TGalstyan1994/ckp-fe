@@ -61,17 +61,14 @@ export const Social: FC = () => {
     try {
       await ProfileManager.changeSocialInfo(inputValue)
       dispatch(toggleAlertModal(true))
-    } catch (error_: any) {
+    } catch (error_: Record<string, unknown>) {
       const { errors } = error_.data
-      const newInputErrors = {
-        about: '',
-        facebook: '',
-        twitter: '',
-        linkedIn: '',
-      }
+      const newInputErrors: Record<string, unknown> = {}
 
       if (typeof errors !== 'object' && errors.length === 0) return
+      // eslint-disable-next-line no-restricted-syntax
       for (const error of errors) {
+        // eslint-disable-next-line prefer-destructuring
         newInputErrors[error.property] = error.messages[0]
       }
       setInputError({

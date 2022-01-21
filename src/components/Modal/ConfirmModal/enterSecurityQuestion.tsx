@@ -65,7 +65,7 @@ export const EnterSecurityQuestion: FC = () => {
               className="pin-input"
               value={answer}
               onChange={handleChange}
-              placeholder="admin"
+              placeholder="Security"
               error={answerError || errorMessage}
             />
             <button

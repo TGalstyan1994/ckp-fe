@@ -48,7 +48,7 @@ export const Default: FC = () => {
       await ProfileManager.changeDefaults(inputValue)
       dispatch(toggleAlertModal(true))
       resetValue()
-    } catch (error: any) {
+    } catch (error) {
       throw error
     }
   }
