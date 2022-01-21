@@ -134,6 +134,9 @@ export const Pin: FC = () => {
             />
             <span className="error-span">{inputError.securityCodeRepeat}</span>
             <div className="btn-container">
+              <button onClick={resetValue} className="btn-cancel">
+                Cancel
+              </button>
               <button
                 onClick={onSave}
                 className={isFormFilled() ? 'btn-save' : 'btn-disable'}
