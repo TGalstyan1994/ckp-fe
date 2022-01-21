@@ -391,7 +391,7 @@
             flex-direction: column;
             max-width: 870px;
             padding: 0 30px;
-            overflow-y: scroll;
+            overflow-y: -moz-hidden-unscrollable;
             margin: 0 auto;
             height: 100%;
             &::-webkit-scrollbar {

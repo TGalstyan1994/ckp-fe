@@ -63,110 +63,109 @@
       overflow: hidden;
       padding: 0;
       margin: 0;
-
+      li{
+        max-height: 35px;
+      }
       .item {
         display: none;
       }
-    }
+      .icon {
+        width: 240px;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        list-style: none;
+        font-family: 'SF Pro Display', sans-serif;
+        font-weight: 600;
+        font-size: 13px;
+        color: #c8c8c8;
+        padding: 0 31px 0 52px;
+        height: 35px;
 
-    .icon {
-      width: 240px;
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      list-style: none;
-      height: 35px;
-      font-family: 'SF Pro Display', sans-serif;
-      font-weight: 600;
-      font-size: 13px;
-      line-height: 15.51px;
-      color: #c8c8c8;
-      padding: 0 31px 0 52px;
+        > span {
+          align-self: center;
+        }
 
-      > span {
-        align-self: center;
-      }
+        .name,
+        .arrow {
+          display: none;
+        }
 
-      .name,
-      .arrow {
-        display: none;
-      }
+        .name {
+          margin-left: 14px;
+        }
 
-      .name {
-        margin-left: 14px;
-      }
+        .arrow {
+          transform: rotate(-90deg);
+          path {
+            fill: $icon-gray;
+          }
+        }
 
-      .arrow {
-        transform: rotate(-90deg);
-        path {
-          fill: $icon-gray;
+        .svgIcon {
+          path {
+            fill: $icon-gray;
+          }
         }
       }
 
-      .svgIcon {
-        path {
-          fill: $icon-gray;
+      .icon:hover {
+        color: #000000;
+        background: #f7f7f7;
+        transition: 0.5s ease;
+
+        .svgIcon {
+          path {
+            fill: $green;
+          }
+        }
+      }
+      .active-icons {
+        width: 240px;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        list-style: none;
+        font-family: 'SF Pro Display', sans-serif;
+        font-weight: 600;
+        font-size: 13px;
+        padding: 0 31px 0 52px;
+
+        > span {
+          align-self: center;
+        }
+        .name,
+        .arrow {
+          display: none;
+        }
+
+        .name {
+          margin-left: 14px;
+        }
+
+        .arrow {
+          transform: rotate(-90deg);
+          path {
+            fill: $icon-gray;
+          }
+        }
+
+        .svgIcon {
+          path {
+            fill: #009345;
+          }
+        }
+      }
+      .active-icons:hover {
+        color: #000000;
+        background: #f7f7f7;
+        .fields {
+          display: $black;
         }
       }
     }
 
-    .icon:hover {
-      color: #000000;
-      background: #f7f7f7;
-      transition: 0.5s ease;
 
-      .svgIcon {
-        path {
-          fill: $green;
-        }
-      }
-    }
-    .active-icons {
-      width: 240px;
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      list-style: none;
-      height: 35px;
-      font-family: 'SF Pro Display', sans-serif;
-      font-weight: 600;
-      font-size: 13px;
-      line-height: 15.51px;
-      padding: 0 31px 0 52px;
-
-      > span {
-        align-self: center;
-      }
-
-      .name,
-      .arrow {
-        display: none;
-      }
-
-      .name {
-        margin-left: 14px;
-      }
-
-      .arrow {
-        transform: rotate(-90deg);
-        path {
-          fill: $icon-gray;
-        }
-      }
-
-      .svgIcon {
-        path {
-          fill: #009345;
-        }
-      }
-    }
-    .active-icons:hover {
-      color: #000000;
-      background: #f7f7f7;
-      .fields {
-        display: $black;
-      }
-    }
     .fields {
       width: 150px;
       height: auto;
@@ -276,7 +275,6 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
     background: #fff;
     border: none;
     width: 240px;
@@ -294,14 +292,15 @@
       transition: inherit;
 
       &-box {
-        height: 70px;
+        height: 86px;
         transition: inherit;
+        overflow: hidden;
       }
     }
-
     &__items {
       max-width: 100%;
     }
+
     .open-side-menu {
       width: 20px;
       height: 70px;
@@ -319,7 +318,7 @@
       span {
         width: 2px;
         height: 54px;
-        background: #33a96a;
+        background: #c8c8c8;
         border-radius: 1px;
         display: block;
         position: absolute;
@@ -336,98 +335,107 @@
       overflow: hidden;
       padding: 0;
       margin: 0;
-
+      li{
+        max-height: 35px;
+      }
       .item {
         display: none;
       }
-    }
+      .icon {
+        width: 240px;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        list-style: none;
+        font-family: 'SF Pro Display', sans-serif;
+        font-weight: 600;
+        font-size: 13px;
+        color: #c8c8c8;
+        padding: 0 31px 0 52px;
+        height: 35px;
+        > span {
+          align-self: center;
+        }
 
-    .icon {
-      width: 240px;
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      list-style: none;
-      height: 35px;
-      font-family: 'SF Pro Display', sans-serif;
-      font-weight: 600;
-      font-size: 13px;
-      line-height: 15.51px;
-      color: #c8c8c8;
-      padding: 0 31px 0 52px;
+        .name,
+        .arrow {
+          display: block;
+        }
 
-      > span {
-        align-self: center;
-      }
+        .name {
+          margin-left: 14px;
+        }
 
-      .name {
-        margin-left: 14px;
-        display: inline;
-      }
+        .arrow {
+          transform: rotate(-90deg);
+          path {
+            fill: $icon-gray;
+          }
+        }
 
-      .arrow {
-        transform: rotate(-90deg);
-        path {
-          fill: $icon-gray;
+        .svgIcon {
+          path {
+            fill: $icon-gray;
+          }
         }
       }
 
-      .svgIcon {
-        path {
-          fill: $icon-gray;
+      .icon:hover {
+        color: #000000;
+        background: #f7f7f7;
+        transition: 0.5s ease;
+
+        .svgIcon {
+          path {
+            fill: $green;
+          }
+        }
+      }
+      .active-icons {
+        width: 240px;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        list-style: none;
+        font-family: 'SF Pro Display', sans-serif;
+        font-weight: 600;
+        font-size: 13px;
+        padding: 0 31px 0 52px;
+        > span {
+          align-self: center;
+        }
+        .name,
+        .arrow {
+          display: block;
+        }
+
+        .name {
+          margin-left: 14px;
+        }
+
+        .arrow {
+          transform: rotate(-90deg);
+          path {
+            fill: $icon-gray;
+          }
+        }
+
+        .svgIcon {
+          path {
+            fill: #009345;
+          }
+        }
+      }
+      .active-icons:hover {
+        color: #000000;
+        background: #f7f7f7;
+        .fields {
+          display: $black;
         }
       }
     }
 
-    .icon:hover {
-      color: #000000;
-      background: #f7f7f7;
-      transition: 0.5s ease;
 
-      .svgIcon {
-        path {
-          fill: $green;
-        }
-      }
-    }
-    .active-icons {
-      width: 240px;
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      list-style: none;
-      height: 35px;
-      font-family: 'SF Pro Display', sans-serif;
-      font-weight: 600;
-      font-size: 13px;
-      line-height: 15.51px;
-      padding: 0 31px 0 52px;
-
-      > span {
-        align-self: center;
-      }
-
-      .name {
-        margin-left: 14px;
-      }
-
-      .arrow {
-        transform: rotate(-90deg);
-        path {
-          fill: $icon-gray;
-        }
-      }
-
-      .svgIcon {
-        path {
-          fill: #009345;
-        }
-      }
-    }
-    .active-icons:hover {
-      color: #000000;
-      background: #f7f7f7;
-    }
     .fields {
       width: 150px;
       height: auto;
@@ -469,7 +477,9 @@
           fill: $icon-gray;
         }
       }
+
       .name {
+        display: block;
         margin-top: -5px;
         font-family: 'SF Pro Display', sans-serif;
         font-weight: 600;
@@ -487,7 +497,7 @@
         }
       }
       .name {
-        color: #009345;
+        color: $black;
       }
     }
     .field:hover {
@@ -497,6 +507,27 @@
     .icon:hover {
       .fields {
         display: block;
+      }
+    }
+    &:hover {
+      width: 240px;
+
+      .logo-box {
+        height: 100%;
+      }
+
+      .icons {
+        padding: 0;
+        
+        .active-icons {
+          .name,
+          .arrow {
+            display: block;
+          }
+        }
+        .hide {
+          display: block;
+        }
       }
     }
   }
