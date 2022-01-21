@@ -31,14 +31,14 @@ export const validate = ({
     errors.oldPassword =
       'Password is not valid. It must include at least 1 uppercase letter, 1 lowercase letter and 1 digit'
   }
-  if (oldPassword.length > 64) {
-    errors.oldPassword = 'The value must not be more than 64 characters long'
-  }
 
   if (oldPassword.length < 8) {
     errors.oldPassword = 'The value must not be less than 8 characters long'
   }
 
+  if (oldPassword.length > 64) {
+    errors.oldPassword = 'The value must not be more than 64 characters long'
+  }
   if (
     is.empty(password) ||
     password.search(lowerCaseRegExp) === -1 ||

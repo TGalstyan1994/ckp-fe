@@ -31,7 +31,7 @@ export const Security: FC = () => {
     setInputError({ ...inputError, [e.target.name]: '' })
     setInputValue({
       ...inputValue,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value.trim(),
     })
   }
 
@@ -133,6 +133,11 @@ export const Security: FC = () => {
             <button
               onClick={onSubmit}
               className={isFormFilled() ? 'btn-save' : 'btn-disable'}
+              disabled={
+                !inputValue.oldPassword ||
+                !inputValue.password ||
+                !inputValue.passwordConfirmation
+              }
             >
               Save Changes
             </button>

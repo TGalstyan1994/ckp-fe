@@ -6,7 +6,11 @@ import classNames from 'classnames'
 import { requireAuthentication } from '../../HOC/requireAuthentication'
 import MainLayout from '../../src/containers/Layouts/MainLayout/MainLayout'
 import ArrowNextIcon from '../../src/assets/images/icons/arrow-next-icon'
-import { changeTab } from '../../src/store/ProfileDataStore/ProfileDataStore'
+import {
+  changeTab,
+  setErrorMessage,
+  changeProfileTab,
+} from '../../src/store/ProfileDataStore/ProfileDataStore'
 import { useSelectorTyped } from '../../src/utils/hooks'
 import { Overview } from '../../src/Pages/Profile/Overview/overview'
 import { Edit } from '../../src/Pages/Profile/Edit/edit'
@@ -41,7 +45,7 @@ const ProfilePage = () => {
     (state: RootState) => state.ProfileDataStore
   )
 
-  const { isFormFilled } = useSelectorTyped(
+  const { isFormFilled, errorMessage } = useSelectorTyped(
     (state: RootState) => state.ProfileDataStore
   )
   const { userData } = useSelectorTyped(
@@ -51,6 +55,7 @@ const ProfilePage = () => {
   const [imgPreview, setImgPreview] = useState<IImgPreview>('')
 
   const confirmChangeTabs = async (page: ITabNames) => {
+    dispatch(changeProfileTab('personal'))
     if (!isFormFilled || activeTab === page) {
       dispatch(changeTab(page))
     } else {
@@ -65,6 +70,7 @@ const ProfilePage = () => {
   }
 
   const handleUploadImage = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setErrorMessage(''))
     if (!e.target.files) return
     const selectedFile = e.target.files[0]
     const FILE_TYPE = ['image/png', 'image/jpeg', 'image/jpg']
@@ -82,7 +88,8 @@ const ProfilePage = () => {
       const res = await ProfileManager.getAccountUser()
       dispatch(setUserData(res))
       setImgPreview('')
-    } catch (error) {
+    } catch (error: any) {
+      dispatch(setErrorMessage(error.data.message))
       throw error
     }
   }
@@ -96,7 +103,6 @@ const ProfilePage = () => {
       throw error
     }
   }
-
   return (
     <div className="container">
       <div className="relative">
@@ -108,7 +114,7 @@ const ProfilePage = () => {
           <div className="profile-card">
             <div className="profile-avatar">
               <div className="avatar-container">
-                {userData.avatar && (
+                {!imgPreview && userData.avatar && (
                   <span
                     className="delete-upload"
                     onClick={onRemove}
@@ -143,6 +149,7 @@ const ProfilePage = () => {
                     accept="image/png, image/jpeg,image/jpg"
                   />
                 </label>
+                <span className="image_upload_error">{errorMessage}</span>
               </div>
               <p className="name">{userData.username}</p>
               <button onClick={onSave} className="btn">

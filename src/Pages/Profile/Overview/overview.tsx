@@ -41,6 +41,25 @@ export const Overview: FC = () => {
     social: {},
   })
 
+  const Line = ({ text, name }) => {
+    return (
+      <div className="info">
+        <span>{name}:</span>
+        {name === 'Facebook:' ||
+        name === 'Twitter:' ||
+        name === 'Linked In:' ? (
+          <span title={text}>
+            <a target="_blanck" href={text} rel="noreferrer">
+              {text}
+            </a>
+          </span>
+          ) : (
+          <span title={text}>{text}</span>
+          )}
+      </div>
+    )
+  }
+
   useEffect(() => {
     ;(async () => {
       const [account, personal, social] = await Promise.all([
@@ -64,18 +83,9 @@ export const Overview: FC = () => {
         <hr />
         {userInfo.account && (
           <div className="p-30">
-            <div className="info">
-              <span>Member:</span>
-              <span>{userInfo.account.member}</span>
-            </div>
-            <div className="info">
-              <span>Username:</span>
-              <span>{userInfo.account.username}</span>
-            </div>
-            <div className="info">
-              <span>Sponser name:</span>
-              <span>{userInfo.account.sponser}</span>
-            </div>
+            <Line text={userInfo.account.member} name="Member" />
+            <Line text={userInfo.account.username} name="Username" />
+            <Line text={userInfo.account.sponser} name="Sponser" />
           </div>
         )}
       </div>
@@ -84,50 +94,17 @@ export const Overview: FC = () => {
         <hr />
         {userInfo.personal && (
           <div className="p-30">
-            <div className="info">
-              <span>First Name:</span>
-              <span>{userInfo.personal.firstName}</span>
-            </div>
-            <div className="info">
-              <span>Last Name:</span>
-              <span>{userInfo.personal.lastName}</span>
-            </div>
-            <div className="info">
-              <span>Email:</span>
-              <span>{userInfo.personal.email}</span>
-            </div>
-            <div className="info">
-              <span>Mobile:</span>
-              <span> {userInfo.personal.phone}</span>
-            </div>
-            <div className="info">
-              <span>DOB:</span>
-              <span> {userInfo.personal.dateOfBirth}</span>
-            </div>
-            <div className="info">
-              <span>Gender:</span>
-              <span>{userInfo.personal.gender}</span>
-            </div>
-            <div className="info">
-              <span>Address:</span>
-              <span>{userInfo.personal.address}</span>
-            </div>
-            <div className="info">
-              <span>State:</span>
-              <span>{userInfo.personal.state}</span>
-            </div>
-            <div className="info">
-              <span>Country:</span>
-              <span>{userInfo.personal.country}</span>
-            </div>
-            <div className="info">
-              <span>City:</span>
-              <span>{userInfo.personal.city}</span>
-            </div>
-            <div className="info">
-              <span>Zip Code:</span>
-              <span>{userInfo.personal.zipCode}</span>
-            </div>
+            <Line text={userInfo.personal.firstName} name="First Name" />
+            <Line text={userInfo.personal.lastName} name="Last Name" />
+            <Line text={userInfo.personal.email} name="Email" />
+            <Line text={userInfo.personal.phone} name="Mobile" />
+            <Line text={userInfo.personal.dateOfBirth} name="DOB" />
+            <Line text={userInfo.personal.gender} name="Gender" />
+            <Line text={userInfo.personal.address} name="Address" />
+            <Line text={userInfo.personal.state} name="State" />
+            <Line text={userInfo.personal.country} name="Country" />
+            <Line text={userInfo.personal.city} name="City" />
+            <Line text={userInfo.personal.zipCode} name="Zip Code" />
           </div>
         )}
       </div>
@@ -136,22 +113,10 @@ export const Overview: FC = () => {
         <hr />
         {userInfo.social && (
           <div className="p-30">
-            <div className="info">
-              <span>About me:</span>
-              <span>{userInfo.social.about}</span>
-            </div>
-            <div className="info">
-              <span>Facebook:</span>
-              <span>{userInfo.social.facebook}</span>
-            </div>
-            <div className="info">
-              <span>Twitter:</span>
-              <span>{userInfo.social.twitter}</span>
-            </div>
-            <div className="info">
-              <span>Linked In:</span>
-              <span>{userInfo.social.linkedIn}</span>
-            </div>
+            <Line text={userInfo.social.about} name="About me:" />
+            <Line text={userInfo.social.facebook} name="Facebook:" />
+            <Line text={userInfo.social.about} name="Twitter:" />
+            <Line text={userInfo.social.linkedIn} name="Linked In:" />
           </div>
         )}
       </div>
