@@ -54,7 +54,7 @@
           justify-content: center;
           align-items: center;
           flex-direction: column;
-          padding: 69px 0;
+          padding: 69px 2rem;
           .avatar-container {
             position: relative;
             .delete-upload {
@@ -136,8 +136,11 @@
             font-style: normal;
             font-weight: bold;
             font-size: 24px;
+            width:100%;
             color: #0e0e0e;
             white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
 
           .btn {
@@ -259,6 +262,20 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            display: inline-block;
+            a{
+              text-decoration: none;
+              color: #0e0e0e;
+              font-family: 'SF Pro Display', sans-serif;
+              font-style: normal;
+              font-weight: 600;
+              font-size: 16px;
+              transition: all 0.3s ease;
+              &:hover{
+                opacity: 0.6;
+              }
+            }
+
             transition: all 0.3s ease;
             a {
               text-decoration: none;

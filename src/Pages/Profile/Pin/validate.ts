@@ -21,28 +21,28 @@ export const validate = ({
   }
 
   if (is.empty(securityCode) || securityCode.search(digitRegExp) === -1) {
-    errors.securityCode = 'Pin is not valid. It must include 6 digit'
+    errors.securityCode = 'Security PIN cant be less then 6 digits'
   }
 
   if (securityCode.length < 6) {
-    errors.securityCode = 'The value must  be 6 characters long'
+    errors.securityCode = 'Security PIN cant be less then 6 digits'
   }
 
   if (is.empty(oldSecurityCode) || oldSecurityCode.search(digitRegExp) === -1) {
-    errors.oldSecurityCode = 'Pin is not valid. It must include 6 digit'
+    errors.oldSecurityCode = 'Existing PIN is not correct'
   }
 
   if (oldSecurityCode.length < 6) {
-    errors.oldSecurityCode = 'The value must  be 6 characters long'
+    errors.oldSecurityCode = 'Existing PIN is not correct'
   }
   if (
     is.empty(securityCodeRepeat) ||
     securityCodeRepeat.search(digitRegExp) === -1
   ) {
-    errors.securityCodeRepeat = 'Pin is not valid. It must include 6 digit'
+    errors.securityCodeRepeat = 'Security PIN cant be less then 6 digits'
   }
   if (securityCodeRepeat !== securityCode || errors.securityCode) {
-    errors.securityCodeRepeat = 'Confirm Pin Mismatch'
+    errors.securityCodeRepeat = 'Confirm Security PIN Mismatch'
   }
 
   return errors
