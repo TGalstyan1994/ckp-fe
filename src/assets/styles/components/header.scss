@@ -164,12 +164,20 @@
     grid-area: 1 / 2;
     position: relative;
     cursor: pointer;
+    max-width: 250px;
+    width: 100%;
+    display: flex;
+    align-items: center;
     span:first-child {
       margin-left: 14px;
       font-family: 'SF Pro Display', sans-serif;
       font-style: normal;
       font-weight: 600;
       font-size: 13px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: inline-block;
     }
     span:nth-child(2) {
       margin-left: 14px;

@@ -164,7 +164,7 @@
       color: #000000;
       background: #f7f7f7;
       .fields {
-        display: block;
+        display: $black;
       }
     }
     .fields {
@@ -228,7 +228,7 @@
         }
       }
       .name {
-        color: #009345;
+        color: $black;
       }
     }
     .field:hover {
