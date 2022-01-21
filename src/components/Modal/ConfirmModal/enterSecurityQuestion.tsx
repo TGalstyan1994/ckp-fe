@@ -10,7 +10,7 @@ import { enterSecurityQuestionValidation } from './enterSecurityQuestionValidati
 import { Input } from '../../Input'
 
 const questions: Record<string, string> = {
-  FIRST_PET_NAME: 'Enter the name of your first pet*',
+  FIRST_PET_NAME: 'Enter the name of your first pet',
 }
 
 export const EnterSecurityQuestion: FC = () => {

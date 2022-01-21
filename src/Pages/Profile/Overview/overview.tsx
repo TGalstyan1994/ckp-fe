@@ -1,5 +1,9 @@
 import React, { FC, useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { ProfileManager } from '../../../managers/profile'
+import { setSocialInfo } from '../../../store/ProfileDataStore/ProfileDataStore'
+import { useSelectorTyped } from '../../../utils/hooks'
+import { RootState } from '../../../store'
 
 interface IUserAccountInfo {
   username: string
@@ -21,41 +25,40 @@ interface IUserPersonalInfo {
   zipCode: string
 }
 
-interface IUserSocialInfo {
-  about: string
-  facebook: string
-  twitter: string
-  linkedIn: string
+interface ILine {
+  name: string
+  text: string
+  isLink?: boolean
 }
 
 interface IUserData {
   account: IUserAccountInfo | Record<string, string>
   personal: IUserPersonalInfo | Record<string, string>
-  social: IUserSocialInfo | Record<string, string>
 }
 
 export const Overview: FC = () => {
+  const dispatch = useDispatch()
+  const { socialInfo } = useSelectorTyped(
+    (state: RootState) => state.ProfileDataStore
+  )
   const [userInfo, setUserInfo] = useState<IUserData>({
     account: {},
     personal: {},
-    social: {},
   })
 
-  const Line = ({ text, name }) => {
+  const Line = ({ text, name, isLink }: ILine) => {
     return (
       <div className="info">
         <span>{name}:</span>
-        {name === 'Facebook:' ||
-        name === 'Twitter:' ||
-        name === 'Linked In:' ? (
+        {isLink ? (
           <span title={text}>
-            <a target="_blanck" href={text} rel="noreferrer">
+            <a target="_blank" href={text} rel="noreferrer">
               {text}
             </a>
           </span>
-          ) : (
+        ) : (
           <span title={text}>{text}</span>
-          )}
+        )}
       </div>
     )
   }
@@ -67,11 +70,10 @@ export const Overview: FC = () => {
         ProfileManager.getPersonalInfo(),
         ProfileManager.getSocialInfo(),
       ])
-
+      dispatch(setSocialInfo(social))
       setUserInfo({
         account,
         personal,
-        social,
       })
     })()
   }, [])
@@ -111,14 +113,12 @@ export const Overview: FC = () => {
       <div className="card-column">
         <div className="card-title">SOCIAL INFO</div>
         <hr />
-        {userInfo.social && (
-          <div className="p-30">
-            <Line text={userInfo.social.about} name="About me:" />
-            <Line text={userInfo.social.facebook} name="Facebook:" />
-            <Line text={userInfo.social.about} name="Twitter:" />
-            <Line text={userInfo.social.linkedIn} name="Linked In:" />
-          </div>
-        )}
+        <div className="p-30">
+          <Line text={socialInfo.about} name="About me:" />
+          <Line text={socialInfo.facebook} name="Facebook:" isLink />
+          <Line text={socialInfo.twitter} name="Twitter:" isLink />
+          <Line text={socialInfo.linkedIn} name="Linked In:" isLink />
+        </div>
       </div>
     </div>
   )

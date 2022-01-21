@@ -4,10 +4,14 @@ import { setIsFormFilled } from '../../../../../store/ProfileDataStore/ProfileDa
 import { toggleAlertModal } from '../../../../../store/MainLayoutDataStore/MainLayoutDataStore'
 import { ProfileManager } from '../../../../../managers/profile'
 import { Input } from '../../../../../components/Input'
+import { useSelectorTyped } from '../../../../../utils/hooks'
+import { RootState } from '../../../../../store'
 
 export const Social: FC = () => {
   const dispatch = useDispatch()
-
+  const { socialInfo } = useSelectorTyped(
+    (state: RootState) => state.ProfileDataStore
+  )
   const [inputValue, setInputValue] = useState({
     about: '',
     facebook: '',
@@ -57,7 +61,6 @@ export const Social: FC = () => {
     try {
       await ProfileManager.changeSocialInfo(inputValue)
       dispatch(toggleAlertModal(true))
-      resetValue()
     } catch (error_: any) {
       const { errors } = error_.data
       const newInputErrors = {
@@ -82,6 +85,10 @@ export const Social: FC = () => {
   const isFormFilled = () => {
     return !Object.values(inputValue).every((val: string) => val === '')
   }
+
+  useEffect(() => {
+    setInputValue(socialInfo)
+  }, [socialInfo])
 
   useEffect(() => {
     if (Object.values(inputValue).every((name: string) => name === '')) {

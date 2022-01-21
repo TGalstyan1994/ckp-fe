@@ -5,6 +5,12 @@ interface IProfileDataStore {
   activeProfileTab: 'personal' | 'security' | 'social'
   isFormFilled: boolean
   errorMessage: string
+  socialInfo: {
+    about: string
+    facebook: string
+    twitter: string
+    linkedIn: string
+  }
 }
 
 const initialState: IProfileDataStore = {
@@ -12,6 +18,12 @@ const initialState: IProfileDataStore = {
   activeProfileTab: 'personal',
   isFormFilled: false,
   errorMessage: '',
+  socialInfo: {
+    about: '',
+    facebook: '',
+    twitter: '',
+    linkedIn: '',
+  },
 }
 
 const ProfileDataStore = createSlice({
@@ -30,10 +42,18 @@ const ProfileDataStore = createSlice({
     setErrorMessage(state, action) {
       state.errorMessage = action.payload
     },
+    setSocialInfo(state, action) {
+      state.socialInfo = action.payload
+    },
   },
 })
 
-export const { changeTab, changeProfileTab, setIsFormFilled, setErrorMessage } =
-  ProfileDataStore.actions
+export const {
+  changeTab,
+  changeProfileTab,
+  setIsFormFilled,
+  setErrorMessage,
+  setSocialInfo,
+} = ProfileDataStore.actions
 
 export default ProfileDataStore.reducer
