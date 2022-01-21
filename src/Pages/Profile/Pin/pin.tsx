@@ -137,6 +137,11 @@ export const Pin: FC = () => {
               <button
                 onClick={onSave}
                 className={isFormFilled() ? 'btn-save' : 'btn-disable'}
+                disabled={
+                  !inputValue.securityCodeRepeat ||
+                  !inputValue.securityCode ||
+                  !inputValue.oldSecurityCode
+                }
               >
                 Submit
               </button>
