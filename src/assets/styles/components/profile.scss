@@ -127,6 +127,13 @@
               position: absolute;
               transform: translate(-50%, 20%);
             }
+            .avatar_error{
+              position: absolute;
+              font-size: 10px;
+              color: #FE3333;
+              bottom: -15px;
+              transform: translate(-50%, 0);
+            }
           }
 
           .name {
@@ -223,7 +230,11 @@
         background: #fefefe;
         box-shadow: 0 0 8px #dedede;
         border-radius: 5px;
-
+          hr{
+            border: none;
+            height: 1px;
+            background-color: #c8c8c8;
+          }
         .card-title {
           font-family: 'SF Pro Display', sans-serif;
           font-style: normal;
@@ -301,7 +312,9 @@
       flex-direction: column;
       overflow: hidden;
       hr {
-        border: 1px solid #c8c8c8;
+        border: none;
+        height: 1px;
+        background-color: #C8C8C8;
       }
       .sec-title {
         padding: 25px 32px;

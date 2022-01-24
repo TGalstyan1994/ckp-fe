@@ -17,6 +17,7 @@ import {
   closeModal,
   setShowModal,
   setUserData,
+  setAvatarError,
 } from '../../src/store/MainLayoutDataStore/MainLayoutDataStore'
 import TrashIcon from '../../src/assets/images/icons/trash-icon'
 import { ProfileManager } from '../../src/managers/profile'
@@ -44,7 +45,7 @@ const ProfilePage = () => {
   const { isFormFilled } = useSelectorTyped(
     (state: RootState) => state.ProfileDataStore
   )
-  const { userData } = useSelectorTyped(
+  const { userData, avatarError } = useSelectorTyped(
     (state: RootState) => state.MainLayoutDataStore
   )
   const dispatch = useDispatch()
@@ -65,6 +66,7 @@ const ProfilePage = () => {
   }
 
   const handleUploadImage = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setAvatarError(''))
     if (!e.target.files) return
     const selectedFile = e.target.files[0]
     const FILE_TYPE = ['image/png', 'image/jpeg', 'image/jpg']
@@ -82,12 +84,14 @@ const ProfilePage = () => {
       const res = await ProfileManager.getAccountUser()
       dispatch(setUserData(res))
       setImgPreview('')
-    } catch (error) {
+    } catch (error: any) {
+      dispatch(setAvatarError(error.data.message))
       throw error
     }
   }
 
   const onRemove = async () => {
+    dispatch(setAvatarError(''))
     if (imgPreview) {
       setImgPreview('')
       return
@@ -147,6 +151,7 @@ const ProfilePage = () => {
                     accept="image/png, image/jpeg,image/jpg"
                   />
                 </label>
+                <span className="avatar_error">{avatarError}</span>
               </div>
               <p className="name">{userData.username}</p>
               <button onClick={onSave} className="btn">
