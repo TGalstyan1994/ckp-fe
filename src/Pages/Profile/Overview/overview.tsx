@@ -87,7 +87,7 @@ export const Overview: FC = () => {
           <div className="p-30">
             <Line text={userInfo.account.member} name="Member" />
             <Line text={userInfo.account.username} name="Username" />
-            <Line text={userInfo.account.sponsor} name="Sponsor" />
+            <Line text={userInfo.account.sponsor} name="Sponsor name" />
           </div>
         )}
       </div>
