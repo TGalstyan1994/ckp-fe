@@ -20,7 +20,9 @@ export const Header: FC = () => {
   const { userData, defaults } = useSelectorTyped(
     (state: RootState) => state.MainLayoutDataStore
   )
-
+  const { personalInfo } = useSelectorTyped(
+    (state: RootState) => state.ProfileDataStore
+  )
   const [isOpen, setIsOpen] = useState(false)
 
   const toggleOpen = () => {
@@ -81,7 +83,10 @@ export const Header: FC = () => {
                 />
               </figure>
             ) : (
-              <figure className="figure">JD</figure>
+              <figure className="figure">
+                {personalInfo.firstName?.slice(0, 1).toUpperCase()}
+                {personalInfo.lastName?.slice(0, 1).toUpperCase()}
+              </figure>
             )}
           </div>
           <div className="profile-name" onClick={toggleOpen} aria-hidden>

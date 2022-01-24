@@ -25,6 +25,7 @@ type ITabNames = 'overview' | 'edit' | 'pin' | 'default'
 
 interface IActiveTab {
   activeTab: ITabNames
+  personalInfo: Record<string, string>
 }
 
 type IImgPreview = File | ''
@@ -37,7 +38,7 @@ const tabs = {
 }
 
 const ProfilePage = () => {
-  const { activeTab }: IActiveTab = useSelectorTyped(
+  const { activeTab, personalInfo }: IActiveTab = useSelectorTyped(
     (state: RootState) => state.ProfileDataStore
   )
 
@@ -135,7 +136,10 @@ const ProfilePage = () => {
                       alt="avatar"
                     />
                   ) : (
-                    <p>JD</p>
+                    <p>
+                      {personalInfo.firstName?.slice(0, 1).toUpperCase()}
+                      {personalInfo.lastName?.slice(0, 1).toUpperCase()}
+                    </p>
                   )}
                 </div>
                 <label htmlFor="file-input" className="image_upload">
