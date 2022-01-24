@@ -1,29 +1,13 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { ProfileManager } from '../../../managers/profile'
-import { setSocialInfo } from '../../../store/ProfileDataStore/ProfileDataStore'
+import {
+  setAccountInfo,
+  setPersonalInfo,
+  setSocialInfo,
+} from '../../../store/ProfileDataStore/ProfileDataStore'
 import { useSelectorTyped } from '../../../utils/hooks'
 import { RootState } from '../../../store'
-
-interface IUserAccountInfo {
-  username: string
-  sponsor: string
-  member: string
-}
-
-interface IUserPersonalInfo {
-  firstName: string
-  lastName: string
-  email: string
-  dateOfBirth: string
-  gender: string
-  phone: string
-  address: string
-  city: string
-  state: string
-  country: string
-  zipCode: string
-}
 
 interface ILine {
   name: string
@@ -31,20 +15,11 @@ interface ILine {
   isLink?: boolean
 }
 
-interface IUserData {
-  account: IUserAccountInfo | Record<string, string>
-  personal: IUserPersonalInfo | Record<string, string>
-}
-
 export const Overview: FC = () => {
   const dispatch = useDispatch()
-  const { socialInfo } = useSelectorTyped(
+  const { socialInfo, personalInfo, accountInfo } = useSelectorTyped(
     (state: RootState) => state.ProfileDataStore
   )
-  const [userInfo, setUserInfo] = useState<IUserData>({
-    account: {},
-    personal: {},
-  })
 
   const Line = ({ text, name, isLink }: ILine) => {
     return (
@@ -71,10 +46,8 @@ export const Overview: FC = () => {
         ProfileManager.getSocialInfo(),
       ])
       dispatch(setSocialInfo(social))
-      setUserInfo({
-        account,
-        personal,
-      })
+      dispatch(setPersonalInfo(personal))
+      dispatch(setAccountInfo(account))
     })()
   }, [])
 
@@ -83,30 +56,30 @@ export const Overview: FC = () => {
       <div className="card-column">
         <div className="card-title">ACCOUNT INFO</div>
         <hr />
-        {userInfo.account && (
+        {accountInfo && (
           <div className="p-30">
-            <Line text={userInfo.account.member} name="Member" />
-            <Line text={userInfo.account.username} name="Username" />
-            <Line text={userInfo.account.sponsor} name="Sponsor name" />
+            <Line text={accountInfo.member} name="Member" />
+            <Line text={accountInfo.username} name="Username" />
+            <Line text={accountInfo.sponsor} name="Sponsor name" />
           </div>
         )}
       </div>
       <div className="card-column">
         <div className="card-title">PERSONAL INFO</div>
         <hr />
-        {userInfo.personal && (
+        {personalInfo && (
           <div className="p-30">
-            <Line text={userInfo.personal.firstName} name="First Name" />
-            <Line text={userInfo.personal.lastName} name="Last Name" />
-            <Line text={userInfo.personal.email} name="Email" />
-            <Line text={userInfo.personal.phone} name="Mobile" />
-            <Line text={userInfo.personal.dateOfBirth} name="DOB" />
-            <Line text={userInfo.personal.gender} name="Gender" />
-            <Line text={userInfo.personal.address} name="Address" />
-            <Line text={userInfo.personal.state} name="State" />
-            <Line text={userInfo.personal.country} name="Country" />
-            <Line text={userInfo.personal.city} name="City" />
-            <Line text={userInfo.personal.zipCode} name="Zip Code" />
+            <Line text={personalInfo.firstName} name="First Name" />
+            <Line text={personalInfo.lastName} name="Last Name" />
+            <Line text={personalInfo.email} name="Email" />
+            <Line text={personalInfo.phone} name="Mobile" />
+            <Line text={personalInfo.dateOfBirth} name="DOB" />
+            <Line text={personalInfo.gender} name="Gender" />
+            <Line text={personalInfo.address} name="Address" />
+            <Line text={personalInfo.state} name="State" />
+            <Line text={personalInfo.country} name="Country" />
+            <Line text={personalInfo.city} name="City" />
+            <Line text={personalInfo.zipCode} name="Zip Code" />
           </div>
         )}
       </div>
