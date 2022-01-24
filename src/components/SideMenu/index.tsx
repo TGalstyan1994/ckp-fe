@@ -141,7 +141,7 @@ export const SideMenu: FC = () => {
                       <ul className={item.children?.length ? 'fields' : ''}>
                         {item.children.map((child) => (
                           <li className="field" key={child.field}>
-                            {child.field}
+                            <span>{child.field}</span>
                           </li>
                         ))}
                       </ul>
