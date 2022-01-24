@@ -123,38 +123,34 @@ export const SideMenu: FC = () => {
           </div>
         </div>
         <div className="side-menu__items">
-          <ul className="icons">
+          <div className="icons">
             {menuItems.map((item: IMenuItem) => (
-              <li key={item.name}>
-                <LinkText href={item.pathname} key={item.pathname}>
-                  <div
-                    className={
-                      router.pathname === item.pathname
-                        ? 'active-icons'
-                        : 'icon'
-                    }
-                  >
-                    <span className="svgIcon">{item.svg}</span>
-                    <span className="name">{item.name}</span>
-                    <span className="arrow">
-                      {item.children && <ArrowOpenIcon />}
-                    </span>
-                    {item.children && (
-                      <>
-                        <ul className={item.children?.length ? 'fields' : ''}>
-                          {item.children.map((child) => (
-                            <li className="field" key={child.field}>
-                              {child.field}
-                            </li>
-                          ))}
-                        </ul>
-                      </>
-                    )}
-                  </div>
-                </LinkText>
-              </li>
+              <LinkText href={item.pathname} key={item.pathname}>
+                <div
+                  className={
+                    router.pathname === item.pathname ? 'active-icons' : 'icon'
+                  }
+                >
+                  <span className="svgIcon">{item.svg}</span>
+                  <span className="name">{item.name}</span>
+                  <span className="arrow">
+                    {item.children && <ArrowOpenIcon />}
+                  </span>
+                  {item.children && (
+                    <>
+                      <ul className={item.children?.length ? 'fields' : ''}>
+                        {item.children.map((child) => (
+                          <li className="field" key={child.field}>
+                            {child.field}
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                </div>
+              </LinkText>
             ))}
-          </ul>
+          </div>
           <div onClick={toggleSideBar} aria-hidden className="open-side-menu">
             <span />
           </div>
