@@ -85,38 +85,33 @@
         > span {
           align-self: center;
         }
-
         .name,
         .arrow {
           display: none;
         }
-
         .name {
           margin-left: 14px;
         }
-
         .arrow {
           transform: rotate(-90deg);
           path {
             fill: $icon-gray;
           }
         }
-
         .svgIcon {
           path {
             fill: $icon-gray;
           }
         }
-      }
+        &:hover{
+          color: #000000;
+          background: #f7f7f7;
+          transition: 0.5s ease;
 
-      .icon:hover {
-        color: #000000;
-        background: #f7f7f7;
-        transition: 0.5s ease;
-
-        .svgIcon {
-          path {
-            fill: $green;
+          .svgIcon {
+            path {
+              fill: $green;
+            }
           }
         }
       }
@@ -131,6 +126,7 @@
         font-size: 13px;
         padding: 0 31px 0 52px;
         height: 35px;
+
         > span {
           align-self: center;
         }
@@ -160,7 +156,7 @@
         color: #000000;
         background: #f7f7f7;
         .fields {
-          display: $black;
+          display: block;
         }
       }
     }
@@ -170,13 +166,13 @@
       height: auto;
       position: absolute;
       right: -76%;
-      margin-top: -1.6rem;
+      margin-top: -1.9rem;
       transform: translateX(-31px);
       background: #ffffff;
       box-shadow: 0 0 8px #dedede;
       display: none;
-      padding: 30px;
       z-index: 1;
+      padding: 30px 0;
     }
 
     .field {
@@ -186,8 +182,16 @@
       font-size: 13px;
       color: #c8c8c8;
       transition: 0.5s ease;
-      padding: 5px 0;
+      padding: 10px 0;
       white-space: nowrap;
+      &:hover {
+        color: #000000;
+        background: #f7f7f7;
+        transition: 0.5s ease;
+      }
+      span{
+        padding:0 30px;
+      }
     }
     .logout {
       display: flex;
@@ -259,6 +263,9 @@
           }
         }
         .active-icons {
+          color: #000000;
+          background: #f7f7f7;
+          transition: 0.5s ease;
           .name,
           .arrow {
             display: block;
@@ -404,6 +411,8 @@
         font-size: 13px;
         padding: 0 31px 0 52px;
         height: 35px;
+        color: #000000;
+        background: #f7f7f7;
         > span {
           align-self: center;
         }
@@ -433,7 +442,7 @@
         color: #000000;
         background: #f7f7f7;
         .fields {
-          display: $black;
+          display: block;
         }
       }
     }
@@ -443,13 +452,13 @@
       height: auto;
       position: absolute;
       right: -76%;
-      margin-top: -1.6rem;
+      margin-top: -1.9rem;
       transform: translateX(-31px);
       background: #ffffff;
       box-shadow: 0 0 8px #dedede;
       display: none;
-      padding: 30px;
       z-index: 1;
+      padding: 30px 0;
     }
 
     .field {
@@ -459,9 +468,18 @@
       font-size: 13px;
       color: #c8c8c8;
       transition: 0.5s ease;
-      padding: 5px 0;
+      padding: 10px 0;
       white-space: nowrap;
+      &:hover {
+        color: #000000;
+        background: #f7f7f7;
+        transition: 0.5s ease;
+      }
+      span{
+        padding:0 30px;
+      }
     }
+
     .logout {
       display: flex;
       align-items: center;
