@@ -44,7 +44,7 @@ export const EnterSecurityQuestion: FC = () => {
     resolve()
     dispatch(closeQuestionModal())
   }
-  console.log(errorMessage)
+
   return (
     <div className="modal-container">
       <div className="security-question__modal">
@@ -52,6 +52,7 @@ export const EnterSecurityQuestion: FC = () => {
           className="closeModal"
           onClick={() => {
             dispatch(closeQuestionModal())
+            dispatch(setErrorMessage(''))
           }}
           aria-hidden
         >
@@ -65,7 +66,7 @@ export const EnterSecurityQuestion: FC = () => {
               className="pin-input"
               value={answer}
               onChange={handleChange}
-              placeholder="Security"
+              placeholder="Security response"
               error={answerError || errorMessage}
             />
             <button

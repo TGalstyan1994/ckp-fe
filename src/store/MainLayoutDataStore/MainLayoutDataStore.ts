@@ -9,9 +9,6 @@ interface IMainLayoutDataStore {
   showQuestionModal: boolean
   modalType: string
   userData: Record<string, unknown>
-  errorMessage?: {
-    message: string
-  }
 }
 
 const initialState: IMainLayoutDataStore = {
