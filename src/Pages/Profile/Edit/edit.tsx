@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import classNames from 'classnames'
 import { useSelectorTyped } from '../../../utils/hooks'
@@ -48,6 +48,12 @@ export const Edit: FC = () => {
       }
     }
   }
+
+  useEffect(() => {
+    return () => {
+      dispatch(changeProfileTab('personal'))
+    }
+  }, [])
 
   return (
     <div className="edit-container">
