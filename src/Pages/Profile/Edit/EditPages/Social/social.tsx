@@ -12,7 +12,7 @@ export const Social: FC = () => {
   const { socialInfo } = useSelectorTyped(
     (state: RootState) => state.ProfileDataStore
   )
-  const [inputValue, setInputValue] = useState({
+  const [inputValue, setInputValue] = useState<Record<string, string>>({
     about: '',
     facebook: '',
     twitter: '',
@@ -32,10 +32,8 @@ export const Social: FC = () => {
       [e.target.name]: e.target.value,
     })
     setInputError({
-      about: '',
-      facebook: '',
-      twitter: '',
-      linkedIn: '',
+      ...inputError,
+      [e.target.name]: '',
     })
     dispatch(setIsFormFilled(true))
   }
@@ -57,7 +55,6 @@ export const Social: FC = () => {
   }
 
   const onSubmit = async () => {
-    if (Object.values(inputValue).every((name: string) => name === '')) return
     try {
       await ProfileManager.changeSocialInfo(inputValue)
       dispatch(toggleAlertModal(true))
@@ -80,7 +77,10 @@ export const Social: FC = () => {
   }
 
   const isFormFilled = () => {
-    return !Object.values(inputValue).every((val: string) => val === '')
+    return !Object.keys(inputValue).every((key: string) => {
+      console.log(inputValue[key] === socialInfo[key], key)
+      return inputValue[key] === socialInfo[key] || inputValue[key] === ''
+    })
   }
 
   useEffect(() => {
@@ -88,11 +88,7 @@ export const Social: FC = () => {
   }, [socialInfo])
 
   useEffect(() => {
-    if (Object.values(inputValue).every((name: string) => name === '')) {
-      dispatch(setIsFormFilled(false))
-    } else {
-      dispatch(setIsFormFilled(true))
-    }
+    dispatch(setIsFormFilled(isFormFilled()))
   }, [inputValue])
 
   return (
@@ -135,10 +131,7 @@ export const Social: FC = () => {
             <button onClick={resetValue} className="btn-cancel">
               Cancel
             </button>
-            <button
-              onClick={onSubmit}
-              className={isFormFilled() ? 'btn-save' : 'btn-disable'}
-            >
+            <button onClick={onSubmit} className="btn-save">
               Save Changes
             </button>
           </div>
