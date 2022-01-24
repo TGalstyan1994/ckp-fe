@@ -9,7 +9,6 @@ import { ProfileManager } from '../../../../../managers/profile'
 import { Input } from '../../../../../components/Input'
 import { useSelectorTyped } from '../../../../../utils/hooks'
 import { RootState } from '../../../../../store'
-import { validate } from './validate'
 
 export const Social: FC = () => {
   const dispatch = useDispatch()

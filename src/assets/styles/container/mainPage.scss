@@ -1,17 +1,15 @@
 .main-wrapper {
   display: grid;
   width: 100%;
-  max-height: 100vh;
-  height: 100vh;
+  height: 100%;
+  max-height: 100%;
   grid-template-areas:
     'side-menu head'
     'side-menu container'
     'side-menu footer-holder';
-
   grid-template-rows: auto 1fr auto;
   grid-template-columns: auto 1fr;
   background: #fbfbfb;
-  overflow: hidden;
 
   .side-menu {
     grid-area: side-menu;

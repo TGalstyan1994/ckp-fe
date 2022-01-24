@@ -8,23 +8,18 @@ import { logOut } from '../../store/reducers/signin'
 import { ProfileManager } from '../../managers/profile'
 import { useSelectorTyped } from '../../utils/hooks'
 import { RootState } from '../../store'
-import { setUserData } from '../../store/MainLayoutDataStore/MainLayoutDataStore'
+import {
+  setDefaults,
+  setUserData,
+} from '../../store/MainLayoutDataStore/MainLayoutDataStore'
 
-interface IAccountData {
-  currency: string
-  language: string
-}
 export const Header: FC = () => {
   const dispatch = useDispatch()
   // const wrapperRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const wrapperRef = useRef<HTMLDivElement>(null)
-  const { userData } = useSelectorTyped(
+  const { userData, defaults } = useSelectorTyped(
     (state: RootState) => state.MainLayoutDataStore
   )
-  const [accountData, setAccountData] = useState<IAccountData>({
-    currency: '',
-    language: '',
-  })
 
   const [isOpen, setIsOpen] = useState(false)
 
@@ -37,9 +32,11 @@ export const Header: FC = () => {
   }
   useEffect(() => {
     ;(async () => {
-      const res = await ProfileManager.getDefaults()
-      setAccountData({ ...res })
-      const userInfo = await ProfileManager.getAccountUser()
+      const [getDefaults, userInfo] = await Promise.all([
+        ProfileManager.getDefaults(),
+        ProfileManager.getAccountUser(),
+      ])
+      dispatch(setDefaults(getDefaults))
       dispatch(setUserData(userInfo))
     })()
   }, [])
@@ -62,13 +59,13 @@ export const Header: FC = () => {
     <div className="header">
       <div className="content">
         <div className="currency">
-          <span>{accountData.currency}</span>
+          <span>{defaults.currency}</span>
         </div>
         <div className="language">
           <span className="country-icon">
             <img src={united} alt="states" />
           </span>
-          <span>{accountData.language}</span>
+          <span>{defaults.language}</span>
         </div>
         <div className="bell">
           <BellIcon />
