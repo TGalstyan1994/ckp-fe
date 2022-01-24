@@ -6,6 +6,7 @@ import { ProfileManager } from '../../../../../managers/profile'
 import { Input } from '../../../../../components/Input'
 import { useSelectorTyped } from '../../../../../utils/hooks'
 import { RootState } from '../../../../../store'
+import { validate } from './validate'
 
 export const Social: FC = () => {
   const dispatch = useDispatch()
@@ -58,6 +59,10 @@ export const Social: FC = () => {
 
   const onSubmit = async () => {
     if (Object.values(inputValue).every((name: string) => name === '')) return
+    const validateForm = validate(inputValue)
+    setInputError({ ...validateForm })
+    if (!Object.values(validateForm).every((name: string) => name === ''))
+      return
     try {
       await ProfileManager.changeSocialInfo(inputValue)
       dispatch(toggleAlertModal(true))
