@@ -44,7 +44,6 @@ export const EnterSecurityQuestion: FC = () => {
     resolve()
     dispatch(closeQuestionModal())
   }
-  console.log(errorMessage)
   return (
     <div className="modal-container">
       <div className="security-question__modal">
@@ -71,6 +70,7 @@ export const EnterSecurityQuestion: FC = () => {
             <button
               className={answer ? 'pin-btn' : 'pin-btn_disabled'}
               onClick={onSave}
+              disabled={!answer}
             >
               Continue{' '}
               <span>
