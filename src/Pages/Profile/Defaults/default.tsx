@@ -8,12 +8,12 @@ import { Input } from '../../../components/Input'
 
 export const Default: FC = () => {
   const [inputValue, setInputValue] = useState({
-    currency: '',
     language: '',
+    currency: '',
   })
   const [inputError, setInputError] = useState({
-    currency: '',
     language: '',
+    currency: '',
   })
   const dispatch = useDispatch()
 
@@ -23,20 +23,20 @@ export const Default: FC = () => {
       [e.target.name]: e.target.value,
     })
     setInputError({
-      currency: '',
       language: '',
+      currency: '',
     })
     dispatch(setIsFormFilled(true))
   }
 
   const resetValue = () => {
     setInputValue({
-      currency: '',
       language: '',
+      currency: '',
     })
     setInputError({
-      currency: '',
       language: '',
+      currency: '',
     })
     dispatch(setIsFormFilled(false))
   }
@@ -45,7 +45,11 @@ export const Default: FC = () => {
     if (Object.values(inputValue).every((name: string) => name === '')) return
 
     try {
-      await ProfileManager.changeDefaults(inputValue)
+      await ProfileManager.changeDefaults({
+        ...inputValue,
+        language: inputValue.language.toLocaleUpperCase(),
+        currency: inputValue.currency.toLocaleUpperCase(),
+      })
       dispatch(toggleAlertModal(true))
       resetValue()
     } catch (error) {
@@ -76,7 +80,7 @@ export const Default: FC = () => {
             <Input
               type="text"
               name="language"
-              value={inputValue.language.toLocaleUpperCase()}
+              value={inputValue.language}
               onChange={handleChange}
               placeholder="Select"
               error={inputError.language}
@@ -86,7 +90,7 @@ export const Default: FC = () => {
             <Input
               type="text"
               name="currency"
-              value={inputValue.currency.toLocaleUpperCase()}
+              value={inputValue.currency}
               onChange={handleChange}
               placeholder="Select"
               error={inputError.currency}

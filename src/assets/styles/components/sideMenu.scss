@@ -55,6 +55,7 @@
         transform: translateY(-50%);
         transition: 0.5s;
       }
+
     }
     .icons {
       width: auto;
@@ -317,7 +318,7 @@
       span {
         width: 2px;
         height: 54px;
-        background: #c8c8c8;
+        background:  #33a96a;
         border-radius: 1px;
         display: block;
         position: absolute;
@@ -325,6 +326,9 @@
         right: 5px;
         transform: translateY(-50%);
         transition: 0.5s;
+      }
+      .actived {
+        background: #33a96a;
       }
     }
     .icons {
