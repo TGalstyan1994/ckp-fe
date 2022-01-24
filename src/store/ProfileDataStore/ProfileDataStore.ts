@@ -6,10 +6,10 @@ interface IProfileDataStore {
   isFormFilled: boolean
   errorMessage: string
   socialInfo: {
-    about: string
-    facebook: string
-    twitter: string
-    linkedIn: string
+    about?: string
+    facebook?: string
+    twitter?: string
+    linkedIn?: string
   }
 }
 

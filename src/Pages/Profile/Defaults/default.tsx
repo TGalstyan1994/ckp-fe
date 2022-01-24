@@ -1,42 +1,49 @@
-import React, { ChangeEvent, FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { toggleAlertModal } from '../../../store/MainLayoutDataStore/MainLayoutDataStore'
 import { ProfileManager } from '../../../managers/profile'
 import { setIsFormFilled } from '../../../store/ProfileDataStore/ProfileDataStore'
+import { Select } from '../../../components/Select'
+import { useSelectorTyped } from '../../../utils/hooks'
+import { RootState } from '../../../store'
 
-import { Input } from '../../../components/Input'
+const defaultLanguageOption = {
+  ENGLISH: 'ENGLISH',
+  SPANISH: 'SPANISH',
+} as { [key: string]: string }
+
+const defaultCurrencyOption = {
+  USD: 'USD',
+} as { [key: string]: string }
 
 export const Default: FC = () => {
-  const [inputValue, setInputValue] = useState({
-    currency: '',
+  const [inputValue, setInputValue] = useState<Record<string, string>>({
     language: '',
+    currency: '',
   })
   const [inputError, setInputError] = useState({
-    currency: '',
     language: '',
+    currency: '',
   })
-  const dispatch = useDispatch()
+  const { defaults } = useSelectorTyped(
+    (state: RootState) => state.MainLayoutDataStore
+  )
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputValue({
-      ...inputValue,
-      [e.target.name]: e.target.value,
-    })
-    setInputError({
-      currency: '',
-      language: '',
-    })
+  const dispatch = useDispatch()
+  const setPersonalDetails = (key: string, value: string) => {
+    setInputValue({ ...inputValue, [key]: value })
     dispatch(setIsFormFilled(true))
+    setInputError({
+      language: '',
+      currency: '',
+    })
   }
 
   const resetValue = () => {
-    setInputValue({
-      currency: '',
-      language: '',
-    })
+    setInputValue(defaults)
     setInputError({
-      currency: '',
       language: '',
+      currency: '',
     })
     dispatch(setIsFormFilled(false))
   }
@@ -53,16 +60,19 @@ export const Default: FC = () => {
     }
   }
   const isFormFilled = () => {
-    return Object.values(inputValue).every((val: string) => val)
+    return !Object.keys(inputValue).every(
+      (key: string) => inputValue[key] === defaults[key]
+    )
   }
 
   useEffect(() => {
-    if (Object.values(inputValue).every((name: string) => name === '')) {
-      dispatch(setIsFormFilled(false))
-    } else {
-      dispatch(setIsFormFilled(true))
-    }
+    dispatch(setIsFormFilled(isFormFilled()))
   }, [inputValue])
+
+  useEffect(() => {
+    setInputValue(defaults)
+  }, [defaults])
+
   return (
     <div className="edit-container">
       <div className="sec-title">
@@ -72,31 +82,45 @@ export const Default: FC = () => {
       <div className="edit-holder">
         <div className="content">
           <div className="input-container">
-            <div className="input-label">Set Default Language</div>
-            <Input
-              type="text"
-              name="language"
-              value={inputValue.language.toLocaleUpperCase()}
-              onChange={handleChange}
-              placeholder="Select"
-              error={inputError.language}
-            />
-
-            <div className="input-label">Set Default Currency</div>
-            <Input
-              type="text"
-              name="currency"
-              value={inputValue.currency.toLocaleUpperCase()}
-              onChange={handleChange}
-              placeholder="Select"
-              error={inputError.currency}
-            />
+            <div className="input-container__fields">
+              <Select
+                options={['ENGLISH', 'SPANISH']}
+                currentOption={defaultLanguageOption[inputValue.language]}
+                setCurrentOption={(option: string) => {
+                  // eslint-disable-next-line array-callback-return
+                  Object.keys(defaultLanguageOption).map((item: string) => {
+                    if (defaultLanguageOption[item] === option) {
+                      setPersonalDetails('language', item)
+                    }
+                  })
+                }}
+                placeholder="Select"
+                error={inputError.language}
+                label="Set Default Language"
+              />
+              <Select
+                options={['USD']}
+                currentOption={defaultCurrencyOption[inputValue.currency]}
+                setCurrentOption={(option: string) => {
+                  // eslint-disable-next-line array-callback-return
+                  Object.keys(defaultCurrencyOption).map((item: string) => {
+                    if (defaultCurrencyOption[item] === option) {
+                      setPersonalDetails('currency', item)
+                    }
+                  })
+                }}
+                placeholder="Select"
+                error={inputError.currency}
+                label="Set Default Currency"
+              />
+            </div>
             <div className="btn-container">
               <button onClick={resetValue} className="btn-cancel">
                 Cancel
               </button>
               <button
                 onClick={onSave}
+                disabled={!isFormFilled()}
                 className={isFormFilled() ? 'btn-save' : 'btn-disable'}
               >
                 Save Changes

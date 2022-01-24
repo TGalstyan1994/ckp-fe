@@ -9,8 +9,9 @@ interface IMainLayoutDataStore {
   showQuestionModal: boolean
   modalType: string
   userData: Record<string, unknown>
-  errorMessage?: {
-    message: string
+  defaults: {
+    currency: string
+    language: string
   }
 }
 
@@ -23,6 +24,10 @@ const initialState: IMainLayoutDataStore = {
   showQuestionModal: false,
   modalType: '',
   userData: {},
+  defaults: {
+    currency: '',
+    language: '',
+  },
 }
 
 const MainLayoutDataStore = createSlice({
@@ -59,6 +64,9 @@ const MainLayoutDataStore = createSlice({
     setUserData(state, action) {
       state.userData = action.payload
     },
+    setDefaults(state, action) {
+      state.defaults = action.payload
+    },
   },
 })
 
@@ -72,6 +80,7 @@ export const {
   setShowQuestionModal,
   closeQuestionModal,
   setUserData,
+  setDefaults,
 } = MainLayoutDataStore.actions
 
 export default MainLayoutDataStore.reducer

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import classNames from 'classnames'
 import { useSelectorTyped } from '../../../utils/hooks'
@@ -13,14 +13,14 @@ import {
 } from '../../../store/MainLayoutDataStore/MainLayoutDataStore'
 import { modalPromise } from '../../../helpers/modal-helper'
 
+type ITabNames = 'security' | 'personal' | 'social'
+
+interface IActiveProfileTab {
+  activeProfileTab: ITabNames
+}
+
 export const Edit: FC = () => {
   const dispatch = useDispatch()
-
-  type ITabNames = 'security' | 'personal' | 'social'
-
-  interface IActiveProfileTab {
-    activeProfileTab: ITabNames
-  }
 
   const tabs = {
     security: <Security />,
@@ -48,6 +48,12 @@ export const Edit: FC = () => {
       }
     }
   }
+
+  useEffect(() => {
+    return () => {
+      dispatch(changeProfileTab('personal'))
+    }
+  }, [])
 
   return (
     <div className="edit-container">

@@ -58,7 +58,7 @@ export const EnterSecurityPin: FC = () => {
           <CloseIcon />
         </span>
         <div className="pin-holder">
-          <p>Enter Security Pin</p>
+          <p>Enter Security PIN</p>
           <div className="input-holder">
             <PinInput
               value={pin}

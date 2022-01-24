@@ -1,6 +1,9 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { setIsFormFilled } from '../../../../../store/ProfileDataStore/ProfileDataStore'
+import {
+  setIsFormFilled,
+  setSocialInfo,
+} from '../../../../../store/ProfileDataStore/ProfileDataStore'
 import { toggleAlertModal } from '../../../../../store/MainLayoutDataStore/MainLayoutDataStore'
 import { ProfileManager } from '../../../../../managers/profile'
 import { Input } from '../../../../../components/Input'
@@ -12,7 +15,7 @@ export const Social: FC = () => {
   const { socialInfo } = useSelectorTyped(
     (state: RootState) => state.ProfileDataStore
   )
-  const [inputValue, setInputValue] = useState({
+  const [inputValue, setInputValue] = useState<Record<string, string>>({
     about: '',
     facebook: '',
     twitter: '',
@@ -32,21 +35,14 @@ export const Social: FC = () => {
       [e.target.name]: e.target.value,
     })
     setInputError({
-      about: '',
-      facebook: '',
-      twitter: '',
-      linkedIn: '',
+      ...inputError,
+      [e.target.name]: '',
     })
     dispatch(setIsFormFilled(true))
   }
 
   const resetValue = () => {
-    setInputValue({
-      about: '',
-      facebook: '',
-      twitter: '',
-      linkedIn: '',
-    })
+    setInputValue(socialInfo)
     setInputError({
       about: '',
       facebook: '',
@@ -57,10 +53,23 @@ export const Social: FC = () => {
   }
 
   const onSubmit = async () => {
-    if (Object.values(inputValue).every((name: string) => name === '')) return
+    if (inputValue.facebook === '') {
+      delete inputValue.facebook
+    }
+
+    if (inputValue.twitter === '') {
+      delete inputValue.twitter
+    }
+
+    if (inputValue.linkedIn === '') {
+      delete inputValue.linkedIn
+    }
+
     try {
       await ProfileManager.changeSocialInfo(inputValue)
       dispatch(toggleAlertModal(true))
+      const newSocialInfo = await ProfileManager.getSocialInfo()
+      dispatch(setSocialInfo(newSocialInfo))
     } catch (error_: Record<string, unknown>) {
       const { errors } = error_.data
       const newInputErrors: Record<string, unknown> = {}
@@ -80,7 +89,9 @@ export const Social: FC = () => {
   }
 
   const isFormFilled = () => {
-    return !Object.values(inputValue).every((val: string) => val === '')
+    return !Object.keys(inputValue).every((key: string) => {
+      return inputValue[key] === socialInfo[key] || inputValue[key] === ''
+    })
   }
 
   useEffect(() => {
@@ -88,11 +99,7 @@ export const Social: FC = () => {
   }, [socialInfo])
 
   useEffect(() => {
-    if (Object.values(inputValue).every((name: string) => name === '')) {
-      dispatch(setIsFormFilled(false))
-    } else {
-      dispatch(setIsFormFilled(true))
-    }
+    dispatch(setIsFormFilled(isFormFilled()))
   }, [inputValue])
 
   return (
@@ -123,7 +130,7 @@ export const Social: FC = () => {
             placeholder="https://www.twitter.com"
             error={inputError.twitter}
           />
-          <div className="input-label">Linked in</div>
+          <div className="input-label">LinkedIn</div>
           <Input
             name="linkedIn"
             value={inputValue.linkedIn}
@@ -135,10 +142,7 @@ export const Social: FC = () => {
             <button onClick={resetValue} className="btn-cancel">
               Cancel
             </button>
-            <button
-              onClick={onSubmit}
-              className={isFormFilled() ? 'btn-save' : 'btn-disable'}
-            >
+            <button onClick={onSubmit} className="btn-save">
               Save Changes
             </button>
           </div>
