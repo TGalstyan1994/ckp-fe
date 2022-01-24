@@ -9,6 +9,7 @@ interface IMainLayoutDataStore {
   showQuestionModal: boolean
   modalType: string
   userData: Record<string, unknown>
+  avatarError?: string
 }
 
 const initialState: IMainLayoutDataStore = {
@@ -20,6 +21,7 @@ const initialState: IMainLayoutDataStore = {
   showQuestionModal: false,
   modalType: '',
   userData: {},
+  avatarError: '',
 }
 
 const MainLayoutDataStore = createSlice({
@@ -56,6 +58,9 @@ const MainLayoutDataStore = createSlice({
     setUserData(state, action) {
       state.userData = action.payload
     },
+    setAvatarError(state, action) {
+      state.avatarError = action.payload
+    },
   },
 })
 
@@ -69,6 +74,7 @@ export const {
   setShowQuestionModal,
   closeQuestionModal,
   setUserData,
+  setAvatarError,
 } = MainLayoutDataStore.actions
 
 export default MainLayoutDataStore.reducer

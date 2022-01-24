@@ -127,6 +127,13 @@
               position: absolute;
               transform: translate(-50%, 20%);
             }
+            .avatar_error{
+              position: absolute;
+              font-size: 10px;
+              color: #FE3333;
+              bottom: -15px;
+              transform: translate(-50%, 0);
+            }
           }
 
           .name {
