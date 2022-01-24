@@ -114,10 +114,10 @@ export const Overview: FC = () => {
         <div className="card-title">SOCIAL INFO</div>
         <hr />
         <div className="p-30">
-          <Line text={socialInfo.about} name="About me:" />
-          <Line text={socialInfo.facebook} name="Facebook:" isLink />
-          <Line text={socialInfo.twitter} name="Twitter:" isLink />
-          <Line text={socialInfo.linkedIn} name="Linked In:" isLink />
+          <Line text={socialInfo.about} name="About me" />
+          <Line text={socialInfo.facebook} name="Facebook" isLink />
+          <Line text={socialInfo.twitter} name="Twitter" isLink />
+          <Line text={socialInfo.linkedIn} name="Linked In" isLink />
         </div>
       </div>
     </div>

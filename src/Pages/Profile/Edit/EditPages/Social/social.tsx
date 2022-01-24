@@ -1,6 +1,9 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { setIsFormFilled } from '../../../../../store/ProfileDataStore/ProfileDataStore'
+import {
+  setIsFormFilled,
+  setSocialInfo,
+} from '../../../../../store/ProfileDataStore/ProfileDataStore'
 import { toggleAlertModal } from '../../../../../store/MainLayoutDataStore/MainLayoutDataStore'
 import { ProfileManager } from '../../../../../managers/profile'
 import { Input } from '../../../../../components/Input'
@@ -39,12 +42,7 @@ export const Social: FC = () => {
   }
 
   const resetValue = () => {
-    setInputValue({
-      about: '',
-      facebook: '',
-      twitter: '',
-      linkedIn: '',
-    })
+    setInputValue(socialInfo)
     setInputError({
       about: '',
       facebook: '',
@@ -55,9 +53,23 @@ export const Social: FC = () => {
   }
 
   const onSubmit = async () => {
+    if (inputValue.facebook === '') {
+      delete inputValue.facebook
+    }
+
+    if (inputValue.twitter === '') {
+      delete inputValue.twitter
+    }
+
+    if (inputValue.linkedIn === '') {
+      delete inputValue.linkedIn
+    }
+
     try {
       await ProfileManager.changeSocialInfo(inputValue)
       dispatch(toggleAlertModal(true))
+      const newSocialInfo = await ProfileManager.getSocialInfo()
+      dispatch(setSocialInfo(newSocialInfo))
     } catch (error_: Record<string, unknown>) {
       const { errors } = error_.data
       const newInputErrors: Record<string, unknown> = {}
@@ -78,7 +90,6 @@ export const Social: FC = () => {
 
   const isFormFilled = () => {
     return !Object.keys(inputValue).every((key: string) => {
-      console.log(inputValue[key] === socialInfo[key], key)
       return inputValue[key] === socialInfo[key] || inputValue[key] === ''
     })
   }
@@ -98,7 +109,7 @@ export const Social: FC = () => {
           <div className="input-label">About me</div>
           <Input
             name="about"
-            value={inputValue.about}
+            value={inputValue.about || ''}
             onChange={handleChange}
             placeholder="Add info here"
             error={inputError.about}
@@ -106,7 +117,7 @@ export const Social: FC = () => {
           <div className="input-label">Facebook</div>
           <Input
             name="facebook"
-            value={inputValue.facebook}
+            value={inputValue.facebook || ''}
             onChange={handleChange}
             placeholder="https://www.facebook.com"
             error={inputError.facebook}
@@ -114,15 +125,15 @@ export const Social: FC = () => {
           <div className="input-label">Twitter</div>
           <Input
             name="twitter"
-            value={inputValue.twitter}
+            value={inputValue.twitter || ''}
             onChange={handleChange}
             placeholder="https://www.twitter.com"
             error={inputError.twitter}
           />
-          <div className="input-label">Linked in</div>
+          <div className="input-label">LinkedIn</div>
           <Input
             name="linkedIn"
-            value={inputValue.linkedIn}
+            value={inputValue.linkedIn || ''}
             onChange={handleChange}
             placeholder="https://www.linkedin.com"
             error={inputError.linkedIn}
