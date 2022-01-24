@@ -7,7 +7,7 @@ import { RootState } from '../../../store'
 
 interface IUserAccountInfo {
   username: string
-  sponser: string
+  sponsor: string
   member: string
 }
 
@@ -87,7 +87,7 @@ export const Overview: FC = () => {
           <div className="p-30">
             <Line text={userInfo.account.member} name="Member" />
             <Line text={userInfo.account.username} name="Username" />
-            <Line text={userInfo.account.sponser} name="Sponser" />
+            <Line text={userInfo.account.sponsor} name="Sponsor" />
           </div>
         )}
       </div>

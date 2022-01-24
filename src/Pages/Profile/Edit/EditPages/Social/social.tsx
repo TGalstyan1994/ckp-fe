@@ -9,6 +9,7 @@ import { ProfileManager } from '../../../../../managers/profile'
 import { Input } from '../../../../../components/Input'
 import { useSelectorTyped } from '../../../../../utils/hooks'
 import { RootState } from '../../../../../store'
+import { validate } from './validate'
 
 export const Social: FC = () => {
   const dispatch = useDispatch()
@@ -109,7 +110,7 @@ export const Social: FC = () => {
           <div className="input-label">About me</div>
           <Input
             name="about"
-            value={inputValue.about || ''}
+            value={inputValue.about}
             onChange={handleChange}
             placeholder="Add info here"
             error={inputError.about}
@@ -117,7 +118,7 @@ export const Social: FC = () => {
           <div className="input-label">Facebook</div>
           <Input
             name="facebook"
-            value={inputValue.facebook || ''}
+            value={inputValue.facebook}
             onChange={handleChange}
             placeholder="https://www.facebook.com"
             error={inputError.facebook}
@@ -125,7 +126,7 @@ export const Social: FC = () => {
           <div className="input-label">Twitter</div>
           <Input
             name="twitter"
-            value={inputValue.twitter || ''}
+            value={inputValue.twitter}
             onChange={handleChange}
             placeholder="https://www.twitter.com"
             error={inputError.twitter}
@@ -133,7 +134,7 @@ export const Social: FC = () => {
           <div className="input-label">LinkedIn</div>
           <Input
             name="linkedIn"
-            value={inputValue.linkedIn || ''}
+            value={inputValue.linkedIn}
             onChange={handleChange}
             placeholder="https://www.linkedin.com"
             error={inputError.linkedIn}
