@@ -17,7 +17,6 @@ import {
   closeModal,
   setShowModal,
   setUserData,
-  setAvatarError,
 } from '../../src/store/MainLayoutDataStore/MainLayoutDataStore'
 import TrashIcon from '../../src/assets/images/icons/trash-icon'
 import { ProfileManager } from '../../src/managers/profile'
@@ -66,7 +65,6 @@ const ProfilePage = () => {
   }
 
   const handleUploadImage = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setAvatarError(''))
     if (!e.target.files) return
     const selectedFile = e.target.files[0]
     const FILE_TYPE = ['image/png', 'image/jpeg', 'image/jpg']
@@ -84,14 +82,12 @@ const ProfilePage = () => {
       const res = await ProfileManager.getAccountUser()
       dispatch(setUserData(res))
       setImgPreview('')
-    } catch (error: any) {
-      dispatch(setAvatarError(error.data.message))
+    } catch (error) {
       throw error
     }
   }
 
   const onRemove = async () => {
-    dispatch(setAvatarError(''))
     if (imgPreview) {
       setImgPreview('')
       return
