@@ -55,7 +55,6 @@ const ProfilePage = () => {
   const [imgPreview, setImgPreview] = useState<IImgPreview>('')
 
   const confirmChangeTabs = async (page: ITabNames) => {
-    dispatch(changeProfileTab('personal'))
     if (!isFormFilled || activeTab === page) {
       dispatch(changeTab(page))
     } else {

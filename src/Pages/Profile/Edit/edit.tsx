@@ -13,14 +13,14 @@ import {
 } from '../../../store/MainLayoutDataStore/MainLayoutDataStore'
 import { modalPromise } from '../../../helpers/modal-helper'
 
+type ITabNames = 'security' | 'personal' | 'social'
+
+interface IActiveProfileTab {
+  activeProfileTab: ITabNames
+}
+
 export const Edit: FC = () => {
   const dispatch = useDispatch()
-
-  type ITabNames = 'security' | 'personal' | 'social'
-
-  interface IActiveProfileTab {
-    activeProfileTab: ITabNames
-  }
 
   const tabs = {
     security: <Security />,
