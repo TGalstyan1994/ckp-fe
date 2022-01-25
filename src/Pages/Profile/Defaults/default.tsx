@@ -25,7 +25,7 @@ export const Default: FC = () => {
     currency: '',
   })
   const { defaults } = useSelectorTyped(
-    (state: RootState) => state.MainLayoutDataStore
+    (state: RootState) => state.GlobalConfigDataStore
   )
 
   const dispatch = useDispatch()

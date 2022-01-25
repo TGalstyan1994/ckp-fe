@@ -8,16 +8,17 @@ import { logOut } from '../../store/reducers/signin'
 import { ProfileManager } from '../../managers/profile'
 import { useSelectorTyped } from '../../utils/hooks'
 import { RootState } from '../../store'
-import {
-  setDefaults,
-  setUserData,
-} from '../../store/MainLayoutDataStore/MainLayoutDataStore'
+import { setUserData } from '../../store/MainLayoutDataStore/MainLayoutDataStore'
+import { setDefaults } from '../../store/GlobalConfigDataStore/GlobalConfigDataStore'
 
 export const Header: FC = () => {
   const dispatch = useDispatch()
   // const wrapperRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const wrapperRef = useRef<HTMLDivElement>(null)
-  const { userData, defaults } = useSelectorTyped(
+  const { defaults } = useSelectorTyped(
+    (state: RootState) => state.GlobalConfigDataStore
+  )
+  const { userData } = useSelectorTyped(
     (state: RootState) => state.MainLayoutDataStore
   )
   const { personalInfo } = useSelectorTyped(
