@@ -19,6 +19,7 @@ import {
   setUserData,
 } from '../../src/store/MainLayoutDataStore/MainLayoutDataStore'
 import TrashIcon from '../../src/assets/images/icons/trash-icon'
+import { GlobalManager } from '../../src/managers/global'
 import { ProfileManager } from '../../src/managers/profile'
 
 type ITabNames = 'overview' | 'edit' | 'pin' | 'default'
@@ -80,7 +81,7 @@ const ProfilePage = () => {
     form.append('file', imgPreview)
     try {
       await ProfileManager.uploadAvatar(form)
-      const res = await ProfileManager.getAccountUser()
+      const res = await GlobalManager.getUser()
       dispatch(setUserData(res))
       setImgPreview('')
     } catch (error) {
@@ -96,7 +97,7 @@ const ProfilePage = () => {
 
     try {
       await ProfileManager.removeAvatar()
-      const res = await ProfileManager.getAccountUser()
+      const res = await GlobalManager.getUser()
       dispatch(setUserData(res))
     } catch (error) {
       throw error

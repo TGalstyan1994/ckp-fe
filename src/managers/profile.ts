@@ -1,8 +1,5 @@
 import { RequestAPI } from '../api/auth/axios-wraper'
 
-function getAccountUser() {
-  return RequestAPI.get('api/account/info/me')
-}
 function getAccountInfo() {
   return RequestAPI.get('api/account/info/account-info')
 }
@@ -54,5 +51,4 @@ export const ProfileManager = {
   changeDefaults,
   getDefaults,
   changeSecurityPin,
-  getAccountUser,
 }

@@ -10,6 +10,7 @@ import { useSelectorTyped } from '../../utils/hooks'
 import { RootState } from '../../store'
 import { setUserData } from '../../store/MainLayoutDataStore/MainLayoutDataStore'
 import { setDefaults } from '../../store/GlobalConfigDataStore/GlobalConfigDataStore'
+import { GlobalManager } from '../../managers/global'
 
 export const Header: FC = () => {
   const dispatch = useDispatch()
@@ -37,7 +38,7 @@ export const Header: FC = () => {
     ;(async () => {
       const [getDefaults, userInfo] = await Promise.all([
         ProfileManager.getDefaults(),
-        ProfileManager.getAccountUser(),
+        GlobalManager.getUser(),
       ])
       dispatch(setDefaults(getDefaults))
       dispatch(setUserData(userInfo))

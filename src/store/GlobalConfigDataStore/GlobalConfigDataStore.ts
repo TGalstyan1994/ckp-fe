@@ -5,6 +5,7 @@ interface IMainLayoutDataStore {
     currency: string
     language: string
   }
+  isSuperAdmin: boolean
 }
 
 const initialState: IMainLayoutDataStore = {
@@ -12,6 +13,7 @@ const initialState: IMainLayoutDataStore = {
     currency: '',
     language: '',
   },
+  isSuperAdmin: false,
 }
 
 const GlobalConfigDataStore = createSlice({
@@ -21,9 +23,12 @@ const GlobalConfigDataStore = createSlice({
     setDefaults(state, action) {
       state.defaults = action.payload
     },
+    setIsSuperAdmin(state, action) {
+      state.isSuperAdmin = action.payload
+    },
   },
 })
 
-export const { setDefaults } = GlobalConfigDataStore.actions
+export const { setDefaults, setIsSuperAdmin } = GlobalConfigDataStore.actions
 
 export default GlobalConfigDataStore.reducer
