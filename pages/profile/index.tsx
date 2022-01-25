@@ -153,7 +153,9 @@ const ProfilePage = () => {
                 </label>
                 <span className="avatar_error">{avatarError}</span>
               </div>
-              <p className="name">{userData.username}</p>
+              <p className="name">
+                {`${personalInfo.firstName} ${personalInfo.lastName}`}
+              </p>
               <button onClick={onSave} className="btn">
                 Save
               </button>
