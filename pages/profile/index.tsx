@@ -105,7 +105,7 @@ const ProfilePage = () => {
   }
   return (
     <div className="container">
-      <div className="relative">
+      <div>
         <h1 className="profile-title">My Profile</h1>
         <span className="title-info">Home / My Profile</span>
       </div>
