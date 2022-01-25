@@ -117,22 +117,22 @@ export const Pin: FC = () => {
               name="oldSecurityCode"
               value={inputValue.oldSecurityCode}
               onChange={handleChange}
+              error={inputError.oldSecurityCode}
             />
-            <span className="error-span">{inputError.oldSecurityCode}</span>
             <div className="input-label">New PIN</div>
             <PinInput
               name="securityCode"
               value={inputValue.securityCode}
               onChange={handleChange}
+              error={inputError.securityCode}
             />
-            <span className="error-span">{inputError.securityCode}</span>
             <div className="input-label">Retype PIN</div>
             <PinInput
               name="securityCodeRepeat"
               value={inputValue.securityCodeRepeat}
               onChange={handleChange}
+              error={inputError.securityCodeRepeat}
             />
-            <span className="error-span">{inputError.securityCodeRepeat}</span>
             <div className="btn-container">
               <button onClick={resetValue} className="btn-cancel">
                 Cancel
