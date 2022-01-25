@@ -106,7 +106,7 @@ const SignInForm: FC = () => {
 
   useEffect(() => {
     if (getAccessToken()) {
-      router.push('/route')
+      router.push('/profile')
       return
     }
     if (firstUpdate.current) {
