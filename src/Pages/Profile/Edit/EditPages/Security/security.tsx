@@ -106,8 +106,8 @@ export const Security: FC = () => {
             onChange={handleChange}
             placeholder="************"
             type="password"
+            error={inputError.oldPassword}
           />
-          <span className="error-span">{inputError.oldPassword}</span>
           <div className="input-label">New Password</div>
           <Input
             name="password"
@@ -115,8 +115,8 @@ export const Security: FC = () => {
             onChange={handleChange}
             placeholder="************"
             type="password"
+            error={inputError.password}
           />
-          <span className="error-span">{inputError.password}</span>
           <div className="input-label">Retype Password</div>
           <Input
             name="passwordConfirmation"
@@ -124,8 +124,8 @@ export const Security: FC = () => {
             onChange={handleChange}
             placeholder="************"
             type="password"
+            error={inputError.passwordConfirmation}
           />
-          <span className="error-span">{inputError.passwordConfirmation}</span>
           <div className="btn-container">
             <button onClick={resetValue} className="btn-cancel">
               Cancel

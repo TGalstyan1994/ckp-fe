@@ -9,7 +9,6 @@ import { RootState } from '../../../store'
 
 const defaultLanguageOption = {
   ENGLISH: 'ENGLISH',
-  SPANISH: 'SPANISH',
 } as { [key: string]: string }
 
 const defaultCurrencyOption = {
@@ -84,7 +83,7 @@ export const Default: FC = () => {
           <div className="input-container">
             <div className="input-container__fields">
               <Select
-                options={['ENGLISH', 'SPANISH']}
+                options={['ENGLISH']}
                 currentOption={defaultLanguageOption[inputValue.language]}
                 setCurrentOption={(option: string) => {
                   // eslint-disable-next-line array-callback-return
