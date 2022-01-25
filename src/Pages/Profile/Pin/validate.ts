@@ -21,7 +21,7 @@ export const validate = ({
   }
 
   if (is.empty(securityCode) || securityCode.search(digitRegExp) === -1) {
-    errors.securityCode = 'Security PIN cant be less then 6 digits'
+    errors.securityCode = "Security PIN can't be less than 6 digits"
   }
 
   if (securityCode.length < 6) {
