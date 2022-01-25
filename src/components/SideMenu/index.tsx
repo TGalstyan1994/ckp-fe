@@ -16,6 +16,7 @@ import { logOut } from '../../store/reducers/signin'
 import { LinkText } from '../LinkText'
 import { useSelectorTyped } from '../../utils/hooks'
 import { RootState } from '../../store'
+import ToolsIcon from '../../assets/images/icons/tools-icon'
 
 interface IMenuItem {
   svg: JSX.Element
@@ -44,6 +45,7 @@ const adminMenuItems: Array<IMenuItem> = [
       { field: 'Planet tree' },
       { field: 'Sponsor tree' },
       { field: 'Referral list' },
+      { field: 'New member' },
     ],
     pathname: '/universe',
   },
@@ -57,21 +59,25 @@ const adminMenuItems: Array<IMenuItem> = [
       { field: 'Relief fund' },
       { field: 'Membership fee' },
       { field: 'Waiting room' },
+      { field: 'User Replacement' },
+      { field: 'Privileged planet management' },
     ],
     pathname: '/donation',
   },
   {
     svg: <MortarboardIcon />,
     name: 'Academy',
-    clickable: true,
-    url: '',
+    clickable: false,
+    // url: '',
     pathname: '/academy',
+    children: [{ field: 'Users' }, { field: 'Subcategories' }],
   },
   {
     svg: <EMailIcon />,
     name: 'Communication',
-    clickable: true,
-    url: '',
+    clickable: false,
+    // url: '',
+    children: [{ field: 'Email management' }, { field: 'Email campaigns' }],
     pathname: '/communication',
   },
   {
@@ -88,9 +94,32 @@ const adminMenuItems: Array<IMenuItem> = [
   {
     svg: <ReportsIcon />,
     name: 'Reports',
-    clickable: true,
-    url: '',
+    clickable: false,
+    // url: '',
+    children: [
+      { field: 'Joining' },
+      { field: 'Flower Report' },
+      { field: 'Donation Report' },
+      { field: 'Membership Fee' },
+      { field: 'Replacement Report' },
+      { field: 'Cycle Fee' },
+      { field: 'Relief Fund' },
+      { field: 'Activity' },
+      { field: 'Account Status' },
+      { field: 'Account Analysis' },
+    ],
     pathname: '/activities',
+  },
+  {
+    svg: <ToolsIcon />,
+    name: 'Admin tools',
+    clickable: false,
+    pathname: '/admin',
+    children: [
+      { field: 'Member management' },
+      { field: 'Employee management' },
+      { field: 'Change logs' },
+    ],
   },
   {
     svg: <UserIcon />,
@@ -230,7 +259,7 @@ export const SideMenu: FC = () => {
         </div>
         <div className="side-menu__items">
           <div className="icons">
-            {handleItems(isSuperAdmin ? adminMenuItems : userMenuItems)}
+            {handleItems(!isSuperAdmin ? adminMenuItems : userMenuItems)}
           </div>
           <div onClick={toggleSideBar} aria-hidden className="open-side-menu">
             <span />
