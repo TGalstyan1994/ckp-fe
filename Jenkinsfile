@@ -2,6 +2,8 @@
 
 @Library('jenkins-shared-libraries') _
 
+def notifier = new org.gradiant.jenkins.slack.SlackNotifier()
+
 pipeline {
     agent {
         node {
@@ -19,7 +21,7 @@ pipeline {
         PROJECT_FOLDER = "$WORKSPACE"
         SLACK_CHANNEL = 'project-calla-kofa-platfrom'
         SLACK_DOMAIN = 'rocketech-soft'
-        SLACK_CREDENTIALS = 'rocketech-soft-slack-credentials-id'
+        SLACK_CREDENTIALS = 'slack-token'
         NOTIFY_SUCCESS = true
         CHANGE_LIST = true
         TEST_SUMMARY = false
@@ -37,8 +39,11 @@ pipeline {
                 }
             }
             steps {
-                script {
-                    prepareBuildVersion()
+                withEnv(["SLACK_CHANNEL=${SLACK_CHANNEL}", "SLACK_DOMAIN=${SLACK_DOMAIN}", "SLACK_CREDENTIALS=${SLACK_CREDENTIALS}"]) {
+                    script {
+                        prepareBuildVersion()
+                        notifier.notifyStart()
+                    }
                 }
                 stash name: 'src', includes: '**', excludes: '**/.git,**/.git/**'
             }
@@ -77,20 +82,34 @@ pipeline {
             }
             steps {
                 script {
-                    gitTagBuild('bitbucket-ssh-key')
+                    gitTagBuild('bbcreds')
                 }
             }
         }
     }
     post {
         failure {
+            withEnv(["SLACK_CHANNEL=${SLACK_CHANNEL}", "SLACK_DOMAIN=${SLACK_DOMAIN}", "SLACK_CREDENTIALS=${SLACK_CREDENTIALS}"]) {
+                script {
+                    notifier.notifyResult()
+                }
+            }
             echo 'Build failed! 👿'
         }
-        success {
-            echo 'Success! 😇'
+        aborted {
+            withEnv(["SLACK_CHANNEL=${SLACK_CHANNEL}", "SLACK_DOMAIN=${SLACK_DOMAIN}", "SLACK_CREDENTIALS=${SLACK_CREDENTIALS}"]) {
+                script {
+                    notifier.notifyResult()
+                }
+            }
         }
-        always {
-            cleanWs()
+        success {
+            withEnv(["SLACK_CHANNEL=${SLACK_CHANNEL}", "SLACK_DOMAIN=${SLACK_DOMAIN}", "SLACK_CREDENTIALS=${SLACK_CREDENTIALS}"]) {
+                script {
+                    notifier.notifyResult()
+                }
+            }
+            echo 'Success! 😇'
         }
     }
 }

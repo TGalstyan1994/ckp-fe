@@ -14,8 +14,9 @@ import { AlertModal } from '../../../components/Modal/AlertModal'
 import PromptModal from '../../../components/Modal/PromptModal'
 import { EnterSecurityPin } from '../../../components/Modal/ConfirmModal/enterSecurityPin'
 import { EnterSecurityQuestion } from '../../../components/Modal/ConfirmModal/enterSecurityQuestion'
-import { ProfileManager } from '../../../managers/profile'
 import { setUserData } from '../../../store/MainLayoutDataStore/MainLayoutDataStore'
+import { GlobalManager } from '../../../managers/global'
+import { setIsSuperAdmin } from '../../../store/GlobalConfigDataStore/GlobalConfigDataStore'
 
 interface IMainLayout {
   children: JSX.Element
@@ -56,8 +57,10 @@ const MainLayout = ({ children }: IMainLayout) => {
 
   useEffect(() => {
     ;(async () => {
-      const res = await ProfileManager.getAccountUser()
-      dispatch(setUserData(res))
+      const res = await GlobalManager.getUser()
+      const { isSuperAdmin, ...userData } = res
+      dispatch(setUserData(userData))
+      dispatch(setIsSuperAdmin(isSuperAdmin))
     })()
   }, [])
 
