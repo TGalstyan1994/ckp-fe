@@ -25,7 +25,7 @@ export const validate = ({
   }
 
   if (securityCode.length < 6) {
-    errors.securityCode = 'Security PIN cant be less then 6 digits'
+    errors.securityCode = 'Security PIN cant be less than 6 digits'
   }
 
   if (
@@ -40,7 +40,7 @@ export const validate = ({
     is.empty(securityCodeRepeat) ||
     securityCodeRepeat.search(digitRegExp) === -1
   ) {
-    errors.securityCodeRepeat = 'Security PIN cant be less then 6 digits'
+    errors.securityCodeRepeat = 'Security PIN cant be less than 6 digits'
   }
   if (securityCodeRepeat !== securityCode) {
     errors.securityCodeRepeat = 'Confirm Security PIN Mismatch'

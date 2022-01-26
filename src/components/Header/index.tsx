@@ -8,16 +8,18 @@ import { logOut } from '../../store/reducers/signin'
 import { ProfileManager } from '../../managers/profile'
 import { useSelectorTyped } from '../../utils/hooks'
 import { RootState } from '../../store'
-import {
-  setDefaults,
-  setUserData,
-} from '../../store/MainLayoutDataStore/MainLayoutDataStore'
+import { setUserData } from '../../store/MainLayoutDataStore/MainLayoutDataStore'
+import { setDefaults } from '../../store/GlobalConfigDataStore/GlobalConfigDataStore'
+import { GlobalManager } from '../../managers/global'
 
 export const Header: FC = () => {
   const dispatch = useDispatch()
   // const wrapperRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const wrapperRef = useRef<HTMLDivElement>(null)
-  const { userData, defaults } = useSelectorTyped(
+  const { defaults } = useSelectorTyped(
+    (state: RootState) => state.GlobalConfigDataStore
+  )
+  const { userData } = useSelectorTyped(
     (state: RootState) => state.MainLayoutDataStore
   )
   const { personalInfo } = useSelectorTyped(
@@ -36,7 +38,7 @@ export const Header: FC = () => {
     ;(async () => {
       const [getDefaults, userInfo] = await Promise.all([
         ProfileManager.getDefaults(),
-        ProfileManager.getAccountUser(),
+        GlobalManager.getUser(),
       ])
       dispatch(setDefaults(getDefaults))
       dispatch(setUserData(userInfo))
@@ -102,14 +104,14 @@ export const Header: FC = () => {
                     onClick={goMyProfilePage}
                     className="drop-item"
                   >
-                    My profile
+                    <span>My profile</span>
                   </li>
                   <li
                     onClick={() => dispatch(logOut())}
                     className="drop-item"
                     aria-hidden
                   >
-                    Logout
+                    <span>Logout</span>
                   </li>
                 </ul>
               </div>

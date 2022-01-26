@@ -1,12 +1,11 @@
 .container {
   width: 100%;
-  padding: 35px 40px;
+  padding: 35px 40px 10px;
 
   button[disabled] {
     cursor: none;
   }
   .relative {
-    position: relative;
     margin-bottom: 35px;
 
     .container-title {
@@ -32,7 +31,6 @@
 
     .row {
       display: flex;
-      margin-bottom: 35px;
       min-width: 350px;
       max-width: 30%;
       height: 100%;
@@ -143,11 +141,8 @@
             font-style: normal;
             font-weight: bold;
             font-size: 24px;
-            width: 100%;
             color: #0e0e0e;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            max-width: 200px;
           }
 
           .btn {
@@ -408,7 +403,6 @@
             max-width: 870px;
             width: 870px;
             padding: 0 30px;
-            overflow-y: -moz-hidden-unscrollable;
             margin: 0 auto;
             height: 100%;
 

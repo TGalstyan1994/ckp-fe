@@ -1,0 +1,114 @@
+.admin-row{
+  display: flex;
+  margin-bottom: 35px;
+  width:1720px;
+  height: 100%;
+  box-shadow: 0 0 8px #dedede;
+  .admin-profile_card {
+    min-width: 209px;
+    max-width: 30%;
+    background: #FBFBFB;
+    border-radius: 5px;
+    .admin-profile_avatar{
+      width: 100%;
+      height: 125px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid #D7D7D7;
+      .admin-avatar {
+        width: 50px;
+        height: 50px;
+        background: $green;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        color: #ffffff;
+        position: relative;
+        overflow: hidden;
+        .admin-upload_img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          vertical-align: middle;
+        }
+
+      }
+      div{
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        margin-left:12px ;
+        .admin-username{
+          font-style: normal;
+          font-weight: 600;
+          font-size: 16px;
+          color: #0E0E0E;
+          font-family: 'SF Pro Display', sans-serif;
+        }
+        .admin-name{
+          margin-top: 3px;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 13px;
+          font-family: 'SF Pro Display', sans-serif;
+          color:#939393
+        }
+      }
+    }
+  }
+  ul {
+    margin: 54px 0 39px 0;
+
+    .tabs {
+      width: 100%;
+      height: 45px;
+      border-radius: 0;
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: $icon-gray;
+      transition: all 0.3s;
+      cursor: pointer;
+      &:hover {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        list-style: none;
+        width: 100%;
+        height: 45px;
+        background: #f6f6f6;
+        font-family: 'SF Pro Display', sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        text-align: center;
+        color: #0e0e0e;
+      }
+    }
+
+    .activeTab {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      list-style: none;
+      width: 100%;
+      height: 45px;
+      background: #f6f6f6;
+      font-family: 'SF Pro Display', sans-serif;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+      text-align: center;
+      color: #0e0e0e;
+    }
+  }
+}
