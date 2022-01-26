@@ -259,7 +259,7 @@ export const SideMenu: FC = () => {
         </div>
         <div className="side-menu__items">
           <div className="icons">
-            {handleItems(!isSuperAdmin ? adminMenuItems : userMenuItems)}
+            {handleItems(isSuperAdmin ? adminMenuItems : userMenuItems)}
           </div>
           <div onClick={toggleSideBar} aria-hidden className="open-side-menu">
             <span />
