@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
+import classNames from 'classnames'
 import logo from '../../assets/images/logo.svg'
 import HomeIcon from '../../assets/images/icons/home-icon'
 import GlobeIcon from '../../assets/images/icons/globe-icon'
@@ -115,7 +116,9 @@ export const SideMenu: FC = () => {
   return (
     <div className="side-menu">
       <div
-        className={!isOpen.openSidebar ? 'side-menu-toggle' : 'side-menu-open'}
+        className={classNames('side-menu-component', {
+          'side-menu-component__open': isOpen.openSidebar,
+        })}
       >
         <div className="logo">
           <div className="logo-box">
@@ -127,9 +130,9 @@ export const SideMenu: FC = () => {
             {menuItems.map((item: IMenuItem) => (
               <LinkText href={item.pathname} key={item.pathname}>
                 <div
-                  className={
-                    router.pathname === item.pathname ? 'active-icons' : 'icon'
-                  }
+                  className={classNames('icon', {
+                    icon_active: router.pathname === item.pathname,
+                  })}
                 >
                   <span className="svgIcon">{item.svg}</span>
                   <span className="name">{item.name}</span>
@@ -137,21 +140,25 @@ export const SideMenu: FC = () => {
                     {item.children && <ArrowOpenIcon />}
                   </span>
                   {item.children && (
-                    <>
-                      <ul className={item.children?.length ? 'fields' : ''}>
-                        {item.children.map((child) => (
-                          <li className="field" key={child.field}>
-                            <span>{child.field}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </>
+                    <ul className={item.children?.length ? 'fields' : ''}>
+                      {item.children.map((child) => (
+                        <li className="field" key={child.field}>
+                          <span>{child.field}</span>
+                        </li>
+                      ))}
+                    </ul>
                   )}
                 </div>
               </LinkText>
             ))}
           </div>
-          <div onClick={toggleSideBar} aria-hidden className="open-side-menu">
+          <div
+            onClick={toggleSideBar}
+            aria-hidden
+            className={classNames('open-side-menu', {
+              active: isOpen.openSidebar,
+            })}
+          >
             <span />
           </div>
         </div>

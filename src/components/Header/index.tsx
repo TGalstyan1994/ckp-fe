@@ -102,14 +102,14 @@ export const Header: FC = () => {
                     onClick={goMyProfilePage}
                     className="drop-item"
                   >
-                    My profile
+                    <span>My profile</span>
                   </li>
                   <li
                     onClick={() => dispatch(logOut())}
                     className="drop-item"
                     aria-hidden
                   >
-                    Logout
+                    <span>Logout</span>
                   </li>
                 </ul>
               </div>

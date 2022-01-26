@@ -1,5 +1,5 @@
 .side-menu {
-  .side-menu-toggle {
+  .side-menu-component {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -39,7 +39,7 @@
       cursor: pointer;
       transition: 0.5s;
       overflow: hidden;
-      &:hover span {
+      &:hover span, &.active span {
         background: #33a96a;
         transition: 0.5s;
       }
@@ -81,6 +81,7 @@
         color: #c8c8c8;
         padding: 0 31px 0 52px;
         height: 35px;
+        transition: 0.2s ease;
 
         > span {
           align-self: center;
@@ -103,10 +104,9 @@
             fill: $icon-gray;
           }
         }
-        &:hover {
+        &:hover, &_active {
           color: #000000;
           background: #f7f7f7;
-          transition: 0.5s ease;
 
           .svgIcon {
             path {
@@ -114,47 +114,17 @@
             }
           }
         }
-      }
-      .active-icons {
-        width: 240px;
-        overflow: hidden;
-        display: grid;
-        grid-template-columns: auto 1fr auto;
-        list-style: none;
-        font-family: 'SF Pro Display', sans-serif;
-        font-weight: 600;
-        font-size: 13px;
-        padding: 0 31px 0 52px;
-        height: 35px;
 
-        > span {
-          align-self: center;
-        }
-        .name,
-        .arrow {
-          display: none;
-        }
-
-        .name {
-          margin-left: 14px;
-        }
-
-        .arrow {
-          transform: rotate(-90deg);
-          path {
-            fill: $icon-gray;
-          }
-        }
-
-        .svgIcon {
-          path {
-            fill: #009345;
+        &:hover {
+          .fields {
+            display: block;
           }
         }
       }
-      .active-icons:hover {
-        color: #000000;
-        background: #f7f7f7;
+
+
+      &_icon:hover {
+
         .fields {
           display: block;
         }
@@ -199,8 +169,11 @@
       cursor: pointer;
       margin-top: 38px;
       width: 100%;
+      height: 35px;
       position: relative;
       bottom: 38px;
+      transition: 0.2s ease;
+
       .logout-icon {
         path {
           fill: $icon-gray;
@@ -212,6 +185,7 @@
       }
 
       .name {
+        transition: inherit;
         display: none;
         margin-top: -5px;
         font-family: 'SF Pro Display', sans-serif;
@@ -219,30 +193,25 @@
         font-size: 13px;
         color: #c8c8c8;
       }
-    }
-    .logout:hover {
-      .logout-icon {
-        path {
-          fill: #009345;
+
+      &:hover {
+        color: #000000;
+        background: #f7f7f7;
+        .logout-icon {
+          path {
+            fill: #009345;
+          }
+          rect {
+            fill: #009345;
+          }
         }
-        rect {
-          fill: #009345;
+        .name {
+          color: $black;
         }
       }
-      .name {
-        color: $black;
-      }
-    }
-    .field:hover {
-      color: #000;
     }
 
-    .icon:hover {
-      .fields {
-        display: block;
-      }
-    }
-    &:hover {
+    &:hover, &__open {
       width: 240px;
 
       .logo-box {
@@ -265,281 +234,7 @@
         .active-icons {
           color: #000000;
           background: #f7f7f7;
-          transition: 0.5s ease;
-          .name,
-          .arrow {
-            display: block;
-          }
-        }
-        .hide {
-          display: block;
-        }
-      }
-    }
-  }
-  .side-menu-open {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background: #fff;
-    border: none;
-    width: 240px;
-    height: 100vh;
-    box-shadow: 0 0 8px #dedede;
-    position: relative;
-    transition: all 0.5s ease;
-    z-index: 11;
-    .logo {
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      width: 100%;
-      height: 86px;
-      transition: inherit;
 
-      &-box {
-        height: 86px;
-        transition: inherit;
-        overflow: hidden;
-      }
-    }
-    &__items {
-      max-width: 100%;
-    }
-
-    .open-side-menu {
-      width: 20px;
-      height: 70px;
-      position: absolute;
-      top: 50%;
-      right: 0;
-      transform: translateY(-50%);
-      cursor: pointer;
-      transition: 0.5s;
-      overflow: hidden;
-      &:hover span {
-        background: #33a96a;
-        transition: 0.5s;
-      }
-      span {
-        width: 2px;
-        height: 54px;
-        background: #33a96a;
-        border-radius: 1px;
-        display: block;
-        position: absolute;
-        top: 50%;
-        right: 5px;
-        transform: translateY(-50%);
-        transition: 0.5s;
-      }
-      .actived {
-        background: #33a96a;
-      }
-    }
-    .icons {
-      width: auto;
-      height: auto;
-      cursor: pointer;
-      overflow: hidden;
-      padding: 0;
-      margin: 0;
-      li {
-        max-height: 35px;
-      }
-      .item {
-        display: none;
-      }
-      .icon {
-        width: 240px;
-        overflow: hidden;
-        display: grid;
-        grid-template-columns: auto 1fr auto;
-        list-style: none;
-        font-family: 'SF Pro Display', sans-serif;
-        font-weight: 600;
-        font-size: 13px;
-        color: #c8c8c8;
-        padding: 0 31px 0 52px;
-        height: 35px;
-        > span {
-          align-self: center;
-        }
-
-        .name,
-        .arrow {
-          display: block;
-        }
-
-        .name {
-          margin-left: 14px;
-        }
-
-        .arrow {
-          transform: rotate(-90deg);
-          path {
-            fill: $icon-gray;
-          }
-        }
-
-        .svgIcon {
-          path {
-            fill: $icon-gray;
-          }
-        }
-      }
-
-      .icon:hover {
-        color: #000000;
-        background: #f7f7f7;
-        transition: 0.5s ease;
-
-        .svgIcon {
-          path {
-            fill: $green;
-          }
-        }
-      }
-      .active-icons {
-        width: 240px;
-        overflow: hidden;
-        display: grid;
-        grid-template-columns: auto 1fr auto;
-        list-style: none;
-        font-family: 'SF Pro Display', sans-serif;
-        font-weight: 600;
-        font-size: 13px;
-        padding: 0 31px 0 52px;
-        height: 35px;
-        color: #000000;
-        background: #f7f7f7;
-        > span {
-          align-self: center;
-        }
-        .name,
-        .arrow {
-          display: block;
-        }
-
-        .name {
-          margin-left: 14px;
-        }
-
-        .arrow {
-          transform: rotate(-90deg);
-          path {
-            fill: $icon-gray;
-          }
-        }
-
-        .svgIcon {
-          path {
-            fill: #009345;
-          }
-        }
-      }
-      .active-icons:hover {
-        color: #000000;
-        background: #f7f7f7;
-        .fields {
-          display: block;
-        }
-      }
-    }
-
-    .fields {
-      width: 150px;
-      height: auto;
-      position: absolute;
-      right: -76%;
-      margin-top: -1.9rem;
-      transform: translateX(-31px);
-      background: #ffffff;
-      box-shadow: 0 0 8px #dedede;
-      display: none;
-      z-index: 1;
-      padding: 30px 0;
-    }
-
-    .field {
-      list-style: none;
-      font-family: 'SF Pro Display', sans-serif;
-      font-weight: 600;
-      font-size: 13px;
-      color: #c8c8c8;
-      transition: 0.5s ease;
-      padding: 10px 0;
-      white-space: nowrap;
-      &:hover {
-        color: #000000;
-        background: #f7f7f7;
-        transition: 0.5s ease;
-      }
-      span {
-        padding: 0 30px;
-      }
-    }
-
-    .logout {
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-      margin-top: 38px;
-      width: 100%;
-      position: relative;
-      bottom: 38px;
-      .logout-icon {
-        path {
-          fill: $icon-gray;
-        }
-        padding: 0 10px 0 52px;
-        rect {
-          fill: $icon-gray;
-        }
-      }
-
-      .name {
-        display: block;
-        margin-top: -5px;
-        font-family: 'SF Pro Display', sans-serif;
-        font-weight: 600;
-        font-size: 13px;
-        color: #c8c8c8;
-      }
-    }
-    .logout:hover {
-      .logout-icon {
-        path {
-          fill: #009345;
-        }
-        rect {
-          fill: #009345;
-        }
-      }
-      .name {
-        color: $black;
-      }
-    }
-    .field:hover {
-      color: #000;
-    }
-
-    .icon:hover {
-      .fields {
-        display: block;
-      }
-    }
-    &:hover {
-      width: 240px;
-
-      .logo-box {
-        height: 100%;
-      }
-
-      .icons {
-        padding: 0;
-
-        .active-icons {
           .name,
           .arrow {
             display: block;
