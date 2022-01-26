@@ -1,0 +1,35 @@
+.member-management {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .mm-search {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 56px;
+
+    button {
+      width: 174px;
+      min-width: 174px;
+      margin-left: 19px;
+    }
+
+    & > div.input_container{
+    width: 471px;
+    max-width: 471px !important;
+  }
+
+    p {
+      text-transform: uppercase;
+      font-family: SF Pro Display;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 19px;
+      color: #0E0E0E;
+    }
+
+    //justify-content: flex-end;
+  }
+}
