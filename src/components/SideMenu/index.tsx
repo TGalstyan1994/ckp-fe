@@ -250,9 +250,11 @@ export const SideMenu: FC = () => {
 
   return (
     <div className="side-menu">
-      <div className={classNames('side-menu-component', {
+      <div
+        className={classNames('side-menu-component', {
           'side-menu-component__open': isOpen.openSidebar,
-        })}>
+        })}
+      >
         <div className="logo">
           <div className="logo-box">
             <img src={logo} alt="logo" />

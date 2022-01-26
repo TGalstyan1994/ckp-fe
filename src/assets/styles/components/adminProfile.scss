@@ -1,15 +1,15 @@
-.admin-row{
+.admin-row {
   display: flex;
   margin-bottom: 35px;
-  width:1720px;
+  width: 1720px;
   height: 100%;
   box-shadow: 0 0 8px #dedede;
   .admin-profile_card {
     min-width: 209px;
     max-width: 30%;
-    background: #FBFBFB;
+    background: #fbfbfb;
     border-radius: 5px;
-    .admin-profile_avatar{
+    .admin-profile_avatar {
       width: 100%;
       height: 125px;
       text-align: center;
@@ -17,7 +17,7 @@
       justify-content: center;
       align-items: center;
       padding: 1rem;
-      border-bottom: 1px solid #D7D7D7;
+      border-bottom: 1px solid #d7d7d7;
       .admin-avatar {
         width: 50px;
         height: 50px;
@@ -39,27 +39,26 @@
           align-items: center;
           vertical-align: middle;
         }
-
       }
-      div{
+      div {
         display: flex;
         flex-direction: column;
         text-align: left;
-        margin-left:12px ;
-        .admin-username{
+        margin-left: 12px;
+        .admin-username {
           font-style: normal;
           font-weight: 600;
           font-size: 16px;
-          color: #0E0E0E;
+          color: #0e0e0e;
           font-family: 'SF Pro Display', sans-serif;
         }
-        .admin-name{
+        .admin-name {
           margin-top: 3px;
           font-style: normal;
           font-weight: 600;
           font-size: 13px;
           font-family: 'SF Pro Display', sans-serif;
-          color:#939393
+          color: #939393;
         }
       }
     }

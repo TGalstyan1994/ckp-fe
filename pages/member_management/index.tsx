@@ -6,7 +6,7 @@ import { Input } from '../../src/components/Input'
 import { Button } from '../../src/components/Button'
 
 const MemberManagementPage = () => {
-  const [serachValue, setSearchValue] = useState('')
+  const [searchValue, setSearchValue] = useState('')
 
   const handleSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value)
@@ -23,7 +23,11 @@ const MemberManagementPage = () => {
         </div>
         <div className="mm-search">
           <p>found 12 results</p>
-          <Input onChange={handleSearchInput} placeholder="Member search" />
+          <Input
+            onChange={handleSearchInput}
+            value={searchValue}
+            placeholder="Member search"
+          />
           <Button>search</Button>
         </div>
       </div>
