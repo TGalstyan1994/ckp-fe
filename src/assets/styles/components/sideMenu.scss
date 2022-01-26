@@ -39,7 +39,8 @@
       cursor: pointer;
       transition: 0.5s;
       overflow: hidden;
-      &:hover span, &.active span {
+      &:hover span,
+      &.active span {
         background: #33a96a;
         transition: 0.5s;
       }
@@ -104,7 +105,8 @@
             fill: $icon-gray;
           }
         }
-        &:hover, &_active {
+        &:hover,
+        &_active {
           color: #000000;
           background: #f7f7f7;
 
@@ -122,9 +124,7 @@
         }
       }
 
-
       &_icon:hover {
-
         .fields {
           display: block;
         }
@@ -212,7 +212,8 @@
       }
     }
 
-    &:hover, &__open {
+    &:hover,
+    &__open {
       width: 240px;
 
       .logo-box {

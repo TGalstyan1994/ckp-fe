@@ -96,7 +96,6 @@ const adminMenuItems: Array<IMenuItem> = [
     svg: <ReportsIcon />,
     name: 'Reports',
     clickable: false,
-    // url: '',
     children: [
       { field: 'Joining' },
       { field: 'Flower Report' },
@@ -115,7 +114,7 @@ const adminMenuItems: Array<IMenuItem> = [
     svg: <ToolsIcon />,
     name: 'Admin tools',
     clickable: false,
-    pathname: '/admin',
+    pathname: '/member_management',
     children: [
       { field: 'Member management' },
       { field: 'Employee management' },
@@ -250,9 +249,11 @@ export const SideMenu: FC = () => {
 
   return (
     <div className="side-menu">
-      <div className={classNames('side-menu-component', {
+      <div
+        className={classNames('side-menu-component', {
           'side-menu-component__open': isOpen.openSidebar,
-        })}>
+        })}
+      >
         <div className="logo">
           <div className="logo-box">
             <img src={logo} alt="logo" />
