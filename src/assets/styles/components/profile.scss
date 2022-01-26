@@ -141,11 +141,8 @@
             font-style: normal;
             font-weight: bold;
             font-size: 24px;
-            width: 100%;
             color: #0e0e0e;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            max-width: 200px;
           }
 
           .btn {
