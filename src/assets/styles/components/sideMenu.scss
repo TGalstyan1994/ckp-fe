@@ -70,11 +70,10 @@
       .item {
         display: none;
       }
+
       .icon {
         width: 240px;
         overflow: hidden;
-        display: grid;
-        grid-template-columns: auto 1fr auto;
         list-style: none;
         font-family: 'SF Pro Display', sans-serif;
         font-weight: 600;
@@ -83,6 +82,31 @@
         padding: 0 31px 0 52px;
         height: 35px;
         transition: 0.2s ease;
+
+        &:hover,
+        &_active {
+          color: #000000;
+          background: #f7f7f7;
+
+          .svgIcon {
+            path {
+              fill: $green;
+            }
+          }
+        }
+
+        &:hover {
+          .fields {
+            display: block;
+          }
+        }
+      }
+
+      .icon_title {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
 
         > span {
           align-self: center;
@@ -103,23 +127,6 @@
         .svgIcon {
           path {
             fill: $icon-gray;
-          }
-        }
-        &:hover,
-        &_active {
-          color: #000000;
-          background: #f7f7f7;
-
-          .svgIcon {
-            path {
-              fill: $green;
-            }
-          }
-        }
-
-        &:hover {
-          .fields {
-            display: block;
           }
         }
       }

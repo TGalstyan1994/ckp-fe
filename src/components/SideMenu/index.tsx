@@ -22,11 +22,10 @@ import ToolsIcon from '../../assets/images/icons/tools-icon'
 interface IMenuItem {
   svg: JSX.Element
   name: string
-  clickable: boolean
   children?: {
     field: string
+    pathname: string
   }[]
-  url?: string
   pathname: string
 }
 
@@ -34,98 +33,91 @@ const adminMenuItems: Array<IMenuItem> = [
   {
     svg: <HomeIcon />,
     name: 'Dashboard',
-    clickable: true,
-    url: '',
     pathname: '/dashboard',
   },
   {
     svg: <GlobeIcon />,
     name: 'Universe',
-    clickable: false,
     children: [
-      { field: 'Planet tree' },
-      { field: 'Sponsor tree' },
-      { field: 'Referral list' },
-      { field: 'New member' },
+      { pathname: '/', field: 'Planet tree' },
+      { pathname: '/', field: 'Sponsor tree' },
+      { pathname: '/', field: 'Referral list' },
+      { pathname: '/', field: 'New member' },
     ],
     pathname: '/universe',
   },
   {
     svg: <MoneyBoxIcon />,
     name: 'Donations',
-    clickable: false,
     children: [
-      { field: 'Donations' },
-      { field: 'Cycle fee' },
-      { field: 'Relief fund' },
-      { field: 'Membership fee' },
-      { field: 'Waiting room' },
-      { field: 'User Replacement' },
-      { field: 'Privileged planet management' },
+      { pathname: '/', field: 'Donations' },
+      { pathname: '/', field: 'Cycle fee' },
+      { pathname: '/', field: 'Relief fund' },
+      { pathname: '/', field: 'Membership fee' },
+      { pathname: '/', field: 'Waiting room' },
+      { pathname: '/', field: 'User Replacement' },
+      { pathname: '/', field: 'Privileged planet management' },
     ],
     pathname: '/donation',
   },
   {
     svg: <MortarboardIcon />,
     name: 'Academy',
-    clickable: false,
-    // url: '',
     pathname: '/academy',
-    children: [{ field: 'Users' }, { field: 'Subcategories' }],
+    children: [
+      { pathname: '/', field: 'Users' },
+      { pathname: '/', field: 'Subcategories' },
+    ],
   },
   {
     svg: <EMailIcon />,
     name: 'Communication',
-    clickable: false,
-    // url: '',
-    children: [{ field: 'Email management' }, { field: 'Email campaigns' }],
+    children: [
+      { pathname: '/', field: 'Email management' },
+      { pathname: '/', field: 'Email campaigns' },
+    ],
     pathname: '/communication',
   },
   {
     svg: <SupportIcon />,
     name: 'Support',
-    clickable: false,
     children: [
-      { field: 'KYC' },
-      { field: 'Payment settings' },
-      { field: 'Feedback' },
+      { pathname: '/', field: 'KYC' },
+      { pathname: '/', field: 'Payment settings' },
+      { pathname: '/', field: 'Feedback' },
     ],
     pathname: '/support',
   },
   {
     svg: <ReportsIcon />,
     name: 'Reports',
-    clickable: false,
     children: [
-      { field: 'Joining' },
-      { field: 'Flower Report' },
-      { field: 'Donation Report' },
-      { field: 'Membership Fee' },
-      { field: 'Replacement Report' },
-      { field: 'Cycle Fee' },
-      { field: 'Relief Fund' },
-      { field: 'Activity' },
-      { field: 'Account Status' },
-      { field: 'Account Analysis' },
+      { pathname: '/', field: 'Joining' },
+      { pathname: '/', field: 'Flower Report' },
+      { pathname: '/', field: 'Donation Report' },
+      { pathname: '/', field: 'Membership Fee' },
+      { pathname: '/', field: 'Replacement Report' },
+      { pathname: '/', field: 'Cycle Fee' },
+      { pathname: '/', field: 'Relief Fund' },
+      { pathname: '/', field: 'Activity' },
+      { pathname: '/', field: 'Account Status' },
+      { pathname: '/', field: 'Account Analysis' },
     ],
     pathname: '/activities',
   },
   {
     svg: <ToolsIcon />,
     name: 'Admin tools',
-    clickable: false,
     pathname: '/member_management',
     children: [
-      { field: 'Member management' },
-      { field: 'Employee management' },
-      { field: 'Change logs' },
+      { pathname: '/member_management', field: 'Member management' },
+      { pathname: '/', field: 'Employee management' },
+      { pathname: '/', field: 'Change logs' },
     ],
   },
   {
     svg: <UserIcon />,
     name: 'My Profile',
-    clickable: true,
-    url: '',
     pathname: '/profile',
   },
 ]
@@ -134,71 +126,58 @@ const userMenuItems: Array<IMenuItem> = [
   {
     svg: <HomeIcon />,
     name: 'Dashboard',
-    clickable: true,
-    url: '',
     pathname: '/dashboard',
   },
   {
     svg: <GlobeIcon />,
     name: 'Universe',
-    clickable: false,
     children: [
-      { field: 'Planet tree' },
-      { field: 'Sponsor tree' },
-      { field: 'Referral list' },
+      { pathname: '/', field: 'Planet tree' },
+      { pathname: '/', field: 'Sponsor tree' },
+      { pathname: '/', field: 'Referral list' },
     ],
     pathname: '/universe',
   },
   {
     svg: <MoneyBoxIcon />,
     name: 'Donations',
-    clickable: false,
     children: [
-      { field: 'Donations' },
-      { field: 'Cycle fee' },
-      { field: 'Relief fund' },
-      { field: 'Membership fee' },
-      { field: 'Waiting room' },
+      { pathname: '/', field: 'Donations' },
+      { pathname: '/', field: 'Cycle fee' },
+      { pathname: '/', field: 'Relief fund' },
+      { pathname: '/', field: 'Membership fee' },
+      { pathname: '/', field: 'Waiting room' },
     ],
     pathname: '/donation',
   },
   {
     svg: <MortarboardIcon />,
     name: 'Academy',
-    clickable: true,
-    url: '',
     pathname: '/academy',
   },
   {
     svg: <EMailIcon />,
     name: 'Communication',
-    clickable: true,
-    url: '',
     pathname: '/communication',
   },
   {
     svg: <SupportIcon />,
     name: 'Support',
-    clickable: false,
     children: [
-      { field: 'KYC' },
-      { field: 'Payment settings' },
-      { field: 'Feedback' },
+      { pathname: '/', field: 'KYC' },
+      { pathname: '/', field: 'Payment settings' },
+      { pathname: '/', field: 'Feedback' },
     ],
     pathname: '/support',
   },
   {
     svg: <ReportsIcon />,
     name: 'Reports',
-    clickable: true,
-    url: '',
     pathname: '/activities',
   },
   {
     svg: <UserIcon />,
     name: 'My Profile',
-    clickable: true,
-    url: '',
     pathname: '/profile',
   },
 ]
@@ -222,28 +201,32 @@ export const SideMenu: FC = () => {
 
   const handleItems = (items: Array<IMenuItem>) => {
     return items.map((item: IMenuItem) => (
-      <LinkText href={item.pathname} key={item.pathname}>
-        <div
-          className={classNames('icon', {
-            icon_active: router.pathname === item.pathname,
-          })}
-        >
-          <span className="svgIcon">{item.svg}</span>
-          <span className="name">{item.name}</span>
-          <span className="arrow">{item.children && <ArrowOpenIcon />}</span>
-          {item.children && (
-            <>
-              <ul className={item.children?.length ? 'fields' : ''}>
-                {item.children.map((child) => (
+      <div
+        className={classNames('icon', {
+          icon_active: router.pathname === item.pathname,
+        })}
+      >
+        <LinkText href={item.pathname} key={item.pathname}>
+          <div className="icon_title">
+            <span className="svgIcon">{item.svg}</span>
+            <span className="name">{item.name}</span>
+            <span className="arrow">{item.children && <ArrowOpenIcon />}</span>
+          </div>
+        </LinkText>
+        {item.children && (
+          <>
+            <ul className={item.children?.length ? 'fields' : ''}>
+              {item.children.map((child) => (
+                <LinkText href={child.pathname} key={item.pathname}>
                   <li className="field" key={child.field}>
                     <span>{child.field}</span>
                   </li>
-                ))}
-              </ul>
-            </>
-          )}
-        </div>
-      </LinkText>
+                </LinkText>
+              ))}
+            </ul>
+          </>
+        )}
+      </div>
     ))
   }
 
