@@ -96,27 +96,23 @@ export const Header: FC = () => {
             <span onClick={toggleOpen} role="button" aria-hidden>
               <ArrowOpenIcon />
             </span>
-            {isOpen && (
-              <div className="drop-name">
-                <ul>
-                  <li
-                    aria-hidden
-                    onClick={goMyProfilePage}
-                    className="drop-item"
-                  >
-                    <span>My profile</span>
-                  </li>
-                  <li
-                    onClick={() => dispatch(logOut())}
-                    className="drop-item"
-                    aria-hidden
-                  >
-                    <span>Logout</span>
-                  </li>
-                </ul>
-              </div>
-            )}
           </div>
+          {isOpen && (
+            <div className="drop-name">
+              <ul>
+                <li aria-hidden onClick={goMyProfilePage} className="drop-item">
+                  <span>My profile</span>
+                </li>
+                <li
+                  onClick={() => dispatch(logOut())}
+                  className="drop-item"
+                  aria-hidden
+                >
+                  <span>Logout</span>
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
       </div>
     </div>
