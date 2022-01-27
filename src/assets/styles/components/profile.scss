@@ -31,7 +31,8 @@
 
     .row {
       display: flex;
-      width: 350px;
+      width: 430px;
+      min-width: 430px;
       height: 100%;
 
       .profile-card {
