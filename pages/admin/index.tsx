@@ -45,10 +45,10 @@ const ProfileAdminPage = () => {
   const { activeAdminTab }: IActiveTab = useSelectorTyped(
     (state: RootState) => state.MemberManagementDataStore
   )
-  const { isFormFilled, personalInfo } = useSelectorTyped(
+  const { isFormFilled } = useSelectorTyped(
     (state: RootState) => state.ProfileDataStore
   )
-  const { userData } = useSelectorTyped(
+  const { userData, personalInfo } = useSelectorTyped(
     (state: RootState) => state.MainLayoutDataStore
   )
   const dispatch = useDispatch()
