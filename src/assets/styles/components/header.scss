@@ -6,7 +6,7 @@
   height: 87px;
   background: #fbfbfb;
   border-bottom: 1px solid #d7d7d7;
-  padding: 0 30px;
+  padding: 0 40px 0 30px;
 
   .search {
     display: flex;
@@ -168,6 +168,8 @@
     width: 100%;
     display: flex;
     align-items: center;
+    color: #0e0e0e;
+
     span:first-child {
       margin-left: 14px;
       font-family: 'SF Pro Display', sans-serif;
@@ -187,14 +189,15 @@
         cursor: pointer;
       }
     }
-    color: #0e0e0e;
+
     .drop-name {
+      z-index: 100;
       display: block;
       width: 161px;
       height: auto;
       position: absolute;
       top: 100%;
-      right: -23px;
+      right: -24px;
       margin-top: 18px;
       background: #fbfbfb;
       box-shadow: 0 11px 14px #dedede;
