@@ -69,9 +69,11 @@ const MemberManagementPage = () => {
         </div>
         <div className="mm-search-area">
           <p>found 12 results</p>
-          <div className="mm-search-input">
-            <Input onChange={handleSearchInput} placeholder="Member search" />
-          </div>
+          <Input
+            onChange={handleSearchInput}
+            value={searchValue}
+            placeholder="Member search"
+          />
           <Button>search</Button>
         </div>
       </div>
