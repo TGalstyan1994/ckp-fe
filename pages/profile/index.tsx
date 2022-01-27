@@ -154,10 +154,22 @@ const ProfilePage = () => {
                 </label>
                 <span className="avatar_error">{avatarError}</span>
               </div>
-              <p className="name">
-                {personalInfo.firstName
-                  ? `${personalInfo.firstName} ${personalInfo.lastName}`
-                  : ''}
+              <p
+                className={classNames('name', {
+                  new_line:
+                    personalInfo.firstName?.length +
+                      personalInfo.lastName?.length >
+                    18,
+                })}
+              >
+                {personalInfo.firstName ? (
+                  <>
+                    <span>{personalInfo.firstName} </span>
+                    <span>{personalInfo.lastName}</span>
+                  </>
+                ) : (
+                  ''
+                )}
               </p>
               <button onClick={onSave} className="btn">
                 Save
