@@ -60,8 +60,6 @@
     .icons {
       width: auto;
       height: auto;
-      cursor: pointer;
-      overflow: hidden;
       padding: 0;
       margin: 0;
       li {
@@ -72,22 +70,24 @@
       }
 
       .icon {
-        width: 240px;
-        overflow: hidden;
+        width: 100%;
         list-style: none;
         font-family: 'SF Pro Display', sans-serif;
         font-weight: 600;
         font-size: 13px;
         color: #c8c8c8;
-        padding: 0 31px 0 52px;
         height: 35px;
         transition: 0.2s ease;
+        position: relative;
 
         &_title {
+          cursor: pointer;
           width: 100%;
           height: 100%;
           display: grid;
-          grid-template-columns: auto 1fr auto;
+          padding: 0 31px 0 52px;
+          grid-template-columns: auto 1fr 17px;
+          overflow: hidden;
 
           > span {
             align-self: center;
@@ -98,9 +98,11 @@
           }
           .name {
             margin-left: 14px;
+            width: max-content;
           }
           .arrow {
             transform: rotate(-90deg);
+            height: 17px;
             path {
               fill: $icon-gray;
             }
@@ -143,7 +145,7 @@
       height: auto;
       position: absolute;
       right: -100%;
-      margin-top: -1.9rem;
+      top: -30px;
       min-width: 150px;
       background: #ffffff;
       box-shadow: 0 0 8px #dedede;
@@ -154,6 +156,7 @@
     }
 
     .field {
+      cursor: pointer;
       list-style: none;
       font-family: 'SF Pro Display', sans-serif;
       font-weight: 600;
