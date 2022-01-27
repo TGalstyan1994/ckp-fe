@@ -1,12 +1,15 @@
-.member-management {
+@mixin flex($direction: row) {
   display: flex;
-  flex-direction: row;
+  flex-direction: $direction;
+  align-items: center;
+}
+
+.member-management {
+  @include flex;
   justify-content: space-between;
 
-  .mm-search {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  .mm-search-area {
+    @include flex;
     height: 56px;
 
     button {
@@ -15,21 +18,98 @@
       margin-left: 19px;
     }
 
-    & > div.input_container {
+    .mm-search-input {
       width: 471px;
-      max-width: 471px !important;
+      max-width: 471px;
+      margin-left: 34px;
     }
 
     p {
       text-transform: uppercase;
-      font-family: SF Pro Display;
+      font-family: SF Pro Display, sans-serif;
       font-style: normal;
       font-weight: 600;
       font-size: 16px;
       line-height: 19px;
       color: #0e0e0e;
+      text-align: right;
+    }
+  }
+}
+
+.members-container {
+  margin-top: 60px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 34px 33.94px;
+
+  .item {
+    border-radius: 5px;
+    box-shadow: 0 0 8px #dedede;
+    position: relative;
+    svg {
+      position: absolute;
+      top: 15px;
+      right: 20px;
     }
 
-    //justify-content: flex-end;
+    .top {
+      padding: 30px 34px 22px 34px;
+      border-bottom: 1px solid #cbcbcb;
+      @include flex;
+      align-items: flex-start;
+      .image {
+        width: 53px;
+        height: 53px;
+        border-radius: 50%;
+        margin-right: 12px;
+        img {
+          width: 100%;
+        }
+      }
+      .name {
+        font-family: SF Pro Display, sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        display: grid;
+        h4 {
+          font-size: 16px;
+          line-height: 19px;
+          color: #0e0e0e;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          &:last-of-type {
+            margin-bottom: 5px;
+          }
+        }
+        p {
+          font-size: 13px;
+          line-height: 16px;
+          color: #cbcbcb;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+    .bottom {
+      padding: 28px 34px 30px 34px;
+      display: grid;
+      p {
+        font-family: SF Pro Display, sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 150%;
+        color: #939393;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
   }
+}
+.blocked_item svg {
+  opacity: 0.3;
 }

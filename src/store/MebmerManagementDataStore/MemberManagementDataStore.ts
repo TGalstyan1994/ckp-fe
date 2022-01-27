@@ -8,11 +8,15 @@ interface IMemberManagementDataStore {
     | 'referral'
     | 'activate_deactivate'
   activeAdminProfileTab: 'personal' | 'security' | 'social'
+  count: number
+  members: []
 }
 
 const initialState: IMemberManagementDataStore = {
   activeAdminTab: 'profile',
   activeAdminProfileTab: 'personal',
+  count: 0,
+  members: [],
 }
 
 const MemberManagementDataStore = createSlice({
@@ -25,10 +29,20 @@ const MemberManagementDataStore = createSlice({
     changeAdminProfileTab(state, action) {
       state.activeAdminProfileTab = action.payload
     },
+    setPaginationCount(state, action) {
+      state.count = action.payload
+    },
+    setMembers(state, action) {
+      state.members = action.payload
+    },
   },
 })
 
-export const { changeAdminTabs, changeAdminProfileTab } =
-  MemberManagementDataStore.actions
+export const {
+  changeAdminTabs,
+  changeAdminProfileTab,
+  setPaginationCount,
+  setMembers,
+} = MemberManagementDataStore.actions
 
 export default MemberManagementDataStore.reducer

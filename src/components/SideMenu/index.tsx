@@ -96,7 +96,6 @@ const adminMenuItems: Array<IMenuItem> = [
     svg: <ReportsIcon />,
     name: 'Reports',
     clickable: false,
-    // url: '',
     children: [
       { field: 'Joining' },
       { field: 'Flower Report' },
@@ -115,7 +114,7 @@ const adminMenuItems: Array<IMenuItem> = [
     svg: <ToolsIcon />,
     name: 'Admin tools',
     clickable: false,
-    pathname: '/admin',
+    pathname: '/member_management',
     children: [
       { field: 'Member management' },
       { field: 'Employee management' },
