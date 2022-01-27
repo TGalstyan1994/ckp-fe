@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux'
 import { ProfileManager } from '../../../managers/profile'
 import {
   setAccountInfo,
-  setPersonalInfo,
   setSocialInfo,
 } from '../../../store/ProfileDataStore/ProfileDataStore'
 import { useSelectorTyped } from '../../../utils/hooks'
@@ -40,13 +39,11 @@ export const Overview: FC = () => {
 
   useEffect(() => {
     ;(async () => {
-      const [account, personal, social] = await Promise.all([
+      const [account, social] = await Promise.all([
         ProfileManager.getAccountInfo(),
-        ProfileManager.getPersonalInfo(),
         ProfileManager.getSocialInfo(),
       ])
       dispatch(setSocialInfo(social))
-      dispatch(setPersonalInfo(personal))
       dispatch(setAccountInfo(account))
     })()
   }, [])

@@ -16,9 +16,9 @@ import { modalPromise } from '../../src/helpers/modal-helper'
 import {
   closeModal,
   setShowModal,
+  setPersonalInfo,
 } from '../../src/store/MainLayoutDataStore/MainLayoutDataStore'
 import { changeAdminTabs } from '../../src/store/MebmerManagementDataStore/MemberManagementDataStore'
-import { setPersonalInfo } from '../../src/store/ProfileDataStore/ProfileDataStore'
 
 import { ProfileManager } from '../../src/managers/profile'
 

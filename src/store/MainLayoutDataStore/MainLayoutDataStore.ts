@@ -9,6 +9,7 @@ interface IMainLayoutDataStore {
   showQuestionModal: boolean
   modalType: string
   userData: Record<string, unknown>
+  personalInfo: Record<string, string>
 }
 
 const initialState: IMainLayoutDataStore = {
@@ -20,6 +21,7 @@ const initialState: IMainLayoutDataStore = {
   showQuestionModal: false,
   modalType: '',
   userData: {},
+  personalInfo: {},
 }
 
 const MainLayoutDataStore = createSlice({
@@ -56,12 +58,16 @@ const MainLayoutDataStore = createSlice({
     setUserData(state, action) {
       state.userData = action.payload
     },
+    setPersonalInfo(state, action) {
+      state.personalInfo = action.payload
+    },
   },
 })
 
 export const {
   toggleAlertModal,
   closeModal,
+  setPersonalInfo,
   setShowModal,
   setShowPropmtModal,
   setShowPinModal,

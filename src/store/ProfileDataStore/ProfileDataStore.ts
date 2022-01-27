@@ -11,7 +11,6 @@ interface IProfileDataStore {
     twitter?: string
     linkedIn?: string
   }
-  personalInfo: Record<string, string>
   accountInfo: Record<string, string>
 }
 
@@ -26,7 +25,6 @@ const initialState: IProfileDataStore = {
     twitter: '',
     linkedIn: '',
   },
-  personalInfo: {},
   accountInfo: {},
 }
 
@@ -49,9 +47,6 @@ const ProfileDataStore = createSlice({
     setSocialInfo(state, action) {
       state.socialInfo = action.payload
     },
-    setPersonalInfo(state, action) {
-      state.personalInfo = action.payload
-    },
     setAccountInfo(state, action) {
       state.accountInfo = action.payload
     },
@@ -64,7 +59,6 @@ export const {
   setIsFormFilled,
   setErrorMessage,
   setSocialInfo,
-  setPersonalInfo,
   setAccountInfo,
 } = ProfileDataStore.actions
 
