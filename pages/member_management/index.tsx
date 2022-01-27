@@ -32,7 +32,7 @@ interface IMember {
 const MemberManagementPage = () => {
   const dispatch = useDispatch()
 
-  const { count, members } = useSelectorTyped(
+  const { members } = useSelectorTyped(
     (state: RootState) => state.MemberManagementDataStore
   )
 
