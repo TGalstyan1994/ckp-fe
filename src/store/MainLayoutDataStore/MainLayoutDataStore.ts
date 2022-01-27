@@ -21,7 +21,19 @@ const initialState: IMainLayoutDataStore = {
   showQuestionModal: false,
   modalType: '',
   userData: {},
-  personalInfo: {},
+  personalInfo: {
+    address: '',
+    city: '',
+    country: '',
+    dateOfBirth: '',
+    email: '',
+    firstName: '',
+    gender: '',
+    lastName: '',
+    phone: '',
+    state: '',
+    zipCode: '',
+  },
 }
 
 const MainLayoutDataStore = createSlice({
