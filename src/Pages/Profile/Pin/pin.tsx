@@ -12,8 +12,11 @@ import { modalPromise } from '../../../helpers/modal-helper'
 import { ProfileManager } from '../../../managers/profile'
 import { PinInput } from '../../../components/PinInput'
 import { validate } from './validate'
+import MainLoader from '../../../components/Loaders/MainLoader'
 
 export const Pin: FC = () => {
+  const [pageProps, setPageProps] = useState({ loading: false })
+
   const [inputValue, setInputValue] = useState({
     oldSecurityCode: '',
     securityCode: '',
@@ -68,6 +71,7 @@ export const Pin: FC = () => {
     )
 
     if (promise) {
+      setPageProps({ loading: true })
       try {
         await ProfileManager.changeSecurityPin({
           ...inputValue,
@@ -86,9 +90,9 @@ export const Pin: FC = () => {
             [errors.property]: errors.messages[0],
           })
         }
-        throw error
       }
     }
+    setPageProps({ loading: false })
   }
 
   const isFormFilled = () => {
@@ -150,6 +154,7 @@ export const Pin: FC = () => {
               </button>
             </div>
           </div>
+          {pageProps.loading && <MainLoader />}
         </div>
       </div>
     </div>

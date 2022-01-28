@@ -32,8 +32,8 @@ export const EnterSecurityQuestion: FC = () => {
     setAnswer(e.target.value)
   }
 
-  const resolve = () => {
-    promiseInfo.resolve(answer)
+  const resolve = (value: string) => {
+    promiseInfo.resolve(value)
   }
   const onSave = async () => {
     const validationErrors = enterSecurityQuestionValidation(answer)
@@ -41,7 +41,7 @@ export const EnterSecurityQuestion: FC = () => {
       setAnswerError(validationErrors)
       return
     }
-    resolve()
+    resolve(answer)
     dispatch(closeQuestionModal())
   }
 
@@ -51,6 +51,7 @@ export const EnterSecurityQuestion: FC = () => {
         <span
           className="closeModal"
           onClick={() => {
+            resolve('')
             dispatch(closeQuestionModal())
             dispatch(setErrorMessage(''))
           }}
