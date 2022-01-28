@@ -65,7 +65,6 @@ const ProfileAdminPage = () => {
       }
     }
   }
-
   useEffect(() => {
     ;(async () => {
       const res = await ProfileManager.getPersonalInfo()
@@ -107,7 +106,11 @@ const ProfileAdminPage = () => {
                 </p>
               </div>
             </div>
-            <ul>
+            <ul
+              className={classNames('user-info_tabs', {
+                member_items: 'user-info_tabs__member',
+              })}
+            >
               <li
                 className={classNames('profile tabs', {
                   activeAdminTab: activeAdminTab === 'profile',
@@ -156,8 +159,8 @@ const ProfileAdminPage = () => {
               </li>
             </ul>
           </div>
+          {tabs[activeAdminTab]}
         </div>
-        {tabs[activeAdminTab]}
       </div>
     </div>
   )

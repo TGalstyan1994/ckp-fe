@@ -172,54 +172,6 @@
             cursor: pointer;
           }
         }
-
-        ul {
-          margin: 54px 0 39px 0;
-
-          .tabs {
-            width: 100%;
-            height: 45px;
-            border-radius: 0;
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: $icon-gray;
-            transition: all 0.3s;
-            cursor: pointer;
-            &:hover {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              list-style: none;
-              width: 100%;
-              height: 45px;
-              background: #f6f6f6;
-              font-family: 'SF Pro Display', sans-serif;
-              font-style: normal;
-              font-weight: 600;
-              font-size: 16px;
-              text-align: center;
-              color: #0e0e0e;
-            }
-          }
-
-          .activeTab {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            list-style: none;
-            width: 100%;
-            height: 45px;
-            background: #f6f6f6;
-            font-family: 'SF Pro Display', sans-serif;
-            font-style: normal;
-            font-weight: 600;
-            font-size: 16px;
-            text-align: center;
-            color: #0e0e0e;
-          }
-        }
       }
     }
 
@@ -338,50 +290,6 @@
         display: flex;
         flex-direction: column;
 
-        .sections {
-          border-radius: 5px 0 0 0;
-          grid-template-columns: repeat(3, 1fr);
-          cursor: pointer;
-          display: grid;
-
-          .info {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 66px;
-            background: #f7f7f7;
-            opacity: 0.8;
-            border: 1px solid #c8c8c8;
-
-            &:first-of-type,
-            &:last-of-type {
-              border-left: none;
-              border-right: none;
-            }
-            span {
-              font-family: ' SF Pro Display', sans-serif;
-              font-style: normal;
-              font-weight: 600;
-              font-size: 13px;
-              color: #c8c8c8;
-              text-transform: uppercase;
-            }
-            &:hover {
-              background: $white;
-              span {
-                color: $green;
-              }
-              transition: 0.5s;
-            }
-          }
-          .activeInfo {
-            background: $white;
-            span {
-              color: $green;
-            }
-          }
-        }
         .content {
           flex-grow: 1;
           display: flex;

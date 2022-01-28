@@ -7,14 +7,16 @@ interface IMemberManagementDataStore {
     | 'kyc'
     | 'referral'
     | 'activate_deactivate'
-  activeAdminProfileTab: 'personal' | 'security' | 'social'
+  activeAdminProfileTab: 'account' | 'personal' | 'security' | 'social'
   count: number
   members: []
+  memberAccountInfo: Record<string, unknown>
 }
 
 const initialState: IMemberManagementDataStore = {
   activeAdminTab: 'profile',
-  activeAdminProfileTab: 'personal',
+  activeAdminProfileTab: 'account',
+  memberAccountInfo: {},
   count: 0,
   members: [],
 }
@@ -35,6 +37,9 @@ const MemberManagementDataStore = createSlice({
     setMembers(state, action) {
       state.members = action.payload
     },
+    setMemberAccountData(state, action) {
+      state.memberAccountInfo = action.payload
+    },
   },
 })
 
@@ -43,6 +48,7 @@ export const {
   changeAdminProfileTab,
   setPaginationCount,
   setMembers,
+  setMemberAccountData
 } = MemberManagementDataStore.actions
 
 export default MemberManagementDataStore.reducer
