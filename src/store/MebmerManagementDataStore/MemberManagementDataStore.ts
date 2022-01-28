@@ -1,20 +1,17 @@
 import { createSlice } from 'node_modules/@reduxjs/toolkit/dist'
 
 interface IMemberManagementDataStore {
-  activeAdminTab:
-    | 'profile'
-    | 'donation'
-    | 'kyc'
-    | 'referral'
-    | 'activate_deactivate'
-  activeAdminProfileTab: 'personal' | 'security' | 'social'
+  activeTab: 'profile' | 'donation' | 'kyc' | 'referral' | 'activate_deactivate'
+  activeProfileTab: 'account' | 'personal' | 'security' | 'social'
   count: number
   members: []
+  memberAccountInfo: Record<string, unknown>
 }
 
 const initialState: IMemberManagementDataStore = {
-  activeAdminTab: 'profile',
-  activeAdminProfileTab: 'personal',
+  activeTab: 'profile',
+  activeProfileTab: 'account',
+  memberAccountInfo: {},
   count: 0,
   members: [],
 }
@@ -23,11 +20,11 @@ const MemberManagementDataStore = createSlice({
   name: 'MemberManagementDataStore',
   initialState,
   reducers: {
-    changeAdminTabs(state, action) {
-      state.activeAdminTab = action.payload
+    changeTabs(state, action) {
+      state.activeTab = action.payload
     },
-    changeAdminProfileTab(state, action) {
-      state.activeAdminProfileTab = action.payload
+    changeProfileTab(state, action) {
+      state.activeProfileTab = action.payload
     },
     setPaginationCount(state, action) {
       state.count = action.payload
@@ -35,14 +32,18 @@ const MemberManagementDataStore = createSlice({
     setMembers(state, action) {
       state.members = action.payload
     },
+    setMemberAccountData(state, action) {
+      state.memberAccountInfo = action.payload
+    },
   },
 })
 
 export const {
-  changeAdminTabs,
-  changeAdminProfileTab,
+  changeTabs,
+  changeProfileTab,
   setPaginationCount,
   setMembers,
+  setMemberAccountData,
 } = MemberManagementDataStore.actions
 
 export default MemberManagementDataStore.reducer

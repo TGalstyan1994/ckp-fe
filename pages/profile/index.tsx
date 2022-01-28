@@ -175,7 +175,7 @@ const ProfilePage = () => {
                 Save
               </button>
             </div>
-            <ul>
+            <ul className="user-info_tabs">
               <li
                 className={classNames('overview tabs', {
                   activeTab: activeTab === 'overview',

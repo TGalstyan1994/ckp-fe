@@ -8,7 +8,7 @@
     min-width: 209px;
     max-width: 30%;
     background: #fbfbfb;
-    border-radius: 5px;
+    border-right: 1px solid #d7d7d7;
     .admin-profile_avatar {
       width: 100%;
       height: 125px;
@@ -63,51 +63,137 @@
       }
     }
   }
-  ul {
-    margin: 54px 0 39px 0;
-
-    .tabs {
-      width: 100%;
-      height: 45px;
-      border-radius: 0;
-      list-style: none;
+  .admin-holder {
+    width: 100%;
+    .title {
       display: flex;
-      justify-content: center;
       align-items: center;
-      color: $icon-gray;
-      transition: all 0.3s;
-      cursor: pointer;
-      &:hover {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        list-style: none;
-        width: 100%;
-        height: 45px;
-        background: #f6f6f6;
+      padding: 20px 35px;
+      p {
         font-family: 'SF Pro Display', sans-serif;
         font-style: normal;
         font-weight: 600;
         font-size: 16px;
-        text-align: center;
         color: #0e0e0e;
       }
     }
-
-    .activeTab {
+  }
+  .admin-info {
+    padding: 36px;
+    .flex-container {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      list-style: none;
-      width: 100%;
-      height: 45px;
-      background: #f6f6f6;
-      font-family: 'SF Pro Display', sans-serif;
-      font-style: normal;
-      font-weight: 600;
-      font-size: 16px;
-      text-align: center;
-      color: #0e0e0e;
+      align-items: baseline;
+      .w-100 {
+        width: 100%;
+      }
+      .basic-title {
+        width: 234px;
+      }
+      .info_1 {
+        width: 100%;
+        padding-right: 100px;
+        .admin-account-info {
+          margin-top: 25px;
+        }
+        .member-info {
+          display: flex;
+          justify-content: space-between;
+
+          &__title {
+            font-family: 'SF Pro Display', sans-serif;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 2;
+            color: $black;
+            .link {
+              text-decoration: underline;
+              color: $green;
+              position: relative;
+              .pensil {
+                position: absolute;
+                transform: translateX(14px);
+                svg {
+                  width: 10px;
+                  height: 10px;
+                }
+              }
+            }
+          }
+          .name {
+            font-family: 'SF Pro Display', sans-serif;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 2;
+            color: #c8c8c8;
+          }
+        }
+      }
+      .input-container {
+        width: 100%;
+        padding-right: 215px;
+        .basic {
+          margin-bottom: 25px;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 13px;
+          color: #000000;
+          display: inline-block;
+        }
+        .personal-info {
+          margin-top: 36px;
+          margin-bottom: 22px;
+        }
+        .input-flex {
+          display: flex;
+          gap: 30px;
+        }
+
+        .martial-status {
+          display: flex;
+          margin-top: 60px;
+          gap: 20px;
+          .martial-gender {
+            transform: translateY(-17px);
+            span:nth-child(1) {
+              transform: translateY(-19px);
+            }
+          }
+        }
+        .member-flex {
+          display: flex;
+          margin-top: 36px;
+          .member-input {
+            width: 100%;
+            margin-top: 36px;
+          }
+        }
+        .state-flex {
+          display: flex;
+          margin-top: 25px;
+          gap: 30px;
+        }
+      }
     }
+  }
+  .basic {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 13px;
+    color: #0e0e0e;
+    font-family: 'SF Pro Display', sans-serif;
+  }
+  .mb-24 {
+    margin-bottom: 24px;
+  }
+  .mt-37 {
+    margin-top: 37px;
+  }
+  .mt-24 {
+    margin-top: 24px;
+  }
+  .w-140 {
+    width: 140px;
   }
 }

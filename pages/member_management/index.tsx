@@ -1,13 +1,13 @@
 import { GetServerSideProps } from 'next'
-import { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState, useRef } from 'react'
 import LockIcon from 'src/assets/images/icons/lock-icon'
+import PaginationIcon from 'src/assets/images/icons/arrow-duble-icon'
 import { useDispatch } from 'react-redux'
 import classNames from 'classnames'
 import { requireAuthentication } from '../../HOC/requireAuthentication'
 import MainLayout from '../../src/containers/Layouts/MainLayout/MainLayout'
 import { Input } from '../../src/components/Input'
 import { Button } from '../../src/components/Button'
-import itemImage from '../../src/assets/images/itemImage.svg'
 import { MemberManagement } from '../../src/managers/memberManagement'
 import { useSelectorTyped } from '../../src/utils/hooks'
 import { RootState } from '../../src/store'
@@ -31,8 +31,8 @@ interface IMember {
 
 const MemberManagementPage = () => {
   const dispatch = useDispatch()
-
-  const { members } = useSelectorTyped(
+  const currentPageRequest: React.MutableRefObject<number> = useRef(0)
+  const { members, count } = useSelectorTyped(
     (state: RootState) => state.MemberManagementDataStore
   )
 
@@ -45,7 +45,8 @@ const MemberManagementPage = () => {
   useEffect(() => {
     ;(async () => {
       const body = {
-        offset: 0,
+        // offset: 0,
+        offset: currentPageRequest,
         limit: 12,
       }
       try {
@@ -58,6 +59,12 @@ const MemberManagementPage = () => {
     })()
   }, [])
 
+  const pageNumbers = []
+
+  for (let i = 1; i <= Math.ceil(count / 12); i++) {
+    pageNumbers.push(i)
+  }
+
   return (
     <div className="container">
       <div className="relative member-management">
@@ -68,13 +75,20 @@ const MemberManagementPage = () => {
           </span>
         </div>
         <div className="mm-search-area">
-          <p>found 12 results</p>
-          <Input
-            onChange={handleSearchInput}
-            value={searchValue}
-            placeholder="Member search"
-          />
-          <Button>search</Button>
+          <div>
+            <p>found 12 results</p>
+          </div>
+
+          <div className="search-input">
+            <Input
+              onChange={handleSearchInput}
+              value={searchValue}
+              placeholder="Member search"
+            />
+          </div>
+          <div>
+            <Button>search</Button>
+          </div>
         </div>
       </div>
       <div className="members-container">
@@ -86,12 +100,22 @@ const MemberManagementPage = () => {
             >
               <LockIcon />
               <div className="top">
-                <div className="image">
-                  <img
-                    src={item.avatar ? item.avatar : itemImage}
-                    alt="itemImage"
-                  />
+                <div className="avatar">
+                  {item.avatar ? (
+                    <figure className="figure">
+                      <img
+                        src={`${process.env.NEXT_PUBLIC_API}/avatar/${item.avatar}`}
+                        alt="memberAvatar"
+                      />
+                    </figure>
+                  ) : (
+                    <figure className="figure">
+                      {item.firstName?.slice(0, 1).toUpperCase()}
+                      {item.lastName?.slice(0, 1).toUpperCase()}
+                    </figure>
+                  )}
                 </div>
+
                 <div className="name">
                   <h4>{item.firstName ? item.firstName : 'firstName'}</h4>
                   <h4>{item.lastName ? item.lastName : 'lastName'}</h4>
@@ -105,6 +129,21 @@ const MemberManagementPage = () => {
             </div>
           )
         })}
+      </div>
+      <div className="pagination">
+        <ul>
+          <li>
+            <PaginationIcon />
+          </li>
+          {pageNumbers.map((pageNum: number) => (
+            <li className="activePage" key={pageNum} ref={currentPageRequest}>
+              {pageNum}
+            </li>
+          ))}
+          <li>
+            <PaginationIcon />
+          </li>
+        </ul>
       </div>
     </div>
   )
