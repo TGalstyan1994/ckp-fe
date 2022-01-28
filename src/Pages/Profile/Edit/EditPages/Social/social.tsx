@@ -9,9 +9,12 @@ import { ProfileManager } from '../../../../../managers/profile'
 import { Input } from '../../../../../components/Input'
 import { useSelectorTyped } from '../../../../../utils/hooks'
 import { RootState } from '../../../../../store'
+import MainLoader from '../../../../../components/Loaders/MainLoader'
 
 export const Social: FC = () => {
   const dispatch = useDispatch()
+
+  const [pageProps, setPageProps] = useState({ loader: false })
   const { socialInfo } = useSelectorTyped(
     (state: RootState) => state.ProfileDataStore
   )
@@ -53,20 +56,26 @@ export const Social: FC = () => {
   }
 
   const onSubmit = async () => {
-    if (inputValue.facebook === '') {
-      delete inputValue.facebook
+    const res: Record<string, string> = {}
+    if (inputValue.facebook) {
+      res.facebook = inputValue.facebook
     }
 
-    if (inputValue.twitter === '') {
-      delete inputValue.twitter
+    if (inputValue.twitter) {
+      res.twitter = inputValue.twitter
     }
 
-    if (inputValue.linkedIn === '') {
-      delete inputValue.linkedIn
+    if (inputValue.linkedIn) {
+      res.linkedIn = inputValue.linkedIn
+    }
+
+    if (inputValue.about) {
+      res.about = inputValue.about
     }
 
     try {
-      await ProfileManager.changeSocialInfo(inputValue)
+      setPageProps({ loader: true })
+      await ProfileManager.changeSocialInfo(res)
       dispatch(toggleAlertModal(true))
       const newSocialInfo = await ProfileManager.getSocialInfo()
       dispatch(setSocialInfo(newSocialInfo))
@@ -84,8 +93,8 @@ export const Social: FC = () => {
         ...inputError,
         ...newInputErrors,
       })
-      throw error_
     }
+    setPageProps({ loader: false })
   }
 
   const isFormFilled = () => {
@@ -103,51 +112,50 @@ export const Social: FC = () => {
   }, [inputValue])
 
   return (
-    <>
-      <div className="content">
-        <div className="input-container">
-          <div className="input-label">About me</div>
-          <Input
-            name="about"
-            value={inputValue.about}
-            onChange={handleChange}
-            placeholder="Add info here"
-            error={inputError.about}
-          />
-          <div className="input-label">Facebook</div>
-          <Input
-            name="facebook"
-            value={inputValue.facebook}
-            onChange={handleChange}
-            placeholder="https://www.facebook.com"
-            error={inputError.facebook}
-          />
-          <div className="input-label">Twitter</div>
-          <Input
-            name="twitter"
-            value={inputValue.twitter}
-            onChange={handleChange}
-            placeholder="https://www.twitter.com"
-            error={inputError.twitter}
-          />
-          <div className="input-label">LinkedIn</div>
-          <Input
-            name="linkedIn"
-            value={inputValue.linkedIn}
-            onChange={handleChange}
-            placeholder="https://www.linkedin.com"
-            error={inputError.linkedIn}
-          />
-          <div className="btn-container">
-            <button onClick={resetValue} className="btn-cancel">
-              Cancel
-            </button>
-            <button onClick={onSubmit} className="btn-save">
-              Save Changes
-            </button>
-          </div>
+    <div className="content">
+      <div className="input-container">
+        <div className="input-label">About me</div>
+        <Input
+          name="about"
+          value={inputValue.about}
+          onChange={handleChange}
+          placeholder="Add info here"
+          error={inputError.about}
+        />
+        <div className="input-label">Facebook</div>
+        <Input
+          name="facebook"
+          value={inputValue.facebook}
+          onChange={handleChange}
+          placeholder="https://www.facebook.com"
+          error={inputError.facebook}
+        />
+        <div className="input-label">Twitter</div>
+        <Input
+          name="twitter"
+          value={inputValue.twitter}
+          onChange={handleChange}
+          placeholder="https://www.twitter.com"
+          error={inputError.twitter}
+        />
+        <div className="input-label">LinkedIn</div>
+        <Input
+          name="linkedIn"
+          value={inputValue.linkedIn}
+          onChange={handleChange}
+          placeholder="https://www.linkedin.com"
+          error={inputError.linkedIn}
+        />
+        <div className="btn-container">
+          <button onClick={resetValue} className="btn-cancel">
+            Cancel
+          </button>
+          <button onClick={onSubmit} className="btn-save">
+            Save Changes
+          </button>
         </div>
       </div>
-    </>
+      {pageProps.loader && <MainLoader />}
+    </div>
   )
 }

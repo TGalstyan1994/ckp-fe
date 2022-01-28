@@ -24,15 +24,21 @@ import {
   setIsSuperAdmin,
 } from '../../../store/GlobalConfigDataStore/GlobalConfigDataStore'
 import { ProfileManager } from '../../../managers/profile'
+import MainLoader from '../../../components/Loaders/MainLoader'
 
 interface IMainLayout {
   children: JSX.Element
 }
 
+const pagesWithPermissions = ['/member_management']
+
 const MainLayout = ({ children }: IMainLayout) => {
   const router = useRouter()
   const dispatch = useDispatch()
   const { data } = useSelectorTyped((state) => state.signin)
+  const { isSuperAdmin } = useSelectorTyped(
+    (state: RootState) => state.GlobalConfigDataStore
+  )
   const [loading, setLoading] = useState(true)
 
   const {
@@ -72,13 +78,20 @@ const MainLayout = ({ children }: IMainLayout) => {
 
       dispatch(setPersonalInfo(personal))
       dispatch(setDefaults(getDefaults))
-      const { isSuperAdmin, ...userData } = userInfo
+      const { isSuperAdmin: SuperAdminPermission, ...userData } = userInfo
       dispatch(setUserData(userData))
-      dispatch(setIsSuperAdmin(isSuperAdmin))
+      dispatch(setIsSuperAdmin(SuperAdminPermission))
     })()
   }, [])
 
-  if (loading) return <div>Loading...</div>
+  useEffect(() => {
+    if (
+      !isSuperAdmin &&
+      !pagesWithPermissions.every((page) => !router.asPath.includes(page))
+    ) {
+      router.push('/profile')
+    }
+  }, [router, isSuperAdmin])
 
   return (
     <div className="main-wrapper">
@@ -91,6 +104,7 @@ const MainLayout = ({ children }: IMainLayout) => {
       <SideMenu />
       <div className="main-container">{children}</div>
       <Footer />
+      {loading ? <MainLoader /> : ''}
     </div>
   )
 }

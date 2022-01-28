@@ -23,8 +23,8 @@ export const Edit: FC = () => {
   const dispatch = useDispatch()
 
   const tabs = {
-    security: <Security />,
     personal: <Personal />,
+    security: <Security />,
     social: <Social />,
   }
   const { activeProfileTab }: IActiveProfileTab = useSelectorTyped(
