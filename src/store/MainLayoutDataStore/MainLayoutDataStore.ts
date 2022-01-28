@@ -61,6 +61,9 @@ const MainLayoutDataStore = createSlice({
     setPersonalInfo(state, action) {
       state.personalInfo = action.payload
     },
+    resetMainLayoutDataStore() {
+      return initialState
+    },
   },
 })
 
@@ -75,6 +78,7 @@ export const {
   setShowQuestionModal,
   closeQuestionModal,
   setUserData,
+  resetMainLayoutDataStore,
 } = MainLayoutDataStore.actions
 
 export default MainLayoutDataStore.reducer

@@ -35,6 +35,9 @@ const MemberManagementDataStore = createSlice({
     setMemberAccountData(state, action) {
       state.memberAccountInfo = action.payload
     },
+    resetMemberManagementDataStore() {
+      return initialState
+    },
   },
 })
 
@@ -44,6 +47,7 @@ export const {
   setPaginationCount,
   setMembers,
   setMemberAccountData,
+  resetMemberManagementDataStore,
 } = MemberManagementDataStore.actions
 
 export default MemberManagementDataStore.reducer

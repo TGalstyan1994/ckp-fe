@@ -9,22 +9,28 @@ import { Header } from '../../../components/Header'
 import { Footer } from '../../../components/Footer'
 import { RootState } from '../../../store'
 import { ConfirmModal } from '../../../components/Modal/ConfirmModal'
-import { setIsFormFilled } from '../../../store/ProfileDataStore/ProfileDataStore'
+import {
+  resetProfileDataStore,
+  setIsFormFilled,
+} from '../../../store/ProfileDataStore/ProfileDataStore'
 import { AlertModal } from '../../../components/Modal/AlertModal'
 import PromptModal from '../../../components/Modal/PromptModal'
 import { EnterSecurityPin } from '../../../components/Modal/ConfirmModal/enterSecurityPin'
 import { EnterSecurityQuestion } from '../../../components/Modal/ConfirmModal/enterSecurityQuestion'
 import {
+  resetMainLayoutDataStore,
   setPersonalInfo,
   setUserData,
 } from '../../../store/MainLayoutDataStore/MainLayoutDataStore'
 import { GlobalManager } from '../../../managers/global'
 import {
+  resetGlobalConfigDataStore,
   setDefaults,
   setIsSuperAdmin,
 } from '../../../store/GlobalConfigDataStore/GlobalConfigDataStore'
 import { ProfileManager } from '../../../managers/profile'
 import MainLoader from '../../../components/Loaders/MainLoader'
+import { resetMemberManagementDataStore } from '../../../store/MebmerManagementDataStore/MemberManagementDataStore'
 
 interface IMainLayout {
   children: JSX.Element
@@ -82,6 +88,13 @@ const MainLayout = ({ children }: IMainLayout) => {
       dispatch(setUserData(userData))
       dispatch(setIsSuperAdmin(SuperAdminPermission))
     })()
+
+    return () => {
+      dispatch(resetGlobalConfigDataStore())
+      dispatch(resetMainLayoutDataStore())
+      dispatch(resetMemberManagementDataStore())
+      dispatch(resetProfileDataStore())
+    }
   }, [])
 
   useEffect(() => {

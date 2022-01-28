@@ -50,6 +50,9 @@ const ProfileDataStore = createSlice({
     setAccountInfo(state, action) {
       state.accountInfo = action.payload
     },
+    resetProfileDataStore() {
+      return initialState
+    },
   },
 })
 
@@ -60,6 +63,7 @@ export const {
   setErrorMessage,
   setSocialInfo,
   setAccountInfo,
+  resetProfileDataStore,
 } = ProfileDataStore.actions
 
 export default ProfileDataStore.reducer

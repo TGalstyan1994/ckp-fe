@@ -26,9 +26,13 @@ const GlobalConfigDataStore = createSlice({
     setIsSuperAdmin(state, action) {
       state.isSuperAdmin = action.payload
     },
+    resetGlobalConfigDataStore() {
+      return initialState
+    },
   },
 })
 
-export const { setDefaults, setIsSuperAdmin } = GlobalConfigDataStore.actions
+export const { setDefaults, setIsSuperAdmin, resetGlobalConfigDataStore } =
+  GlobalConfigDataStore.actions
 
 export default GlobalConfigDataStore.reducer
