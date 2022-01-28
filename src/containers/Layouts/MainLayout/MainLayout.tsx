@@ -24,6 +24,7 @@ import {
   setIsSuperAdmin,
 } from '../../../store/GlobalConfigDataStore/GlobalConfigDataStore'
 import { ProfileManager } from '../../../managers/profile'
+import MainLoader from '../../../components/Loaders/MainLoader'
 
 interface IMainLayout {
   children: JSX.Element
@@ -78,8 +79,6 @@ const MainLayout = ({ children }: IMainLayout) => {
     })()
   }, [])
 
-  if (loading) return <div>Loading...</div>
-
   return (
     <div className="main-wrapper">
       {showConfirmModal && <ConfirmModal />}
@@ -91,6 +90,7 @@ const MainLayout = ({ children }: IMainLayout) => {
       <SideMenu />
       <div className="main-container">{children}</div>
       <Footer />
+      {loading ? <MainLoader /> : ''}
     </div>
   )
 }
