@@ -11,19 +11,19 @@
       display: flex;
       align-items: center;
       cursor: pointer;
-      span:nth-child(1){
+      span:nth-child(1) {
         transform: rotate(180deg) translateY(-1px);
-        svg{
-          with:11px;
+        svg {
+          with: 11px;
           height: 9px;
         }
       }
-      p{
-        font-family: "SF Pro Display",sans-serif;
+      p {
+        font-family: 'SF Pro Display', sans-serif;
         font-style: normal;
         font-weight: 600;
         font-size: 13px;
-        color: #0E0E0E;
+        color: #0e0e0e;
         margin-left: 8px;
       }
     }
