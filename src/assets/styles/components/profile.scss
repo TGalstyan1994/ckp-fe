@@ -7,7 +7,26 @@
   }
   .relative {
     margin-bottom: 35px;
-
+    .back-member {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      span:nth-child(1){
+        transform: rotate(180deg) translateY(-1px);
+        svg{
+          with:11px;
+          height: 9px;
+        }
+      }
+      p{
+        font-family: "SF Pro Display",sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 13px;
+        color: #0E0E0E;
+        margin-left: 8px;
+      }
+    }
     .container-title {
       font-family: 'SF Pro Display', sans-serif;
       font-style: normal;
@@ -40,7 +59,6 @@
         background: #ffffff;
         box-shadow: 0 0 8px #dedede;
         border-radius: 5px;
-
         .profile-avatar {
           width: 100%;
           background: #f8f8f8;
@@ -51,6 +69,7 @@
           align-items: center;
           flex-direction: column;
           padding: 69px 2rem;
+          border-radius: 5px;
           .avatar-container {
             position: relative;
             .delete-upload {

@@ -1,5 +1,6 @@
 import { ChangeEvent, FC } from 'react'
 import { Input } from '../../../../components/Input'
+import { Button } from '../../../../components/Button'
 
 export const Security: FC = () => {
   // eslint-disable-next-line unicorn/consistent-function-scoping
@@ -20,6 +21,7 @@ export const Security: FC = () => {
               placeholder="**************"
               value=""
               onChange={changeValue}
+              className="mb-24"
             />
             <Input
               label="Confirm Password"
@@ -27,11 +29,15 @@ export const Security: FC = () => {
               placeholder="**************"
               value=""
               onChange={changeValue}
+              className="mb-24"
             />
           </div>
-          <button className="btn-save">Save</button>
+          <div className="w-140">
+            <Button>Save</Button>
+          </div>
         </div>
       </div>
+      <div className="mt-37" />
       <div className="flex-container">
         <div className="basic-title">
           <span className="basic">Change Security PIN</span>
@@ -42,18 +48,21 @@ export const Security: FC = () => {
               label="Security PIN"
               name="securityPin"
               placeholder="**************"
-              value="sss"
+              value=""
               onChange={changeValue}
             />
             <Input
               label="Confirm Security PIN"
               name="confirmSecurityPin"
               placeholder="**************"
-              value="sss"
+              value=""
               onChange={changeValue}
             />
           </div>
-          <button className="btn-save">Save</button>
+          <div className="mt-24" />
+          <div className="w-140">
+            <Button>Save</Button>
+          </div>
         </div>
       </div>
     </div>

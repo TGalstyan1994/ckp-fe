@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import classNames from 'classnames'
 import { useDispatch } from 'react-redux'
 import { Security } from './ProfilePages/Security/security'
@@ -12,21 +12,21 @@ import {
   closeModal,
   setShowModal,
 } from '../../store/MainLayoutDataStore/MainLayoutDataStore'
-import { changeAdminProfileTab } from '../../store/MebmerManagementDataStore/MemberManagementDataStore'
+import { changeProfileTab } from '../../store/MebmerManagementDataStore/MemberManagementDataStore'
 
 type ITabNames = 'account' | 'security' | 'personal' | 'social'
 
 interface IActiveProfileTab {
-  activeAdminProfileTab: ITabNames
+  activeProfileTab: ITabNames
 }
 const tabs = {
-  security: <Security />,
   personal: <Personal />,
+  security: <Security />,
   social: <Social />,
   account: <Account />,
 }
 export const Profile: FC = () => {
-  const { activeAdminProfileTab }: IActiveProfileTab = useSelectorTyped(
+  const { activeProfileTab }: IActiveProfileTab = useSelectorTyped(
     (state: RootState) => state.MemberManagementDataStore
   )
   const { isFormFilled } = useSelectorTyped(
@@ -34,32 +34,34 @@ export const Profile: FC = () => {
   )
   const dispatch = useDispatch()
   const handleChangeTab = async (tab: ITabNames) => {
-    if (!isFormFilled || activeAdminProfileTab === tab) {
-      dispatch(changeAdminProfileTab(tab))
+    if (!isFormFilled || activeProfileTab === tab) {
+      dispatch(changeProfileTab(tab))
     } else {
       const promise = await modalPromise(({ resolve, reject }) =>
         dispatch(setShowModal({ resolve, reject }))
       )
       dispatch(closeModal())
       if (promise) {
-        dispatch(changeAdminProfileTab(tab))
+        dispatch(changeProfileTab(tab))
       }
     }
   }
+
+  useEffect(() => {
+    return () => {
+      dispatch(changeProfileTab('account'))
+    }
+  }, [])
   return (
     <div className="admin-holder">
       <div className="title">
         <p>Profile</p>
       </div>
 
-      <div
-        className={classNames('sections', {
-          sections__admin: 'sections__admin',
-        })}
-      >
+      <div className="sections sections__admin">
         <div
           className={classNames('account info', {
-            activeInfo: activeAdminProfileTab === 'account',
+            activeInfo: activeProfileTab === 'account',
           })}
           onClick={() => handleChangeTab('account')}
           aria-hidden
@@ -68,7 +70,7 @@ export const Profile: FC = () => {
         </div>
         <div
           className={classNames('personal info', {
-            activeInfo: activeAdminProfileTab === 'personal',
+            activeInfo: activeProfileTab === 'personal',
           })}
           onClick={() => handleChangeTab('personal')}
           aria-hidden
@@ -77,7 +79,7 @@ export const Profile: FC = () => {
         </div>
         <div
           className={classNames('security info', {
-            activeInfo: activeAdminProfileTab === 'security',
+            activeInfo: activeProfileTab === 'security',
           })}
           onClick={() => handleChangeTab('security')}
           aria-hidden
@@ -86,7 +88,7 @@ export const Profile: FC = () => {
         </div>
         <div
           className={classNames('social info', {
-            activeInfo: activeAdminProfileTab === 'social',
+            activeInfo: activeProfileTab === 'social',
           })}
           onClick={() => handleChangeTab('social')}
           aria-hidden
@@ -94,7 +96,7 @@ export const Profile: FC = () => {
           <span>Social Info</span>
         </div>
       </div>
-      {tabs[activeAdminProfileTab]}
+      {tabs[activeProfileTab]}
     </div>
   )
 }

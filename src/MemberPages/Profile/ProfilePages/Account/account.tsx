@@ -4,6 +4,7 @@ import { AdminManager } from '../../../../managers/admin'
 import { setMemberAccountData } from '../../../../store/MebmerManagementDataStore/MemberManagementDataStore'
 import { useSelectorTyped } from '../../../../utils/hooks'
 import { RootState } from '../../../../store'
+import PencilIcon from '../../../../assets/images/icons/pencil-icon'
 
 interface ILine {
   name: string
@@ -35,6 +36,9 @@ export const Account: FC = () => {
           <span className="member-info__title" title={text}>
             <a className="link" target="_blank" href={text} rel="noreferrer">
               {text}
+              <span className="pensil">
+                <PencilIcon />
+              </span>
             </a>
           </span>
         ) : (

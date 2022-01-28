@@ -235,7 +235,7 @@ export const Personal: FC = () => {
             label="Email"
             required
             placeholder="Start Your Business"
-            className="mb-22"
+            className="mb-24"
           />
           <div className="personal-info">
             <Select
@@ -271,7 +271,7 @@ export const Personal: FC = () => {
             name="objectiveNote"
             label="Objective Note"
           />
-          <div className="mt-22">
+          <div className="mt-24">
             <div className="input-flex">
               <Input
                 name="firstName"
@@ -291,7 +291,7 @@ export const Personal: FC = () => {
               />
             </div>
           </div>
-          <div className="mt-22">
+          <div className="mt-24">
             <DatePickerForm
               dateForm={dateOfBirth}
               setDateForm={setDateOfBirth}
@@ -304,33 +304,33 @@ export const Personal: FC = () => {
                 genderState={personalDetailsState.gender}
               />
             </div>
+            <Select
+              label="Marital Status"
+              required
+              options={[
+                'Single',
+                'Married',
+                'Divorced',
+                'Common-law',
+                'Widow/widower',
+              ]}
+              currentOption={
+                maritalStatusCodes[personalDetailsState.maritalStatus]
+              }
+              placeholder="Select marital status"
+              setCurrentOption={(option: string) => {
+                // eslint-disable-next-line array-callback-return
+                Object.keys(maritalStatusCodes).map((item: string) => {
+                  if (maritalStatusCodes[item] === option) {
+                    setPersonalDetails('maritalStatus', item)
+                    removeErrors('maritalStatus')
+                  }
+                })
+              }}
+            />
+            {/* <div className="martial"> */}
 
-            <div className="martial">
-              <Select
-                label="Marital Status"
-                required
-                options={[
-                  'Single',
-                  'Married',
-                  'Divorced',
-                  'Common-law',
-                  'Widow/widower',
-                ]}
-                currentOption={
-                  maritalStatusCodes[personalDetailsState.maritalStatus]
-                }
-                placeholder="Select marital status"
-                setCurrentOption={(option: string) => {
-                  // eslint-disable-next-line array-callback-return
-                  Object.keys(maritalStatusCodes).map((item: string) => {
-                    if (maritalStatusCodes[item] === option) {
-                      setPersonalDetails('maritalStatus', item)
-                      removeErrors('maritalStatus')
-                    }
-                  })
-                }}
-              />
-            </div>
+            {/* </div> */}
           </div>
           <div className="mt-35">
             <div className="member-flex">
@@ -356,14 +356,14 @@ export const Personal: FC = () => {
                   name="jobTitle"
                   value={personalDetailsState.jobDescription}
                   placeholder="Job Title"
-                  className="mb-22"
+                  className="mb-24"
                 />
                 <Input
                   onChange={handleFormInputs}
                   name="jobDescription"
                   value={personalDetailsState.jobDescription}
                   placeholder="Job Description"
-                  className="mb-22"
+                  className="mb-24"
                 />
 
                 <Input
@@ -371,7 +371,7 @@ export const Personal: FC = () => {
                   name="employeeAddress"
                   value={personalDetailsState.employeeAddress}
                   placeholder="Employee Address"
-                  className="mb-22"
+                  className="mb-24"
                 />
               </div>
             </div>
@@ -399,7 +399,7 @@ export const Personal: FC = () => {
                 name="businessDescription"
                 value={personalDetailsState.jobDescription}
                 placeholder="Business Description"
-                className="mb-22"
+                className="mb-24"
               />
             </div>
           </div>
@@ -425,7 +425,7 @@ export const Personal: FC = () => {
                 name="tradeDescription"
                 value={personalDetailsState.jobDescription}
                 placeholder="Trade Description"
-                className="mb-22"
+                className="mb-24"
               />
             </div>
           </div>
@@ -451,7 +451,7 @@ export const Personal: FC = () => {
                 name="technicalSkillsDescription"
                 value={personalDetailsState.jobDescription}
                 placeholder="Skill Description"
-                className="mb-22"
+                className="mb-24"
               />
             </div>
           </div>
@@ -477,7 +477,7 @@ export const Personal: FC = () => {
                 name="athleticSkillsDescription"
                 value={personalDetailsState.jobDescription}
                 placeholder="Skill Description"
-                className="mb-22"
+                className="mb-24"
               />
             </div>
           </div>
@@ -503,7 +503,7 @@ export const Personal: FC = () => {
                 name="totalNumberOfDependens"
                 value={personalDetailsState.jobDescription}
                 placeholder="Total Number of Dependents"
-                className="mb-22"
+                className="mb-24"
               />
             </div>
           </div>
@@ -515,7 +515,7 @@ export const Personal: FC = () => {
             name="beneficiaryName"
             value={personalDetailsState.beneficiaryName}
             required
-            className="mb-22"
+            className="mb-24"
           />
           <div className="personal-info">
             <div className="state-flex">
@@ -553,7 +553,7 @@ export const Personal: FC = () => {
                 value={personalDetailsState.city}
                 onChange={handleFormInputs}
                 required
-                className="mb-22"
+                className="mb-24"
               />
               <Input
                 placeholder="Enter Zip Code"
@@ -561,13 +561,13 @@ export const Personal: FC = () => {
                 label="Zip code"
                 value={personalDetailsState.zipCode}
                 onChange={handleFormInputs}
-                className="mb-22"
+                className="mb-24"
               />
             </div>
           </div>
-          <div className="mt-22">
-            <div>
-              <button className="btn-save">Save</button>
+          <div className="mt-24">
+            <div className="w-140">
+              <Button>Save</Button>
             </div>
           </div>
         </div>
