@@ -30,11 +30,11 @@
     }
 
     .open-side-menu {
-      width: 20px;
-      height: 70px;
+      width: 7px;
+      height: 60px;
       position: absolute;
       top: 50%;
-      right: 0;
+      right: 3px;
       transform: translateY(-50%);
       cursor: pointer;
       transition: 0.5s;
@@ -52,7 +52,7 @@
         display: block;
         position: absolute;
         top: 50%;
-        right: 5px;
+        right: 2px;
         transform: translateY(-50%);
         transition: 0.5s;
       }
@@ -117,7 +117,6 @@
         &:hover,
         &_active {
           color: #000000;
-          background: #f7f7f7;
 
           .svgIcon {
             path {
@@ -127,6 +126,8 @@
         }
 
         &:hover {
+          background: #f7f7f7;
+
           .fields {
             display: block;
           }
@@ -144,7 +145,7 @@
       width: 100%;
       height: auto;
       position: absolute;
-      right: -100%;
+      left: calc(100% - 1px);
       top: -30px;
       min-width: 150px;
       background: #ffffff;

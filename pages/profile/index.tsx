@@ -39,14 +39,14 @@ const tabs = {
 }
 
 const ProfilePage = () => {
-  const { activeTab, personalInfo }: IActiveTab = useSelectorTyped(
+  const { activeTab }: IActiveTab = useSelectorTyped(
     (state: RootState) => state.ProfileDataStore
   )
 
   const { isFormFilled } = useSelectorTyped(
     (state: RootState) => state.ProfileDataStore
   )
-  const { userData, avatarError } = useSelectorTyped(
+  const { userData, avatarError, personalInfo } = useSelectorTyped(
     (state: RootState) => state.MainLayoutDataStore
   )
   const dispatch = useDispatch()

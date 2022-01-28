@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux'
 import { ProfileManager } from '../../../managers/profile'
 import {
   setAccountInfo,
-  setPersonalInfo,
   setSocialInfo,
 } from '../../../store/ProfileDataStore/ProfileDataStore'
 import { useSelectorTyped } from '../../../utils/hooks'
@@ -17,8 +16,12 @@ interface ILine {
 
 export const Overview: FC = () => {
   const dispatch = useDispatch()
-  const { socialInfo, personalInfo, accountInfo } = useSelectorTyped(
+  const { socialInfo, accountInfo } = useSelectorTyped(
     (state: RootState) => state.ProfileDataStore
+  )
+
+  const { personalInfo } = useSelectorTyped(
+    (state: RootState) => state.MainLayoutDataStore
   )
 
   const Line = ({ text, name, isLink }: ILine) => {
@@ -40,13 +43,11 @@ export const Overview: FC = () => {
 
   useEffect(() => {
     ;(async () => {
-      const [account, personal, social] = await Promise.all([
+      const [account, social] = await Promise.all([
         ProfileManager.getAccountInfo(),
-        ProfileManager.getPersonalInfo(),
         ProfileManager.getSocialInfo(),
       ])
       dispatch(setSocialInfo(social))
-      dispatch(setPersonalInfo(personal))
       dispatch(setAccountInfo(account))
     })()
   }, [])

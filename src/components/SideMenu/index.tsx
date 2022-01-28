@@ -39,10 +39,10 @@ const adminMenuItems: Array<IMenuItem> = [
     svg: <GlobeIcon />,
     name: 'Universe',
     children: [
-      { pathname: '/', field: 'Planet tree' },
-      { pathname: '/', field: 'Sponsor tree' },
-      { pathname: '/', field: 'Referral list' },
-      { pathname: '/', field: 'New member' },
+      { pathname: '/universe', field: 'Planet tree' },
+      { pathname: '/universe1', field: 'Sponsor tree' },
+      { pathname: '/universe2', field: 'Referral list' },
+      { pathname: '/universe3', field: 'New member' },
     ],
     pathname: '/universe',
   },
@@ -50,13 +50,14 @@ const adminMenuItems: Array<IMenuItem> = [
     svg: <MoneyBoxIcon />,
     name: 'Donations',
     children: [
-      { pathname: '/', field: 'Donations' },
-      { pathname: '/', field: 'Cycle fee' },
-      { pathname: '/', field: 'Relief fund' },
-      { pathname: '/', field: 'Membership fee' },
-      { pathname: '/', field: 'Waiting room' },
-      { pathname: '/', field: 'User Replacement' },
-      { pathname: '/', field: 'Privileged planet management' },
+      { pathname: '/donation', field: 'Donations' },
+      { pathname: '/donation1', field: 'Cycle fee' },
+      { pathname: '/donation2', field: 'Relief fund' },
+      { pathname: '/donation3', field: 'Membership fee' },
+      { pathname: '/donation4', field: 'Waiting room' },
+      { pathname: '/donation5', field: 'User Replacement' },
+      { pathname: '/donation6', field: 'Privileged planet management' },
+      { pathname: '/donation7', field: 'Users holding tank' },
     ],
     pathname: '/donation',
   },
@@ -65,16 +66,16 @@ const adminMenuItems: Array<IMenuItem> = [
     name: 'Academy',
     pathname: '/academy',
     children: [
-      { pathname: '/', field: 'Users' },
-      { pathname: '/', field: 'Subcategories' },
+      { pathname: '/academy', field: 'Users' },
+      { pathname: '/academy1', field: 'Subcategories' },
     ],
   },
   {
     svg: <EMailIcon />,
     name: 'Communication',
     children: [
-      { pathname: '/', field: 'Email management' },
-      { pathname: '/', field: 'Email campaigns' },
+      { pathname: '/communication', field: 'Email management' },
+      { pathname: '/communication1', field: 'Email campaigns' },
     ],
     pathname: '/communication',
   },
@@ -82,9 +83,9 @@ const adminMenuItems: Array<IMenuItem> = [
     svg: <SupportIcon />,
     name: 'Support',
     children: [
-      { pathname: '/', field: 'KYC' },
-      { pathname: '/', field: 'Payment settings' },
-      { pathname: '/', field: 'Feedback' },
+      { pathname: '/support', field: 'KYC' },
+      { pathname: '/support1', field: 'Payment settings' },
+      { pathname: '/support2', field: 'Feedback' },
     ],
     pathname: '/support',
   },
@@ -92,16 +93,16 @@ const adminMenuItems: Array<IMenuItem> = [
     svg: <ReportsIcon />,
     name: 'Reports',
     children: [
-      { pathname: '/', field: 'Joining' },
-      { pathname: '/', field: 'Flower Report' },
-      { pathname: '/', field: 'Donation Report' },
-      { pathname: '/', field: 'Membership Fee' },
-      { pathname: '/', field: 'Replacement Report' },
-      { pathname: '/', field: 'Cycle Fee' },
-      { pathname: '/', field: 'Relief Fund' },
-      { pathname: '/', field: 'Activity' },
-      { pathname: '/', field: 'Account Status' },
-      { pathname: '/', field: 'Account Analysis' },
+      { pathname: '/activities', field: 'Joining' },
+      { pathname: '/activities1', field: 'Flower Report' },
+      { pathname: '/activities2', field: 'Donation Report' },
+      { pathname: '/activities3', field: 'Membership Fee' },
+      { pathname: '/activities4', field: 'Replacement Report' },
+      { pathname: '/activities5', field: 'Cycle Fee' },
+      { pathname: '/activities6', field: 'Relief Fund' },
+      { pathname: '/activities7', field: 'Activity' },
+      { pathname: '/activities8', field: 'Account Status' },
+      { pathname: '/activities9', field: 'Account Analysis' },
     ],
     pathname: '/activities',
   },
@@ -111,8 +112,8 @@ const adminMenuItems: Array<IMenuItem> = [
     pathname: '/member_management',
     children: [
       { pathname: '/member_management', field: 'Member management' },
-      { pathname: '/', field: 'Employee management' },
-      { pathname: '/', field: 'Change logs' },
+      { pathname: '/member_management1', field: 'Employee management' },
+      { pathname: '/member_management2', field: 'Change logs' },
     ],
   },
   {
@@ -132,9 +133,9 @@ const userMenuItems: Array<IMenuItem> = [
     svg: <GlobeIcon />,
     name: 'Universe',
     children: [
-      { pathname: '/', field: 'Planet tree' },
-      { pathname: '/', field: 'Sponsor tree' },
-      { pathname: '/', field: 'Referral list' },
+      { pathname: '/universe', field: 'Planet tree' },
+      { pathname: '/universe1', field: 'Sponsor tree' },
+      { pathname: '/universe2', field: 'Referral list' },
     ],
     pathname: '/universe',
   },
@@ -142,11 +143,11 @@ const userMenuItems: Array<IMenuItem> = [
     svg: <MoneyBoxIcon />,
     name: 'Donations',
     children: [
-      { pathname: '/', field: 'Donations' },
-      { pathname: '/', field: 'Cycle fee' },
-      { pathname: '/', field: 'Relief fund' },
-      { pathname: '/', field: 'Membership fee' },
-      { pathname: '/', field: 'Waiting room' },
+      { pathname: '/donation', field: 'Donations' },
+      { pathname: '/donation1', field: 'Cycle fee' },
+      { pathname: '/donation2', field: 'Relief fund' },
+      { pathname: '/donation3', field: 'Membership fee' },
+      { pathname: '/donation4', field: 'Waiting room' },
     ],
     pathname: '/donation',
   },
@@ -164,9 +165,9 @@ const userMenuItems: Array<IMenuItem> = [
     svg: <SupportIcon />,
     name: 'Support',
     children: [
-      { pathname: '/', field: 'KYC' },
-      { pathname: '/', field: 'Payment settings' },
-      { pathname: '/', field: 'Feedback' },
+      { pathname: '/support', field: 'KYC' },
+      { pathname: '/support1', field: 'Payment settings' },
+      { pathname: '/support2', field: 'Feedback' },
     ],
     pathname: '/support',
   },
@@ -205,6 +206,7 @@ export const SideMenu: FC = () => {
         className={classNames('icon', {
           icon_active: router.pathname === item.pathname,
         })}
+        key={item.pathname}
       >
         <LinkText href={item.pathname} key={item.pathname}>
           <div className="icon_title">
@@ -214,17 +216,15 @@ export const SideMenu: FC = () => {
           </div>
         </LinkText>
         {item.children && (
-          <>
-            <ul className={item.children?.length ? 'fields' : ''}>
-              {item.children.map((child) => (
-                <LinkText href={child.pathname} key={item.pathname}>
-                  <li className="field" key={child.field}>
-                    <span>{child.field}</span>
-                  </li>
-                </LinkText>
-              ))}
-            </ul>
-          </>
+          <ul className={item.children?.length ? 'fields' : ''}>
+            {item.children.map((child) => (
+              <LinkText href={child.pathname} key={child.pathname}>
+                <li className="field" key={child.field}>
+                  <span>{child.field}</span>
+                </li>
+              </LinkText>
+            ))}
+          </ul>
         )}
       </div>
     ))

@@ -14,9 +14,16 @@ import { AlertModal } from '../../../components/Modal/AlertModal'
 import PromptModal from '../../../components/Modal/PromptModal'
 import { EnterSecurityPin } from '../../../components/Modal/ConfirmModal/enterSecurityPin'
 import { EnterSecurityQuestion } from '../../../components/Modal/ConfirmModal/enterSecurityQuestion'
-import { setUserData } from '../../../store/MainLayoutDataStore/MainLayoutDataStore'
+import {
+  setPersonalInfo,
+  setUserData,
+} from '../../../store/MainLayoutDataStore/MainLayoutDataStore'
 import { GlobalManager } from '../../../managers/global'
-import { setIsSuperAdmin } from '../../../store/GlobalConfigDataStore/GlobalConfigDataStore'
+import {
+  setDefaults,
+  setIsSuperAdmin,
+} from '../../../store/GlobalConfigDataStore/GlobalConfigDataStore'
+import { ProfileManager } from '../../../managers/profile'
 
 interface IMainLayout {
   children: JSX.Element
@@ -57,8 +64,15 @@ const MainLayout = ({ children }: IMainLayout) => {
 
   useEffect(() => {
     ;(async () => {
-      const res = await GlobalManager.getUser()
-      const { isSuperAdmin, ...userData } = res
+      const [getDefaults, personal, userInfo] = await Promise.all([
+        ProfileManager.getDefaults(),
+        ProfileManager.getPersonalInfo(),
+        GlobalManager.getUser(),
+      ])
+
+      dispatch(setPersonalInfo(personal))
+      dispatch(setDefaults(getDefaults))
+      const { isSuperAdmin, ...userData } = userInfo
       dispatch(setUserData(userData))
       dispatch(setIsSuperAdmin(isSuperAdmin))
     })()

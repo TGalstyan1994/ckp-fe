@@ -16,9 +16,9 @@ import { modalPromise } from '../../src/helpers/modal-helper'
 import {
   closeModal,
   setShowModal,
+  setPersonalInfo,
 } from '../../src/store/MainLayoutDataStore/MainLayoutDataStore'
 import { changeAdminTabs } from '../../src/store/MebmerManagementDataStore/MemberManagementDataStore'
-import { setPersonalInfo } from '../../src/store/ProfileDataStore/ProfileDataStore'
 
 import { ProfileManager } from '../../src/managers/profile'
 
@@ -45,10 +45,10 @@ const ProfileAdminPage = () => {
   const { activeAdminTab }: IActiveTab = useSelectorTyped(
     (state: RootState) => state.MemberManagementDataStore
   )
-  const { isFormFilled, personalInfo } = useSelectorTyped(
+  const { isFormFilled } = useSelectorTyped(
     (state: RootState) => state.ProfileDataStore
   )
-  const { userData } = useSelectorTyped(
+  const { userData, personalInfo } = useSelectorTyped(
     (state: RootState) => state.MainLayoutDataStore
   )
   const dispatch = useDispatch()

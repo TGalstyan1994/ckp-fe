@@ -5,26 +5,19 @@ import united from '../../assets/images/united.svg'
 import BellIcon from '../../assets/images/icons/bell-icon'
 import ArrowOpenIcon from '../../assets/images/icons/arrow-open-icon'
 import { logOut } from '../../store/reducers/signin'
-import { ProfileManager } from '../../managers/profile'
 import { useSelectorTyped } from '../../utils/hooks'
 import { RootState } from '../../store'
-import { setUserData } from '../../store/MainLayoutDataStore/MainLayoutDataStore'
-import { setDefaults } from '../../store/GlobalConfigDataStore/GlobalConfigDataStore'
-import { GlobalManager } from '../../managers/global'
 
 export const Header: FC = () => {
   const dispatch = useDispatch()
-  // const wrapperRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const wrapperRef = useRef<HTMLDivElement>(null)
   const { defaults } = useSelectorTyped(
     (state: RootState) => state.GlobalConfigDataStore
   )
-  const { userData } = useSelectorTyped(
+  const { userData, personalInfo } = useSelectorTyped(
     (state: RootState) => state.MainLayoutDataStore
   )
-  const { personalInfo } = useSelectorTyped(
-    (state: RootState) => state.ProfileDataStore
-  )
+
   const [isOpen, setIsOpen] = useState(false)
 
   const toggleOpen = () => {
@@ -34,16 +27,6 @@ export const Header: FC = () => {
   const goMyProfilePage = () => {
     router.push('/profile')
   }
-  useEffect(() => {
-    ;(async () => {
-      const [getDefaults, userInfo] = await Promise.all([
-        ProfileManager.getDefaults(),
-        GlobalManager.getUser(),
-      ])
-      dispatch(setDefaults(getDefaults))
-      dispatch(setUserData(userInfo))
-    })()
-  }, [])
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -59,6 +42,7 @@ export const Header: FC = () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [wrapperRef])
+
   return (
     <div className="header">
       <div className="content">
