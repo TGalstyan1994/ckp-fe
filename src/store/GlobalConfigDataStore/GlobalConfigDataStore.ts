@@ -1,6 +1,6 @@
 import { createSlice } from 'node_modules/@reduxjs/toolkit/dist'
 
-interface IMainLayoutDataStore {
+interface IGlobalConfigDataStore {
   defaults: {
     currency: string
     language: string
@@ -8,7 +8,7 @@ interface IMainLayoutDataStore {
   isSuperAdmin: boolean
 }
 
-const initialState: IMainLayoutDataStore = {
+const initialState: IGlobalConfigDataStore = {
   defaults: {
     currency: '',
     language: '',
