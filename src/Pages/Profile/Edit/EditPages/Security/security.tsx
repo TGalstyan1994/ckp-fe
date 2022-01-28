@@ -13,9 +13,13 @@ import {
 } from '../../../../../store/MainLayoutDataStore/MainLayoutDataStore'
 import { Input } from '../../../../../components/Input'
 import { validate } from './validate'
+import MainLoader from '../../../../../components/Loaders/MainLoader'
 
 export const Security: FC = () => {
   const dispatch = useDispatch()
+  const [pageProps, setPageProps] = useState({
+    loading: false,
+  })
   const [inputValue, setInputValue] = useState({
     oldPassword: '',
     password: '',
@@ -58,7 +62,10 @@ export const Security: FC = () => {
     const promise = await modalPromise(({ resolve, reject }) =>
       dispatch(setShowPinModal({ resolve, reject }))
     )
+    console.log(promise)
     if (promise) {
+      setPageProps({ loading: true })
+
       try {
         await ProfileManager.changePassword({
           ...inputValue,
@@ -78,9 +85,9 @@ export const Security: FC = () => {
             [errors.property]: errors.messages[0],
           })
         }
-        throw error
       }
     }
+    setPageProps({ loading: false })
   }
 
   const isFormFilled = () => {
@@ -88,62 +95,61 @@ export const Security: FC = () => {
   }
 
   useEffect(() => {
-    if (Object.values(inputValue).every((name: string) => name === '')) {
-      dispatch(setIsFormFilled(false))
-    } else {
-      dispatch(setIsFormFilled(true))
-    }
+    dispatch(
+      setIsFormFilled(
+        !Object.values(inputValue).every((name: string) => name === '')
+      )
+    )
   }, [inputValue])
 
   return (
-    <>
-      <div className="content">
-        <div className="input-container">
-          <div className="input-label">Current Password</div>
-          <Input
-            name="oldPassword"
-            value={inputValue.oldPassword}
-            onChange={handleChange}
-            placeholder="************"
-            type="password"
-            error={inputError.oldPassword}
-          />
-          <div className="input-label">New Password</div>
-          <Input
-            name="password"
-            value={inputValue.password}
-            onChange={handleChange}
-            placeholder="************"
-            type="password"
-            error={inputError.password}
-          />
-          <div className="input-label">Retype Password</div>
-          <Input
-            name="passwordConfirmation"
-            value={inputValue.passwordConfirmation}
-            onChange={handleChange}
-            placeholder="************"
-            type="password"
-            error={inputError.passwordConfirmation}
-          />
-          <div className="btn-container">
-            <button onClick={resetValue} className="btn-cancel">
-              Cancel
-            </button>
-            <button
-              onClick={onSubmit}
-              className={isFormFilled() ? 'btn-save' : 'btn-disable'}
-              disabled={
-                !inputValue.oldPassword ||
-                !inputValue.password ||
-                !inputValue.passwordConfirmation
-              }
-            >
-              Save Changes
-            </button>
-          </div>
+    <div className="content">
+      <div className="input-container">
+        <div className="input-label">Current Password</div>
+        <Input
+          name="oldPassword"
+          value={inputValue.oldPassword}
+          onChange={handleChange}
+          placeholder="************"
+          type="password"
+          error={inputError.oldPassword}
+        />
+        <div className="input-label">New Password</div>
+        <Input
+          name="password"
+          value={inputValue.password}
+          onChange={handleChange}
+          placeholder="************"
+          type="password"
+          error={inputError.password}
+        />
+        <div className="input-label">Retype Password</div>
+        <Input
+          name="passwordConfirmation"
+          value={inputValue.passwordConfirmation}
+          onChange={handleChange}
+          placeholder="************"
+          type="password"
+          error={inputError.passwordConfirmation}
+        />
+        <div className="btn-container">
+          <button onClick={resetValue} className="btn-cancel">
+            Cancel
+          </button>
+          <button
+            onClick={onSubmit}
+            className={isFormFilled() ? 'btn-save' : 'btn-disable'}
+            disabled={
+              !inputValue.oldPassword ||
+              !inputValue.password ||
+              !inputValue.passwordConfirmation
+            }
+          >
+            Save Changes
+          </button>
         </div>
       </div>
-    </>
+      {pageProps.loading && <MainLoader />}
+    </div>
   )
 }

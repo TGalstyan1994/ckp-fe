@@ -29,8 +29,8 @@ export const EnterSecurityPin: FC = () => {
     }
   }
 
-  const resolve = () => {
-    promiseInfo.resolve(pin)
+  const resolve = (value: string) => {
+    promiseInfo.resolve(value)
   }
 
   const onSave = async () => {
@@ -39,7 +39,7 @@ export const EnterSecurityPin: FC = () => {
       setPinError(validationErrors)
       return
     }
-    resolve()
+    resolve(pin)
     dispatch(closePinModal())
     dispatch(setErrorMessage(''))
   }
@@ -52,6 +52,7 @@ export const EnterSecurityPin: FC = () => {
           onClick={() => {
             dispatch(closePinModal())
             dispatch(setErrorMessage(''))
+            resolve('')
           }}
           aria-hidden
         >
