@@ -113,8 +113,8 @@
               .pensil {
                 position: absolute;
                 transform: translateX(14px);
-                svg{
-                  width:10px;
+                svg {
+                  width: 10px;
                   height: 10px;
                 }
               }
@@ -151,9 +151,9 @@
         }
 
         .martial-status {
-          display:flex;
-          margin-top:60px;
-          gap:20px;
+          display: flex;
+          margin-top: 60px;
+          gap: 20px;
           .martial-gender {
             transform: translateY(-17px);
             span:nth-child(1) {
@@ -174,7 +174,6 @@
           margin-top: 25px;
           gap: 30px;
         }
-
       }
     }
   }
@@ -188,13 +187,13 @@
   .mb-24 {
     margin-bottom: 24px;
   }
-  .mt-37{
+  .mt-37 {
     margin-top: 37px;
   }
   .mt-24 {
     margin-top: 24px;
   }
   .w-140 {
-    width:140px
+    width: 140px;
   }
 }
