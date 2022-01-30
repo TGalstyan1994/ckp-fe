@@ -31,6 +31,12 @@ interface IMember {
   username: string
 }
 
+interface IMembersListReqBody {
+  offset: number
+  limit: number
+  query?: string
+}
+
 const MemberManagementPage = () => {
   const dispatch = useDispatch()
 
@@ -49,20 +55,29 @@ const MemberManagementPage = () => {
     setPage(selected)
   }
 
+  const getMembersList = async () => {
+    const body: IMembersListReqBody = {
+      offset: page * 12,
+      limit: 12,
+    }
+
+    if (searchValue) {
+      body.query = searchValue
+    }
+
+    try {
+      const res = await MemberManagement.getMembersList(body)
+      dispatch(setPaginationCount(res.count))
+      dispatch(setMembers(res.members))
+    } catch (error) {
+      throw error
+    }
+    dispatch(setShowLoader(false))
+  }
+
   useEffect(() => {
     ;(async () => {
-      const body = {
-        offset: page * 12,
-        limit: 12,
-      }
-      try {
-        const res = await MemberManagement.membersList(body)
-        dispatch(setPaginationCount(res.count))
-        dispatch(setMembers(res.members))
-      } catch (error) {
-        throw error
-      }
-      dispatch(setShowLoader(false))
+      await getMembersList()
     })()
   }, [page])
 
@@ -88,7 +103,7 @@ const MemberManagementPage = () => {
             />
           </div>
           <div>
-            <Button>search</Button>
+            <Button onClick={getMembersList}>search</Button>
           </div>
         </div>
       </div>
