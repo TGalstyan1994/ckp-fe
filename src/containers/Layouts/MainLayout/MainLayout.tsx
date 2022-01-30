@@ -38,7 +38,6 @@ interface IMainLayout {
 }
 
 const pagesWithPermissions = ['/member_management']
-const pagesWithoutLoader = ['/profile']
 
 const MainLayout = ({ children }: IMainLayout) => {
   const router = useRouter()
@@ -107,12 +106,6 @@ const MainLayout = ({ children }: IMainLayout) => {
       router.push('/profile')
     }
   }, [router, isSuperAdmin])
-
-  useEffect(() => {
-    if (pagesWithoutLoader.every((page) => !router.asPath.includes(page))) {
-      dispatch(setShowLoader(true))
-    }
-  }, [router])
 
   return (
     <div className="main-wrapper">
