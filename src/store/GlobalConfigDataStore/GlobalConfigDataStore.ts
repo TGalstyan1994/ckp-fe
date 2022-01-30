@@ -5,7 +5,8 @@ interface IGlobalConfigDataStore {
     currency: string
     language: string
   }
-  isSuperAdmin: boolean
+  isSuperAdmin: boolean | undefined
+  showLoader: boolean
 }
 
 const initialState: IGlobalConfigDataStore = {
@@ -13,7 +14,8 @@ const initialState: IGlobalConfigDataStore = {
     currency: '',
     language: '',
   },
-  isSuperAdmin: false,
+  isSuperAdmin: undefined,
+  showLoader: true,
 }
 
 const GlobalConfigDataStore = createSlice({
@@ -26,13 +28,20 @@ const GlobalConfigDataStore = createSlice({
     setIsSuperAdmin(state, action) {
       state.isSuperAdmin = action.payload
     },
+    setShowLoader(state, action) {
+      state.showLoader = action.payload
+    },
     resetGlobalConfigDataStore() {
       return initialState
     },
   },
 })
 
-export const { setDefaults, setIsSuperAdmin, resetGlobalConfigDataStore } =
-  GlobalConfigDataStore.actions
+export const {
+  setDefaults,
+  setIsSuperAdmin,
+  resetGlobalConfigDataStore,
+  setShowLoader,
+} = GlobalConfigDataStore.actions
 
 export default GlobalConfigDataStore.reducer

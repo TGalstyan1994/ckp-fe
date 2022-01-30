@@ -131,17 +131,26 @@
     display: flex;
     align-items: center;
     li {
-      padding: 14px 18px;
-      font-family: SF Pro Display, sans-serif;
-      font-style: normal;
-      font-weight: 600;
-      font-size: 13px;
-      line-height: 16px;
-      color: #0e0e0e;
-      background-color: #efefef;
-      border: 1px solid #d7d7d7;
-      border-right: none;
-      cursor: pointer;
+      width: 44px;
+      height: 44px;
+
+      a {
+        width: 100%;
+        height: 100%;
+        font-family: SF Pro Display, sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 13px;
+        line-height: 16px;
+        color: #0e0e0e;
+        background-color: #efefef;
+        border: 1px solid #d7d7d7;
+        border-right: none;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
       &:first-of-type {
         border-radius: 5px 0 0 5px;
@@ -155,13 +164,17 @@
         border-radius: 0 5px 5px 0;
       }
 
-      &.activePage {
-        background-color: #ffffff;
-        color: #5bba88;
+      &.selected {
+        a {
+          background-color: #ffffff;
+          color: #5bba88;
+        }
       }
       &:hover {
-        background-color: #ffffff;
-        color: #5bba88;
+        a {
+          background-color: #ffffff;
+          color: #5bba88;
+        }
       }
     }
     svg {

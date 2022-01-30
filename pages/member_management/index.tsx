@@ -1,9 +1,9 @@
 import { GetServerSideProps } from 'next'
-import React, { ChangeEvent, useEffect, useState, useRef } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import LockIcon from 'src/assets/images/icons/lock-icon'
-import PaginationIcon from 'src/assets/images/icons/arrow-duble-icon'
 import { useDispatch } from 'react-redux'
 import classNames from 'classnames'
+import ReactPaginate from 'react-paginate'
 import { requireAuthentication } from '../../HOC/requireAuthentication'
 import MainLayout from '../../src/containers/Layouts/MainLayout/MainLayout'
 import { Input } from '../../src/components/Input'
@@ -15,6 +15,8 @@ import {
   setPaginationCount,
   setMembers,
 } from '../../src/store/MebmerManagementDataStore/MemberManagementDataStore'
+import { setShowLoader } from '../../src/store/GlobalConfigDataStore/GlobalConfigDataStore'
+import PaginationIcon from '../../src/assets/images/icons/arrow-duble-icon'
 
 interface IMember {
   avatar: string
@@ -31,10 +33,11 @@ interface IMember {
 
 const MemberManagementPage = () => {
   const dispatch = useDispatch()
-  const currentPageRequest: React.MutableRefObject<number> = useRef(0)
+
   const { members, count } = useSelectorTyped(
     (state: RootState) => state.MemberManagementDataStore
   )
+  const [page, setPage] = useState<number>(0)
 
   const [searchValue, setSearchValue] = useState('')
 
@@ -42,11 +45,14 @@ const MemberManagementPage = () => {
     setSearchValue(e.target.value)
   }
 
+  const handlePageClick = ({ selected }: { selected: number }) => {
+    setPage(selected)
+  }
+
   useEffect(() => {
     ;(async () => {
       const body = {
-        // offset: 0,
-        offset: currentPageRequest,
+        offset: page * 12,
         limit: 12,
       }
       try {
@@ -56,14 +62,9 @@ const MemberManagementPage = () => {
       } catch (error) {
         throw error
       }
+      dispatch(setShowLoader(false))
     })()
-  }, [])
-
-  const pageNumbers = []
-
-  for (let i = 1; i <= Math.ceil(count / 12); i++) {
-    pageNumbers.push(i)
-  }
+  }, [page])
 
   return (
     <div className="container">
@@ -95,7 +96,9 @@ const MemberManagementPage = () => {
         {members?.map((item: IMember) => {
           return (
             <div
-              className={classNames('item', { blocked_item: !item.blocked })}
+              className={classNames('item', {
+                blocked_item: !item.blocked,
+              })}
               key={item.id}
             >
               <LockIcon />
@@ -117,33 +120,33 @@ const MemberManagementPage = () => {
                 </div>
 
                 <div className="name">
-                  <h4>{item.firstName ? item.firstName : 'firstName'}</h4>
-                  <h4>{item.lastName ? item.lastName : 'lastName'}</h4>
+                  <h4>{item.firstName ? item.firstName : 'First Name'}</h4>
+                  <h4>{item.lastName ? item.lastName : 'Last Name'}</h4>
                   <p>{item.username}</p>
                 </div>
               </div>
               <div className="bottom">
                 <p> E-mail: {item.email} </p>
-                <p> Phone: {item.phone} 87979</p>
+                <p> Phone: {item.phone}</p>
               </div>
             </div>
           )
         })}
       </div>
       <div className="pagination">
-        <ul>
-          <li>
-            <PaginationIcon />
-          </li>
-          {pageNumbers.map((pageNum: number) => (
-            <li className="activePage" key={pageNum} ref={currentPageRequest}>
-              {pageNum}
-            </li>
-          ))}
-          <li>
-            <PaginationIcon />
-          </li>
-        </ul>
+        {count ? (
+          <ReactPaginate
+            breakLabel="..."
+            nextLabel={<PaginationIcon />}
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={4}
+            pageCount={Math.round(count / 12)}
+            previousLabel={<PaginationIcon />}
+            initialPage={page}
+          />
+        ) : (
+          ''
+        )}
       </div>
     </div>
   )

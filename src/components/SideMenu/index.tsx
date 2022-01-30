@@ -18,6 +18,7 @@ import { LinkText } from '../LinkText'
 import { useSelectorTyped } from '../../utils/hooks'
 import { RootState } from '../../store'
 import ToolsIcon from '../../assets/images/icons/tools-icon'
+import { setShowLoader } from '../../store/GlobalConfigDataStore/GlobalConfigDataStore'
 
 interface IMenuItem {
   svg: JSX.Element
@@ -27,6 +28,7 @@ interface IMenuItem {
     pathname: string
   }[]
   pathname: string
+  withLoader: boolean
 }
 
 const adminMenuItems: Array<IMenuItem> = [
@@ -34,6 +36,7 @@ const adminMenuItems: Array<IMenuItem> = [
     svg: <HomeIcon />,
     name: 'Dashboard',
     pathname: '/dashboard',
+    withLoader: false,
   },
   {
     svg: <GlobeIcon />,
@@ -45,6 +48,7 @@ const adminMenuItems: Array<IMenuItem> = [
       { pathname: '/universe3', field: 'New member' },
     ],
     pathname: '/universe',
+    withLoader: false,
   },
   {
     svg: <MoneyBoxIcon />,
@@ -60,6 +64,7 @@ const adminMenuItems: Array<IMenuItem> = [
       { pathname: '/donation7', field: 'Users holding tank' },
     ],
     pathname: '/donation',
+    withLoader: false,
   },
   {
     svg: <MortarboardIcon />,
@@ -69,6 +74,7 @@ const adminMenuItems: Array<IMenuItem> = [
       { pathname: '/academy', field: 'Users' },
       { pathname: '/academy1', field: 'Subcategories' },
     ],
+    withLoader: false,
   },
   {
     svg: <EMailIcon />,
@@ -78,6 +84,7 @@ const adminMenuItems: Array<IMenuItem> = [
       { pathname: '/communication1', field: 'Email campaigns' },
     ],
     pathname: '/communication',
+    withLoader: false,
   },
   {
     svg: <SupportIcon />,
@@ -88,6 +95,7 @@ const adminMenuItems: Array<IMenuItem> = [
       { pathname: '/support2', field: 'Feedback' },
     ],
     pathname: '/support',
+    withLoader: false,
   },
   {
     svg: <ReportsIcon />,
@@ -105,6 +113,7 @@ const adminMenuItems: Array<IMenuItem> = [
       { pathname: '/activities9', field: 'Account Analysis' },
     ],
     pathname: '/activities',
+    withLoader: false,
   },
   {
     svg: <ToolsIcon />,
@@ -115,11 +124,13 @@ const adminMenuItems: Array<IMenuItem> = [
       { pathname: '/member_management1', field: 'Employee management' },
       { pathname: '/member_management2', field: 'Change logs' },
     ],
+    withLoader: true,
   },
   {
     svg: <UserIcon />,
     name: 'My Profile',
     pathname: '/profile',
+    withLoader: false,
   },
 ]
 
@@ -128,6 +139,7 @@ const userMenuItems: Array<IMenuItem> = [
     svg: <HomeIcon />,
     name: 'Dashboard',
     pathname: '/dashboard',
+    withLoader: false,
   },
   {
     svg: <GlobeIcon />,
@@ -137,6 +149,8 @@ const userMenuItems: Array<IMenuItem> = [
       { pathname: '/universe1', field: 'Sponsor tree' },
       { pathname: '/universe2', field: 'Referral list' },
     ],
+    withLoader: false,
+
     pathname: '/universe',
   },
   {
@@ -149,17 +163,21 @@ const userMenuItems: Array<IMenuItem> = [
       { pathname: '/donation3', field: 'Membership fee' },
       { pathname: '/donation4', field: 'Waiting room' },
     ],
+    withLoader: false,
+
     pathname: '/donation',
   },
   {
     svg: <MortarboardIcon />,
     name: 'Academy',
     pathname: '/academy',
+    withLoader: false,
   },
   {
     svg: <EMailIcon />,
     name: 'Communication',
     pathname: '/communication',
+    withLoader: false,
   },
   {
     svg: <SupportIcon />,
@@ -170,16 +188,19 @@ const userMenuItems: Array<IMenuItem> = [
       { pathname: '/support2', field: 'Feedback' },
     ],
     pathname: '/support',
+    withLoader: false,
   },
   {
     svg: <ReportsIcon />,
     name: 'Reports',
     pathname: '/activities',
+    withLoader: false,
   },
   {
     svg: <UserIcon />,
     name: 'My Profile',
     pathname: '/profile',
+    withLoader: false,
   },
 ]
 
@@ -208,22 +229,44 @@ export const SideMenu: FC = () => {
         })}
         key={item.pathname}
       >
-        <LinkText href={item.pathname} key={item.pathname}>
+        {router.pathname === item.pathname ? (
           <div className="icon_title">
             <span className="svgIcon">{item.svg}</span>
             <span className="name">{item.name}</span>
             <span className="arrow">{item.children && <ArrowOpenIcon />}</span>
           </div>
-        </LinkText>
+        ) : (
+          <LinkText href={item.pathname} key={item.pathname}>
+            <div
+              className="icon_title"
+              onClick={() =>
+                item.withLoader && dispatch(dispatch(setShowLoader(true)))
+              }
+              aria-hidden
+            >
+              <span className="svgIcon">{item.svg}</span>
+              <span className="name">{item.name}</span>
+              <span className="arrow">
+                {item.children && <ArrowOpenIcon />}
+              </span>
+            </div>
+          </LinkText>
+        )}
         {item.children && (
           <ul className={item.children?.length ? 'fields' : ''}>
-            {item.children.map((child) => (
-              <LinkText href={child.pathname} key={child.pathname}>
+            {item.children.map((child) =>
+              child.pathname === router.pathname ? (
                 <li className="field" key={child.field}>
                   <span>{child.field}</span>
                 </li>
-              </LinkText>
-            ))}
+              ) : (
+                <LinkText href={child.pathname} key={child.pathname}>
+                  <li className="field" key={child.field}>
+                    <span>{child.field}</span>
+                  </li>
+                </LinkText>
+              )
+            )}
           </ul>
         )}
       </div>

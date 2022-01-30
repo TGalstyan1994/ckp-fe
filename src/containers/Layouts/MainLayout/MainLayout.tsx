@@ -27,6 +27,7 @@ import {
   resetGlobalConfigDataStore,
   setDefaults,
   setIsSuperAdmin,
+  setShowLoader,
 } from '../../../store/GlobalConfigDataStore/GlobalConfigDataStore'
 import { ProfileManager } from '../../../managers/profile'
 import MainLoader from '../../../components/Loaders/MainLoader'
@@ -37,12 +38,13 @@ interface IMainLayout {
 }
 
 const pagesWithPermissions = ['/member_management']
+const pagesWithoutLoader = ['/profile']
 
 const MainLayout = ({ children }: IMainLayout) => {
   const router = useRouter()
   const dispatch = useDispatch()
   const { data } = useSelectorTyped((state) => state.signin)
-  const { isSuperAdmin } = useSelectorTyped(
+  const { isSuperAdmin, showLoader } = useSelectorTyped(
     (state: RootState) => state.GlobalConfigDataStore
   )
   const [loading, setLoading] = useState(true)
@@ -81,12 +83,12 @@ const MainLayout = ({ children }: IMainLayout) => {
         ProfileManager.getPersonalInfo(),
         GlobalManager.getUser(),
       ])
-
       dispatch(setPersonalInfo(personal))
       dispatch(setDefaults(getDefaults))
       const { isSuperAdmin: SuperAdminPermission, ...userData } = userInfo
       dispatch(setUserData(userData))
       dispatch(setIsSuperAdmin(SuperAdminPermission))
+      dispatch(setShowLoader(false))
     })()
 
     return () => {
@@ -99,12 +101,18 @@ const MainLayout = ({ children }: IMainLayout) => {
 
   useEffect(() => {
     if (
-      !isSuperAdmin &&
+      isSuperAdmin === false &&
       !pagesWithPermissions.every((page) => !router.asPath.includes(page))
     ) {
       router.push('/profile')
     }
   }, [router, isSuperAdmin])
+
+  useEffect(() => {
+    if (pagesWithoutLoader.every((page) => !router.asPath.includes(page))) {
+      dispatch(setShowLoader(true))
+    }
+  }, [router])
 
   return (
     <div className="main-wrapper">
@@ -115,7 +123,10 @@ const MainLayout = ({ children }: IMainLayout) => {
       {showQuestionModal && <EnterSecurityQuestion />}
       <Header />
       <SideMenu />
-      <div className="main-container">{children}</div>
+      <div className="main-container">
+        {showLoader && <MainLoader />}
+        {children}
+      </div>
       <Footer />
       {loading ? <MainLoader /> : ''}
     </div>
