@@ -1,4 +1,5 @@
 import React, { FC } from 'react'
+import classNames from 'classnames/bind'
 import { useSelectorTyped } from '../../../../utils/hooks'
 import { RootState } from '../../../../store'
 import PencilIcon from '../../../../assets/images/icons/pencil-icon'
@@ -7,27 +8,34 @@ interface ILine {
   name: string
   text: string
   isLink?: boolean
+  isCapitalize?: boolean
 }
 export const Account: FC = () => {
   const { memberAccountInfo } = useSelectorTyped(
     (state: RootState) => state.MemberManagementDataStore
   )
+  const { kycStatus, id, username } = memberAccountInfo
 
-  const Line = ({ text, name, isLink }: ILine) => {
+  const Line = ({ text, name, isLink, isCapitalize }: ILine) => {
     return (
       <div className="member-info">
         <span className="name">{name}:</span>
         {isLink ? (
           <span className="member-info__title" title={text}>
-            <a className="link" target="_blank" href={text} rel="noreferrer">
+            <div className="link">
               {text}
               <span className="pensil">
                 <PencilIcon />
               </span>
-            </a>
+            </div>
           </span>
         ) : (
-          <span className="member-info__title" title={text}>
+          <span
+            className={classNames('member-info__title', {
+              capitalize: isCapitalize,
+            })}
+            title={text}
+          >
             {text}
           </span>
         )}
@@ -41,10 +49,14 @@ export const Account: FC = () => {
         <div className="info_1">
           <span className="basic">Basic Info</span>
           <div className="admin-account-info">
-            <Line text={memberAccountInfo.id} name="Member ID" />
-            <Line text={memberAccountInfo.username} name="Username" />
+            <Line text={id} name="Member ID" />
+            <Line text={username} name="Username" />
             <Line text="company" name="Parent" isLink />
-            <Line text={memberAccountInfo.kycStatus} name="KYC Status" />
+            <Line
+              text={kycStatus?.replace('_', ' ').toLowerCase()}
+              name="KYC Status"
+              isCapitalize
+            />
             <Line text="*************" name="Security Question" />
             <Line text="*************" name="Security Question Response" />
           </div>

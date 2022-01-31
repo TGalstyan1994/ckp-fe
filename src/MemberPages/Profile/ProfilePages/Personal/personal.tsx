@@ -9,25 +9,13 @@ import {
   validateStage,
 } from 'src/store/reducers/signup'
 import { haveErrors } from 'src/utils'
-import { PhoneNumberForm } from 'src/containers/PhoneNumberForm'
 import { Button } from 'src/components/Button'
 import { Input } from 'src/components/Input'
 import { sendPersonalDetails } from 'src/store/actions/signup'
 import { DatePickerForm } from 'src/containers/DatePickerForm'
-
 import { ChooseGenderForm } from 'src/containers/ChooseGenderForm'
 import { OptionalRadioForm } from 'src/containers/OptionalRadioBoxForm'
-
-import vector from 'src/UI/Vector.svg'
-
 import { validate } from '../../../../containers/SignUp/PersonalDetails/validate'
-
-// interface ICountries {
-//   id: number
-//   name: string
-//   phonecode: string
-//   phonemask: string
-// }
 
 const maritalStatusCodes = {
   SINGLE: 'Single',
@@ -90,7 +78,6 @@ export const Personal: FC = () => {
     zipCode: '',
   })
 
-  const [termsAcceptance, setTermsAcceptance] = useState(false)
   const [geoData, setGeoData] = useState({
     state: '',
     country: '',
@@ -102,10 +89,10 @@ export const Personal: FC = () => {
     year: '',
   })
 
-  const [phoneState, setPhoneState] = useState({
-    phoneCode: country.phonecode.slice(1),
-    phoneNumber: '',
-  })
+  // const [phoneState, setPhoneState] = useState({
+  //   phoneCode: country.phonecode.slice(1),
+  //   phoneNumber: '',
+  // })
 
   const dispatch = useDispatch()
 
@@ -120,10 +107,7 @@ export const Personal: FC = () => {
     setPersonalDetailsState((prev) => ({ ...prev, [key]: value }))
   }
 
-  const changePhoneState = (value: string, name: string) => {
-    setPhoneState((prev) => ({ ...prev, [name]: value }))
-    removeErrors('phone')
-  }
+  //
 
   const changeGeoCountry = (option: string) => {
     const currentCountry = countries.find(
@@ -153,46 +137,45 @@ export const Personal: FC = () => {
     removeErrors('stateId')
   }
 
-  const handleForm = () => {
-    dispatch(startStageFetching())
-
-    const validationErrors = validate(
-      {
-        ...personalDetailsState,
-        dateOfBirth,
-      },
-      phoneState
-    )
-    dispatch(validateStage({ errors: validationErrors }))
-
-    if (haveErrors(validationErrors)) {
-      dispatch(endStageFetching())
-      return
-    }
-
-    const formData: any = {
-      ...personalDetailsState,
-      phone: `+${phoneState.phoneCode}${phoneState.phoneNumber}`,
-      dateOfBirth: new Date(
-        +dateOfBirth.year,
-        +dateOfBirth.month,
-        +dateOfBirth.day + 1
-      )
-        .toJSON()
-        .slice(0, 10),
-    }
-
-    if (formData.objectiveNote === '') {
-      delete formData.objectiveNote
-    }
-
-    if (formData.zipCode === '') {
-      delete formData.zipCode
-    }
-
-    const { phoneParsed, ...body } = formData
-    dispatch(sendPersonalDetails(body))
-  }
+  // const handleForm = () => {
+  //   dispatch(startStageFetching())
+  //
+  //   const validationErrors = validate(
+  //     {
+  //       ...personalDetailsState,
+  //       dateOfBirth,
+  //     },
+  //     phoneState
+  //   )
+  //   dispatch(validateStage({ errors: validationErrors }))
+  //
+  //   if (haveErrors(validationErrors)) {
+  //     dispatch(endStageFetching())
+  //     return
+  //   }
+  //
+  //   const formData: any = {
+  //     ...personalDetailsState,
+  //     dateOfBirth: new Date(
+  //       +dateOfBirth.year,
+  //       +dateOfBirth.month,
+  //       +dateOfBirth.day + 1
+  //     )
+  //       .toJSON()
+  //       .slice(0, 10),
+  //   }
+  //
+  //   if (formData.objectiveNote === '') {
+  //     delete formData.objectiveNote
+  //   }
+  //
+  //   if (formData.zipCode === '') {
+  //     delete formData.zipCode
+  //   }
+  //
+  //   const { phoneParsed, ...body } = formData
+  //   dispatch(sendPersonalDetails(body))
+  // }
 
   const handleFormInputs = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
@@ -212,15 +195,10 @@ export const Personal: FC = () => {
       payload: { countryId: country.id, at: 'states' },
     })
 
-    setPhoneState({
-      ...phoneState,
-      phoneCode: country.phonecode.slice(1),
-    })
-
-    setPersonalDetailsState({
-      ...personalDetailsState,
-      countryId: country.id,
-    })
+    // setPersonalDetailsState({
+    //   ...personalDetailsState,
+    //   countryId: country.id,
+    // })
   }, [country.id])
   return (
     <div className="admin-info">
@@ -328,36 +306,26 @@ export const Personal: FC = () => {
                 })
               }}
             />
-            {/* <div className="martial"> */}
-
-            {/* </div> */}
           </div>
           <div className="mt-35">
             <div className="member-flex">
-              <div>
-                <OptionalRadioForm
-                  name="jobTitle"
-                  onInputChange={handleFormInputs}
-                  onRadioChange={(value) => {
-                    setPersonalDetails('сurrentlyEmployed', value)
-                    removeErrors('jobTitle')
-                    removeErrors('jobDescription')
-                    removeErrors('employeeAddress')
-                  }}
-                  questionLabel="Are You Currently Employed?"
-                  placeholder="Job Title"
-                  answerState={personalDetailsState.сurrentlyEmployed}
-                  value={personalDetailsState.jobTitle}
-                />
-              </div>
+              <OptionalRadioForm
+                name="jobTitle"
+                onInputChange={handleFormInputs}
+                onRadioChange={(value) => {
+                  setPersonalDetails('сurrentlyEmployed', value)
+                  removeErrors('jobTitle')
+                  removeErrors('jobDescription')
+                  removeErrors('employeeAddress')
+                }}
+                questionLabel="Are You Currently Employed?"
+                placeholder="Job Title"
+                answerState={personalDetailsState.сurrentlyEmployed}
+                value={personalDetailsState.jobTitle}
+              />
+            </div>
+            {personalDetailsState.jobTitle && (
               <div className="member-input">
-                <Input
-                  onChange={handleFormInputs}
-                  name="jobTitle"
-                  value={personalDetailsState.jobDescription}
-                  placeholder="Job Title"
-                  className="mb-24"
-                />
                 <Input
                   onChange={handleFormInputs}
                   name="jobDescription"
@@ -365,7 +333,6 @@ export const Personal: FC = () => {
                   placeholder="Job Description"
                   className="mb-24"
                 />
-
                 <Input
                   onChange={handleFormInputs}
                   name="employeeAddress"
@@ -374,7 +341,7 @@ export const Personal: FC = () => {
                   className="mb-24"
                 />
               </div>
-            </div>
+            )}
           </div>
 
           <div className="member-flex">
@@ -394,13 +361,15 @@ export const Personal: FC = () => {
             </div>
 
             <div className="member-input">
-              <Input
-                onChange={handleFormInputs}
-                name="businessDescription"
-                value={personalDetailsState.jobDescription}
-                placeholder="Business Description"
-                className="mb-24"
-              />
+              {personalDetailsState.businessDescription && (
+                <Input
+                  onChange={handleFormInputs}
+                  name="businessDescription"
+                  value={personalDetailsState.businessDescription}
+                  placeholder="Business Description"
+                  className="mb-24"
+                />
+              )}
             </div>
           </div>
           <div className="member-flex">
@@ -420,13 +389,15 @@ export const Personal: FC = () => {
             </div>
 
             <div className="member-input">
-              <Input
-                onChange={handleFormInputs}
-                name="tradeDescription"
-                value={personalDetailsState.jobDescription}
-                placeholder="Trade Description"
-                className="mb-24"
-              />
+              {personalDetailsState.tradeDescription && (
+                <Input
+                  onChange={handleFormInputs}
+                  name="tradeDescription"
+                  value={personalDetailsState.tradeDescription}
+                  placeholder="Trade Description"
+                  className="mb-24"
+                />
+              )}
             </div>
           </div>
           <div className="member-flex">
@@ -446,13 +417,15 @@ export const Personal: FC = () => {
             </div>
 
             <div className="member-input">
-              <Input
-                onChange={handleFormInputs}
-                name="technicalSkillsDescription"
-                value={personalDetailsState.jobDescription}
-                placeholder="Skill Description"
-                className="mb-24"
-              />
+              {personalDetailsState.technicalSkillsDescription && (
+                <Input
+                  onChange={handleFormInputs}
+                  name="technicalSkillsDescription"
+                  value={personalDetailsState.technicalSkillsDescription}
+                  placeholder="Skill Description"
+                  className="mb-24"
+                />
+              )}
             </div>
           </div>
           <div className="member-flex">
@@ -472,13 +445,15 @@ export const Personal: FC = () => {
             </div>
 
             <div className="member-input">
-              <Input
-                onChange={handleFormInputs}
-                name="athleticSkillsDescription"
-                value={personalDetailsState.jobDescription}
-                placeholder="Skill Description"
-                className="mb-24"
-              />
+              {personalDetailsState.athleticSkillsDescription && (
+                <Input
+                  onChange={handleFormInputs}
+                  name="athleticSkillsDescription"
+                  value={personalDetailsState.athleticSkillsDescription}
+                  placeholder="Skill Description"
+                  className="mb-24"
+                />
+              )}
             </div>
           </div>
           <div className="member-flex">
@@ -498,13 +473,15 @@ export const Personal: FC = () => {
             </div>
 
             <div className="member-input">
-              <Input
-                onChange={handleFormInputs}
-                name="totalNumberOfDependens"
-                value={personalDetailsState.jobDescription}
-                placeholder="Total Number of Dependents"
-                className="mb-24"
-              />
+              {personalDetailsState.totalNumberOfDependens && (
+                <Input
+                  onChange={handleFormInputs}
+                  name="totalNumberOfDependens"
+                  value={personalDetailsState.totalNumberOfDependens}
+                  placeholder="Total Number of Dependents"
+                  className="mb-24"
+                />
+              )}
             </div>
           </div>
 

@@ -22,7 +22,7 @@ import {
   setShowModal,
 } from '../../src/store/MainLayoutDataStore/MainLayoutDataStore'
 import { MemberManagement } from '../../src/managers/memberManagement'
-import ArrowNextIcon from '../../src/assets/images/icons/arrow-next-icon'
+import { Button } from '../../src/components/Button'
 
 type ITabNames =
   | 'profile'
@@ -33,6 +33,7 @@ type ITabNames =
 
 interface IActiveTab {
   activeTab: ITabNames
+  memberAccountInfo: Record<string, string>
 }
 
 const tabs = {
@@ -46,14 +47,12 @@ const tabs = {
 const MemberPageById = () => {
   const router = useRouter()
   const { userId } = router.query
-  const { activeTab }: IActiveTab = useSelectorTyped(
+  const { activeTab, memberAccountInfo }: IActiveTab = useSelectorTyped(
     (state: RootState) => state.MemberManagementDataStore
   )
+
   const { isFormFilled } = useSelectorTyped(
     (state: RootState) => state.ProfileDataStore
-  )
-  const { userData, personalInfo } = useSelectorTyped(
-    (state: RootState) => state.MainLayoutDataStore
   )
   const dispatch = useDispatch()
   const confirmChangeTabs = async (page: ITabNames) => {
@@ -69,11 +68,14 @@ const MemberPageById = () => {
       }
     }
   }
-
+  const backtoMemberList = () => {
+    router.back()
+  }
   useEffect(() => {
     ;(async () => {
       try {
         const res = await MemberManagement.getMemberData({ userId: +userId })
+
         dispatch(setMemberAccountData(res))
       } catch (error) {
         throw error
@@ -84,20 +86,17 @@ const MemberPageById = () => {
   return (
     <div className="container">
       <div className="relative">
-        <div
-          className="back-member"
-          aria-hidden
-          onClick={() => router.push('/member_management')}
-        >
-          <span>
-            <ArrowNextIcon />
-          </span>
-          <p>Back to Profiles</p>
+        <div className="back-flex">
+          <div>
+            <h1 className="container-title">Member Management</h1>
+            <span className="title-info">
+              Home / Admin Tools / Member Management
+            </span>
+          </div>
+          <div className="w-140">
+            <Button onClick={backtoMemberList}>Back</Button>
+          </div>
         </div>
-        <h1 className="container-title">Member Management</h1>
-        <span className="title-info">
-          Home / Admin Tools / Member Management
-        </span>
       </div>
 
       <div className="d-flex">
@@ -105,24 +104,32 @@ const MemberPageById = () => {
           <div className="admin-profile_card">
             <div className="admin-profile_avatar">
               <div className="admin-avatar">
-                {userData.avatar ? (
+                {memberAccountInfo.avatar ? (
                   <img
                     className="admin-upload_img"
-                    src={`${process.env.NEXT_PUBLIC_API}/avatar/${userData.avatar}`}
+                    src={`${process.env.NEXT_PUBLIC_API}/avatar/${memberAccountInfo.avatar}`}
                     alt="avatar"
                   />
                 ) : (
                   <p>
-                    {personalInfo.firstName?.slice(0, 1).toUpperCase()}
-                    {personalInfo.lastName?.slice(0, 1).toUpperCase()}
+                    {memberAccountInfo.firstName?.slice(0, 1).toUpperCase()}
+                    {memberAccountInfo.lastName?.slice(0, 1).toUpperCase()}
                   </p>
                 )}
               </div>
               <div>
-                <span className="admin-username">{userData.username}</span>
-                <p className="admin-name">
-                  {personalInfo.firstName
-                    ? `${personalInfo.firstName} ${personalInfo.lastName}`
+                <span
+                  className="admin-username"
+                  title={memberAccountInfo.username}
+                >
+                  {memberAccountInfo.username}
+                </span>
+                <p
+                  className="admin-name"
+                  title={`${memberAccountInfo.firstName} ${memberAccountInfo.lastName}`}
+                >
+                  {memberAccountInfo.firstName
+                    ? `${memberAccountInfo.firstName} ${memberAccountInfo.lastName}`
                     : ''}
                 </p>
               </div>
