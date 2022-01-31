@@ -3,19 +3,14 @@ import { TextArea } from 'src/components/Textarea'
 import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelectorTyped } from 'src/utils/hooks'
-import {
-  endStageFetching,
-  startStageFetching,
-  validateStage,
-} from 'src/store/reducers/signup'
-import { haveErrors } from 'src/utils'
+import { validateStage } from 'src/store/reducers/signup'
+
 import { Button } from 'src/components/Button'
 import { Input } from 'src/components/Input'
-import { sendPersonalDetails } from 'src/store/actions/signup'
+
 import { DatePickerForm } from 'src/containers/DatePickerForm'
 import { ChooseGenderForm } from 'src/containers/ChooseGenderForm'
 import { OptionalRadioForm } from 'src/containers/OptionalRadioBoxForm'
-import { validate } from '../../../../containers/SignUp/PersonalDetails/validate'
 
 const maritalStatusCodes = {
   SINGLE: 'Single',
@@ -89,11 +84,6 @@ export const Personal: FC = () => {
     year: '',
   })
 
-  // const [phoneState, setPhoneState] = useState({
-  //   phoneCode: country.phonecode.slice(1),
-  //   phoneNumber: '',
-  // })
-
   const dispatch = useDispatch()
 
   const removeErrors = (name: string) => {
@@ -137,46 +127,6 @@ export const Personal: FC = () => {
     removeErrors('stateId')
   }
 
-  // const handleForm = () => {
-  //   dispatch(startStageFetching())
-  //
-  //   const validationErrors = validate(
-  //     {
-  //       ...personalDetailsState,
-  //       dateOfBirth,
-  //     },
-  //     phoneState
-  //   )
-  //   dispatch(validateStage({ errors: validationErrors }))
-  //
-  //   if (haveErrors(validationErrors)) {
-  //     dispatch(endStageFetching())
-  //     return
-  //   }
-  //
-  //   const formData: any = {
-  //     ...personalDetailsState,
-  //     dateOfBirth: new Date(
-  //       +dateOfBirth.year,
-  //       +dateOfBirth.month,
-  //       +dateOfBirth.day + 1
-  //     )
-  //       .toJSON()
-  //       .slice(0, 10),
-  //   }
-  //
-  //   if (formData.objectiveNote === '') {
-  //     delete formData.objectiveNote
-  //   }
-  //
-  //   if (formData.zipCode === '') {
-  //     delete formData.zipCode
-  //   }
-  //
-  //   const { phoneParsed, ...body } = formData
-  //   dispatch(sendPersonalDetails(body))
-  // }
-
   const handleFormInputs = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -194,11 +144,6 @@ export const Personal: FC = () => {
       type: 'GEO_TAKE',
       payload: { countryId: country.id, at: 'states' },
     })
-
-    // setPersonalDetailsState({
-    //   ...personalDetailsState,
-    //   countryId: country.id,
-    // })
   }, [country.id])
   return (
     <div className="admin-info">

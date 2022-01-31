@@ -146,6 +146,9 @@
             color: #c8c8c8;
           }
         }
+        &:nth-child(2){
+          padding-left: 36px;
+        }
       }
       .input-container {
         width: 100%;
