@@ -46,11 +46,12 @@ const ProfilePage = () => {
   const { isFormFilled } = useSelectorTyped(
     (state: RootState) => state.ProfileDataStore
   )
-  const { userData, avatarError, personalInfo } = useSelectorTyped(
+  const { userData, personalInfo } = useSelectorTyped(
     (state: RootState) => state.MainLayoutDataStore
   )
   const dispatch = useDispatch()
   const [imgPreview, setImgPreview] = useState<IImgPreview>('')
+  const [avatarError, setAvatarError] = useState('')
 
   const confirmChangeTabs = async (page: ITabNames) => {
     if (!isFormFilled || activeTab === page) {
@@ -67,6 +68,7 @@ const ProfilePage = () => {
   }
 
   const handleUploadImage = (e: ChangeEvent<HTMLInputElement>) => {
+    setAvatarError('')
     if (!e.target.files) return
     const selectedFile = e.target.files[0]
     const FILE_TYPE = ['image/png', 'image/jpeg', 'image/jpg']
@@ -85,11 +87,13 @@ const ProfilePage = () => {
       dispatch(setUserData(res))
       setImgPreview('')
     } catch (error) {
+      setAvatarError('Please upload valid avatar image')
       throw error
     }
   }
 
   const onRemove = async () => {
+    setAvatarError('')
     if (imgPreview) {
       setImgPreview('')
       return
@@ -113,6 +117,7 @@ const ProfilePage = () => {
         <div className="row">
           <div className="profile-card">
             <div className="profile-avatar">
+              <span className="avatar_error">{avatarError}</span>
               <div className="avatar-container">
                 {(imgPreview || userData.avatar) && (
                   <span
@@ -123,7 +128,11 @@ const ProfilePage = () => {
                     <TrashIcon />
                   </span>
                 )}
-                <div className="avatar">
+                <div
+                  className={classNames('avatar', {
+                    'avatar-error': avatarError,
+                  })}
+                >
                   {imgPreview ? (
                     <img
                       className="upload-img"
@@ -152,7 +161,6 @@ const ProfilePage = () => {
                     accept="image/png, image/jpeg,image/jpg"
                   />
                 </label>
-                <span className="avatar_error">{avatarError}</span>
               </div>
               <p
                 className={classNames('name', {

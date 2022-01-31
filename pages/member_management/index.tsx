@@ -87,6 +87,19 @@ const MemberManagementPage = () => {
     })()
   }, [page])
 
+  useEffect(() => {
+    const listener = (event: any) => {
+      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+        event.preventDefault()
+        getMembersList()
+      }
+    }
+    document.addEventListener('keydown', listener)
+    return () => {
+      document.removeEventListener('keydown', listener)
+    }
+  }, [searchValue])
+
   return (
     <div className="container">
       <div className="relative member-management">
