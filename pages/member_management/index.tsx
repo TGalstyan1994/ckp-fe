@@ -122,6 +122,7 @@ const MemberManagementPage = () => {
               })}
               key={item.id}
               onClick={() => handleMemberClick(item.id)}
+              aria-hidden
             >
               <LockIcon />
               <div className="top">
