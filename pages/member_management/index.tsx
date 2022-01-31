@@ -18,6 +18,7 @@ import {
 } from '../../src/store/MebmerManagementDataStore/MemberManagementDataStore'
 import { setShowLoader } from '../../src/store/GlobalConfigDataStore/GlobalConfigDataStore'
 import PaginationIcon from '../../src/assets/images/icons/arrow-duble-icon'
+import { LinkText } from '../../src/components/LinkText'
 
 interface IMember {
   avatar: string
@@ -40,7 +41,6 @@ interface IMembersListReqBody {
 
 const MemberManagementPage = () => {
   const dispatch = useDispatch()
-  const router = useRouter()
 
   const { members, count } = useSelectorTyped(
     (state: RootState) => state.MemberManagementDataStore
@@ -55,10 +55,6 @@ const MemberManagementPage = () => {
 
   const handlePageClick = ({ selected }: { selected: number }) => {
     setPage(selected)
-  }
-
-  const handleMemberClick = (selectedMember: number | string) => {
-    router.push(`/member_management/${selectedMember}`)
   }
 
   const getMembersList = async () => {
@@ -129,43 +125,44 @@ const MemberManagementPage = () => {
       <div className="members-container">
         {members?.map((item: IMember) => {
           return (
-            <div
-              className={classNames('item', {
-                blocked_item: !item.blocked,
-              })}
-              key={item.id}
-              onClick={() => handleMemberClick(item.id)}
-              aria-hidden
-            >
-              <LockIcon />
-              <div className="top">
-                <div className="avatar">
-                  {item.avatar ? (
-                    <figure className="figure">
-                      <img
-                        src={`${process.env.NEXT_PUBLIC_API}/avatar/${item.avatar}`}
-                        alt="memberAvatar"
-                      />
-                    </figure>
-                  ) : (
-                    <figure className="figure">
-                      {item.firstName?.slice(0, 1).toUpperCase()}
-                      {item.lastName?.slice(0, 1).toUpperCase()}
-                    </figure>
-                  )}
-                </div>
+            <LinkText href={`/member_management/${item.id}`} key={item.id}>
+              <div
+                className={classNames('item', {
+                  blocked_item: !item.blocked,
+                })}
+                key={item.id}
+                aria-hidden
+              >
+                <LockIcon />
+                <div className="top">
+                  <div className="avatar">
+                    {item.avatar ? (
+                      <figure className="figure">
+                        <img
+                          src={`${process.env.NEXT_PUBLIC_API}/avatar/${item.avatar}`}
+                          alt="memberAvatar"
+                        />
+                      </figure>
+                    ) : (
+                      <figure className="figure">
+                        {item.firstName?.slice(0, 1).toUpperCase()}
+                        {item.lastName?.slice(0, 1).toUpperCase()}
+                      </figure>
+                    )}
+                  </div>
 
-                <div className="name">
-                  <h4>{item.firstName}</h4>
-                  <h4>{item.lastName}</h4>
-                  <p>{item.username}</p>
+                  <div className="name">
+                    <h4>{item.firstName}</h4>
+                    <h4>{item.lastName}</h4>
+                    <p>{item.username}</p>
+                  </div>
+                </div>
+                <div className="bottom">
+                  <p> E-mail: {item.email} </p>
+                  <p> Phone: {item.phone}</p>
                 </div>
               </div>
-              <div className="bottom">
-                <p> E-mail: {item.email} </p>
-                <p> Phone: {item.phone}</p>
-              </div>
-            </div>
+            </LinkText>
           )
         })}
       </div>

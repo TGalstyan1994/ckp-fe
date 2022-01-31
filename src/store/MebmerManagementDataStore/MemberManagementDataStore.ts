@@ -4,7 +4,7 @@ interface IMemberManagementDataStore {
   activeTab: 'profile' | 'donation' | 'kyc' | 'referral' | 'activate_deactivate'
   activeProfileTab: 'account' | 'personal' | 'security' | 'social'
   count: number
-  members: []
+  members: IMember[]
   memberAccountInfo: Record<string, unknown>
 }
 
@@ -14,6 +14,19 @@ const initialState: IMemberManagementDataStore = {
   memberAccountInfo: {},
   count: 0,
   members: [],
+}
+
+export interface IMember {
+  avatar: string
+  blocked: boolean
+  email: string
+  firstName: string
+  id: number
+  kycStatus: string
+  lastName: string
+  phone: string
+  status: string
+  username: string
 }
 
 const MemberManagementDataStore = createSlice({

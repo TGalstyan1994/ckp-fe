@@ -68,19 +68,21 @@ const MemberPageById = () => {
       }
     }
   }
-  const backtoMemberList = () => {
+  const backToMemberList = () => {
     router.back()
   }
   useEffect(() => {
     ;(async () => {
       try {
         const res = await MemberManagement.getMemberData({ userId: +userId })
-
         dispatch(setMemberAccountData(res))
       } catch (error) {
         throw error
       }
     })()
+    return () => {
+      dispatch(setMemberAccountData({}))
+    }
   }, [userId])
 
   return (
@@ -94,7 +96,7 @@ const MemberPageById = () => {
             </span>
           </div>
           <div className="w-140">
-            <Button onClick={backtoMemberList}>Back</Button>
+            <Button onClick={backToMemberList}>Back</Button>
           </div>
         </div>
       </div>
