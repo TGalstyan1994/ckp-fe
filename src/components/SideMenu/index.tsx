@@ -225,7 +225,7 @@ export const SideMenu: FC = () => {
     return items.map((item: IMenuItem) => (
       <div
         className={classNames('icon', {
-          icon_active: router.pathname === item.pathname,
+          icon_active: router.pathname.includes(item.pathname),
         })}
         key={item.pathname}
       >

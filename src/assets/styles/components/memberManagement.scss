@@ -7,17 +7,19 @@
 .member-management {
   @include flex;
   justify-content: space-between;
+  gap: 100px;
 
   .mm-search-area {
-    @include flex;
-    .search-input {
-      width: 471px;
-      max-width: 471px;
-      margin-left: 34px;
+    display: grid;
+    grid-template-columns: max-content minmax(200px, 470px) 174px;
+    gap: 20px;
+
+    > div {
+      align-self: center;
     }
-    button {
-      padding: 21.5px 61px;
-      margin-left: 19px;
+
+    .search-input {
+      max-width: 471px;
     }
 
     p {
@@ -43,6 +45,8 @@
     border-radius: 5px;
     box-shadow: 0 0 8px #dedede;
     position: relative;
+    cursor: pointer;
+
     svg {
       position: absolute;
       top: 15px;
@@ -54,8 +58,10 @@
       border-bottom: 1px solid #cbcbcb;
       @include flex;
       align-items: flex-start;
+
       .avatar {
         margin-right: 13px;
+
         .figure {
           width: 53px;
           height: 53px;
@@ -66,6 +72,7 @@
           background: #31a769;
           color: $white;
           overflow: hidden;
+
           img {
             object-fit: cover;
             width: 100%;
@@ -73,11 +80,13 @@
           }
         }
       }
+
       .name {
         font-family: SF Pro Display, sans-serif;
         font-style: normal;
         font-weight: 600;
         display: grid;
+
         h4 {
           font-size: 16px;
           line-height: 19px;
@@ -85,10 +94,12 @@
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+
           &:last-of-type {
             margin-bottom: 5px;
           }
         }
+
         p {
           font-size: 13px;
           line-height: 16px;
@@ -99,9 +110,11 @@
         }
       }
     }
+
     .bottom {
       padding: 28px 34px 30px 34px;
       display: grid;
+
       p {
         font-family: SF Pro Display, sans-serif;
         font-style: normal;
@@ -116,20 +129,25 @@
     }
   }
 }
+
 .blocked_item svg {
   opacity: 0.3;
 }
+
 .pagination {
   margin-top: 94px;
   margin-bottom: 33px;
+
   ul,
   li {
     list-style: none;
     padding: 0;
   }
+
   ul {
     display: flex;
     align-items: center;
+
     li {
       width: 44px;
       height: 44px;
@@ -154,6 +172,7 @@
 
       &:first-of-type {
         border-radius: 5px 0 0 5px;
+
         svg {
           transform: rotate(180deg);
         }
@@ -170,6 +189,7 @@
           color: #5bba88;
         }
       }
+
       &:hover {
         a {
           background-color: #ffffff;
@@ -177,6 +197,7 @@
         }
       }
     }
+
     svg {
       width: 10px;
       height: 10px;

@@ -57,9 +57,8 @@ const MemberManagementPage = () => {
     setPage(selected)
   }
 
-  const handleMemberClick = (selectedMember: number) => {
-    const { origin } = window.location
-    router.push(`${origin}/member_management/${selectedMember}`)
+  const handleMemberClick = (selectedMember: number | string) => {
+    router.push(`/member_management/${selectedMember}`)
   }
 
   const getMembersList = async () => {
@@ -122,7 +121,7 @@ const MemberManagementPage = () => {
                 blocked_item: !item.blocked,
               })}
               key={item.id}
-              onClick={() => handleMemberClick(+item.id)}
+              onClick={() => handleMemberClick(item.id)}
             >
               <LockIcon />
               <div className="top">
@@ -144,9 +143,7 @@ const MemberManagementPage = () => {
 
                 <div className="name">
                   <h4>{item.firstName}</h4>
-                  {/* <h4>{item.firstName ? item.firstName : 'First Name'}</h4> */}
-                  <h4>{item.lastName ? item.lastName : 'Last Name'}</h4>
-                  {/* <h4>{item.lastName ? item.lastName : 'Last Name'}</h4> */}
+                  <h4>{item.lastName}</h4>
                   <p>{item.username}</p>
                 </div>
               </div>
