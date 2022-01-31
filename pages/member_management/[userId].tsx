@@ -12,7 +12,10 @@ import { KYCPage } from '../../src/MemberPages/KYC/kyc'
 import { Referral } from '../../src/MemberPages/ReferralList/referral'
 import { useSelectorTyped } from '../../src/utils/hooks'
 import { RootState } from '../../src/store'
-import { changeTabs } from '../../src/store/MebmerManagementDataStore/MemberManagementDataStore'
+import {
+  changeTabs,
+  setMemberAccountData,
+} from '../../src/store/MebmerManagementDataStore/MemberManagementDataStore'
 import { modalPromise } from '../../src/helpers/modal-helper'
 import {
   closeModal,
@@ -66,17 +69,18 @@ const MemberPageById = () => {
       }
     }
   }
-  console.log(userId)
+
   useEffect(() => {
     ;(async () => {
       try {
-        const res = await MemberManagement.getMemberData(userId)
-        console.log(res)
+        const res = await MemberManagement.getMemberData({ userId: +userId })
+        dispatch(setMemberAccountData(res))
       } catch (error) {
         throw error
       }
     })()
-  }, [])
+  }, [userId])
+
   return (
     <div className="container">
       <div className="relative">

@@ -1,7 +1,4 @@
-import React, { FC, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { AdminManager } from '../../../../managers/admin'
-import { setMemberAccountData } from '../../../../store/MebmerManagementDataStore/MemberManagementDataStore'
+import React, { FC } from 'react'
 import { useSelectorTyped } from '../../../../utils/hooks'
 import { RootState } from '../../../../store'
 import PencilIcon from '../../../../assets/images/icons/pencil-icon'
@@ -12,21 +9,9 @@ interface ILine {
   isLink?: boolean
 }
 export const Account: FC = () => {
-  const dispatch = useDispatch()
   const { memberAccountInfo } = useSelectorTyped(
     (state: RootState) => state.MemberManagementDataStore
   )
-
-  useEffect(() => {
-    ;(async () => {
-      try {
-        const res = await AdminManager.getAdminAccountInfo({ userId: 1 })
-        dispatch(setMemberAccountData(res))
-      } catch (error) {
-        throw error
-      }
-    })()
-  }, [])
 
   const Line = ({ text, name, isLink }: ILine) => {
     return (

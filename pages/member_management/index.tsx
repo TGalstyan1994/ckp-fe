@@ -1,5 +1,6 @@
 import { GetServerSideProps } from 'next'
 import React, { ChangeEvent, useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import LockIcon from 'src/assets/images/icons/lock-icon'
 import { useDispatch } from 'react-redux'
 import classNames from 'classnames'
@@ -39,6 +40,7 @@ interface IMembersListReqBody {
 
 const MemberManagementPage = () => {
   const dispatch = useDispatch()
+  const router = useRouter()
 
   const { members, count } = useSelectorTyped(
     (state: RootState) => state.MemberManagementDataStore
@@ -53,6 +55,11 @@ const MemberManagementPage = () => {
 
   const handlePageClick = ({ selected }: { selected: number }) => {
     setPage(selected)
+  }
+
+  const handleMemberClick = (selectedMember: number) => {
+    const { origin } = window.location
+    router.push(`${origin}/member_management/${selectedMember}`)
   }
 
   const getMembersList = async () => {
@@ -92,7 +99,7 @@ const MemberManagementPage = () => {
         </div>
         <div className="mm-search-area">
           <div>
-            <p>found 12 results</p>
+            <p>found {count} results</p>
           </div>
 
           <div className="search-input">
@@ -115,6 +122,7 @@ const MemberManagementPage = () => {
                 blocked_item: !item.blocked,
               })}
               key={item.id}
+              onClick={() => handleMemberClick(+item.id)}
             >
               <LockIcon />
               <div className="top">
@@ -135,8 +143,10 @@ const MemberManagementPage = () => {
                 </div>
 
                 <div className="name">
-                  <h4>{item.firstName ? item.firstName : 'First Name'}</h4>
+                  <h4>{item.firstName}</h4>
+                  {/* <h4>{item.firstName ? item.firstName : 'First Name'}</h4> */}
                   <h4>{item.lastName ? item.lastName : 'Last Name'}</h4>
+                  {/* <h4>{item.lastName ? item.lastName : 'Last Name'}</h4> */}
                   <p>{item.username}</p>
                 </div>
               </div>
