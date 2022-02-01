@@ -150,7 +150,6 @@ const userMenuItems: Array<IMenuItem> = [
       { pathname: '/universe2', field: 'Referral list' },
     ],
     withLoader: false,
-
     pathname: '/universe',
   },
   {
@@ -229,7 +228,7 @@ export const SideMenu: FC = () => {
         })}
         key={item.pathname}
       >
-        {router.pathname === item.pathname ? (
+        {router.pathname === item.pathname || item.children ? (
           <div className="icon_title">
             <span className="svgIcon">{item.svg}</span>
             <span className="name">{item.name}</span>

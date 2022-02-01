@@ -1,5 +1,6 @@
 import { GetServerSideProps } from 'next'
 import React, { ChangeEvent, useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import LockIcon from 'src/assets/images/icons/lock-icon'
 import { useDispatch } from 'react-redux'
 import classNames from 'classnames'
@@ -93,11 +94,11 @@ const MemberManagementPage = () => {
         getMembersList()
       }
     }
-    if (hasFocus) document.addEventListener('keydown', listener)
+    document.addEventListener('keydown', listener)
     return () => {
       document.removeEventListener('keydown', listener)
     }
-  }, [searchValue, hasFocus])
+  }, [searchValue])
 
   return (
     <div className="container">
@@ -118,7 +119,6 @@ const MemberManagementPage = () => {
               onChange={handleSearchInput}
               value={searchValue}
               placeholder="Member search"
-              setFocus={setFocus}
             />
           </div>
           <div>
@@ -127,6 +127,34 @@ const MemberManagementPage = () => {
         </div>
       </div>
       <div className="members-container">
+        {members?.map((item: IMember) => {
+          return (
+            <LinkText href={`/member_management/${item.id}`} key={item.id}>
+              <div
+                className={classNames('item', {
+                  blocked_item: !item.blocked,
+                })}
+                key={item.id}
+                aria-hidden
+                onClick={() => dispatch(setShowLoader(true))}
+              >
+                <LockIcon />
+                <div className="top">
+                  <div className="avatar">
+                    {item.avatar ? (
+                      <figure className="figure">
+                        <img
+                          src={`${process.env.NEXT_PUBLIC_API}/avatar/${item.avatar}`}
+                          alt="memberAvatar"
+                        />
+                      </figure>
+                    ) : (
+                      <figure className="figure">
+                        {item.firstName?.slice(0, 1).toUpperCase()}
+                        {item.lastName?.slice(0, 1).toUpperCase()}
+                      </figure>
+                    )}
+                  </div>
         {members.length > 0 ? (
           members?.map((item: IMember) => {
             return (
@@ -183,7 +211,7 @@ const MemberManagementPage = () => {
             nextLabel={<PaginationIcon />}
             onPageChange={handlePageClick}
             pageRangeDisplayed={4}
-            pageCount={Math.ceil(count / 12)}
+            pageCount={Math.round(count / 12)}
             previousLabel={<PaginationIcon />}
             initialPage={page}
           />
