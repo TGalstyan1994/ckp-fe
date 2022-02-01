@@ -30,6 +30,7 @@ export const Input: FC<Props> = ({
   inputError,
   autoFocus,
   autoComplete,
+  setFocus,
 }) => {
   const [showPassword, setShowPassword] = useState(!(type === 'password'))
   const togglePasswordView = () => setShowPassword((prev) => !prev)
@@ -74,6 +75,8 @@ export const Input: FC<Props> = ({
             className
           )}
           autoComplete={autoComplete ? 'on' : 'off'}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
         />
         {type === 'password' && (
           <PasswordSwitchICO
