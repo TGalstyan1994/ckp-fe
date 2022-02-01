@@ -60,6 +60,7 @@ const MemberManagementPage = () => {
 
   const getMembersList = async () => {
     setPage(0)
+    dispatch(setShowLoader(true))
     const body: IMembersListReqBody = {
       offset: page * 12,
       limit: 12,
