@@ -49,8 +49,6 @@ const MemberManagementPage = () => {
 
   const [searchValue, setSearchValue] = useState('')
 
-  const [hasFocus, setFocus] = useState()
-
   const handleSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value)
   }
@@ -60,8 +58,6 @@ const MemberManagementPage = () => {
   }
 
   const getMembersList = async () => {
-    setPage(0)
-    dispatch(setShowLoader(true))
     const body: IMembersListReqBody = {
       offset: page * 12,
       limit: 12,
@@ -136,7 +132,6 @@ const MemberManagementPage = () => {
                 })}
                 key={item.id}
                 aria-hidden
-                onClick={() => dispatch(setShowLoader(true))}
               >
                 <LockIcon />
                 <div className="top">
@@ -155,54 +150,21 @@ const MemberManagementPage = () => {
                       </figure>
                     )}
                   </div>
-        {members.length > 0 ? (
-          members?.map((item: IMember) => {
-            return (
-              <LinkText href={`/member_management/${item.id}`} key={item.id}>
-                <div
-                  className={classNames('item', {
-                    blocked_item: !item.blocked,
-                  })}
-                  key={item.id}
-                  aria-hidden
-                >
-                  <LockIcon />
-                  <div className="top">
-                    <div className="avatar">
-                      {item.avatar ? (
-                        <figure className="figure">
-                          <img
-                            src={`${process.env.NEXT_PUBLIC_API}/avatar/${item.avatar}`}
-                            alt="memberAvatar"
-                          />
-                        </figure>
-                      ) : (
-                        <figure className="figure">
-                          {item.firstName?.slice(0, 1).toUpperCase()}
-                          {item.lastName?.slice(0, 1).toUpperCase()}
-                        </figure>
-                      )}
-                    </div>
 
-                    <div className="name">
-                      <h4>{item.firstName}</h4>
-                      <h4>{item.lastName}</h4>
-                      <p>{item.username}</p>
-                    </div>
-                  </div>
-                  <div className="bottom">
-                    <p> E-mail: {item.email} </p>
-                    <p> Phone: {item.phone}</p>
+                  <div className="name">
+                    <h4>{item.firstName}</h4>
+                    <h4>{item.lastName}</h4>
+                    <p>{item.username}</p>
                   </div>
                 </div>
-              </LinkText>
-            )
-          })
-        ) : (
-          <span className="noFoundUser">
-            There was no information found for the specific search parameters
-          </span>
-        )}
+                <div className="bottom">
+                  <p> E-mail: {item.email} </p>
+                  <p> Phone: {item.phone}</p>
+                </div>
+              </div>
+            </LinkText>
+          )
+        })}
       </div>
       <div className="pagination">
         {count ? (
