@@ -10,6 +10,12 @@ interface IMainLayoutDataStore {
   modalType: string
   userData: Record<string, unknown>
   personalInfo: Record<string, string>
+  socialInfo: {
+    about?: string
+    facebook?: string
+    twitter?: string
+    linkedIn?: string
+  }
 }
 
 const initialState: IMainLayoutDataStore = {
@@ -22,6 +28,12 @@ const initialState: IMainLayoutDataStore = {
   modalType: '',
   userData: {},
   personalInfo: {},
+  socialInfo: {
+    about: '',
+    facebook: '',
+    twitter: '',
+    linkedIn: '',
+  },
 }
 
 const MainLayoutDataStore = createSlice({
@@ -64,6 +76,9 @@ const MainLayoutDataStore = createSlice({
     resetMainLayoutDataStore() {
       return initialState
     },
+    setSocialInfo(state, action) {
+      state.socialInfo = action.payload
+    },
   },
 })
 
@@ -79,6 +94,7 @@ export const {
   closeQuestionModal,
   setUserData,
   resetMainLayoutDataStore,
+  setSocialInfo,
 } = MainLayoutDataStore.actions
 
 export default MainLayoutDataStore.reducer

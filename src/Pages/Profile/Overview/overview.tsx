@@ -1,10 +1,8 @@
 import React, { FC, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { ProfileManager } from '../../../managers/profile'
-import {
-  setAccountInfo,
-  setSocialInfo,
-} from '../../../store/ProfileDataStore/ProfileDataStore'
+import { setAccountInfo } from '../../../store/ProfileDataStore/ProfileDataStore'
+import { setSocialInfo } from '../../../store/MainLayoutDataStore/MainLayoutDataStore'
 import { useSelectorTyped } from '../../../utils/hooks'
 import { RootState } from '../../../store'
 
@@ -16,11 +14,11 @@ interface ILine {
 
 export const Overview: FC = () => {
   const dispatch = useDispatch()
-  const { socialInfo, accountInfo } = useSelectorTyped(
+  const { accountInfo } = useSelectorTyped(
     (state: RootState) => state.ProfileDataStore
   )
 
-  const { personalInfo } = useSelectorTyped(
+  const { socialInfo, personalInfo } = useSelectorTyped(
     (state: RootState) => state.MainLayoutDataStore
   )
 

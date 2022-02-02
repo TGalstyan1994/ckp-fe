@@ -44,7 +44,7 @@ const ProfilePage = () => {
   )
 
   const { isFormFilled } = useSelectorTyped(
-    (state: RootState) => state.ProfileDataStore
+    (state: RootState) => state.GlobalConfigDataStore
   )
   const { userData, personalInfo } = useSelectorTyped(
     (state: RootState) => state.MainLayoutDataStore

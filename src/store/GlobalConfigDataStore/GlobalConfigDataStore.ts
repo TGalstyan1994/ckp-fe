@@ -7,6 +7,7 @@ interface IGlobalConfigDataStore {
   }
   isSuperAdmin: boolean | undefined
   showLoader: boolean
+  isFormFilled: boolean
 }
 
 const initialState: IGlobalConfigDataStore = {
@@ -16,6 +17,7 @@ const initialState: IGlobalConfigDataStore = {
   },
   isSuperAdmin: undefined,
   showLoader: true,
+  isFormFilled: false,
 }
 
 const GlobalConfigDataStore = createSlice({
@@ -34,6 +36,10 @@ const GlobalConfigDataStore = createSlice({
     resetGlobalConfigDataStore() {
       return initialState
     },
+    setIsFormFilled(state, action) {
+      console.log(action.payload)
+      state.isFormFilled = action.payload
+    },
   },
 })
 
@@ -42,6 +48,7 @@ export const {
   setIsSuperAdmin,
   resetGlobalConfigDataStore,
   setShowLoader,
+  setIsFormFilled,
 } = GlobalConfigDataStore.actions
 
 export default GlobalConfigDataStore.reducer

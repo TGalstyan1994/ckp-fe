@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
 import classNames from 'classnames/bind'
-import { useSelectorTyped } from '../../../../utils/hooks'
-import { RootState } from '../../../../store'
-import PencilIcon from '../../../../assets/images/icons/pencil-icon'
+import { useSelectorTyped } from '../../../../../utils/hooks'
+import { RootState } from '../../../../../store'
+import PencilIcon from '../../../../../assets/images/icons/pencil-icon'
 
 interface ILine {
   name: string

@@ -1,21 +1,17 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Input } from '../../../../components/Input'
-import { Button } from '../../../../components/Button'
-import { toggleAlertModal } from '../../../../store/MainLayoutDataStore/MainLayoutDataStore'
-import {
-  setErrorMessage,
-  setIsFormFilled,
-} from '../../../../store/ProfileDataStore/ProfileDataStore'
-import { MemberManagement } from '../../../../managers/memberManagement'
-import { useSelectorTyped } from '../../../../utils/hooks'
-import { RootState } from '../../../../store'
+import { Input } from '../../../../../components/Input'
+import { Button } from '../../../../../components/Button'
+import { toggleAlertModal } from '../../../../../store/MainLayoutDataStore/MainLayoutDataStore'
+import { setErrorMessage } from '../../../../../store/ProfileDataStore/ProfileDataStore'
+import { setIsFormFilled } from '../../../../../store/GlobalConfigDataStore/GlobalConfigDataStore'
+import { MemberManagement } from '../../../../../managers/memberManagement'
+import { useSelectorTyped } from '../../../../../utils/hooks'
+import { RootState } from '../../../../../store'
 import { validate } from './validate'
 import { validatePin } from './validatePin'
 
 export const Security: FC = () => {
-  // eslint-disable-next-line unicorn/consistent-function-scoping
-
   const [passwordValue, setPasswordValue] = useState({
     password: '',
     passwordConfirmation: '',
@@ -133,21 +129,16 @@ export const Security: FC = () => {
       }
     }
   }
-
   useEffect(() => {
     dispatch(
       setIsFormFilled(
-        !Object.values(passwordValue).every((name: string) => name === '')
+        !(
+          Object.values(passwordValue).every((name: string) => name === '') &&
+          Object.values(pinValue).every((name: string) => name === '')
+        )
       )
     )
-  }, [passwordValue])
-  useEffect(() => {
-    dispatch(
-      setIsFormFilled(
-        !Object.values(pinValue).every((name: string) => name === '')
-      )
-    )
-  }, [pinValue])
+  }, [passwordValue, pinValue])
 
   return (
     <div className="admin-info">

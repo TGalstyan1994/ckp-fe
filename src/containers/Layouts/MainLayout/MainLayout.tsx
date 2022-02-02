@@ -9,10 +9,14 @@ import { Header } from '../../../components/Header'
 import { Footer } from '../../../components/Footer'
 import { RootState } from '../../../store'
 import { ConfirmModal } from '../../../components/Modal/ConfirmModal'
+import { resetProfileDataStore } from '../../../store/ProfileDataStore/ProfileDataStore'
 import {
-  resetProfileDataStore,
   setIsFormFilled,
-} from '../../../store/ProfileDataStore/ProfileDataStore'
+  resetGlobalConfigDataStore,
+  setDefaults,
+  setIsSuperAdmin,
+  setShowLoader,
+} from '../../../store/GlobalConfigDataStore/GlobalConfigDataStore'
 import { AlertModal } from '../../../components/Modal/AlertModal'
 import PromptModal from '../../../components/Modal/PromptModal'
 import { EnterSecurityPin } from '../../../components/Modal/ConfirmModal/enterSecurityPin'
@@ -23,12 +27,6 @@ import {
   setUserData,
 } from '../../../store/MainLayoutDataStore/MainLayoutDataStore'
 import { GlobalManager } from '../../../managers/global'
-import {
-  resetGlobalConfigDataStore,
-  setDefaults,
-  setIsSuperAdmin,
-  setShowLoader,
-} from '../../../store/GlobalConfigDataStore/GlobalConfigDataStore'
 import { ProfileManager } from '../../../managers/profile'
 import MainLoader from '../../../components/Loaders/MainLoader'
 import { resetMemberManagementDataStore } from '../../../store/MebmerManagementDataStore/MemberManagementDataStore'
@@ -56,9 +54,15 @@ const MainLayout = ({ children }: IMainLayout) => {
     showQuestionModal,
   } = useSelectorTyped((state: RootState) => state.MainLayoutDataStore)
 
-  const { activeProfileTab, activeTab } = useSelectorTyped(
-    (state: RootState) => state.ProfileDataStore
-  )
+  const {
+    activeProfileTab: profileActiveProfileTab,
+    activeTab: profileActiveTab,
+  } = useSelectorTyped((state: RootState) => state.ProfileDataStore)
+
+  const {
+    activeProfileTab: memberActiveProfileTab,
+    activeTab: memberActiveTab,
+  } = useSelectorTyped((state: RootState) => state.MemberManagementDataStore)
 
   useEffect(() => {
     if (!getAccessToken()) {
@@ -73,7 +77,12 @@ const MainLayout = ({ children }: IMainLayout) => {
 
   useEffect(() => {
     dispatch(setIsFormFilled(false))
-  }, [activeProfileTab, activeTab])
+  }, [
+    profileActiveProfileTab,
+    profileActiveTab,
+    memberActiveProfileTab,
+    memberActiveTab,
+  ])
 
   useEffect(() => {
     ;(async () => {

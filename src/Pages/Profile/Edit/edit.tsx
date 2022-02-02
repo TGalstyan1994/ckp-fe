@@ -32,7 +32,7 @@ export const Edit: FC = () => {
   )
 
   const { isFormFilled } = useSelectorTyped(
-    (state: RootState) => state.ProfileDataStore
+    (state: RootState) => state.GlobalConfigDataStore
   )
 
   const handleChangeTab = async (tab: ITabNames) => {

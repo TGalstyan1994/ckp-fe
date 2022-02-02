@@ -1,9 +1,7 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import {
-  setErrorMessage,
-  setIsFormFilled,
-} from '../../../../../store/ProfileDataStore/ProfileDataStore'
+import { setErrorMessage } from '../../../../../store/ProfileDataStore/ProfileDataStore'
+import { setIsFormFilled } from '../../../../../store/GlobalConfigDataStore/GlobalConfigDataStore'
 import { ProfileManager } from '../../../../../managers/profile'
 import { modalPromise } from '../../../../../helpers/modal-helper'
 import {

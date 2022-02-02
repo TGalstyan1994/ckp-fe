@@ -1,10 +1,10 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { setIsFormFilled } from '../../../../../store/GlobalConfigDataStore/GlobalConfigDataStore'
 import {
-  setIsFormFilled,
+  toggleAlertModal,
   setSocialInfo,
-} from '../../../../../store/ProfileDataStore/ProfileDataStore'
-import { toggleAlertModal } from '../../../../../store/MainLayoutDataStore/MainLayoutDataStore'
+} from '../../../../../store/MainLayoutDataStore/MainLayoutDataStore'
 import { ProfileManager } from '../../../../../managers/profile'
 import { Input } from '../../../../../components/Input'
 import { useSelectorTyped } from '../../../../../utils/hooks'
@@ -16,7 +16,7 @@ export const Social: FC = () => {
 
   const [pageProps, setPageProps] = useState({ loader: false })
   const { socialInfo } = useSelectorTyped(
-    (state: RootState) => state.ProfileDataStore
+    (state: RootState) => state.MainLayoutDataStore
   )
   const [inputValue, setInputValue] = useState<Record<string, string>>({
     about: '',
