@@ -46,7 +46,10 @@ const MemberManagementPage = () => {
   )
   const [page, setPage] = useState<number>(0)
 
-  const [searchValue, setSearchValue] = useState('')
+  const [searchValues, setSearchValues] = useState({
+    inputValue: '',
+    searchValue: '',
+  })
 
   const [isFocus, setIsFocus] = useState(false)
 
@@ -59,7 +62,10 @@ const MemberManagementPage = () => {
   }
 
   const handleSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value)
+    setSearchValues({
+      ...searchValues,
+      inputValue: e.target.value,
+    })
   }
 
   const handlePageClick = ({ selected }: { selected: number }) => {
@@ -67,15 +73,14 @@ const MemberManagementPage = () => {
   }
 
   const getMembersList = async () => {
-    setPage(0)
     dispatch(setShowLoader(true))
     const body: IMembersListReqBody = {
       offset: page * 12,
       limit: 12,
     }
-
-    if (searchValue) {
-      body.query = searchValue
+    console.log(searchValues.searchValue)
+    if (searchValues.searchValue) {
+      body.query = searchValues.searchValue
     }
 
     try {
@@ -88,24 +93,32 @@ const MemberManagementPage = () => {
     dispatch(setShowLoader(false))
   }
 
+  const searchMembersList = async () => {
+    setSearchValues({
+      ...searchValues,
+      searchValue: searchValues.inputValue,
+    })
+    setPage(0)
+  }
+
   useEffect(() => {
     ;(async () => {
       await getMembersList()
     })()
-  }, [page])
+  }, [page, searchValues.searchValue])
 
   useEffect(() => {
-    const listener = (event: any) => {
+    const listener = async (event: any) => {
       if (event.code === 'Enter' || event.code === 'NumpadEnter') {
         event.preventDefault()
-        getMembersList()
+        await searchMembersList()
       }
     }
     if (isFocus) document.addEventListener('keydown', listener)
     return () => {
       document.removeEventListener('keydown', listener)
     }
-  }, [searchValue, isFocus])
+  }, [searchValues.inputValue, isFocus])
 
   return (
     <div className="container">
@@ -124,14 +137,14 @@ const MemberManagementPage = () => {
           <div className="search-input">
             <Input
               onChange={handleSearchInput}
-              value={searchValue}
+              value={searchValues.inputValue}
               placeholder="Member search"
               onFocus={focusHandler}
               onBlur={blurHandler}
             />
           </div>
           <div>
-            <Button onClick={getMembersList}>search</Button>
+            <Button onClick={searchMembersList}>search</Button>
           </div>
         </div>
       </div>
@@ -195,7 +208,7 @@ const MemberManagementPage = () => {
             pageRangeDisplayed={4}
             pageCount={Math.ceil(count / 12)}
             previousLabel={<PaginationIcon />}
-            initialPage={page}
+            forcePage={page}
           />
         ) : (
           ''

@@ -43,12 +43,12 @@ export const validate = (
   if (is.empty(formState.maritalStatus))
     errorObject.maritalStatus = 'Field is required'
 
-  /// сurrentlyEmployed
+  /// currentlyEmployed
 
-  if (formState.сurrentlyEmployed === undefined)
-    errorObject.сurrentlyEmployed = 'Field is required'
+  if (formState.currentlyEmployed === undefined)
+    errorObject.currentlyEmployed = 'Field is required'
 
-  if (formState.сurrentlyEmployed) {
+  if (formState.currentlyEmployed) {
     if (is.empty(formState.jobTitle)) errorObject.jobTitle = 'Field is required'
 
     if (is.empty(formState.jobDescription))

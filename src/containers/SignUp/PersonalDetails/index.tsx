@@ -464,7 +464,7 @@ export const PersonalDetails: FC = () => {
           error={fetchError?.currentlyEmployed}
           inputError={fetchError?.jobTitle}
         />
-        {personalDetailsState.сurrentlyEmployed && (
+        {personalDetailsState.currentlyEmployed && (
           <div className={classNames(row, job_question_inputs, row_employed)}>
             <Input
               onChange={handleFormInputs}
