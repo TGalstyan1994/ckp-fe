@@ -90,7 +90,7 @@ export const Security: FC = () => {
       })
       await dispatch(toggleAlertModal(true))
       resetPasswordValue()
-    } catch (error: Record<string, unknown>) {
+    } catch (error: unknown | any) {
       const errors = error.data.errors[0]
       if (errors.property === 'password') {
         dispatch(setErrorMessage(errors.messages[0]))
@@ -116,7 +116,7 @@ export const Security: FC = () => {
       })
       await dispatch(toggleAlertModal(true))
       resetPinValue()
-    } catch (error: Record<string, unknown>) {
+    } catch (error: unknown | any) {
       const errors = error.data.errors[0]
       if (errors.property === 'security') {
         dispatch(setErrorMessage(errors.messages[0]))
