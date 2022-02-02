@@ -16,5 +16,6 @@ export type Props = {
   inputError?: string
   autoFocus?: boolean | string
   autoComplete?: boolean
-  setFocus?: any
+  onFocus?: any
+  onBlur?: any
 }

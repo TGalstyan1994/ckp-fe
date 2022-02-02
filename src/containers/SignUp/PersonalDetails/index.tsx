@@ -91,7 +91,7 @@ export const PersonalDetails: FC = () => {
     gender: 'MALE',
     maritalStatus: '',
     dateOfBirth: '',
-    сurrentlyEmployed: false,
+    currentlyEmployed: false,
     jobTitle: '',
     jobDescription: '',
     employeeAddress: '',
@@ -452,16 +452,16 @@ export const PersonalDetails: FC = () => {
           name="jobTitle"
           onInputChange={handleFormInputs}
           onRadioChange={(value) => {
-            setPersonalDetails('сurrentlyEmployed', value)
+            setPersonalDetails('currentlyEmployed', value)
             removeErrors('jobTitle')
             removeErrors('jobDescription')
             removeErrors('employeeAddress')
           }}
           questionLabel="Are You Currently Employed?"
           placeholder="Job Title"
-          answerState={personalDetailsState.сurrentlyEmployed}
+          answerState={personalDetailsState.currentlyEmployed}
           value={personalDetailsState.jobTitle}
-          error={fetchError?.сurrentlyEmployed}
+          error={fetchError?.currentlyEmployed}
           inputError={fetchError?.jobTitle}
         />
         {personalDetailsState.сurrentlyEmployed && (

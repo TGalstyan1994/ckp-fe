@@ -1,6 +1,5 @@
 import { GetServerSideProps } from 'next'
 import React, { ChangeEvent, useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
 import LockIcon from 'src/assets/images/icons/lock-icon'
 import { useDispatch } from 'react-redux'
 import classNames from 'classnames'
@@ -49,6 +48,16 @@ const MemberManagementPage = () => {
 
   const [searchValue, setSearchValue] = useState('')
 
+  const [isFocus, setIsFocus] = useState(false)
+
+  const focusHandler = () => {
+    setIsFocus(true)
+  }
+
+  const blurHandler = () => {
+    setIsFocus(false)
+  }
+
   const handleSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value)
   }
@@ -58,6 +67,8 @@ const MemberManagementPage = () => {
   }
 
   const getMembersList = async () => {
+    setPage(0)
+    dispatch(setShowLoader(true))
     const body: IMembersListReqBody = {
       offset: page * 12,
       limit: 12,
@@ -90,11 +101,11 @@ const MemberManagementPage = () => {
         getMembersList()
       }
     }
-    document.addEventListener('keydown', listener)
+    if (isFocus) document.addEventListener('keydown', listener)
     return () => {
       document.removeEventListener('keydown', listener)
     }
-  }, [searchValue])
+  }, [searchValue, isFocus])
 
   return (
     <div className="container">
@@ -115,6 +126,8 @@ const MemberManagementPage = () => {
               onChange={handleSearchInput}
               value={searchValue}
               placeholder="Member search"
+              onFocus={focusHandler}
+              onBlur={blurHandler}
             />
           </div>
           <div>
@@ -123,48 +136,54 @@ const MemberManagementPage = () => {
         </div>
       </div>
       <div className="members-container">
-        {members?.map((item: IMember) => {
-          return (
-            <LinkText href={`/member_management/${item.id}`} key={item.id}>
-              <div
-                className={classNames('item', {
-                  blocked_item: !item.blocked,
-                })}
-                key={item.id}
-                aria-hidden
-              >
-                <LockIcon />
-                <div className="top">
-                  <div className="avatar">
-                    {item.avatar ? (
-                      <figure className="figure">
-                        <img
-                          src={`${process.env.NEXT_PUBLIC_API}/avatar/${item.avatar}`}
-                          alt="memberAvatar"
-                        />
-                      </figure>
-                    ) : (
-                      <figure className="figure">
-                        {item.firstName?.slice(0, 1).toUpperCase()}
-                        {item.lastName?.slice(0, 1).toUpperCase()}
-                      </figure>
-                    )}
-                  </div>
+        {members.length > 0 ? (
+          members?.map((item: IMember) => {
+            return (
+              <LinkText href={`/member_management/${item.id}`} key={item.id}>
+                <div
+                  className={classNames('item', {
+                    blocked_item: !item.blocked,
+                  })}
+                  key={item.id}
+                  aria-hidden
+                >
+                  <LockIcon />
+                  <div className="top">
+                    <div className="avatar">
+                      {item.avatar ? (
+                        <figure className="figure">
+                          <img
+                            src={`${process.env.NEXT_PUBLIC_API}/avatar/${item.avatar}`}
+                            alt="memberAvatar"
+                          />
+                        </figure>
+                      ) : (
+                        <figure className="figure">
+                          {item.firstName?.slice(0, 1).toUpperCase()}
+                          {item.lastName?.slice(0, 1).toUpperCase()}
+                        </figure>
+                      )}
+                    </div>
 
-                  <div className="name">
-                    <h4>{item.firstName}</h4>
-                    <h4>{item.lastName}</h4>
-                    <p>{item.username}</p>
+                    <div className="name">
+                      <h4>{item.firstName}</h4>
+                      <h4>{item.lastName}</h4>
+                      <p>{item.username}</p>
+                    </div>
+                  </div>
+                  <div className="bottom">
+                    <p> E-mail: {item.email} </p>
+                    <p> Phone: {item.phone}</p>
                   </div>
                 </div>
-                <div className="bottom">
-                  <p> E-mail: {item.email} </p>
-                  <p> Phone: {item.phone}</p>
-                </div>
-              </div>
-            </LinkText>
-          )
-        })}
+              </LinkText>
+            )
+          })
+        ) : (
+          <span className="noFoundUser">
+            There was no information found for the specific search parameters
+          </span>
+        )}
       </div>
       <div className="pagination">
         {count ? (
@@ -173,7 +192,7 @@ const MemberManagementPage = () => {
             nextLabel={<PaginationIcon />}
             onPageChange={handlePageClick}
             pageRangeDisplayed={4}
-            pageCount={Math.round(count / 12)}
+            pageCount={Math.ceil(count / 12)}
             previousLabel={<PaginationIcon />}
             initialPage={page}
           />
