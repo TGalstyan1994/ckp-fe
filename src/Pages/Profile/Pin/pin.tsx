@@ -4,10 +4,8 @@ import {
   setShowQuestionModal,
   toggleAlertModal,
 } from '../../../store/MainLayoutDataStore/MainLayoutDataStore'
-import {
-  setErrorMessage,
-  setIsFormFilled,
-} from '../../../store/ProfileDataStore/ProfileDataStore'
+import { setErrorMessage } from '../../../store/ProfileDataStore/ProfileDataStore'
+import { setIsFormFilled } from '../../../store/GlobalConfigDataStore/GlobalConfigDataStore'
 import { modalPromise } from '../../../helpers/modal-helper'
 import { ProfileManager } from '../../../managers/profile'
 import { PinInput } from '../../../components/PinInput'

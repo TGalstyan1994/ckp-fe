@@ -5,35 +5,30 @@ import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { requireAuthentication } from '../../HOC/requireAuthentication'
 import MainLayout from '../../src/containers/Layouts/MainLayout/MainLayout'
-import { Profile } from '../../src/MemberPages/Profile/profile'
-import { Donation } from '../../src/MemberPages/Donation/donation'
-import { ActivateDeactivate } from '../../src/MemberPages/Activate_Deactivate/activate_deactivate'
-import { KYCPage } from '../../src/MemberPages/KYC/kyc'
-import { Referral } from '../../src/MemberPages/ReferralList/referral'
+import { Profile } from '../../src/Pages/MemberManagment/Profile/profile'
+import { Donation } from '../../src/Pages/MemberManagment/Donation/donation'
+import { ActivateDeactivate } from '../../src/Pages/MemberManagment/ActivateDeactivate/activate_deactivate'
+import { KYCPage } from '../../src/Pages/MemberManagment/KYC/kyc'
+import { Referral } from '../../src/Pages/MemberManagment/ReferralList/referral'
 import { useSelectorTyped } from '../../src/utils/hooks'
 import { RootState } from '../../src/store'
 import {
   changeTabs,
+  IActiveTab,
   setMemberAccountData,
 } from '../../src/store/MebmerManagementDataStore/MemberManagementDataStore'
 import { modalPromise } from '../../src/helpers/modal-helper'
 import {
   closeModal,
   setShowModal,
+  setSocialInfo,
 } from '../../src/store/MainLayoutDataStore/MainLayoutDataStore'
 import { MemberManagement } from '../../src/managers/memberManagement'
 import { Button } from '../../src/components/Button'
 import { setShowLoader } from '../../src/store/GlobalConfigDataStore/GlobalConfigDataStore'
 
-type ITabNames =
-  | 'profile'
-  | 'donation'
-  | 'activate_deactivate'
-  | 'kyc'
-  | 'referral'
-
-interface IActiveTab {
-  activeTab: ITabNames
+interface IMemberManagementDataStore {
+  activeTab: IActiveTab
   memberAccountInfo: Record<string, string>
 }
 
@@ -48,42 +43,49 @@ const tabs = {
 const MemberPageById = () => {
   const router = useRouter()
   const { userId } = router.query
-  const { activeTab, memberAccountInfo }: IActiveTab = useSelectorTyped(
-    (state: RootState) => state.MemberManagementDataStore
-  )
+  const { activeTab, memberAccountInfo }: IMemberManagementDataStore =
+    useSelectorTyped((state: RootState) => state.MemberManagementDataStore)
 
   const { isFormFilled } = useSelectorTyped(
-    (state: RootState) => state.ProfileDataStore
+    (state: RootState) => state.GlobalConfigDataStore
   )
+
   const dispatch = useDispatch()
-  const confirmChangeTabs = async (page: ITabNames) => {
-    if (!isFormFilled || activeTab === page) {
-      dispatch(changeTabs(page))
+
+  const changeMemberTab = async (tab: IActiveTab) => {
+    if (!isFormFilled || activeTab === tab) {
+      dispatch(changeTabs(tab))
     } else {
       const promise = await modalPromise(({ resolve, reject }) =>
         dispatch(setShowModal({ resolve, reject }))
       )
       dispatch(closeModal())
       if (promise) {
-        dispatch(changeTabs(page))
+        dispatch(changeTabs(tab))
       }
     }
   }
+
   const backToMemberList = () => {
     router.back()
   }
+
   useEffect(() => {
     ;(async () => {
       try {
-        const res = await MemberManagement.getMemberData({ userId: +userId })
-        dispatch(setMemberAccountData(res))
+        const [account, social] = await Promise.all([
+          MemberManagement.getMemberData({ userId: +userId }),
+          MemberManagement.getMemberSocialData({ userId: +userId }),
+        ])
+        dispatch(setMemberAccountData(account))
+        dispatch(setSocialInfo(social))
       } catch (error) {
         throw error
       }
       dispatch(setShowLoader(false))
     })()
     return () => {
-      dispatch(setMemberAccountData({}))
+      dispatch(changeTabs('profile'))
     }
   }, [userId])
 
@@ -143,7 +145,7 @@ const MemberPageById = () => {
                 className={classNames('profile tabs', {
                   activeTab: activeTab === 'profile',
                 })}
-                onClick={() => confirmChangeTabs('profile')}
+                onClick={() => changeMemberTab('profile')}
                 aria-hidden
               >
                 Profile
@@ -152,7 +154,7 @@ const MemberPageById = () => {
                 className={classNames('donation tabs', {
                   activeTab: activeTab === 'donation',
                 })}
-                onClick={() => confirmChangeTabs('donation')}
+                onClick={() => changeMemberTab('donation')}
                 aria-hidden
               >
                 Donation
@@ -161,7 +163,7 @@ const MemberPageById = () => {
                 className={classNames('referral tabs', {
                   activeTab: activeTab === 'referral',
                 })}
-                onClick={() => confirmChangeTabs('referral')}
+                onClick={() => changeMemberTab('referral')}
                 aria-hidden
               >
                 Referral List
@@ -170,7 +172,7 @@ const MemberPageById = () => {
                 className={classNames('kyc tabs', {
                   activeTab: activeTab === 'kyc',
                 })}
-                onClick={() => confirmChangeTabs('kyc')}
+                onClick={() => changeMemberTab('kyc')}
                 aria-hidden
               >
                 KYC Documents
@@ -180,7 +182,7 @@ const MemberPageById = () => {
                 className={classNames('activate_deactivate tabs', {
                   activeTab: activeTab === 'activate_deactivate',
                 })}
-                onClick={() => confirmChangeTabs('activate_deactivate')}
+                onClick={() => changeMemberTab('activate_deactivate')}
                 aria-hidden
               >
                 Activate/Deactivate

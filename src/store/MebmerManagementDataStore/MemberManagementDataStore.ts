@@ -1,8 +1,17 @@
 import { createSlice } from 'node_modules/@reduxjs/toolkit/dist'
 
+export type IActiveTab =
+  | 'profile'
+  | 'donation'
+  | 'activate_deactivate'
+  | 'kyc'
+  | 'referral'
+
+export type IActiveProfileTab = 'account' | 'security' | 'personal' | 'social'
+
 interface IMemberManagementDataStore {
-  activeTab: 'profile' | 'donation' | 'kyc' | 'referral' | 'activate_deactivate'
-  activeProfileTab: 'account' | 'personal' | 'security' | 'social'
+  activeTab: IActiveTab
+  activeProfileTab: IActiveProfileTab
   count: number
   members: IMember[]
   memberAccountInfo: Record<string, unknown>

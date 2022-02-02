@@ -16,7 +16,7 @@ import {
   job_question_inputs,
   row,
   row_employed,
-} from '../../../../containers/SignUp/PersonalDetails/style.module.css'
+} from '../../../../../containers/SignUp/PersonalDetails/style.module.css'
 
 const maritalStatusCodes = {
   SINGLE: 'Single',

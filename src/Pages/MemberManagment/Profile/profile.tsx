@@ -5,19 +5,20 @@ import { Security } from './ProfilePages/Security/security'
 import { Personal } from './ProfilePages/Personal/personal'
 import { Social } from './ProfilePages/Social/social'
 import { Account } from './ProfilePages/Account/account'
-import { useSelectorTyped } from '../../utils/hooks'
-import { RootState } from '../../store'
-import { modalPromise } from '../../helpers/modal-helper'
+import { useSelectorTyped } from '../../../utils/hooks'
+import { RootState } from '../../../store'
+import { modalPromise } from '../../../helpers/modal-helper'
 import {
   closeModal,
   setShowModal,
-} from '../../store/MainLayoutDataStore/MainLayoutDataStore'
-import { changeProfileTab } from '../../store/MebmerManagementDataStore/MemberManagementDataStore'
+} from '../../../store/MainLayoutDataStore/MainLayoutDataStore'
+import {
+  changeProfileTab,
+  IActiveProfileTab,
+} from '../../../store/MebmerManagementDataStore/MemberManagementDataStore'
 
-type ITabNames = 'account' | 'security' | 'personal' | 'social'
-
-interface IActiveProfileTab {
-  activeProfileTab: ITabNames
+interface IMemberManagementDataStore {
+  activeProfileTab: IActiveProfileTab
 }
 const tabs = {
   personal: <Personal />,
@@ -26,14 +27,15 @@ const tabs = {
   account: <Account />,
 }
 export const Profile: FC = () => {
-  const { activeProfileTab }: IActiveProfileTab = useSelectorTyped(
+  const { activeProfileTab }: IMemberManagementDataStore = useSelectorTyped(
     (state: RootState) => state.MemberManagementDataStore
   )
   const { isFormFilled } = useSelectorTyped(
-    (state: RootState) => state.ProfileDataStore
+    (state: RootState) => state.GlobalConfigDataStore
   )
   const dispatch = useDispatch()
-  const handleChangeTab = async (tab: ITabNames) => {
+
+  const handleChangeTab = async (tab: IActiveProfileTab) => {
     if (!isFormFilled || activeProfileTab === tab) {
       dispatch(changeProfileTab(tab))
     } else {
@@ -52,6 +54,7 @@ export const Profile: FC = () => {
       dispatch(changeProfileTab('account'))
     }
   }, [])
+
   return (
     <div className="admin-holder">
       <div className="title">
