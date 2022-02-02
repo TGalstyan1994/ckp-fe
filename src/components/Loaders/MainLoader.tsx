@@ -1,11 +1,13 @@
 const MainLoader = () => {
   return (
     <div className="loader main-loader">
-      <div className="lds-ellipsis">
-        <div />
-        <div />
-        <div />
-        <div />
+      <div className="gooey">
+        <span className="dot" />
+        <div className="dots">
+          <span />
+          <span />
+          <span />
+        </div>
       </div>
     </div>
   )
