@@ -146,6 +146,7 @@ const MemberManagementPage = () => {
                   })}
                   key={item.id}
                   aria-hidden
+                  onClick={() => dispatch(setShowLoader(true))}
                 >
                   <LockIcon />
                   <div className="top">
