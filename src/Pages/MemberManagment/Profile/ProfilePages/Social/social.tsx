@@ -101,7 +101,7 @@ export const Social: FC = () => {
   }
   useEffect(() => {
     dispatch(setIsFormFilled(isFormFilled()))
-  })
+  }, [inputValue])
   useEffect(() => {
     setInputValue(socialInfo)
   }, [socialInfo])

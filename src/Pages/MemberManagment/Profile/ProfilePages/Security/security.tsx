@@ -116,7 +116,7 @@ export const Security: FC = () => {
       })
       await dispatch(toggleAlertModal(true))
       resetPinValue()
-    } catch (error: unknown | any) {
+    } catch (error: any | unknown) {
       const errors = error.data.errors[0]
       if (errors.property === 'security') {
         dispatch(setErrorMessage(errors.messages[0]))
