@@ -19,7 +19,6 @@
       display: flex;
       justify-content: center;
       align-items: center;
-
       border-bottom: 1px solid #d7d7d7;
       .admin-avatar {
         width: 50px;
@@ -96,7 +95,7 @@
     padding: 36px;
     .flex-container {
       display: flex;
-      align-items: baseline;
+      //align-items: baseline;
       .w-100 {
         width: 100%;
       }
@@ -183,11 +182,6 @@
         }
         .member-flex {
           margin-top: 36px;
-
-          .member-input {
-            width: 100%;
-            margin-top: 36px;
-          }
         }
 
         .state-flex {

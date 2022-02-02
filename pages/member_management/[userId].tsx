@@ -23,6 +23,7 @@ import {
 } from '../../src/store/MainLayoutDataStore/MainLayoutDataStore'
 import { MemberManagement } from '../../src/managers/memberManagement'
 import { Button } from '../../src/components/Button'
+import { setShowLoader } from '../../src/store/GlobalConfigDataStore/GlobalConfigDataStore'
 
 type ITabNames =
   | 'profile'
@@ -79,6 +80,7 @@ const MemberPageById = () => {
       } catch (error) {
         throw error
       }
+      dispatch(setShowLoader(false))
     })()
     return () => {
       dispatch(setMemberAccountData({}))

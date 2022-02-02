@@ -62,7 +62,6 @@ export const Security: FC = () => {
     const promise = await modalPromise(({ resolve, reject }) =>
       dispatch(setShowPinModal({ resolve, reject }))
     )
-    console.log(promise)
     if (promise) {
       setPageProps({ loading: true })
 

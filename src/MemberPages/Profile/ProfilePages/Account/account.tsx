@@ -14,7 +14,8 @@ export const Account: FC = () => {
   const { memberAccountInfo } = useSelectorTyped(
     (state: RootState) => state.MemberManagementDataStore
   )
-  const { kycStatus, id, username } = memberAccountInfo
+
+  const { kycStatus, id, username, securityQuestion } = memberAccountInfo
 
   const Line = ({ text, name, isLink, isCapitalize }: ILine) => {
     return (
@@ -57,7 +58,7 @@ export const Account: FC = () => {
               name="KYC Status"
               isCapitalize
             />
-            <Line text="*************" name="Security Question" />
+            <Line text={securityQuestion} name="Security Question" />
             <Line text="*************" name="Security Question Response" />
           </div>
         </div>

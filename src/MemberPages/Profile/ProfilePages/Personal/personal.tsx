@@ -4,13 +4,19 @@ import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelectorTyped } from 'src/utils/hooks'
 import { validateStage } from 'src/store/reducers/signup'
-
 import { Button } from 'src/components/Button'
 import { Input } from 'src/components/Input'
 
 import { DatePickerForm } from 'src/containers/DatePickerForm'
 import { ChooseGenderForm } from 'src/containers/ChooseGenderForm'
 import { OptionalRadioForm } from 'src/containers/OptionalRadioBoxForm'
+import { MemberManagement } from 'src/managers/memberManagement'
+import classNames from 'classnames'
+import {
+  job_question_inputs,
+  row,
+  row_employed,
+} from '../../../../containers/SignUp/PersonalDetails/style.module.css'
 
 const maritalStatusCodes = {
   SINGLE: 'Single',
@@ -36,7 +42,8 @@ export const Personal: FC = () => {
   const { countries, country, states } = useSelectorTyped(
     (state) => state.signup.userInfo
   )
-  const [personalDetailsState, setPersonalDetailsState] = useState({
+
+  const [personalInfoState, setPersonalInfoState] = useState({
     objective: '',
     objectiveNote: '',
     firstName: '',
@@ -50,7 +57,7 @@ export const Personal: FC = () => {
     gender: 'MALE',
     maritalStatus: '',
     dateOfBirth: '',
-    сurrentlyEmployed: false,
+    currentlyEmployed: false,
     jobTitle: '',
     jobDescription: '',
     employeeAddress: '',
@@ -73,15 +80,51 @@ export const Personal: FC = () => {
     zipCode: '',
   })
 
-  const [geoData, setGeoData] = useState({
-    state: '',
-    country: '',
-  })
-
   const [dateOfBirth, setDateOfBirth] = useState({
     day: '',
     month: '',
     year: '',
+  })
+
+  const { href } = window.location
+  const userId = href.slice(href.lastIndexOf('/') + 1)
+
+  useEffect(() => {
+    const body: { userId: number } = {
+      userId: +userId,
+    }
+
+    ;(async () => {
+      try {
+        const res = await MemberManagement.getMemberPersonalInfo(body)
+        setPersonalInfoState({
+          ...personalInfoState,
+          ...res,
+        })
+
+        if (!(res && res.dateOfBirth)) return
+
+        const personalDateOfBirth = res.dateOfBirth?.split('-')
+        const year = personalDateOfBirth && personalDateOfBirth[0]
+        const month = personalDateOfBirth && +personalDateOfBirth[1] - 1
+        const day = personalDateOfBirth && +personalDateOfBirth[2]
+
+        setDateOfBirth({
+          year,
+          month: `${month}`,
+          day: `${day}`,
+        })
+      } catch (error) {
+        throw error
+      }
+    })()
+  }, [userId])
+
+  // verevy imna *************************
+
+  const [geoData, setGeoData] = useState({
+    state: '',
+    country: '',
   })
 
   const dispatch = useDispatch()
@@ -94,10 +137,8 @@ export const Personal: FC = () => {
     key: string,
     value: string | boolean | number
   ) => {
-    setPersonalDetailsState((prev) => ({ ...prev, [key]: value }))
+    setPersonalInfoState((prev) => ({ ...prev, [key]: value }))
   }
-
-  //
 
   const changeGeoCountry = (option: string) => {
     const currentCountry = countries.find(
@@ -138,13 +179,14 @@ export const Personal: FC = () => {
     removeErrors(e.target.name)
   }
 
-  useEffect(() => {
-    if (country.id < 0) return
-    dispatch({
-      type: 'GEO_TAKE',
-      payload: { countryId: country.id, at: 'states' },
-    })
-  }, [country.id])
+  // useEffect(() => {
+  //   if (country.id < 0) return
+  //   dispatch({
+  //     type: 'GEO_TAKE',
+  //     payload: { countryId: country.id, at: 'states' },
+  //   })
+  // }, [country.id])
+
   return (
     <div className="admin-info">
       <div className="flex-container">
@@ -175,7 +217,7 @@ export const Personal: FC = () => {
                 'Buy new vehicle',
                 'Other',
               ]}
-              currentOption={objectiveCodes[personalDetailsState.objective]}
+              currentOption={objectiveCodes[personalInfoState.objective]}
               placeholder="Select objective"
               setCurrentOption={(option: string) => {
                 // eslint-disable-next-line no-restricted-syntax
@@ -189,7 +231,7 @@ export const Personal: FC = () => {
             />
           </div>
           <TextArea
-            value={personalDetailsState.objectiveNote}
+            value={personalInfoState.objectiveNote}
             onChange={handleFormInputs}
             name="objectiveNote"
             label="Objective Note"
@@ -199,7 +241,7 @@ export const Personal: FC = () => {
               <Input
                 name="firstName"
                 onChange={handleFormInputs}
-                value={personalDetailsState.firstName}
+                value={personalInfoState.firstName}
                 label="First Name"
                 required
                 placeholder="Enter First Name"
@@ -207,7 +249,7 @@ export const Personal: FC = () => {
               <Input
                 name="lastName"
                 onChange={handleFormInputs}
-                value={personalDetailsState.lastName}
+                value={personalInfoState.lastName}
                 label="Last Name"
                 required
                 placeholder="Enter Last Name"
@@ -224,7 +266,7 @@ export const Personal: FC = () => {
             <div className="martial-gender">
               <ChooseGenderForm
                 onGenderChange={setPersonalDetails}
-                genderState={personalDetailsState.gender}
+                genderState={personalInfoState.gender}
               />
             </div>
             <Select
@@ -238,7 +280,7 @@ export const Personal: FC = () => {
                 'Widow/widower',
               ]}
               currentOption={
-                maritalStatusCodes[personalDetailsState.maritalStatus]
+                maritalStatusCodes[personalInfoState.maritalStatus]
               }
               placeholder="Select marital status"
               setCurrentOption={(option: string) => {
@@ -258,32 +300,36 @@ export const Personal: FC = () => {
                 name="jobTitle"
                 onInputChange={handleFormInputs}
                 onRadioChange={(value) => {
-                  setPersonalDetails('сurrentlyEmployed', value)
+                  setPersonalDetails('currentlyEmployed', value)
                   removeErrors('jobTitle')
                   removeErrors('jobDescription')
                   removeErrors('employeeAddress')
                 }}
                 questionLabel="Are You Currently Employed?"
                 placeholder="Job Title"
-                answerState={personalDetailsState.сurrentlyEmployed}
-                value={personalDetailsState.jobTitle}
+                answerState={personalInfoState.currentlyEmployed}
+                value={personalInfoState.jobTitle}
+                // error={fetchError?.currentlyEmployed}
+                // inputError={fetchError?.jobTitle}
               />
             </div>
-            {personalDetailsState.jobTitle && (
-              <div className="member-input">
+            {personalInfoState.currentlyEmployed && (
+              <div
+                className={classNames(row, job_question_inputs, row_employed)}
+              >
                 <Input
                   onChange={handleFormInputs}
                   name="jobDescription"
-                  value={personalDetailsState.jobDescription}
+                  value={personalInfoState.jobDescription}
                   placeholder="Job Description"
-                  className="mb-24"
+                  // inputError={fetchError?.jobDescription}
                 />
                 <Input
                   onChange={handleFormInputs}
                   name="employeeAddress"
-                  value={personalDetailsState.employeeAddress}
+                  value={personalInfoState.employeeAddress}
                   placeholder="Employee Address"
-                  className="mb-24"
+                  // inputError={fetchError?.employeeAddress}
                 />
               </div>
             )}
@@ -300,21 +346,9 @@ export const Personal: FC = () => {
                 }}
                 questionLabel="Are You a Business Owner?"
                 placeholder="Business Description"
-                answerState={personalDetailsState.businessOwner}
-                value={personalDetailsState.businessDescription}
+                answerState={personalInfoState.businessOwner}
+                value={personalInfoState.businessDescription}
               />
-            </div>
-
-            <div className="member-input">
-              {personalDetailsState.businessDescription && (
-                <Input
-                  onChange={handleFormInputs}
-                  name="businessDescription"
-                  value={personalDetailsState.businessDescription}
-                  placeholder="Business Description"
-                  className="mb-24"
-                />
-              )}
             </div>
           </div>
           <div className="member-flex">
@@ -328,21 +362,9 @@ export const Personal: FC = () => {
                 }}
                 questionLabel="Do You Have any Trade?"
                 placeholder="Trade Description"
-                answerState={personalDetailsState.anyTrade}
-                value={personalDetailsState.tradeDescription}
+                answerState={personalInfoState.anyTrade}
+                value={personalInfoState.tradeDescription}
               />
-            </div>
-
-            <div className="member-input">
-              {personalDetailsState.tradeDescription && (
-                <Input
-                  onChange={handleFormInputs}
-                  name="tradeDescription"
-                  value={personalDetailsState.tradeDescription}
-                  placeholder="Trade Description"
-                  className="mb-24"
-                />
-              )}
             </div>
           </div>
           <div className="member-flex">
@@ -356,21 +378,9 @@ export const Personal: FC = () => {
                 }}
                 questionLabel="Do you Have any Technical skills?"
                 placeholder="Skill Description"
-                answerState={personalDetailsState.anyTechnicalSkills}
-                value={personalDetailsState.technicalSkillsDescription}
+                answerState={personalInfoState.anyTechnicalSkills}
+                value={personalInfoState.technicalSkillsDescription}
               />
-            </div>
-
-            <div className="member-input">
-              {personalDetailsState.technicalSkillsDescription && (
-                <Input
-                  onChange={handleFormInputs}
-                  name="technicalSkillsDescription"
-                  value={personalDetailsState.technicalSkillsDescription}
-                  placeholder="Skill Description"
-                  className="mb-24"
-                />
-              )}
             </div>
           </div>
           <div className="member-flex">
@@ -384,21 +394,9 @@ export const Personal: FC = () => {
                 }}
                 questionLabel="Do you Have any Athletic skills?"
                 placeholder="Skill Description"
-                answerState={personalDetailsState.anyAthleticSkills}
-                value={personalDetailsState.athleticSkillsDescription}
+                answerState={personalInfoState.anyAthleticSkills}
+                value={personalInfoState.athleticSkillsDescription}
               />
-            </div>
-
-            <div className="member-input">
-              {personalDetailsState.athleticSkillsDescription && (
-                <Input
-                  onChange={handleFormInputs}
-                  name="athleticSkillsDescription"
-                  value={personalDetailsState.athleticSkillsDescription}
-                  placeholder="Skill Description"
-                  className="mb-24"
-                />
-              )}
             </div>
           </div>
           <div className="member-flex">
@@ -412,21 +410,9 @@ export const Personal: FC = () => {
                 }}
                 questionLabel="Do You Have Any Dependent?"
                 placeholder="Total Number of Dependents"
-                answerState={personalDetailsState.anyDependents}
-                value={personalDetailsState.totalNumberOfDependens}
+                answerState={personalInfoState.anyDependents}
+                value={personalInfoState.totalNumberOfDependens}
               />
-            </div>
-
-            <div className="member-input">
-              {personalDetailsState.totalNumberOfDependens && (
-                <Input
-                  onChange={handleFormInputs}
-                  name="totalNumberOfDependens"
-                  value={personalDetailsState.totalNumberOfDependens}
-                  placeholder="Total Number of Dependents"
-                  className="mb-24"
-                />
-              )}
             </div>
           </div>
 
@@ -435,10 +421,33 @@ export const Personal: FC = () => {
             placeholder="Name"
             onChange={handleFormInputs}
             name="beneficiaryName"
-            value={personalDetailsState.beneficiaryName}
+            value={personalInfoState.beneficiaryName}
             required
             className="mb-24"
           />
+          <div className="mt-24">
+            <div className="input-flex">
+              <Input
+                name="address"
+                onChange={handleFormInputs}
+                value={personalInfoState.address}
+                label="Address"
+                required
+                placeholder="Enter Address"
+                // error={fetchError?.address}
+                // maxLength={255}
+              />
+              <Input
+                name="beneficiaryContactNumber"
+                onChange={handleFormInputs}
+                label="Mobile Phone"
+                value={personalInfoState.beneficiaryContactNumber}
+                placeholder="Contact Number"
+                // error={fetchError?.beneficiaryContactNumber}
+              />{' '}
+            </div>
+          </div>
+
           <div className="personal-info">
             <div className="state-flex">
               <Select
@@ -472,7 +481,7 @@ export const Personal: FC = () => {
                 placeholder="Enter City"
                 name="city"
                 label="City"
-                value={personalDetailsState.city}
+                value={personalInfoState.city}
                 onChange={handleFormInputs}
                 required
                 className="mb-24"
@@ -481,7 +490,7 @@ export const Personal: FC = () => {
                 placeholder="Enter Zip Code"
                 name="zipCode"
                 label="Zip code"
-                value={personalDetailsState.zipCode}
+                value={personalInfoState.zipCode}
                 onChange={handleFormInputs}
                 className="mb-24"
               />
