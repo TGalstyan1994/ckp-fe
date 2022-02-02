@@ -44,7 +44,6 @@ export const Profile: FC = () => {
       )
       dispatch(closeModal())
       if (promise) {
-        console.log(55)
         dispatch(changeProfileTab(tab))
       }
     }

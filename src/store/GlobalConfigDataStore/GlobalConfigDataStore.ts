@@ -37,7 +37,6 @@ const GlobalConfigDataStore = createSlice({
       return initialState
     },
     setIsFormFilled(state, action) {
-      console.log(action.payload)
       state.isFormFilled = action.payload
     },
   },

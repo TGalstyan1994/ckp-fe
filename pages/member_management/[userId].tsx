@@ -53,7 +53,6 @@ const MemberPageById = () => {
   const dispatch = useDispatch()
 
   const changeMemberTab = async (tab: IActiveTab) => {
-    console.log(isFormFilled, activeTab, tab)
     if (!isFormFilled || activeTab === tab) {
       dispatch(changeTabs(tab))
     } else {

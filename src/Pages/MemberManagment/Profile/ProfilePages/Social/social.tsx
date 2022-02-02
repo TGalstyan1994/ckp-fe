@@ -74,7 +74,7 @@ export const Social: FC = () => {
       dispatch(toggleAlertModal(true))
       const newSocialInfo = MemberManagement.getMemberSocialData({ userId })
       dispatch(setSocialInfo(newSocialInfo))
-    } catch (error_: Record<string, unknown>) {
+    } catch (error_) {
       const { errors } = error_.data
       const newErrors: Record<string, unknown> = {}
 
