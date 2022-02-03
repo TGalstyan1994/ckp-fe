@@ -4,6 +4,7 @@ import LockIcon from 'src/assets/images/icons/lock-icon'
 import { useDispatch } from 'react-redux'
 import classNames from 'classnames'
 import ReactPaginate from 'react-paginate'
+import { useRouter } from 'next/router'
 import { requireAuthentication } from '../../HOC/requireAuthentication'
 import MainLayout from '../../src/containers/Layouts/MainLayout/MainLayout'
 import { Input } from '../../src/components/Input'
@@ -41,6 +42,7 @@ interface IMembersListReqBody {
 
 const MemberManagementPage = () => {
   const dispatch = useDispatch()
+  const router = useRouter()
 
   const { members, count } = useSelectorTyped(
     (state: RootState) => state.MemberManagementDataStore
@@ -79,7 +81,7 @@ const MemberManagementPage = () => {
       offset: page * 12,
       limit: 12,
     }
-    console.log(searchValues.searchValue)
+
     if (searchValues.searchValue) {
       body.query = searchValues.searchValue
     }
@@ -95,10 +97,12 @@ const MemberManagementPage = () => {
   }
 
   const searchMembersList = async () => {
-    setSearchValues({
-      ...searchValues,
-      searchValue: searchValues.inputValue,
-    })
+    if (searchValues.inputValue) {
+      router.query.search = searchValues.inputValue
+      router.push(router)
+    } else {
+      router.push(router.pathname)
+    }
     setPage(0)
   }
 
@@ -107,6 +111,15 @@ const MemberManagementPage = () => {
       await getMembersList()
     })()
   }, [page, searchValues.searchValue])
+
+  useEffect(() => {
+    setSearchValues({
+      inputValue:
+        typeof router.query.search === 'string' ? router.query.search : '',
+      searchValue:
+        typeof router.query.search === 'string' ? router.query.search : '',
+    })
+  }, [router.query])
 
   useEffect(() => {
     const listener = async (event: any) => {
