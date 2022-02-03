@@ -1,8 +1,8 @@
 import { FC } from 'react'
 
 type Props = {
-  visible: boolean
-  onClick: () => void
+  visible?: boolean
+  onClick?: () => void
 }
 
 export const PasswordSwitchICO: FC<Props> = ({ visible, onClick }) =>
