@@ -15,38 +15,24 @@ export default async function getCroppedImg(imageSrc) {
   if (!ctx) {
     return
   }
-  canvas.width = image.width
-  canvas.height = image.height
+  canvas.width = 400
+  canvas.height = 400
 
   const cropImageSize = image.width > image.height ? image.height : image.width
 
-  const pixelCrop = {
-    x: image.width / 2 - cropImageSize / 2,
-    y: image.height / 2 - cropImageSize / 2,
-    width: cropImageSize,
-    height: cropImageSize,
-  }
-  ctx.drawImage(image, 0, 0)
-  // croppedAreaPixels values are bounding box relative
-  // extract the cropped image using these values
-  const data = ctx.getImageData(
-    pixelCrop.x,
-    pixelCrop.y,
-    pixelCrop.width,
-    pixelCrop.height
+  ctx.drawImage(
+    image,
+    image.width / 2 - cropImageSize / 2,
+    image.height / 2 - cropImageSize / 2,
+    cropImageSize,
+    cropImageSize,
+    0,
+    0,
+    400,
+    400
   )
 
-  // set canvas width to final desired crop size - this will clear existing context
-  canvas.width = pixelCrop.width
-  canvas.height = pixelCrop.height
-
-  // paste generated rotate image at the top left corner
-  ctx.putImageData(data, 0, 0)
-
-  // As Base64 string
-  // return canvas.toDataURL('image/jpeg');
-
-  // As a blob
+  // eslint-disable-next-line consistent-return
   return new Promise((resolve) => {
     canvas.toBlob((file) => {
       resolve(file)
