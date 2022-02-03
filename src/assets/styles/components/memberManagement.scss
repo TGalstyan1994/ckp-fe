@@ -5,32 +5,42 @@
 }
 
 .member-management {
-  @include flex;
-  justify-content: space-between;
-  gap: 100px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: min-content 1fr min-content;
+  height: 100%;
+  .relative {
+    @include flex;
+    justify-content: space-between;
+    gap: 100px;
 
-  .mm-search-area {
-    display: grid;
-    grid-template-columns: max-content minmax(200px, 470px) 174px;
-    gap: 20px;
+    .mm-search-area {
+      display: grid;
+      grid-template-columns: max-content minmax(200px, 470px) 174px;
+      gap: 20px;
 
-    > div {
-      align-self: center;
-    }
+      > div {
+        align-self: center;
+      }
 
-    .search-input {
-      max-width: 471px;
-    }
+      .search-input {
+        max-width: 471px;
+      }
 
-    p {
-      text-transform: uppercase;
-      font-family: SF Pro Display, sans-serif;
-      font-style: normal;
-      font-weight: 600;
-      font-size: 16px;
-      line-height: 19px;
-      color: #0e0e0e;
-      text-align: right;
+      p {
+        text-transform: uppercase;
+        font-family: SF Pro Display, sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 19px;
+        color: #0e0e0e;
+        text-align: right;
+      }
+
+      button {
+        cursor: pointer;
+      }
     }
   }
 }
@@ -39,7 +49,8 @@
   margin-top: 60px;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 34px 33.94px;
+  gap: 34px;
+  align-self: start;
 
   .item {
     border-radius: 5px;
@@ -129,13 +140,6 @@
       }
     }
   }
-
-  & > span.noFoundUser {
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
 }
 
 .blocked_item svg {
@@ -143,13 +147,7 @@
 }
 
 .pagination {
-  margin-top: 94px;
-  margin-bottom: 33px;
-
-  ul {
-    position: fixed;
-    bottom: 50px;
-  }
+  padding: 24px 0;
 
   ul,
   li {

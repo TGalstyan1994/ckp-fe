@@ -26,6 +26,7 @@ interface IMenuItem {
   children?: {
     field: string
     pathname: string
+    withLoader: boolean
   }[]
   pathname: string
   withLoader: boolean
@@ -42,10 +43,10 @@ const adminMenuItems: Array<IMenuItem> = [
     svg: <GlobeIcon />,
     name: 'Universe',
     children: [
-      { pathname: '/universe', field: 'Planet tree' },
-      { pathname: '/universe1', field: 'Sponsor tree' },
-      { pathname: '/universe2', field: 'Referral list' },
-      { pathname: '/universe3', field: 'New member' },
+      { pathname: '/universe', withLoader: false, field: 'Planet tree' },
+      { pathname: '/universe1', withLoader: false, field: 'Sponsor tree' },
+      { pathname: '/universe2', withLoader: false, field: 'Referral list' },
+      { pathname: '/universe3', withLoader: false, field: 'New member' },
     ],
     pathname: '/universe',
     withLoader: false,
@@ -54,14 +55,22 @@ const adminMenuItems: Array<IMenuItem> = [
     svg: <MoneyBoxIcon />,
     name: 'Donations',
     children: [
-      { pathname: '/donation', field: 'Donations' },
-      { pathname: '/donation1', field: 'Cycle fee' },
-      { pathname: '/donation2', field: 'Relief fund' },
-      { pathname: '/donation3', field: 'Membership fee' },
-      { pathname: '/donation4', field: 'Waiting room' },
-      { pathname: '/donation5', field: 'User Replacement' },
-      { pathname: '/donation6', field: 'Privileged planet management' },
-      { pathname: '/donation7', field: 'Users holding tank' },
+      { pathname: '/donation', withLoader: false, field: 'Donations' },
+      { pathname: '/donation1', withLoader: false, field: 'Cycle fee' },
+      { pathname: '/donation2', withLoader: false, field: 'Relief fund' },
+      { pathname: '/donation3', withLoader: false, field: 'Membership fee' },
+      { pathname: '/donation4', withLoader: false, field: 'Waiting room' },
+      { pathname: '/donation5', withLoader: false, field: 'User Replacement' },
+      {
+        pathname: '/donation6',
+        withLoader: false,
+        field: 'Privileged planet management',
+      },
+      {
+        pathname: '/donation7',
+        withLoader: false,
+        field: 'Users holding tank',
+      },
     ],
     pathname: '/donation',
     withLoader: false,
@@ -71,8 +80,8 @@ const adminMenuItems: Array<IMenuItem> = [
     name: 'Academy',
     pathname: '/academy',
     children: [
-      { pathname: '/academy', field: 'Users' },
-      { pathname: '/academy1', field: 'Subcategories' },
+      { pathname: '/academy', withLoader: false, field: 'Users' },
+      { pathname: '/academy1', withLoader: false, field: 'Subcategories' },
     ],
     withLoader: false,
   },
@@ -80,8 +89,16 @@ const adminMenuItems: Array<IMenuItem> = [
     svg: <EMailIcon />,
     name: 'Communication',
     children: [
-      { pathname: '/communication', field: 'Email management' },
-      { pathname: '/communication1', field: 'Email campaigns' },
+      {
+        pathname: '/communication',
+        withLoader: false,
+        field: 'Email management',
+      },
+      {
+        pathname: '/communication1',
+        withLoader: false,
+        field: 'Email campaigns',
+      },
     ],
     pathname: '/communication',
     withLoader: false,
@@ -90,9 +107,9 @@ const adminMenuItems: Array<IMenuItem> = [
     svg: <SupportIcon />,
     name: 'Support',
     children: [
-      { pathname: '/support', field: 'KYC' },
-      { pathname: '/support1', field: 'Payment settings' },
-      { pathname: '/support2', field: 'Feedback' },
+      { pathname: '/support', withLoader: false, field: 'KYC' },
+      { pathname: '/support1', withLoader: false, field: 'Payment settings' },
+      { pathname: '/support2', withLoader: false, field: 'Feedback' },
     ],
     pathname: '/support',
     withLoader: false,
@@ -101,16 +118,24 @@ const adminMenuItems: Array<IMenuItem> = [
     svg: <ReportsIcon />,
     name: 'Reports',
     children: [
-      { pathname: '/activities', field: 'Joining' },
-      { pathname: '/activities1', field: 'Flower Report' },
-      { pathname: '/activities2', field: 'Donation Report' },
-      { pathname: '/activities3', field: 'Membership Fee' },
-      { pathname: '/activities4', field: 'Replacement Report' },
-      { pathname: '/activities5', field: 'Cycle Fee' },
-      { pathname: '/activities6', field: 'Relief Fund' },
-      { pathname: '/activities7', field: 'Activity' },
-      { pathname: '/activities8', field: 'Account Status' },
-      { pathname: '/activities9', field: 'Account Analysis' },
+      { pathname: '/activities', withLoader: false, field: 'Joining' },
+      { pathname: '/activities1', withLoader: false, field: 'Flower Report' },
+      { pathname: '/activities2', withLoader: false, field: 'Donation Report' },
+      { pathname: '/activities3', withLoader: false, field: 'Membership Fee' },
+      {
+        pathname: '/activities4',
+        withLoader: false,
+        field: 'Replacement Report',
+      },
+      { pathname: '/activities5', withLoader: false, field: 'Cycle Fee' },
+      { pathname: '/activities6', withLoader: false, field: 'Relief Fund' },
+      { pathname: '/activities7', withLoader: false, field: 'Activity' },
+      { pathname: '/activities8', withLoader: false, field: 'Account Status' },
+      {
+        pathname: '/activities9',
+        withLoader: false,
+        field: 'Account Analysis',
+      },
     ],
     pathname: '/activities',
     withLoader: false,
@@ -120,9 +145,21 @@ const adminMenuItems: Array<IMenuItem> = [
     name: 'Admin tools',
     pathname: '/member_management',
     children: [
-      { pathname: '/member_management', field: 'Member management' },
-      { pathname: '/member_management1', field: 'Employee management' },
-      { pathname: '/member_management2', field: 'Change logs' },
+      {
+        pathname: '/member_management',
+        withLoader: true,
+        field: 'Member management',
+      },
+      {
+        pathname: '/member_management1',
+        withLoader: false,
+        field: 'Employee management',
+      },
+      {
+        pathname: '/member_management2',
+        withLoader: false,
+        field: 'Change logs',
+      },
     ],
     withLoader: true,
   },
@@ -145,9 +182,9 @@ const userMenuItems: Array<IMenuItem> = [
     svg: <GlobeIcon />,
     name: 'Universe',
     children: [
-      { pathname: '/universe', field: 'Planet tree' },
-      { pathname: '/universe1', field: 'Sponsor tree' },
-      { pathname: '/universe2', field: 'Referral list' },
+      { pathname: '/universe', withLoader: false, field: 'Planet tree' },
+      { pathname: '/universe1', withLoader: false, field: 'Sponsor tree' },
+      { pathname: '/universe2', withLoader: false, field: 'Referral list' },
     ],
     withLoader: false,
     pathname: '/universe',
@@ -156,11 +193,11 @@ const userMenuItems: Array<IMenuItem> = [
     svg: <MoneyBoxIcon />,
     name: 'Donations',
     children: [
-      { pathname: '/donation', field: 'Donations' },
-      { pathname: '/donation1', field: 'Cycle fee' },
-      { pathname: '/donation2', field: 'Relief fund' },
-      { pathname: '/donation3', field: 'Membership fee' },
-      { pathname: '/donation4', field: 'Waiting room' },
+      { pathname: '/donation', withLoader: false, field: 'Donations' },
+      { pathname: '/donation1', withLoader: false, field: 'Cycle fee' },
+      { pathname: '/donation2', withLoader: false, field: 'Relief fund' },
+      { pathname: '/donation3', withLoader: false, field: 'Membership fee' },
+      { pathname: '/donation4', withLoader: false, field: 'Waiting room' },
     ],
     withLoader: false,
 
@@ -182,9 +219,9 @@ const userMenuItems: Array<IMenuItem> = [
     svg: <SupportIcon />,
     name: 'Support',
     children: [
-      { pathname: '/support', field: 'KYC' },
-      { pathname: '/support1', field: 'Payment settings' },
-      { pathname: '/support2', field: 'Feedback' },
+      { pathname: '/support', withLoader: false, field: 'KYC' },
+      { pathname: '/support1', withLoader: false, field: 'Payment settings' },
+      { pathname: '/support2', withLoader: false, field: 'Feedback' },
     ],
     pathname: '/support',
     withLoader: false,
@@ -260,7 +297,14 @@ export const SideMenu: FC = () => {
                 </li>
               ) : (
                 <LinkText href={child.pathname} key={child.pathname}>
-                  <li className="field" key={child.field}>
+                  <li
+                    className="field"
+                    onClick={() =>
+                      child.withLoader &&
+                      dispatch(dispatch(setShowLoader(true)))
+                    }
+                    aria-hidden
+                  >
                     <span>{child.field}</span>
                   </li>
                 </LinkText>

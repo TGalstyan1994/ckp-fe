@@ -18,6 +18,7 @@ import {
 import { setShowLoader } from '../../src/store/GlobalConfigDataStore/GlobalConfigDataStore'
 import PaginationIcon from '../../src/assets/images/icons/arrow-duble-icon'
 import { LinkText } from '../../src/components/LinkText'
+import EmptySearchResult from '../../src/components/Empty/EmptySearchResult'
 
 interface IMember {
   avatar: string
@@ -121,8 +122,8 @@ const MemberManagementPage = () => {
   }, [searchValues.inputValue, isFocus])
 
   return (
-    <div className="container">
-      <div className="relative member-management">
+    <div className="container member-management">
+      <div className="relative">
         <div>
           <h1 className="container-title">Member Management</h1>
           <span className="title-info">
@@ -148,9 +149,9 @@ const MemberManagementPage = () => {
           </div>
         </div>
       </div>
-      <div className="members-container">
-        {members.length > 0 ? (
-          members?.map((item: IMember) => {
+      {members.length > 0 ? (
+        <div className="members-container">
+          {members?.map((item: IMember) => {
             return (
               <LinkText href={`/member_management/${item.id}`} key={item.id}>
                 <div
@@ -192,15 +193,13 @@ const MemberManagementPage = () => {
                 </div>
               </LinkText>
             )
-          })
-        ) : (
-          <span className="noFoundUser">
-            There was no information found for the specific search parameters
-          </span>
-        )}
-      </div>
-      <div className="pagination">
-        {count ? (
+          })}
+        </div>
+      ) : (
+        <EmptySearchResult />
+      )}
+      {count ? (
+        <div className="pagination">
           <ReactPaginate
             breakLabel="..."
             nextLabel={<PaginationIcon />}
@@ -210,10 +209,10 @@ const MemberManagementPage = () => {
             previousLabel={<PaginationIcon />}
             forcePage={page}
           />
-        ) : (
-          ''
-        )}
-      </div>
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   )
 }

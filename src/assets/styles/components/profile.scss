@@ -85,9 +85,12 @@
         position: relative;
         .avatar_error {
           position: absolute;
+          font-style: normal;
+          font-weight: 600;
           font-size: 10px;
+          line-height: 12px;
           color: #fe3333;
-          top: 50px;
+          top: 48px;
         }
         .avatar-container {
           position: relative;
@@ -127,7 +130,7 @@
               vertical-align: middle;
             }
             &-error {
-              border: 1px solid #fe3333;
+              border: 2px solid #fe3333;
             }
           }
           .image_upload {

@@ -21,6 +21,7 @@ import {
 import TrashIcon from '../../src/assets/images/icons/trash-icon'
 import { GlobalManager } from '../../src/managers/global'
 import { ProfileManager } from '../../src/managers/profile'
+import getCroppedImg from '../../src/helpers/image-cropper-helper'
 
 type ITabNames = 'overview' | 'edit' | 'pin' | 'default'
 
@@ -67,13 +68,16 @@ const ProfilePage = () => {
     }
   }
 
-  const handleUploadImage = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleUploadImage = async (e: ChangeEvent<HTMLInputElement>) => {
     setAvatarError('')
     if (!e.target.files) return
     const selectedFile = e.target.files[0]
     const FILE_TYPE = ['image/png', 'image/jpeg', 'image/jpg']
     if (selectedFile && FILE_TYPE.includes(selectedFile.type)) {
-      setImgPreview(selectedFile)
+      const croppedImage = await getCroppedImg(
+        URL.createObjectURL(selectedFile)
+      )
+      setImgPreview(croppedImage)
     }
   }
 
