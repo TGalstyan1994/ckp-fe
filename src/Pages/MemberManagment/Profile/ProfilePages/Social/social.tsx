@@ -74,7 +74,7 @@ export const Social: FC = () => {
       dispatch(toggleAlertModal(true))
       const newSocialInfo = MemberManagement.getMemberSocialData({ userId })
       dispatch(setSocialInfo(newSocialInfo))
-    } catch (error_) {
+    } catch (error_: unknown | any) {
       const { errors } = error_.data
       const newErrors: Record<string, unknown> = {}
 
@@ -101,7 +101,7 @@ export const Social: FC = () => {
   }
   useEffect(() => {
     dispatch(setIsFormFilled(isFormFilled()))
-  })
+  }, [inputValue])
   useEffect(() => {
     setInputValue(socialInfo)
   }, [socialInfo])

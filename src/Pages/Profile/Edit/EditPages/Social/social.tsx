@@ -79,7 +79,7 @@ export const Social: FC = () => {
       dispatch(toggleAlertModal(true))
       const newSocialInfo = await ProfileManager.getSocialInfo()
       dispatch(setSocialInfo(newSocialInfo))
-    } catch (error_: Record<string, unknown>) {
+    } catch (error_: unknown | any) {
       const { errors } = error_.data
       const newInputErrors: Record<string, unknown> = {}
 
