@@ -130,14 +130,18 @@ const MemberPageById = () => {
                 >
                   {memberAccountInfo.username}
                 </span>
-                <p
-                  className="admin-name"
-                  title={`${memberAccountInfo.firstName} ${memberAccountInfo.lastName}`}
-                >
-                  {memberAccountInfo.firstName
-                    ? `${memberAccountInfo.firstName} ${memberAccountInfo.lastName}`
-                    : ''}
-                </p>
+                <div className="member-flexname">
+                  <p className="admin-name" title={memberAccountInfo.firstName}>
+                    {memberAccountInfo.firstName
+                      ? memberAccountInfo.firstName
+                      : ''}
+                  </p>
+                  <p className="admin-name" title={memberAccountInfo.lastName}>
+                    {memberAccountInfo.firstName
+                      ? memberAccountInfo.lastName
+                      : ''}
+                  </p>
+                </div>
               </div>
             </div>
             <ul className="user-info_tabs member_items">
