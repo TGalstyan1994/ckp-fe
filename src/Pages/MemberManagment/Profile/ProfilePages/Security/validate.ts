@@ -26,7 +26,7 @@ export const validate = ({
     password.search(digitRegExp) === -1
   ) {
     errors.password =
-      'Password is not valid. It must include at least 1 uppercase letter, 1 lowercase letter and 1 digit'
+      'Invalid Password: must include upper and lower case letters, digits'
   }
   if (password.length > 64) {
     errors.password = 'The value must not be more than 64 characters long'
