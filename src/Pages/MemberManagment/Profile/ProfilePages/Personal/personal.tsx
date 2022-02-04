@@ -497,7 +497,7 @@ export const Personal: FC = () => {
                 options={
                   countries
                     ? countries.map(
-                      (stateInfo: Record<string, string>) => stateInfo.name
+                        (stateInfo: Record<string, string>) => stateInfo.name
                       )
                     : []
                 }

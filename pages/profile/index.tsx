@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useRef, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { useDispatch } from 'react-redux'
 import { RootState } from 'src/store'
@@ -54,6 +54,7 @@ const ProfilePage = () => {
     (state: RootState) => state.MainLayoutDataStore
   )
   const dispatch = useDispatch()
+  const ref = useRef<HTMLInputElement>(null)
   const [imgPreview, setImgPreview] = useState<IImgPreview>('')
   const [avatarError, setAvatarError] = useState('')
 
@@ -83,7 +84,6 @@ const ProfilePage = () => {
       setImgPreview(croppedImage)
     }
   }
-
   const onSave = async () => {
     if (!imgPreview) return
     const form = new FormData()
@@ -94,7 +94,7 @@ const ProfilePage = () => {
       await dispatch(toggleAlertModal(true))
       const res = await GlobalManager.getUser()
       dispatch(setUserData(res))
-      setImgPreview('')
+      if (ref.current) ref.current.value = ''
     } catch (error) {
       setAvatarError('Please upload valid avatar image')
       throw error
@@ -170,6 +170,7 @@ const ProfilePage = () => {
                     id="file-input"
                     onChange={handleUploadImage}
                     accept="image/png, image/jpeg,image/jpg"
+                    ref={ref}
                   />
                 </label>
               </div>
