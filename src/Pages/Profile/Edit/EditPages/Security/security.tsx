@@ -71,7 +71,7 @@ export const Security: FC = () => {
         dispatch(closePinModal())
         await dispatch(toggleAlertModal(true))
         resetValue()
-      } catch (error: unknown | any) {
+      } catch (error: Record<string, unknown>) {
         const errors = error.data.errors[0]
         if (errors.property === 'securityCode') {
           dispatch(setErrorMessage(errors.messages[0]))

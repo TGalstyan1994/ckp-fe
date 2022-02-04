@@ -35,12 +35,12 @@ const objectiveCodes = {
   OTHER: 'Other',
 } as { [key: string]: string }
 
-interface ICountries {
-  id: number
-  name: string
-  phonecode: string
-  phonemask: string
-}
+// interface ICountries {
+//   id: number
+//   name: string
+//   phonecode: string
+//   phonemask: string
+// }
 export const Personal: FC = () => {
   const [countries, setCountries] = useState<Array<Record<string, string>>>()
   const [states, setStates] = useState<Array<Record<string, string>>>()
@@ -101,24 +101,24 @@ export const Personal: FC = () => {
   }
 
   //
-  const changeGeoCountry = (option: string) => {
-    const currentCountry = countries?.find(
-      (state: Record<string, string>) => state.name === option
-    ) as { id: number; name: string } | undefined
-    if (!currentCountry) return
-    setPersonalDetails('countryId', currentCountry.id)
-    setGeoData((prev) => ({ ...prev, country: option, state: '' }))
-  }
+  // const changeGeoCountry = (option: string) => {
+  //   const currentCountry = countries?.find(
+  //     (state: Record<string, string>) => state.name === option
+  //   ) as { id: number; name: string } | undefined
+  //   if (!currentCountry) return
+  //   setPersonalDetails('countryId', currentCountry.id)
+  //   setGeoData((prev) => ({ ...prev, country: option, state: '' }))
+  // }
 
-  const changeGeoStates = (option: string) => {
-    const currentState = states?.find(
-      (city: Record<string, string>) => city.name === option
-    ) as { id: number; name: string } | undefined
-    if (!currentState) return
-    setGeoData((prev) => ({ ...prev, state: option }))
-    setPersonalDetails('stateId', currentState.id)
-    // removeErrors('stateId')
-  }
+  // const changeGeoStates = (option: string) => {
+  //   const currentState = states?.find(
+  //     (city: Record<string, string>) => city.name === option
+  //   ) as { id: number; name: string } | undefined
+  //   if (!currentState) return
+  //   setGeoData((prev) => ({ ...prev, state: option }))
+  //   setPersonalDetails('stateId', currentState.id)
+  //   // removeErrors('stateId')
+  // }
 
   const handleFormInputs = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
@@ -187,26 +187,26 @@ export const Personal: FC = () => {
     })()
   }, [personalInfoState.countryId])
 
-  useEffect(() => {
-    if (!countries) return
-    const initialCountry = countries.find(
-      (item: ICountries) => item.id === personalInfoState.countryId
-    )
-    if (!initialCountry) return
-    setPersonalInfoState({
-      ...personalInfoState,
-      countryId: initialCountry?.id,
-    })
-    setGeoData({
-      ...geoData,
-      country: initialCountry?.name,
-    })
-  }, [countries])
+  // useEffect(() => {
+  //   if (!countries) return
+  //   const initialCountry = countries.find(
+  //     (item: ICountries) => item.id === personalInfoState.countryId
+  //   )
+  //   if (!initialCountry) return
+  //   setPersonalInfoState({
+  //     ...personalInfoState,
+  //     countryId: initialCountry?.id,
+  //   })
+  //   setGeoData({
+  //     ...geoData,
+  //     country: initialCountry?.name,
+  //   })
+  // }, [countries])
 
   useEffect(() => {
     if (!states) return
     const initialStates = states.find(
-      (item: any) => +item.id === +personalInfoState.stateId
+      (item: Record<string, string>) => +item.id === +personalInfoState.stateId
     )
     if (!initialStates) return
     setPersonalInfoState({
@@ -218,7 +218,7 @@ export const Personal: FC = () => {
       state: initialStates?.name,
     })
   }, [countries, states])
-  console.log(geoData.state)
+
   return (
     <div className="admin-info admin-info__personal">
       <div className="flex-container">
@@ -481,24 +481,18 @@ export const Personal: FC = () => {
           </div>
 
           <div className="personal-info">
-            <div className="state-flex">
+            {/*             <div className="state-flex">
               <Select
                 label="Country"
                 required
                 currentOption={geoData.country}
-                placeholder={countries?.map((item: Record<string, string>) => {
-                  if (item.id === personalInfoState.countryId) {
-                    item.name
-                  } else {
-                    ;('select countrie')
-                  }
-                })}
+                placeholder="sdasd"
                 setCurrentOption={changeGeoCountry}
                 options={
                   countries
                     ? countries.map(
-                      (stateInfo: Record<string, string>) => stateInfo.name
-                      )
+                      (country: Record<string, string>) => country.name
+                    )
                     : []
                 }
               />
@@ -516,7 +510,7 @@ export const Personal: FC = () => {
                     : []
                 }
               />
-            </div>
+            </div> */}
             <div className="state-flex">
               s
               <Input

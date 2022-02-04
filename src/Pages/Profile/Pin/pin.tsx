@@ -77,7 +77,7 @@ export const Pin: FC = () => {
         })
         dispatch(toggleAlertModal(true))
         resetValue()
-      } catch (error: unknown | any) {
+      } catch (error: Record<string, unknown>) {
         const errors = error.data.errors[0]
         if (errors.property === 'securityQuestionAnswer') {
           dispatch(setErrorMessage(errors.messages[0]))

@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from 'react'
+import { FC, useState } from 'react'
 import { PasswordSwitchICO } from 'src/components/ICO/password-switch-ico'
 import classNames from 'classnames'
 import {

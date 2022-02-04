@@ -140,7 +140,7 @@ const MemberManagementPage = () => {
   }, [])
 
   useEffect(() => {
-    const listener = async (event: any) => {
+    const listener = async (event: KeyboardEvent) => {
       if (event.code === 'Enter' || event.code === 'NumpadEnter') {
         event.preventDefault()
         await searchMembersList()
