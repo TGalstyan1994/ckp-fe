@@ -103,14 +103,8 @@
   }
   .admin-info {
     padding: 36px;
-    .flex-container {
-      display: grid;
-      grid-template-columns: 234px 1fr;
-
-      .w-100 {
-        width: 100%;
-      }
-
+    .account-container {
+      display: flex;
       .info_1 {
         width: 100%;
         padding-right: 100px;
@@ -150,7 +144,7 @@
               display: flex;
               position: relative;
               .icon-span {
-               position: absolute;
+                position: absolute;
                 right: 0;
                 transform: translateX(26px);
                 cursor: pointer;
@@ -178,6 +172,16 @@
           padding-left: 36px;
         }
       }
+    }
+    .flex-container {
+      display: grid;
+      grid-template-columns: 234px 1fr;
+
+      .w-100 {
+        width: 100%;
+      }
+
+
       .input-container {
 
         .basic {
