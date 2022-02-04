@@ -10,6 +10,7 @@ import { useSelectorTyped } from '../../../../../utils/hooks'
 import { RootState } from '../../../../../store'
 import { validate } from './validate'
 import { validatePin } from './validatePin'
+import { PinInput } from '../../../../../components/PinInput'
 
 export const Security: FC = () => {
   const [passwordValue, setPasswordValue] = useState({
@@ -152,6 +153,7 @@ export const Security: FC = () => {
               label="Password"
               name="password"
               placeholder="**************"
+              type="password"
               value={passwordValue.password}
               onChange={changePasswordValue}
               error={passwordError.password}
@@ -160,6 +162,7 @@ export const Security: FC = () => {
               label="Confirm Password"
               name="passwordConfirmation"
               placeholder="**************"
+              type="password"
               value={passwordValue.passwordConfirmation}
               onChange={changePasswordValue}
               error={passwordError.passwordConfirmation}
@@ -178,18 +181,16 @@ export const Security: FC = () => {
         </div>
         <div className="input-container">
           <div className="input-flex">
-            <Input
+            <PinInput
               label="Security PIN"
               name="securityCode"
-              placeholder="**************"
               value={pinValue.securityCode}
               onChange={changePinValue}
               error={pinError.securityCode}
             />
-            <Input
+            <PinInput
               label="Confirm Security PIN"
               name="securityCodeRepeat"
-              placeholder="**************"
               value={pinValue.securityCodeRepeat}
               onChange={changePinValue}
               error={pinError.securityCodeRepeat}

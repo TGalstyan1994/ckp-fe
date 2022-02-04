@@ -65,7 +65,7 @@
           white-space: nowrap;
           margin-left: 12px;
         }
-        .member-flexname{
+        .member-flexname {
           display: flex;
           flex-direction: column;
           margin-left: 12px;
@@ -82,12 +82,10 @@
             white-space: nowrap;
           }
         }
-
       }
     }
   }
   .admin-holder {
-
     .title {
       display: flex;
       align-items: center;
@@ -151,10 +149,9 @@
                 svg {
                   width: 14px;
                   height: 14px;
-                  path{
-                    fill:$icon-gray
+                  path {
+                    fill: $icon-gray;
                   }
-
                 }
               }
             }
@@ -181,9 +178,7 @@
         width: 100%;
       }
 
-
       .input-container {
-
         .basic {
           margin-bottom: 25px;
           font-style: normal;
