@@ -17,11 +17,14 @@ import {
   closeModal,
   setShowModal,
   setUserData,
+  toggleAlertModal,
 } from '../../src/store/MainLayoutDataStore/MainLayoutDataStore'
 import TrashIcon from '../../src/assets/images/icons/trash-icon'
 import { GlobalManager } from '../../src/managers/global'
 import { ProfileManager } from '../../src/managers/profile'
 import getCroppedImg from '../../src/helpers/image-cropper-helper'
+import { Button } from '../../src/components/Button'
+import { setShowLoader } from '../../src/store/GlobalConfigDataStore/GlobalConfigDataStore'
 
 type ITabNames = 'overview' | 'edit' | 'pin' | 'default'
 
@@ -86,13 +89,17 @@ const ProfilePage = () => {
     const form = new FormData()
     form.append('file', imgPreview)
     try {
+      await dispatch(setShowLoader(true))
       await ProfileManager.uploadAvatar(form)
+      await dispatch(toggleAlertModal(true))
       const res = await GlobalManager.getUser()
       dispatch(setUserData(res))
       setImgPreview('')
     } catch (error) {
       setAvatarError('Please upload valid avatar image')
       throw error
+    } finally {
+      dispatch(setShowLoader(false))
     }
   }
 
@@ -183,9 +190,9 @@ const ProfilePage = () => {
                   ''
                 )}
               </p>
-              <button onClick={onSave} className="btn">
+              <Button disabled={!imgPreview} onClick={onSave} className="btn">
                 Save
-              </button>
+              </Button>
             </div>
             <ul className="user-info_tabs">
               <li
