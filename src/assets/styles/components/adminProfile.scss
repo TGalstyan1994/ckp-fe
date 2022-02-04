@@ -87,7 +87,6 @@
             white-space: nowrap;
           }
         }
-
       }
     }
   }
@@ -167,10 +166,9 @@
                 svg {
                   width: 14px;
                   height: 14px;
-                  path{
-                    fill:$icon-gray
+                  path {
+                    fill: $icon-gray;
                   }
-
                 }
               }
             }

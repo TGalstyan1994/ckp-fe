@@ -11,6 +11,7 @@ type Props = {
   confirm?: boolean
   name?: string
   autoFocus?: boolean | string
+  label?: string
 }
 
 export const PinInput: FC<Props> = ({
@@ -21,9 +22,11 @@ export const PinInput: FC<Props> = ({
   error,
   placeholder,
   autoFocus,
+  label,
 }) => {
   return (
     <Input
+      label={label}
       name={name}
       maxLength={6}
       className={classNames(pin_input, {
