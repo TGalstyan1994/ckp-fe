@@ -83,7 +83,7 @@ export const Account: FC = () => {
 
   return (
     <div className="admin-info">
-      <div className="flex-container">
+      <div className="account-container">
         <div className="info_1">
           <span className="basic">Basic Info</span>
           <div className="admin-account-info">
