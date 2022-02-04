@@ -103,7 +103,14 @@ const MemberManagementPage = () => {
     dispatch(setShowLoader(false))
   }
 
-  const searchMembersList = async () => {
+  const handleSearchChange = () => {
+    setSearchValues({
+      ...searchValues,
+      searchValue: searchValues.inputValue,
+    })
+  }
+
+  const searchMembersList = () => {
     if (searchValues.inputValue) {
       router.query.search = searchValues.inputValue
       router.push(router)
@@ -112,6 +119,10 @@ const MemberManagementPage = () => {
     }
     setPage(0)
   }
+
+  useEffect(() => {
+    searchMembersList()
+  }, [searchValues.searchValue])
 
   useEffect(() => {
     ;(async () => {
@@ -126,7 +137,7 @@ const MemberManagementPage = () => {
       searchValue:
         typeof router.query.search === 'string' ? router.query.search : '',
     })
-  }, [router.query])
+  }, [])
 
   useEffect(() => {
     const listener = async (event: any) => {
@@ -163,11 +174,10 @@ const MemberManagementPage = () => {
               onFocus={focusHandler}
               onBlur={blurHandler}
               reset={resetSearchInput}
-              showReset
             />
           </div>
           <div>
-            <Button onClick={searchMembersList}>search</Button>
+            <Button onClick={handleSearchChange}>search</Button>
           </div>
         </div>
       </div>
