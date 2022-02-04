@@ -188,7 +188,7 @@ export const Personal: FC = () => {
   // }, [country.id])
 
   return (
-    <div className="admin-info">
+    <div className="admin-info admin-info__personal">
       <div className="flex-container">
         <div className="basic-title">
           <span className="basic">Basic info</span>

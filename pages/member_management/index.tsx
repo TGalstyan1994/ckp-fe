@@ -71,6 +71,13 @@ const MemberManagementPage = () => {
     })
   }
 
+  const resetSearchInput = () => {
+    setSearchValues({
+      searchValue: '',
+      inputValue: '',
+    })
+  }
+
   const handlePageClick = ({ selected }: { selected: number }) => {
     setPage(selected)
   }
@@ -155,6 +162,8 @@ const MemberManagementPage = () => {
               placeholder="Member search"
               onFocus={focusHandler}
               onBlur={blurHandler}
+              reset={resetSearchInput}
+              showReset
             />
           </div>
           <div>

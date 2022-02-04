@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useRef, useState } from 'react'
 import { PasswordSwitchICO } from 'src/components/ICO/password-switch-ico'
 import classNames from 'classnames'
 import {
@@ -13,6 +13,7 @@ import {
   forgotE_label,
 } from './style.module.css'
 import { Props } from './props'
+import InputReset from '../ICO/input-reset'
 
 export const Input: FC<Props> = ({
   type = 'text',
@@ -32,6 +33,7 @@ export const Input: FC<Props> = ({
   autoComplete,
   onFocus,
   onBlur,
+  reset,
 }) => {
   const [showPassword, setShowPassword] = useState(!(type === 'password'))
   const togglePasswordView = () => setShowPassword((prev) => !prev)
@@ -85,6 +87,7 @@ export const Input: FC<Props> = ({
             onClick={togglePasswordView}
           />
         )}
+        {reset && <InputReset onClick={reset} />}
         <span className={error_message}>{error || inputError}</span>
       </div>
     </div>

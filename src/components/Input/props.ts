@@ -18,4 +18,5 @@ export type Props = {
   autoComplete?: boolean
   onFocus?: any
   onBlur?: any
+  reset?: () => void
 }
