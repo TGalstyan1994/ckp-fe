@@ -14,6 +14,15 @@ function getMemberPersonalInfo(_id: { userId: number }) {
 function getMemberSocialData(_id: { userId: number }) {
   return RequestAPI.post('api/admin/member-management/get-social', _id)
 }
+
+function getMemberCountryInfo() {
+  return RequestAPI.get('api/helpers/geo/countries?limit=1000')
+}
+
+function getMemberStatesInfo(id: any) {
+  return RequestAPI.get(`api/helpers/geo/states?countryId=${id}&limit=1000`)
+}
+
 function updatePassword(data: any) {
   return RequestAPI.post('api/admin/member-management/update-password', data)
 }
@@ -31,6 +40,8 @@ export const MemberManagement = {
   getMemberData,
   getMemberPersonalInfo,
   getMemberSocialData,
+  getMemberCountryInfo,
+  getMemberStatesInfo,
   updatePassword,
   updateSecurityPin,
   updateMemberSocialData,
