@@ -1,9 +1,6 @@
 import { Select } from 'src/components/Select'
 import { TextArea } from 'src/components/Textarea'
 import { ChangeEvent, FC, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useSelectorTyped } from 'src/utils/hooks'
-import { validateStage } from 'src/store/reducers/signup'
 import { Button } from 'src/components/Button'
 import { Input } from 'src/components/Input'
 
@@ -38,10 +35,15 @@ const objectiveCodes = {
   OTHER: 'Other',
 } as { [key: string]: string }
 
+interface ICountries {
+  id: number
+  name: string
+  phonecode: string
+  phonemask: string
+}
 export const Personal: FC = () => {
-  const { countries, country, states } = useSelectorTyped(
-    (state) => state.signup.userInfo
-  )
+  const [countries, setCountries] = useState<Array<Record<string, string>>>()
+  const [states, setStates] = useState<Array<Record<string, string>>>()
 
   const [personalInfoState, setPersonalInfoState] = useState({
     objective: '',
@@ -54,7 +56,7 @@ export const Personal: FC = () => {
       phone: '',
     },
     address: '',
-    gender: 'MALE',
+    gender: '',
     maritalStatus: '',
     dateOfBirth: '',
     currentlyEmployed: false,
@@ -75,8 +77,8 @@ export const Personal: FC = () => {
     beneficiaryRelationship: '',
     beneficiaryContactNumber: '',
     city: '',
-    stateId: undefined,
-    countryId: undefined,
+    stateId: '',
+    countryId: '',
     zipCode: '',
   })
 
@@ -85,6 +87,49 @@ export const Personal: FC = () => {
     month: '',
     year: '',
   })
+
+  const [geoData, setGeoData] = useState({
+    state: '',
+    country: '',
+  })
+
+  const setPersonalDetails = (
+    key: string,
+    value: string | boolean | number
+  ) => {
+    setPersonalInfoState((prev) => ({ ...prev, [key]: value }))
+  }
+
+  //
+  const changeGeoCountry = (option: string) => {
+    const currentCountry = countries?.find(
+      (state: Record<string, string>) => state.name === option
+    ) as { id: number; name: string } | undefined
+    if (!currentCountry) return
+    setPersonalDetails('countryId', currentCountry.id)
+    setGeoData((prev) => ({ ...prev, country: option, state: '' }))
+  }
+
+  const changeGeoStates = (option: string) => {
+    const currentState = states?.find(
+      (city: Record<string, string>) => city.name === option
+    ) as { id: number; name: string } | undefined
+    if (!currentState) return
+    setGeoData((prev) => ({ ...prev, state: option }))
+    setPersonalDetails('stateId', currentState.id)
+    // removeErrors('stateId')
+  }
+
+  const handleFormInputs = (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    if (e.target.name === 'totalNumberOfDependens' && +e.target.value) {
+      setPersonalDetails(e.target.name, +e.target.value)
+    } else {
+      setPersonalDetails(e.target.name, e.target.value)
+    }
+    // removeErrors(e.target.name)
+  }
 
   const { href } = window.location
   const userId = href.slice(href.lastIndexOf('/') + 1)
@@ -120,73 +165,60 @@ export const Personal: FC = () => {
     })()
   }, [userId])
 
-  // verevy imna *************************
+  useEffect(() => {
+    ;(async () => {
+      try {
+        MemberManagement.getMemberCountryInfo().then((res) => setCountries(res))
+      } catch (error) {
+        throw error
+      }
+    })()
+  }, [])
 
-  const [geoData, setGeoData] = useState({
-    state: '',
-    country: '',
-  })
+  useEffect(() => {
+    ;(async () => {
+      try {
+        MemberManagement.getMemberStatesInfo(personalInfoState.countryId).then(
+          (res) => setStates(res)
+        )
+      } catch (error) {
+        throw error
+      }
+    })()
+  }, [personalInfoState.countryId])
 
-  const dispatch = useDispatch()
+  useEffect(() => {
+    if (!countries) return
+    const initialCountry = countries.find(
+      (item: ICountries) => item.id === personalInfoState.countryId
+    )
+    if (!initialCountry) return
+    setPersonalInfoState({
+      ...personalInfoState,
+      countryId: initialCountry?.id,
+    })
+    setGeoData({
+      ...geoData,
+      country: initialCountry?.name,
+    })
+  }, [countries])
 
-  const removeErrors = (name: string) => {
-    dispatch(validateStage({ errors: { [name]: '' } }))
-  }
-
-  const setPersonalDetails = (
-    key: string,
-    value: string | boolean | number
-  ) => {
-    setPersonalInfoState((prev) => ({ ...prev, [key]: value }))
-  }
-
-  const changeGeoCountry = (option: string) => {
-    const currentCountry = countries.find(
-      (state: Record<string, string>) => state.name === option
-    ) as { id: number; name: string } | undefined
-
-    if (currentCountry) {
-      dispatch({
-        type: 'GEO_TAKE',
-        payload: {
-          countryId: currentCountry.id,
-          at: 'states',
-        },
-      })
-      setPersonalDetails('countryId', currentCountry.id)
-    }
-    setGeoData((prev) => ({ ...prev, country: option, state: '' }))
-  }
-
-  const changeGeoStates = (option: string) => {
-    const currentState = states.find(
-      (city: Record<string, string>) => city.name === option
-    ) as { id: number; name: string } | undefined
-
-    setGeoData((prev) => ({ ...prev, state: option }))
-    if (currentState) setPersonalDetails('stateId', currentState.id)
-    removeErrors('stateId')
-  }
-
-  const handleFormInputs = (
-    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    if (e.target.name === 'totalNumberOfDependens' && +e.target.value) {
-      setPersonalDetails(e.target.name, +e.target.value)
-    } else {
-      setPersonalDetails(e.target.name, e.target.value)
-    }
-    removeErrors(e.target.name)
-  }
-
-  // useEffect(() => {
-  //   if (country.id < 0) return
-  //   dispatch({
-  //     type: 'GEO_TAKE',
-  //     payload: { countryId: country.id, at: 'states' },
-  //   })
-  // }, [country.id])
-
+  useEffect(() => {
+    if (!states) return
+    const initialStates = states.find(
+      (item: any) => +item.id === +personalInfoState.stateId
+    )
+    if (!initialStates) return
+    setPersonalInfoState({
+      ...personalInfoState,
+      stateId: initialStates?.id,
+    })
+    setGeoData({
+      ...geoData,
+      state: initialStates?.name,
+    })
+  }, [countries, states])
+  console.log(geoData.state)
   return (
     <div className="admin-info admin-info__personal">
       <div className="flex-container">
@@ -224,7 +256,7 @@ export const Personal: FC = () => {
                 for (const item of Object.keys(objectiveCodes)) {
                   if (objectiveCodes[item] === option) {
                     setPersonalDetails('objective', item)
-                    removeErrors('objective')
+                    // removeErrors('objective')
                   }
                 }
               }}
@@ -288,7 +320,7 @@ export const Personal: FC = () => {
                 Object.keys(maritalStatusCodes).map((item: string) => {
                   if (maritalStatusCodes[item] === option) {
                     setPersonalDetails('maritalStatus', item)
-                    removeErrors('maritalStatus')
+                    // removeErrors('maritalStatus')
                   }
                 })
               }}
@@ -301,9 +333,9 @@ export const Personal: FC = () => {
                 onInputChange={handleFormInputs}
                 onRadioChange={(value) => {
                   setPersonalDetails('currentlyEmployed', value)
-                  removeErrors('jobTitle')
-                  removeErrors('jobDescription')
-                  removeErrors('employeeAddress')
+                  // removeErrors('jobTitle')
+                  // removeErrors('jobDescription')
+                  // removeErrors('employeeAddress')
                 }}
                 questionLabel="Are You Currently Employed?"
                 placeholder="Job Title"
@@ -342,7 +374,7 @@ export const Personal: FC = () => {
                 onInputChange={handleFormInputs}
                 onRadioChange={(value) => {
                   setPersonalDetails('businessOwner', value)
-                  removeErrors('businessDescription')
+                  // removeErrors('businessDescription')
                 }}
                 questionLabel="Are You a Business Owner?"
                 placeholder="Business Description"
@@ -358,7 +390,7 @@ export const Personal: FC = () => {
                 onInputChange={handleFormInputs}
                 onRadioChange={(value) => {
                   setPersonalDetails('anyTrade', value)
-                  removeErrors('tradeDescription')
+                  // removeErrors('tradeDescription')
                 }}
                 questionLabel="Do You Have any Trade?"
                 placeholder="Trade Description"
@@ -374,7 +406,7 @@ export const Personal: FC = () => {
                 onInputChange={handleFormInputs}
                 onRadioChange={(value) => {
                   setPersonalDetails('anyTechnicalSkills', value)
-                  removeErrors('technicalSkillsDescription')
+                  // removeErrors('technicalSkillsDescription')
                 }}
                 questionLabel="Do you Have any Technical skills?"
                 placeholder="Skill Description"
@@ -390,7 +422,7 @@ export const Personal: FC = () => {
                 onInputChange={handleFormInputs}
                 onRadioChange={(value) => {
                   setPersonalDetails('anyAthleticSkills', value)
-                  removeErrors('athleticSkillsDescription')
+                  // removeErrors('athleticSkillsDescription')
                 }}
                 questionLabel="Do you Have any Athletic skills?"
                 placeholder="Skill Description"
@@ -406,7 +438,7 @@ export const Personal: FC = () => {
                 onInputChange={handleFormInputs}
                 onRadioChange={(value) => {
                   setPersonalDetails('anyDependents', value)
-                  removeErrors('totalNumberOfDependens')
+                  // removeErrors('totalNumberOfDependens')
                 }}
                 questionLabel="Do You Have Any Dependent?"
                 placeholder="Total Number of Dependents"
@@ -454,29 +486,39 @@ export const Personal: FC = () => {
                 label="Country"
                 required
                 currentOption={geoData.country}
-                placeholder={
-                  countries?.map(
-                    (countryInfo: Record<string, string>) => countryInfo.name
-                  )[0] || 'Choose Country'
-                }
+                placeholder={countries?.map((item: Record<string, string>) => {
+                  if (item.id === personalInfoState.countryId) {
+                    item.name
+                  } else {
+                    ;('select countrie')
+                  }
+                })}
                 setCurrentOption={changeGeoCountry}
-                options={countries.map(
-                  (stateInfo: Record<string, string>) => stateInfo.name
-                )}
+                options={
+                  countries
+                    ? countries.map(
+                      (stateInfo: Record<string, string>) => stateInfo.name
+                      )
+                    : []
+                }
               />
-
               <Select
                 label="State"
                 required
                 currentOption={geoData.state}
                 placeholder="Select State"
                 setCurrentOption={changeGeoStates}
-                options={states.map(
-                  (stateInfo: Record<string, string>) => stateInfo.name
-                )}
+                options={
+                  states
+                    ? states?.map(
+                        (stateInfo: Record<string, string>) => stateInfo.name
+                      )
+                    : []
+                }
               />
             </div>
             <div className="state-flex">
+              s
               <Input
                 placeholder="Enter City"
                 name="city"
