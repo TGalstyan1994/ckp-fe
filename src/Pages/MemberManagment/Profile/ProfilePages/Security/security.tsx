@@ -47,7 +47,7 @@ export const Security: FC = () => {
     if (+e.target.value === 0 || e.target.value === '' || +e.target.value) {
       setPinError({
         ...pinError,
-        [e.target.value]: '',
+        [e.target.name]: '',
       })
       setPinValue({
         ...pinValue,
@@ -170,7 +170,14 @@ export const Security: FC = () => {
           </div>
           <div className="mt-24" />
           <div className="w-140">
-            <Button onClick={onSavePassword}>Save</Button>
+            <Button
+              onClick={onSavePassword}
+              disabled={
+                !passwordValue.password || !passwordValue.passwordConfirmation
+              }
+            >
+              Save
+            </Button>
           </div>
         </div>
       </div>
@@ -198,7 +205,12 @@ export const Security: FC = () => {
           </div>
           <div className="mt-24" />
           <div className="w-140">
-            <Button onClick={onSavePin}>Save</Button>
+            <Button
+              onClick={onSavePin}
+              disabled={!pinValue.securityCode || !pinValue.securityCodeRepeat}
+            >
+              Save
+            </Button>
           </div>
         </div>
       </div>
