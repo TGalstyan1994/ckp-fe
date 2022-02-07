@@ -4,7 +4,10 @@ import { Input } from '../../../../../components/Input'
 import { Button } from '../../../../../components/Button'
 import { toggleAlertModal } from '../../../../../store/MainLayoutDataStore/MainLayoutDataStore'
 import { setErrorMessage } from '../../../../../store/ProfileDataStore/ProfileDataStore'
-import { setIsFormFilled } from '../../../../../store/GlobalConfigDataStore/GlobalConfigDataStore'
+import {
+  setIsFormFilled,
+  setShowLoader,
+} from '../../../../../store/GlobalConfigDataStore/GlobalConfigDataStore'
 import { MemberManagement } from '../../../../../managers/memberManagement'
 import { useSelectorTyped } from '../../../../../utils/hooks'
 import { RootState } from '../../../../../store'
@@ -85,10 +88,12 @@ export const Security: FC = () => {
     if (!Object.values(validateForm).every((name: string) => name === ''))
       return
     try {
+      dispatch(setShowLoader(true))
       await MemberManagement.updatePassword({
         ...passwordValue,
         userId,
       })
+      dispatch(setShowLoader(false))
       await dispatch(toggleAlertModal(true))
       resetPasswordValue()
     } catch (error: Record<string, unknown>) {
@@ -111,10 +116,12 @@ export const Security: FC = () => {
     if (!Object.values(validateFormPin).every((name: string) => name === ''))
       return
     try {
+      dispatch(setShowLoader(true))
       await MemberManagement.updateSecurityPin({
         ...pinValue,
         userId,
       })
+      dispatch(setShowLoader(false))
       await dispatch(toggleAlertModal(true))
       resetPinValue()
     } catch (error: Record<string, unknown>) {
