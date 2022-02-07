@@ -143,6 +143,7 @@ const MemberManagementPage = () => {
     const listener = async (event: KeyboardEvent) => {
       if (event.code === 'Enter' || event.code === 'NumpadEnter') {
         event.preventDefault()
+        await handleSearchChange()
         await searchMembersList()
       }
     }
@@ -150,7 +151,7 @@ const MemberManagementPage = () => {
     return () => {
       document.removeEventListener('keydown', listener)
     }
-  }, [searchValues.inputValue, isFocus])
+  }, [router, searchValues])
 
   return (
     <div className="container member-management">
