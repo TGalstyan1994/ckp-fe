@@ -103,6 +103,7 @@
         font-weight: 600;
         font-size: 16px;
         color: #0e0e0e;
+        text-transform: uppercase;
       }
     }
   }
@@ -156,10 +157,13 @@
             .answer {
               display: flex;
               position: relative;
+              .hidden {
+                line-height: 40px;
+              }
               .icon-span {
                 position: absolute;
                 right: 0;
-                transform: translateX(26px);
+                transform: translate(26px,2px);
                 cursor: pointer;
                 svg {
                   width: 14px;

@@ -57,7 +57,11 @@ export const Account: FC = () => {
         ) : isAnswer ? (
           <span className="member-info__title" title={text}>
             <div className="answer">
-              <span>{text}</span>
+              {shown ? (
+                <span>{text}</span>
+              ) : (
+                <span className="hidden">{text}</span>
+              )}
               <span
                 className="icon-span"
                 onClick={toggleAnswerView}
