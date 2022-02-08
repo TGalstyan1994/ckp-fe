@@ -151,7 +151,7 @@ const MemberManagementPage = () => {
     return () => {
       document.removeEventListener('keydown', listener)
     }
-  }, [router, searchValues])
+  }, [router, searchValues, isFocus])
 
   return (
     <div className="container member-management">
