@@ -14,11 +14,15 @@ import EMailIcon from '../../assets/images/icons/e-mail-icon'
 import ArrowOpenIcon from '../../assets/images/icons/arrow-open-icon'
 import LogoutIcon from '../../assets/images/icons/logout-icon'
 import { logOut } from '../../store/reducers/signin'
-import { LinkText } from '../LinkText'
 import { useSelectorTyped } from '../../utils/hooks'
 import { RootState } from '../../store'
 import ToolsIcon from '../../assets/images/icons/tools-icon'
 import { setShowLoader } from '../../store/GlobalConfigDataStore/GlobalConfigDataStore'
+import { modalPromise } from '../../helpers/modal-helper'
+import {
+  closeModal,
+  setShowModal,
+} from '../../store/MainLayoutDataStore/MainLayoutDataStore'
 
 interface IMenuItem {
   svg: JSX.Element
@@ -245,7 +249,7 @@ export const SideMenu: FC = () => {
     openSidebar: false,
   })
 
-  const { isSuperAdmin } = useSelectorTyped(
+  const { isSuperAdmin, isFormFilled } = useSelectorTyped(
     (state: RootState) => state.GlobalConfigDataStore
   )
 
@@ -255,6 +259,24 @@ export const SideMenu: FC = () => {
 
   const toggleSideBar = () => {
     setIsOpen({ openSidebar: !isOpen.openSidebar })
+  }
+
+  const changePageRoute = async (item: IMenuItem) => {
+    if (!isFormFilled || router.pathname === item.pathname) {
+      await dispatch(setShowLoader(true))
+      await router.push(item.pathname)
+      dispatch(setShowLoader(false))
+    } else {
+      const promise = await modalPromise(({ resolve, reject }) =>
+        dispatch(setShowModal({ resolve, reject }))
+      )
+      dispatch(closeModal())
+      if (promise) {
+        await dispatch(setShowLoader(true))
+        await router.push(item.pathname)
+        dispatch(setShowLoader(false))
+      }
+    }
   }
 
   const handleItems = (items: Array<IMenuItem>) => {
@@ -272,21 +294,16 @@ export const SideMenu: FC = () => {
             <span className="arrow">{item.children && <ArrowOpenIcon />}</span>
           </div>
         ) : (
-          <LinkText href={item.pathname} key={item.pathname}>
-            <div
-              className="icon_title"
-              onClick={() =>
-                item.withLoader && dispatch(dispatch(setShowLoader(true)))
-              }
-              aria-hidden
-            >
-              <span className="svgIcon">{item.svg}</span>
-              <span className="name">{item.name}</span>
-              <span className="arrow">
-                {item.children && <ArrowOpenIcon />}
-              </span>
-            </div>
-          </LinkText>
+          <div
+            className="icon_title"
+            onClick={() => changePageRoute(item)}
+            aria-hidden
+          >
+            <span className="svgIcon">{item.svg}</span>
+            <span className="name">{item.name}</span>
+            <span className="arrow">{item.children && <ArrowOpenIcon />}</span>
+          </div>
+          // </LinkText>
         )}
         {item.children && (
           <ul className={item.children?.length ? 'fields' : ''}>
@@ -296,18 +313,14 @@ export const SideMenu: FC = () => {
                   <span>{child.field}</span>
                 </li>
               ) : (
-                <LinkText href={child.pathname} key={child.pathname}>
-                  <li
-                    className="field"
-                    onClick={() =>
-                      child.withLoader &&
-                      dispatch(dispatch(setShowLoader(true)))
-                    }
-                    aria-hidden
-                  >
-                    <span>{child.field}</span>
-                  </li>
-                </LinkText>
+                <li
+                  key={child.pathname}
+                  className="field"
+                  onClick={() => changePageRoute(item)}
+                  aria-hidden
+                >
+                  <span>{child.field}</span>
+                </li>
               )
             )}
           </ul>
