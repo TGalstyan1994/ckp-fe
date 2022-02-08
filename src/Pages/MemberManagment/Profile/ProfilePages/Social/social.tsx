@@ -123,7 +123,7 @@ export const Social: FC = () => {
               <Input
                 label="About me"
                 name="about"
-                placeholder="Null"
+                placeholder="Add info here"
                 value={inputValue.about}
                 onChange={changeValue}
                 error={inputError.about}
