@@ -130,9 +130,11 @@
         .member-info {
           display: flex;
           justify-content: space-between;
+
           .capitalize {
             text-transform: capitalize;
           }
+
           &__title {
             font-family: 'SF Pro Display', sans-serif;
             font-style: normal;
@@ -145,29 +147,36 @@
               text-decoration: underline;
               color: $green;
               position: relative;
+
               .pensil {
                 position: absolute;
                 transform: translateX(14px);
+
                 svg {
                   width: 10px;
                   height: 10px;
                 }
               }
             }
+
             .answer {
               display: flex;
               position: relative;
+
               .hidden {
                 line-height: 40px;
               }
+
               .icon-span {
                 position: absolute;
                 right: 0;
-                transform: translate(26px,2px);
+                transform: translate(26px, 2px);
                 cursor: pointer;
+
                 svg {
                   width: 14px;
                   height: 14px;
+
                   path {
                     fill: $icon-gray;
                   }
@@ -175,6 +184,7 @@
               }
             }
           }
+
           .name {
             font-family: 'SF Pro Display', sans-serif;
             font-style: normal;
@@ -184,10 +194,12 @@
             color: #c8c8c8;
           }
         }
+
         &:nth-child(2) {
           padding-left: 36px;
         }
       }
+
       .input-container {
         .basic {
           margin-bottom: 25px;
@@ -271,5 +283,18 @@
 
   .w-140 {
     width: 140px;
+  }
+
+  button.btn-cancel {
+    background: #ebebeb;
+    font-family: 'SF Pro Display', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border-radius: 5px;
+    color: #0e0e0e;
+    margin-right: 12px;
   }
 }

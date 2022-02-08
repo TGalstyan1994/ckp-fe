@@ -39,6 +39,10 @@ export const Social: FC = () => {
 
   const userId = memberAccountInfo.id
 
+  const resetValue = () => {
+    setInputValue(socialInfo)
+  }
+
   const changeValue = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue({
       ...inputValue,
@@ -93,15 +97,16 @@ export const Social: FC = () => {
     setPageProps({ loader: false })
   }
 
-  //
   const isFormFilled = () => {
     return !Object.keys(inputValue).every((key: string) => {
       return inputValue[key] === socialInfo[key] || inputValue[key] === ''
     })
   }
+
   useEffect(() => {
     dispatch(setIsFormFilled(isFormFilled()))
   }, [inputValue])
+
   useEffect(() => {
     setInputValue(socialInfo)
   }, [socialInfo])
@@ -154,9 +159,12 @@ export const Social: FC = () => {
               />
             </div>
             <div className="mt-24" />
-            <div className="w-140">
-              <Button onClick={onSubmit}>Save</Button>
-            </div>
+            <Button onClick={resetValue} className="btn-cancel w-140">
+              Cancel
+            </Button>
+            <Button onClick={onSubmit} className="w-140">
+              Save
+            </Button>
           </div>
         </div>
         {pageProps.loader && <MainLoader />}
