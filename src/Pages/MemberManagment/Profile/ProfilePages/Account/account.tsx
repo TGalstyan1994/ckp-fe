@@ -21,9 +21,9 @@ export const Account: FC = () => {
   const { memberAccountInfo } = useSelectorTyped(
     (state: RootState) => state.MemberManagementDataStore
   )
-  const { kycStatus, id, username, securityQuestion, securityAnswer } =
+  const { kycStatus, id, username, securityQuestion, securityAnswer, sponsor } =
     memberAccountInfo
-
+  console.log(memberAccountInfo)
   const hidden: IHidden = '**********'
   const visible: IVisible = securityAnswer
 
@@ -93,6 +93,7 @@ export const Account: FC = () => {
           <div className="admin-account-info">
             <Line text={id} name="Member ID" />
             <Line text={username} name="Username" />
+            {sponsor && <Line name="Sponsor" text={sponsor} />}
             <Line text="company" name="Parent" isLink />
             <Line
               text={kycStatus?.replace('_', ' ').toLowerCase()}
