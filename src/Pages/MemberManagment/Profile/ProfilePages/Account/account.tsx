@@ -111,7 +111,7 @@ export const Account: FC = () => {
                 isCapitalize
               />
             )}
-            {answer && (
+            {securityAnswer && (
               <Line text={answer} name="Security Question Response" isAnswer />
             )}
           </div>
