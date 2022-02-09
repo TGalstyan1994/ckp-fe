@@ -93,19 +93,27 @@ export const Account: FC = () => {
           <div className="admin-account-info">
             <Line text={id} name="Member ID" />
             <Line text={username} name="Username" />
-            {sponsor && <Line name="Sponsor" text={sponsor} />}
+            {sponsor ? (
+              <Line name="Sponsor" text={sponsor} />
+            ) : (
+              <Line name="Sponsor" text="No Sponsor" />
+            )}
             <Line text="company" name="Parent" isLink />
             <Line
               text={kycStatus?.replace('_', ' ').toLowerCase()}
               name="KYC Status"
               isCapitalize
             />
-            <Line
-              text={securityQuestion?.replaceAll('_', ' ').toLowerCase()}
-              name="Security Question"
-              isCapitalize
-            />
-            <Line text={answer} name="Security Question Response" isAnswer />
+            {securityQuestion && (
+              <Line
+                text={securityQuestion?.replaceAll('_', ' ').toLowerCase()}
+                name="Security Question"
+                isCapitalize
+              />
+            )}
+            {answer && (
+              <Line text={answer} name="Security Question Response" isAnswer />
+            )}
           </div>
         </div>
         <div className="info_1">
