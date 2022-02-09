@@ -162,6 +162,13 @@
             .answer {
               display: flex;
               position: relative;
+              >span {
+                text-align: end;
+                width: 106px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              }
               .hidden {
                 line-height: 40px;
               }
