@@ -1,6 +1,12 @@
 import { RadioBox } from 'src/components/Radio'
 import { FC } from 'react'
-import { form_wrapper, label, radios_wrapper } from './style.module.css'
+import classNames from 'classnames'
+import {
+  form_wrapper,
+  label,
+  radios_wrapper,
+  invalid_input,
+} from './style.module.css'
 
 type Props = {
   onGenderChange: (key: string, value: string) => void

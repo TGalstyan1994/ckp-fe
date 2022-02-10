@@ -78,7 +78,7 @@ export const Profile: FC = () => {
           onClick={() => handleChangeTab('personal')}
           aria-hidden
         >
-          <span>Personal Info</span>
+          <span>Profile Info</span>
         </div>
         <div
           className={classNames('security info', {

@@ -73,6 +73,7 @@ const MainLayoutDataStore = createSlice({
     setPersonalInfo(state, action) {
       state.personalInfo = action.payload
     },
+
     resetMainLayoutDataStore() {
       return initialState
     },

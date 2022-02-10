@@ -23,7 +23,7 @@ export const Account: FC = () => {
   )
   const { kycStatus, id, username, securityQuestion, securityAnswer, sponsor } =
     memberAccountInfo
-  console.log(memberAccountInfo)
+
   const hidden: IHidden = '**********'
   const visible: IVisible = securityAnswer
 

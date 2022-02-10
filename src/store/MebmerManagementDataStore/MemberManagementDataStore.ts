@@ -15,6 +15,7 @@ interface IMemberManagementDataStore {
   count: number
   members: IMember[]
   memberAccountInfo: Record<string, unknown>
+  memberPersonalInfo: Record<string, string>
 }
 
 const initialState: IMemberManagementDataStore = {
@@ -23,6 +24,7 @@ const initialState: IMemberManagementDataStore = {
   memberAccountInfo: {},
   count: 0,
   members: [],
+  memberPersonalInfo: {},
 }
 
 export interface IMember {
@@ -60,6 +62,9 @@ const MemberManagementDataStore = createSlice({
     resetMemberManagementDataStore() {
       return initialState
     },
+    setMemberPersonalInfo(state, action) {
+      state.memberPersonalInfo = action.payload
+    },
   },
 })
 
@@ -70,6 +75,7 @@ export const {
   setMembers,
   setMemberAccountData,
   resetMemberManagementDataStore,
+  setMemberPersonalInfo,
 } = MemberManagementDataStore.actions
 
 export default MemberManagementDataStore.reducer

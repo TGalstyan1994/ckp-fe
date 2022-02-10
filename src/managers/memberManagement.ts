@@ -3,12 +3,21 @@ import { RequestAPI } from '../api/auth/axios-wraper'
 function getMembersList(data: any) {
   return RequestAPI.post('api/admin/member-management/list', data)
 }
-function getMemberData(_id: { userId: number }) {
-  return RequestAPI.post('api/admin/member-management/get-account-info', _id)
+function getMemberData(id: { userId: number }) {
+  return RequestAPI.post('api/admin/member-management/get-account-info', id)
 }
 
-function getMemberPersonalInfo(_id: { userId: number }) {
-  return RequestAPI.post('api/admin/member-management/get-profile-info', _id)
+function getMemberPersonalInfo(id: string) {
+  return RequestAPI.post('api/admin/member-management/get-profile-info', {
+    userId: +id,
+  })
+}
+
+function updateMemberPersonalInfo(data: any) {
+  return RequestAPI.post(
+    'api/admin/member-management/update-profile-info',
+    data
+  )
 }
 
 function getMemberSocialData(_id: { userId: number }) {
@@ -45,4 +54,5 @@ export const MemberManagement = {
   updatePassword,
   updateSecurityPin,
   updateMemberSocialData,
+  updateMemberPersonalInfo,
 }
