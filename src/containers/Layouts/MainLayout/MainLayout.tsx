@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
+import classNames from 'classnames'
 import { useSelectorTyped } from '../../../utils/hooks'
 import { getAccessToken } from '../../../utils'
 import { storeAccessToken } from '../../../store/reducers/signin'
@@ -125,7 +126,11 @@ const MainLayout = ({ children }: IMainLayout) => {
       {showQuestionModal && <EnterSecurityQuestion />}
       <Header />
       <SideMenu />
-      <div className="main-container">
+      <div
+        className={classNames('main-container', {
+          'main-container__loading': !!showLoader,
+        })}
+      >
         {showLoader && <MainLoader />}
         {children}
       </div>

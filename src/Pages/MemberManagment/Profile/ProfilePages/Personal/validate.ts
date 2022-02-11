@@ -128,7 +128,8 @@ export const validate = (
 
   /// stateId  cityId
 
-  if (formState.stateId === undefined) errorObject.stateId = 'Field is required'
+  if (formState.stateId === undefined || !formState.stateId)
+    errorObject.stateId = 'Field is required'
   if (formState.countryId === undefined)
     errorObject.countryId = 'Field is required'
   if (

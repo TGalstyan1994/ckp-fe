@@ -12,7 +12,6 @@ import { MemberManagement } from 'src/managers/memberManagement'
 import classNames from 'classnames'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
-import { undef } from '@redux-saga/is'
 import {
   job_question_inputs,
   row,
@@ -24,8 +23,6 @@ import { toggleAlertModal } from '../../../../../store/MainLayoutDataStore/MainL
 import { useSelectorTyped } from '../../../../../utils/hooks'
 import { RootState } from '../../../../../store'
 import { setMemberPersonalInfo } from '../../../../../store/MebmerManagementDataStore/MemberManagementDataStore'
-import { ProfileManager } from '../../../../../managers/profile'
-import { validateStage } from '../../../../../store/reducers/signup'
 
 const maritalStatusCodes = {
   SINGLE: 'Single',
@@ -128,14 +125,15 @@ export const Personal: FC = () => {
     setInputError({ ...inputError, [name]: '' })
   }
 
-  // const removeError = (names: Array<string>) => {
-  //   // eslint-disable-next-line unicorn/no-array-for-each
-  //   const dd = names.forEach((name: string) => {
-  //     console.log(name, 'fvdfvdfvdfvdfv')
-  //     return setInputError({ ...inputError, [name]: '' })
-  //   })
-  //   console.log(dd)
-  // }
+  const removeError = (...names: Array<string | undefined>) => {
+    if (inputError) {
+      names.map(
+        (item) =>
+          // @ts-ignore
+          (inputError[item] = '')
+      )
+    }
+  }
 
   const setPersonalData = (key: string, value: string | boolean | number) => {
     setPersonalDataState((prev) => ({ ...prev, [key]: value }))
@@ -147,6 +145,7 @@ export const Personal: FC = () => {
     ) as { id: number; name: string } | undefined
     if (!currentCountry) return
     setPersonalData('countryId', currentCountry.id)
+    setPersonalData('stateId', '')
     removeErrors('countryId')
   }
 
@@ -177,48 +176,45 @@ export const Personal: FC = () => {
 
   const handleForm = async () => {
     try {
-      await dispatch(setShowLoader(true))
-      console.log('personalDataState', personalDataState)
       const validationErrors = validate({
         ...personalDataState,
         dateOfBirth,
       })
 
       const { phoneParsed, ...personalData } = personalDataState
-
       if (haveErrors(validationErrors)) {
-        console.log('validationErrors', validationErrors)
         setInputError(validationErrors)
-        dispatch(setShowLoader(false))
         return
       }
-      dispatch(setShowLoader(false))
 
-      //
-      // const formData = {
-      //   ...personalData,
-      //   dateOfBirth: new Date(
-      //     +dateOfBirth.year,
-      //     +dateOfBirth.month,
-      //     +dateOfBirth.day + 1
-      //   )
-      //     .toJSON()
-      //     .slice(0, 10),
-      // }
-      // dispatch(setShowLoader(false))
-      //
-      // await MemberManagement.updateMemberPersonalInfo({
-      //   ...formData,
-      //   userId,
-      // })
-      // dispatch(setShowLoader(false))
-      //
-      // const res = await MemberManagement.getMemberPersonalInfo(userID)
-      // dispatch(setMemberPersonalInfo(res))
-      // dispatch(setShowLoader(false))
-      // await dispatch(toggleAlertModal(true))
+      const formData = {
+        ...personalData,
+        dateOfBirth: new Date(
+          +dateOfBirth.year,
+          +dateOfBirth.month,
+          +dateOfBirth.day + 1
+        )
+          .toJSON()
+          .slice(0, 10),
+      }
+      dispatch(setShowLoader(true))
+      await MemberManagement.updateMemberPersonalInfo({
+        ...formData,
+        userId,
+      })
+
+      const res = await MemberManagement.getMemberPersonalInfo(userID)
+      dispatch(setMemberPersonalInfo(res))
+
+      dispatch(setShowLoader(false))
+      await dispatch(toggleAlertModal(true))
     } catch (error) {
-      throw error
+      const errors = error.data.errors[0]
+
+      setInputError({
+        ...inputError,
+        [errors.property]: errors.messages[0],
+      })
     }
   }
 
@@ -236,16 +232,6 @@ export const Personal: FC = () => {
         })
         if (!(res && res.dateOfBirth)) return
 
-        // const [allCountry, allStates] = await Promise.all([
-        //   MemberManagement.getMemberCountryInfo(),
-        //   MemberManagement.getMemberStatesInfo(personalDataState.countryId),
-        // ])
-
-        // console.log(allCountry)
-        // console.log(allStates)
-        // setCountries(allCountry)
-        // setStates(allStates)
-
         const personalDateOfBirth = res.dateOfBirth?.split('-')
         const year = personalDateOfBirth && personalDateOfBirth[0]
         const month = personalDateOfBirth && +personalDateOfBirth[1] - 1
@@ -260,14 +246,13 @@ export const Personal: FC = () => {
         throw error
       }
     })()
-  }, [userId])
-  // console.log(personalDataState)
-  // console.log('countries---', countries)
-  // console.log('states--', states)
+  }, [userId, countries])
+
   useEffect(() => {
     ;(async () => {
       try {
         const res = await MemberManagement.getMemberCountryInfo()
+        if (res.length === 0) return
         setCountries(res)
       } catch (error) {
         throw error
@@ -275,24 +260,19 @@ export const Personal: FC = () => {
     })()
   }, [])
 
+  const findStateId = async (cId: string | undefined) => {
+    try {
+      const res = await MemberManagement.getMemberStatesInfo(cId)
+      if (res.length === 0) return
+      setStates(res)
+    } catch (error) {
+      throw error
+    }
+  }
   useEffect(() => {
-    ;(async () => {
-      try {
-        // if (personalDataState.countryId) {
-        const res = await MemberManagement.getMemberStatesInfo(
-          personalDataState.countryId
-        )
-        // setGeoData({
-        //   ...geoData,
-        //   state: '',
-        // })
-        if (res.length === 0) return
-        setStates(res)
-        // }
-      } catch (error) {
-        throw error
-      }
-    })()
+    if (personalDataState.countryId) {
+      findStateId(personalDataState?.countryId)
+    }
   }, [personalDataState.countryId])
 
   useEffect(() => {
@@ -300,7 +280,7 @@ export const Personal: FC = () => {
     const initialCountry: ICountries | undefined = countries.find(
       (item: ICountries) => item.id === personalDataState.countryId
     )
-    setPersonalData('stateId')
+
     setGeoData({
       ...geoData,
       state: '',
@@ -440,8 +420,7 @@ export const Personal: FC = () => {
                 onInputChange={handleFormInputs}
                 onRadioChange={(value) => {
                   setPersonalData('currentlyEmployed', value)
-                  removeErrors('jobTitle')
-                  // removeError(['jobTitle', 'jobDescription', 'employeeAddress'])
+                  removeError('jobTitle', 'jobDescription', 'employeeAddress')
                 }}
                 questionLabel="Are You Currently Employed?"
                 placeholder="Job Title"
@@ -498,7 +477,7 @@ export const Personal: FC = () => {
                 onInputChange={handleFormInputs}
                 onRadioChange={(value) => {
                   setPersonalData('anyTrade', value)
-                  // removeErrors('tradeDescription')
+                  removeErrors('tradeDescription')
                 }}
                 questionLabel="Do You Have any Trade?"
                 placeholder="Trade Description"
@@ -516,7 +495,7 @@ export const Personal: FC = () => {
                 onInputChange={handleFormInputs}
                 onRadioChange={(value) => {
                   setPersonalData('anyTechnicalSkills', value)
-                  // removeErrors('technicalSkillsDescription')
+                  removeErrors('technicalSkillsDescription')
                 }}
                 questionLabel="Do you Have any Technical skills?"
                 placeholder="Skill Description"
@@ -584,7 +563,6 @@ export const Personal: FC = () => {
                 required
                 placeholder="Enter Address"
                 error={inputError?.address}
-                // maxLength={255}
               />
               <Input
                 name="phone"

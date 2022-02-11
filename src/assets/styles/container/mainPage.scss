@@ -24,7 +24,13 @@
     grid-area: container;
     overflow-y: auto;
     position: relative;
+    &__loading{
+      height: 100vh;
+      overflow-y: visible;
+      position: relative;
+    }
   }
+
   .footer {
     grid-area: footer-holder;
   }
