@@ -162,7 +162,7 @@
             .answer {
               display: flex;
               position: relative;
-              >span {
+              > span {
                 text-align: end;
                 width: 106px;
                 overflow: hidden;
@@ -219,6 +219,9 @@
         .personal-info {
           margin-top: 36px;
           margin-bottom: 22px;
+          .mt-55 {
+            margin-top: 55px;
+          }
         }
 
         .input-flex {
@@ -226,9 +229,6 @@
           gap: 30px;
           justify-content: flex-start;
 
-          > div {
-            max-width: 470px;
-          }
         }
 
         .martial-status {
@@ -248,7 +248,11 @@
         .member-flex {
           margin-top: 36px;
         }
-
+        .select-flex {
+          display: flex;
+          margin-top: 55px;
+          gap: 30px;
+        }
         .state-flex {
           display: flex;
           margin-top: 25px;
@@ -261,10 +265,6 @@
       display: flex;
     }
 
-    &__personal {
-      .member-flex {
-      }
-    }
   }
 
   .basic {
@@ -290,7 +290,10 @@
   .w-140 {
     width: 140px;
   }
-
+  .btn-flex {
+    display: flex;
+    gap: 20px;
+  }
   button.btn-cancel {
     background: #ebebeb;
     font-family: 'SF Pro Display', sans-serif;

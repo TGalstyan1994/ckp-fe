@@ -133,7 +133,8 @@ div.form_actions:last-child {
 }
 .row_employed {
   flex-direction: column;
-  margin-left: 331px;
+  max-width: 641px;
+  margin-left: auto;
 }
 
 .row_employed > div:nth-child(1) {

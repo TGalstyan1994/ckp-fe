@@ -18,7 +18,10 @@ import {
   row_employed,
 } from '../../../../../containers/SignUp/PersonalDetails/style.module.css'
 import { validate } from './validate'
-import { setShowLoader } from '../../../../../store/GlobalConfigDataStore/GlobalConfigDataStore'
+import {
+  setIsFormFilled,
+  setShowLoader,
+} from '../../../../../store/GlobalConfigDataStore/GlobalConfigDataStore'
 import { toggleAlertModal } from '../../../../../store/MainLayoutDataStore/MainLayoutDataStore'
 import { useSelectorTyped } from '../../../../../utils/hooks'
 import { RootState } from '../../../../../store'
@@ -66,7 +69,6 @@ export const Personal: FC = () => {
   const { memberPersonalInfo } = useSelectorTyped(
     (state: RootState) => state.MemberManagementDataStore
   )
-
   const [countries, setCountries] = useState<Array<ICountries>>()
   const [states, setStates] = useState<Array<IStates>>()
 
@@ -118,7 +120,6 @@ export const Personal: FC = () => {
     state: '',
     country: '',
   })
-
   const [inputError, setInputError] = useState<Record<string, string>>()
 
   const removeErrors = (name: string) => {
@@ -127,16 +128,14 @@ export const Personal: FC = () => {
 
   const removeError = (...names: Array<string | undefined>) => {
     if (inputError) {
-      names.map(
-        (item) =>
-          // @ts-ignore
-          (inputError[item] = '')
-      )
+      // @ts-ignore
+      names.map((item: string) => (inputError[item] = ''))
     }
   }
 
   const setPersonalData = (key: string, value: string | boolean | number) => {
     setPersonalDataState((prev) => ({ ...prev, [key]: value }))
+    dispatch(setIsFormFilled(true))
   }
 
   const changeGeoCountry = (option: string) => {
@@ -146,6 +145,7 @@ export const Personal: FC = () => {
     if (!currentCountry) return
     setPersonalData('countryId', currentCountry.id)
     setPersonalData('stateId', '')
+    dispatch(setIsFormFilled(true))
     removeErrors('countryId')
   }
 
@@ -156,6 +156,7 @@ export const Personal: FC = () => {
     if (!currentState) return
     setGeoData((prev) => ({ ...prev, state: option }))
     setPersonalData('stateId', currentState.id)
+    dispatch(setIsFormFilled(true))
     removeErrors('stateId')
   }
 
@@ -167,11 +168,13 @@ export const Personal: FC = () => {
     } else {
       setPersonalData(e.target.name, e.target.value)
     }
+    dispatch(setIsFormFilled(true))
     removeErrors(e.target.name)
   }
 
   const resetValue = () => {
-    setPersonalDataState({ ...personalDataState, ...memberPersonalInfo })
+    setPersonalDataState({ ...memberPersonalInfo, ...personalDataState })
+    dispatch(setIsFormFilled(false))
   }
 
   const handleForm = async () => {
@@ -204,11 +207,13 @@ export const Personal: FC = () => {
       })
 
       const res = await MemberManagement.getMemberPersonalInfo(userID)
+
       dispatch(setMemberPersonalInfo(res))
 
       dispatch(setShowLoader(false))
+
       await dispatch(toggleAlertModal(true))
-    } catch (error) {
+    } catch (error: Record<string, string>) {
       const errors = error.data.errors[0]
 
       setInputError({
@@ -217,7 +222,6 @@ export const Personal: FC = () => {
       })
     }
   }
-
   useEffect(() => {
     setPersonalDataState({ ...personalDataState, ...memberPersonalInfo })
   }, [memberPersonalInfo])
@@ -226,9 +230,10 @@ export const Personal: FC = () => {
     ;(async () => {
       try {
         const res = await MemberManagement.getMemberPersonalInfo(userID)
+        dispatch(setMemberPersonalInfo(res))
         setPersonalDataState({
           ...personalDataState,
-          ...res,
+          ...memberPersonalInfo,
         })
         if (!(res && res.dateOfBirth)) return
 
@@ -299,6 +304,15 @@ export const Personal: FC = () => {
     })
   }, [states])
 
+  const isFormFilled = () => {
+    return !Object.keys(personalDataState).every((key: string) => {
+      return personalDataState[key] === memberPersonalInfo[key]
+    })
+  }
+  isFormFilled()
+  useEffect(() => {
+    dispatch(setIsFormFilled(isFormFilled()))
+  }, [personalDataState])
   return (
     <div className="admin-info admin-info__personal">
       <div className="flex-container">
@@ -313,10 +327,10 @@ export const Personal: FC = () => {
             value={personalDataState.email || ''}
             required
             placeholder="Start Your Business"
-            className="mb-24"
             error={inputError?.email}
           />
           <div className="personal-info">
+            <div className="mt-55" />
             <Select
               label="Objective"
               required
@@ -550,7 +564,6 @@ export const Personal: FC = () => {
             name="beneficiaryName"
             value={personalDataState.beneficiaryName || ''}
             required
-            className="mb-24"
             error={inputError?.beneficiaryName}
           />
           <div className="mt-24">
@@ -576,7 +589,7 @@ export const Personal: FC = () => {
           </div>
 
           <div className="personal-info">
-            <div className="state-flex">
+            <div className="select-flex">
               <Select
                 label="Country"
                 required
@@ -612,7 +625,6 @@ export const Personal: FC = () => {
                 value={personalDataState.city || ''}
                 onChange={handleFormInputs}
                 required
-                className="mb-24"
                 error={inputError?.city}
               />
               <Input
@@ -621,16 +633,19 @@ export const Personal: FC = () => {
                 label="Zip code"
                 value={personalDataState.zipCode || ''}
                 onChange={handleFormInputs}
-                className="mb-24"
               />
             </div>
           </div>
-          <div className="mt-24">
-            <div className="w-140">
-              <Button onClick={resetValue} className="btn-cancel">
-                Cancel
-              </Button>
-              <Button onClick={handleForm}>Save</Button>
+          <div className="mt-37">
+            <div className="btn-flex">
+              <div className="w-140">
+                <Button onClick={resetValue} className="btn-cancel">
+                  Cancel
+                </Button>
+              </div>
+              <div className="w-140">
+                <Button onClick={handleForm}>Save</Button>
+              </div>
             </div>
           </div>
         </div>
