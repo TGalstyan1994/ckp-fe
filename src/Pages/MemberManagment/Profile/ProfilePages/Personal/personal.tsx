@@ -310,28 +310,9 @@ export const Personal: FC = () => {
     })
   }
 
-  const isDateFilled = () => {
-    // const personalDateOfBirth = memberPersonalInfo.dateOfBirth.split('-')
-    // const year = personalDateOfBirth && personalDateOfBirth[0]
-    // const month = personalDateOfBirth && +personalDateOfBirth[1] - 1
-    // const day = personalDateOfBirth && +personalDateOfBirth[2]
-    // const newDate = {
-    //   year,
-    //   month,
-    //   day,
-    // }
-    // return !Object.keys(dateOfBirth).every(
-    //   (key: string) => newDate[key] === dateOfBirth[key]
-    // )
-  }
-
   useEffect(() => {
     dispatch(setIsFormFilled(isFormFilled()))
   }, [personalDataState, memberPersonalInfo])
-
-  useEffect(() => {
-    dispatch(setIsFormFilled(isDateFilled()))
-  }, [dateOfBirth])
 
   return (
     <div className="admin-info admin-info__personal">
