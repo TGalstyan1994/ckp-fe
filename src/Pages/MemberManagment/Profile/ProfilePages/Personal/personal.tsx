@@ -137,6 +137,7 @@ export const Personal: FC = () => {
     setPersonalDataState((prev) => ({ ...prev, [key]: value }))
     dispatch(setIsFormFilled(true))
   }
+
   const handleDateOfB = (dateOfB: string) => {
     const personalDateOfBirth = dateOfB.split('-')
     const year = personalDateOfBirth && personalDateOfBirth[0]
@@ -149,6 +150,7 @@ export const Personal: FC = () => {
       day: `${day}`,
     })
   }
+
   const changeGeoCountry = (option: string) => {
     const currentCountry = countries?.find(
       (state: ICountries) => state.name === option
@@ -234,6 +236,7 @@ export const Personal: FC = () => {
       })
     }
   }
+
   useEffect(() => {
     setPersonalDataState({ ...personalDataState, ...memberPersonalInfo })
   }, [memberPersonalInfo])
@@ -277,6 +280,7 @@ export const Personal: FC = () => {
       throw error
     }
   }
+
   useEffect(() => {
     if (personalDataState.countryId) {
       findStateId(personalDataState?.countryId)
@@ -312,10 +316,30 @@ export const Personal: FC = () => {
       return personalDataState[key] === memberPersonalInfo[key]
     })
   }
-  isFormFilled()
+
+  const isDateFilled = () => {
+    // const personalDateOfBirth = memberPersonalInfo.dateOfBirth.split('-')
+    // const year = personalDateOfBirth && personalDateOfBirth[0]
+    // const month = personalDateOfBirth && +personalDateOfBirth[1] - 1
+    // const day = personalDateOfBirth && +personalDateOfBirth[2]
+    // const newDate = {
+    //   year,
+    //   month,
+    //   day,
+    // }
+    // return !Object.keys(dateOfBirth).every(
+    //   (key: string) => newDate[key] === dateOfBirth[key]
+    // )
+  }
+
   useEffect(() => {
     dispatch(setIsFormFilled(isFormFilled()))
   }, [personalDataState, memberPersonalInfo])
+
+  useEffect(() => {
+    dispatch(setIsFormFilled(isDateFilled()))
+  }, [dateOfBirth])
+
   return (
     <div className="admin-info admin-info__personal">
       <div className="flex-container">
