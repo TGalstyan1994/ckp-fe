@@ -123,14 +123,7 @@ export const Personal: FC = () => {
   const [inputError, setInputError] = useState<Record<string, string>>()
 
   const removeErrors = (name: string) => {
-    setInputError({ ...inputError, [name]: '' })
-  }
-
-  const removeError = (...names: Array<string | undefined>) => {
-    if (inputError) {
-      // @ts-ignore
-      names.map((item: string) => (inputError[item] = ''))
-    }
+    setInputError((prev) => ({ ...prev, [name]: '' }))
   }
 
   const setPersonalData = (key: string, value: string | boolean | number) => {
@@ -461,7 +454,9 @@ export const Personal: FC = () => {
                 onInputChange={handleFormInputs}
                 onRadioChange={(value) => {
                   setPersonalData('currentlyEmployed', value)
-                  removeError('jobTitle', 'jobDescription', 'employeeAddress')
+                  removeErrors('jobTitle')
+                  removeErrors('jobDescription')
+                  removeErrors('employeeAddress')
                 }}
                 questionLabel="Are You Currently Employed?"
                 placeholder="Job Title"
