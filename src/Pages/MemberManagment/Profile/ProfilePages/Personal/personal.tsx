@@ -116,10 +116,17 @@ export const Personal: FC = () => {
     year: '',
   })
 
+  const [memberDate, setMemberDate] = useState({
+    year: '',
+    month: '',
+    day: '',
+  })
+
   const [geoData, setGeoData] = useState({
     state: '',
     country: '',
   })
+
   const [inputError, setInputError] = useState<Record<string, string>>()
 
   const removeErrors = (name: string) => {
@@ -192,6 +199,7 @@ export const Personal: FC = () => {
       })
 
       const { phoneParsed, ...personalData } = personalDataState
+
       if (haveErrors(validationErrors)) {
         setInputError(validationErrors)
         return
@@ -218,15 +226,15 @@ export const Personal: FC = () => {
       dispatch(setMemberPersonalInfo(res))
 
       dispatch(setShowLoader(false))
-
       await dispatch(toggleAlertModal(true))
     } catch (error: Record<string, string>) {
-      const errors = error.data.errors[0]
+      const errors = error?.data.errors[0]
 
       setInputError({
         ...inputError,
         [errors.property]: errors.messages[0],
       })
+      dispatch(setShowLoader(false))
     }
   }
 
@@ -310,6 +318,29 @@ export const Personal: FC = () => {
     })
   }
 
+  const isDateFilled = () => {
+    const dob = memberPersonalInfo?.dateOfBirth
+    const personalDateOfBirth = dob?.split('-')
+    const year = personalDateOfBirth && personalDateOfBirth[0]
+    const month = personalDateOfBirth && personalDateOfBirth[1]
+    const day = personalDateOfBirth && personalDateOfBirth[2]
+
+    setMemberDate({
+      year,
+      month,
+      day,
+    })
+
+    return !Object.keys(dateOfBirth).every((key: string) => {
+      // @ts-ignore
+      return dateOfBirth[key] === memberDate[key]
+    })
+  }
+
+  useEffect(() => {
+    dispatch(setIsFormFilled(isDateFilled()))
+  }, [dateOfBirth])
+
   useEffect(() => {
     dispatch(setIsFormFilled(isFormFilled()))
   }, [personalDataState, memberPersonalInfo])
@@ -365,6 +396,7 @@ export const Personal: FC = () => {
             onChange={handleFormInputs}
             name="objectiveNote"
             label="Objective Note"
+            error={inputError?.objectiveNote}
           />
           <div className="mt-24">
             <div className="input-flex">
@@ -636,6 +668,7 @@ export const Personal: FC = () => {
                 label="Zip code"
                 value={personalDataState.zipCode || ''}
                 onChange={handleFormInputs}
+                error={inputError?.zipCode}
               />
             </div>
           </div>
