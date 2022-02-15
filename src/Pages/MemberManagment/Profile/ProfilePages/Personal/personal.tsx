@@ -332,7 +332,6 @@ export const Personal: FC = () => {
     })
 
     return !Object.keys(dateOfBirth).every((key: string) => {
-      // @ts-ignore
       return dateOfBirth[key] === memberDate[key]
     })
   }

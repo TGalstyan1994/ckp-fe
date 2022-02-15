@@ -2,9 +2,10 @@ import is from 'is_js'
 
 export const validate = (
   formState: Record<string, any>
-  // phoneDate: Record<string, any>
 ): Record<string, string> => {
   const errorObject = {} as { [key: string]: string }
+
+  // eslint-disable-next-line no-restricted-syntax
   for (const key of Object.keys(formState)) errorObject[key] = ''
 
   if (is.empty(formState.email) || !is.email(formState.email)) {
