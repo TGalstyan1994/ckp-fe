@@ -16,21 +16,24 @@ export const validate = (
     errorObject.objectiveNote =
       'The value must not be more than 512 characters long'
 
-  if (
-    formState.firstName.length < 2 ||
-    formState.firstName.length > 32 ||
-    is.empty(formState.firstName)
-  ) {
-    errorObject.firstName =
-      'Field is required, min is 2 and max is 32 characters'
+  if (formState.firstName.length < 2) {
+    errorObject.firstName = 'The value must not be less than 2 characters long'
   }
-  if (
-    formState.lastName.length < 2 ||
-    formState.lastName.length > 32 ||
-    is.empty(formState.lastName)
-  ) {
-    errorObject.lastName =
-      'Field is required, min is 2 and max is 32 characters'
+
+  if (formState.firstName.length > 32) {
+    errorObject.firstName = 'The value must not be more than 32 characters long'
+  }
+
+  if (formState.lastName.length < 2) {
+    errorObject.lastName = 'The value must not be less than 2 characters long'
+  }
+
+  if (formState.lastName.length > 32) {
+    errorObject.lastName = 'The value must not be more than 32 characters long'
+  }
+
+  if (is.empty(formState.lastName)) {
+    errorObject.lastName = 'Field is required'
   }
 
   if (is.empty(formState.phone)) errorObject.phone = 'Field is required'

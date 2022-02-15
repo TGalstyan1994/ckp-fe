@@ -358,7 +358,7 @@ export const Personal: FC = () => {
             label="Email"
             value={personalDataState.email || ''}
             required
-            placeholder="Start Your Business"
+            placeholder="Enter Email"
             error={inputError?.email}
           />
           <div className="personal-info">
