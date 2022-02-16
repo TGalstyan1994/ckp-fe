@@ -36,26 +36,28 @@ export const validate = ({
     errors.password = 'The value must not be less than 8 characters long'
   }
 
+  if (passwordConfirmation !== password || errors.password) {
+    errors.passwordConfirmation = 'Confirm Password Mismatch'
+  }
+
   if (
     is.empty(passwordConfirmation) ||
-    password.search(lowerCaseRegExp) === -1 ||
-    password.search(upperCaseRegExp) === -1 ||
-    password.search(digitRegExp) === -1
+    passwordConfirmation.search(lowerCaseRegExp) === -1 ||
+    passwordConfirmation.search(upperCaseRegExp) === -1 ||
+    passwordConfirmation.search(digitRegExp) === -1
   ) {
     errors.passwordConfirmation =
-      'Password is not valid. It must include at least 1 uppercase letter, 1 lowercase letter and 1 digit'
+      'Invalid Password: must include upper and lower case letters, digits'
   }
-  if (password.length > 64) {
+  if (passwordConfirmation.length > 64) {
     errors.passwordConfirmation =
       'The value must not be more than 64 characters long'
   }
 
-  if (password.length < 8) {
+  if (passwordConfirmation.length < 8) {
     errors.passwordConfirmation =
       'The value must not be less than 8 characters long'
   }
-  if (passwordConfirmation !== password || errors.password) {
-    errors.passwordConfirmation = 'Confirm Password Mismatch'
-  }
+
   return errors
 }

@@ -13,7 +13,7 @@ import classNames from 'classnames'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 import {
-  job_question_inputs,
+  form_phone_address,
   row,
 } from '../../../../../containers/SignUp/PersonalDetails/style.module.css'
 import { validate } from './validate'
@@ -25,6 +25,7 @@ import { toggleAlertModal } from '../../../../../store/MainLayoutDataStore/MainL
 import { useSelectorTyped } from '../../../../../utils/hooks'
 import { RootState } from '../../../../../store'
 import { setMemberPersonalInfo } from '../../../../../store/MebmerManagementDataStore/MemberManagementDataStore'
+import { PhoneNumberForm } from '../../../../../containers/PhoneNumberForm'
 
 const maritalStatusCodes = {
   SINGLE: 'Single',
@@ -57,6 +58,8 @@ interface IStates {
   id: number
   name: string
 }
+
+const beneficiaryPhoneNumberRegExp = '[^0-9]'
 
 export const Personal: FC = () => {
   const dispatch = useDispatch()
@@ -115,12 +118,6 @@ export const Personal: FC = () => {
     year: '',
   })
 
-  const [memberDate, setMemberDate] = useState({
-    year: '',
-    month: '',
-    day: '',
-  })
-
   const [geoData, setGeoData] = useState({
     state: '',
     country: '',
@@ -128,12 +125,23 @@ export const Personal: FC = () => {
 
   const [inputError, setInputError] = useState<Record<string, string>>()
 
+  const [phoneState, setPhoneState] = useState({
+    phoneCode: '',
+    phoneNumber: '',
+  })
+
+  const removeErrors = (name: string) => {
+    setInputError((prev) => ({ ...prev, [name]: '' }))
+  }
+
+  const changePhoneState = (value: string, name: string) => {
+    setPhoneState((prev) => ({ ...prev, [name]: value }))
+    removeErrors('phone')
+  }
+
   const setPersonalData = (key: string, value: string | boolean | number) => {
     setPersonalDataState((prev) => ({ ...prev, [key]: value }))
     dispatch(setIsFormFilled(true))
-  }
-  const removeErrors = (name: string) => {
-    setInputError((prev) => ({ ...prev, [name]: '' }))
   }
 
   const handleDateOfB = (dateOfB: string) => {
@@ -174,11 +182,18 @@ export const Personal: FC = () => {
   const handleFormInputs = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
   ) => {
+    if (
+      e.target.name === 'beneficiaryContactNumber' &&
+      e.target.value.slice(1).search(beneficiaryPhoneNumberRegExp) !== -1
+    )
+      return
+
     if (e.target.name === 'totalNumberOfDependens' && +e.target.value) {
       setPersonalData(e.target.name, +e.target.value)
     } else {
       setPersonalData(e.target.name, e.target.value)
     }
+
     dispatch(setIsFormFilled(true))
     removeErrors(e.target.name)
   }
@@ -186,15 +201,23 @@ export const Personal: FC = () => {
   const resetValue = () => {
     setPersonalDataState({ ...personalDataState, ...memberPersonalInfo })
     handleDateOfB(memberPersonalInfo.dateOfBirth)
+    setPhoneState({
+      phoneCode: memberPersonalInfo.phoneParsed.country.slice(1),
+      phoneNumber: memberPersonalInfo.phoneParsed.phone,
+    })
+    setInputError({})
     dispatch(setIsFormFilled(false))
   }
 
   const handleForm = async () => {
     try {
-      const validationErrors = validate({
-        ...personalDataState,
-        dateOfBirth,
-      })
+      const validationErrors = validate(
+        {
+          ...personalDataState,
+          dateOfBirth,
+        },
+        phoneState
+      )
 
       const { phoneParsed, ...personalData } = personalDataState
 
@@ -205,6 +228,7 @@ export const Personal: FC = () => {
 
       const formData = {
         ...personalData,
+        phone: `+${phoneState.phoneCode}${phoneState.phoneNumber}`,
         dateOfBirth: new Date(
           +dateOfBirth.year,
           +dateOfBirth.month,
@@ -225,12 +249,12 @@ export const Personal: FC = () => {
 
       dispatch(setShowLoader(false))
       await dispatch(toggleAlertModal(true))
-    } catch (error: Record<string, string>) {
-      const errors = error?.data.errors[0]
+    } catch (error: Record<string, undefined>) {
+      const errors = error?.data?.errors[0]
 
       setInputError({
         ...inputError,
-        [errors.property]: errors.messages[0],
+        [errors?.property]: errors?.messages[0],
       })
       dispatch(setShowLoader(false))
     }
@@ -238,6 +262,7 @@ export const Personal: FC = () => {
 
   useEffect(() => {
     setPersonalDataState({ ...personalDataState, ...memberPersonalInfo })
+    setInputError({})
   }, [memberPersonalInfo])
 
   useEffect(() => {
@@ -252,6 +277,11 @@ export const Personal: FC = () => {
         if (!(res && res.dateOfBirth)) return
 
         handleDateOfB(res.dateOfBirth)
+
+        setPhoneState({
+          phoneCode: res?.phoneParsed.country.slice(1),
+          phoneNumber: res?.phoneParsed.phone,
+        })
       } catch (error) {
         throw error
       }
@@ -317,21 +347,15 @@ export const Personal: FC = () => {
   }
 
   const isDateFilled = () => {
-    const dob = memberPersonalInfo?.dateOfBirth
-    const personalDateOfBirth = dob?.split('-')
-    const year = personalDateOfBirth && personalDateOfBirth[0]
-    const month = personalDateOfBirth && personalDateOfBirth[1]
-    const day = personalDateOfBirth && personalDateOfBirth[2]
+    const newDate = new Date(
+      +dateOfBirth.year,
+      +dateOfBirth.month,
+      +dateOfBirth.day + 1
+    )
+      .toJSON()
+      .slice(0, 10)
 
-    setMemberDate({
-      year,
-      month,
-      day,
-    })
-
-    return !Object.keys(dateOfBirth).every((key: string) => {
-      return dateOfBirth[key] === memberDate[key]
-    })
+    return newDate !== memberPersonalInfo.dateOfBirth
   }
 
   useEffect(() => {
@@ -414,6 +438,31 @@ export const Personal: FC = () => {
                 required
                 placeholder="Enter Last Name"
                 error={inputError?.lastName}
+              />
+            </div>
+          </div>
+
+          <div className="mt-24">
+            <div className={classNames(form_phone_address, row)}>
+              <PhoneNumberForm
+                changeStateCallback={changePhoneState}
+                phoneCode={personalDataState?.phoneParsed?.country?.slice(1)}
+                formState={{
+                  phoneCode: phoneState.phoneCode,
+                  phoneNumber: phoneState.phoneNumber,
+                }}
+                personalDetailsStatePhone={personalDataState.phone}
+                error={inputError?.phone}
+              />
+
+              <Input
+                name="address"
+                onChange={handleFormInputs}
+                value={personalDataState.address || ''}
+                label="Your Address"
+                required
+                placeholder="Enter Address"
+                error={inputError?.address}
               />
             </div>
           </div>
@@ -606,21 +655,21 @@ export const Personal: FC = () => {
           <div className="mt-24">
             <div className="input-flex">
               <Input
-                name="address"
+                name="beneficiaryRelationship"
                 onChange={handleFormInputs}
-                value={personalDataState.address || ''}
-                label="Address"
+                value={personalDataState.beneficiaryRelationship || ''}
+                label="Relationship"
                 required
-                placeholder="Enter Address"
-                error={inputError?.address}
+                placeholder="Enter Relationship"
+                error={inputError?.beneficiaryRelationship}
               />
               <Input
-                name="phone"
+                name="beneficiaryContactNumber"
                 onChange={handleFormInputs}
                 label="Mobile Phone"
-                value={personalDataState.phone || ''}
+                value={personalDataState.beneficiaryContactNumber || ''}
                 placeholder="Contact Number"
-                error={inputError?.phone}
+                error={inputError?.beneficiaryContactNumber}
               />
             </div>
           </div>

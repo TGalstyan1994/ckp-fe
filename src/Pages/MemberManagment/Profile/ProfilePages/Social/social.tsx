@@ -41,6 +41,7 @@ export const Social: FC = () => {
 
   const resetValue = () => {
     setInputValue(socialInfo)
+    setInputError({})
   }
 
   const changeValue = (e: ChangeEvent<HTMLInputElement>) => {

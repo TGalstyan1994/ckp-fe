@@ -44,13 +44,14 @@ export const PhoneNumberForm: FC<Props> = ({
     else changeStateCallback(e.target.value, e.target.name)
   }
   const arr = personalDetailsStatePhone?.split('-')
+  const phoneLength = phoneCode?.length
 
   return (
     <div className={phoneNumberForm_wrapper}>
       <span className={phoneNumber_header}>Your Phone Number</span>
       <div className={inputs_wrapper}>
         <Input
-          maxLength={phoneCode.length + 1}
+          maxLength={+phoneLength + 1}
           name="phoneCode"
           onChange={handleInput}
           value={`+${formState.phoneCode}`}

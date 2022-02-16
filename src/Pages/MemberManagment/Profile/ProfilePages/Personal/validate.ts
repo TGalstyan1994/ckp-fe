@@ -1,147 +1,188 @@
 import is from 'is_js'
 
 export const validate = (
-  formState: Record<string, any>
+  formState: Record<string, any>,
+  phoneDate: Record<string, any>
 ): Record<string, string> => {
-  const errorObject = {} as { [key: string]: string }
+  const errorData = {} as { [key: string]: string }
 
   // eslint-disable-next-line no-restricted-syntax
-  for (const key of Object.keys(formState)) errorObject[key] = ''
+  for (const key of Object.keys(formState)) errorData[key] = ''
 
+  // email validation
   if (is.empty(formState.email) || !is.email(formState.email)) {
-    errorObject.email = 'Email format is not valid'
+    errorData.email = 'Email format is not valid'
   }
-  if (is.empty(formState.objective)) errorObject.objective = 'Field is required'
 
+  // objective validation
+  if (is.empty(formState.objective)) errorData.objective = 'Field is required'
+
+  // objectiveNote validation
   if (formState.objectiveNote?.length > 512)
-    errorObject.objectiveNote =
+    errorData.objectiveNote =
       'The value must not be more than 512 characters long'
 
+  // firstName validation
   if (formState.firstName.length < 2) {
-    errorObject.firstName = 'The value must not be less than 2 characters long'
+    errorData.firstName = 'The value must not be less than 2 characters long'
   }
 
   if (formState.firstName.length > 32) {
-    errorObject.firstName = 'The value must not be more than 32 characters long'
+    errorData.firstName = 'The value must not be more than 32 characters long'
   }
 
+  // lastName validation
   if (formState.lastName.length < 2) {
-    errorObject.lastName = 'The value must not be less than 2 characters long'
+    errorData.lastName = 'The value must not be less than 2 characters long'
   }
 
   if (formState.lastName.length > 32) {
-    errorObject.lastName = 'The value must not be more than 32 characters long'
+    errorData.lastName = 'The value must not be more than 32 characters long'
   }
 
-  if (is.empty(formState.lastName)) {
-    errorObject.lastName = 'Field is required'
-  }
+  // phone validation
+  if (is.empty(formState.phone)) errorData.phone = 'Field is required'
+  if (is.empty(phoneDate.phoneCode) || is.empty(phoneDate.phoneNumber))
+    errorData.phone = 'Field is required and should contain only digits'
 
-  if (is.empty(formState.phone)) errorObject.phone = 'Field is required'
+  // address validation
+  if (formState.address.length < 2)
+    errorData.address =
+      'Field is required, the value must not be less than 2 characters long'
 
-  if (is.empty(formState.address)) errorObject.address = 'Field is required'
   if (formState.address.length > 255)
-    errorObject.address = 'The value must not be more than 255 characters long'
+    errorData.address = 'The value must not be more than 255 characters long'
 
+  // dateOfBirth validation
   if (!Object.values(formState.dateOfBirth).every((value) => value))
-    errorObject.dateOfBirth = 'Field is required'
+    errorData.dateOfBirth = 'Field is required'
 
+  // maritalStatus validation
   if (is.empty(formState.maritalStatus))
-    errorObject.maritalStatus = 'Field is required'
+    errorData.maritalStatus = 'Field is required'
 
-  /// currentlyEmployed
-
+  // currentlyEmployed validation
   if (formState.currentlyEmployed === undefined)
-    errorObject.currentlyEmployed = 'Field is required'
+    errorData.currentlyEmployed = 'Field is required'
 
   if (formState.currentlyEmployed) {
-    if (is.empty(formState.jobTitle)) errorObject.jobTitle = 'Field is required'
+    if (is.empty(formState.jobTitle) || formState.jobTitle === null)
+      errorData.jobTitle = 'Field is required'
 
-    if (is.empty(formState.jobDescription))
-      errorObject.jobDescription = 'Field is required'
+    if (is.empty(formState.jobDescription) || formState.jobDescription === null)
+      errorData.jobDescription = 'Field is required'
 
-    if (is.empty(formState.employeeAddress))
-      errorObject.employeeAddress = 'Field is required'
+    if (
+      is.empty(formState.employeeAddress) ||
+      formState.employeeAddress === null
+    )
+      errorData.employeeAddress = 'Field is required'
   }
 
   /// businessOwner
-
   if (formState.businessOwner === undefined)
-    errorObject.businessOwner = 'Field is required'
+    errorData.businessOwner = 'Field is required'
 
-  if (formState.businessOwner && is.empty(formState.businessDescription))
-    errorObject.businessDescription = 'Field is required'
+  if (
+    formState.businessOwner &&
+    (is.empty(formState.businessDescription) ||
+      formState.businessDescription === null)
+  )
+    errorData.businessDescription = 'Field is required'
 
   /// anyTrade
+  if (formState.anyTrade === undefined) errorData.anyTrade = 'Field Required'
 
-  if (formState.anyTrade === undefined) errorObject.anyTrade = 'Field Required'
-  if (formState.anyTrade && is.empty(formState.tradeDescription))
-    errorObject.tradeDescription = 'Field is required'
+  if (
+    formState.anyTrade &&
+    (is.empty(formState.tradeDescription) ||
+      formState.tradeDescription === null)
+  )
+    errorData.tradeDescription = 'Field is required'
 
   /// anyTechnicalSkills
-
   if (formState.anyTechnicalSkills === undefined)
-    errorObject.anyTechnicalSkills = 'Field is required'
+    errorData.anyTechnicalSkills = 'Field is required'
 
   if (
     formState.anyTechnicalSkills &&
-    is.empty(formState.technicalSkillsDescription)
+    (is.empty(formState.technicalSkillsDescription) ||
+      formState.technicalSkillsDescription === null)
   )
-    errorObject.technicalSkillsDescription = 'Field is required'
+    errorData.technicalSkillsDescription = 'Field is required'
 
   /// anyAthleticSkills
-
   if (formState.anyAthleticSkills === undefined)
-    errorObject.anyAthleticSkills = 'Field is required'
+    errorData.anyAthleticSkills = 'Field is required'
 
   if (
     formState.anyAthleticSkills &&
-    is.empty(formState.athleticSkillsDescription)
+    (is.empty(formState.athleticSkillsDescription) ||
+      formState.athleticSkillsDescription === null)
   )
-    errorObject.athleticSkillsDescription = 'Field is required'
+    errorData.athleticSkillsDescription = 'Field is required'
 
-  /// anyDependents
-
+  // anyDependents
   if (formState.anyDependents === undefined)
-    errorObject.anyDependents = 'Field Required and should contain only digits'
-
-  if (formState.anyDependents && is.empty(formState.totalNumberOfDependens))
-    errorObject.totalNumberOfDependens = 'Field is required '
-
-  if (formState.anyDependents && formState.totalNumberOfDependens <= 0)
-    errorObject.totalNumberOfDependens = 'Fill correct digits'
+    errorData.anyDependents = 'Field is required'
 
   if (
     formState.anyDependents &&
-    !/^\d+$/.test(formState.totalNumberOfDependens)
+    (is.empty(formState.totalNumberOfDependens) ||
+      formState.totalNumberOfDependens <= 0 ||
+      !/^\d+$/.test(formState.totalNumberOfDependens) ||
+      formState.totalNumberOfDependens === null)
   )
-    errorObject.totalNumberOfDependens = 'Fill correct digits'
+    errorData.totalNumberOfDependens = 'Fill correct digits'
 
-  /// beneficiary
-
+  // beneficiary
   if (
     is.empty(formState.beneficiaryName) ||
     formState.beneficiaryName.length < 2
   )
-    errorObject.beneficiaryName =
+    errorData.beneficiaryName =
       'Field is required, the value must not be less than 2 characters long'
 
   if (formState.beneficiaryName.length > 32)
-    errorObject.beneficiaryName =
+    errorData.beneficiaryName =
       'The value must not be more than 32 characters long'
 
-  /// stateId  cityId
+  // beneficiaryRelationship
+  if (
+    is.empty(formState.beneficiaryRelationship) ||
+    formState.beneficiaryRelationship.length < 2
+  )
+    errorData.beneficiaryRelationship =
+      'The value must not be less than 2 characters long'
 
+  if (formState.beneficiaryRelationship.length > 32)
+    errorData.beneficiaryRelationship =
+      'The value must not be more than 32 characters long'
+
+  // beneficiaryContactNumber
+  if (
+    formState.beneficiaryContactNumber.length < 2 ||
+    formState.beneficiaryContactNumber.length > 32 ||
+    is.empty(formState.beneficiaryContactNumber)
+  )
+    errorData.beneficiaryContactNumber =
+      'Field is required and should contain only digits'
+
+  //  cityId
   if (formState.stateId === undefined || !formState.stateId)
-    errorObject.stateId = 'Field is required'
+    errorData.stateId = 'Field is required'
+
+  // stateId
   if (formState.countryId === undefined)
-    errorObject.countryId = 'Field is required'
+    errorData.countryId = 'Field is required'
+
+  // city
   if (
     is.empty(formState.city) ||
     formState.city.length < 2 ||
     formState.city.length > 32
   )
-    errorObject.city = 'Field is required, min is 2 and max is 32 characters'
+    errorData.city = 'Field is required, min is 2 and max is 32 characters'
 
-  return errorObject
+  return errorData
 }

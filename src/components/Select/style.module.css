@@ -56,7 +56,7 @@
 .select.opened {
   z-index: 5;
 }
-.select.opened ~ svg{
+.select.opened ~ svg {
   z-index: 5;
 }
 

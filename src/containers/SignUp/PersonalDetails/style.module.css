@@ -75,7 +75,6 @@ div.form_actions:last-child {
   width: 641px;
 }
 
-
 .select_stabilizer {
   z-index: 1;
 }
@@ -135,7 +134,7 @@ div.form_actions:last-child {
 .row_employed {
   flex-direction: column;
   max-width: 641px;
-  width:100%;
+  width: 100%;
   margin-left: auto;
 }
 
