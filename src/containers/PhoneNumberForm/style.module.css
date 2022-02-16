@@ -1,5 +1,4 @@
 .phoneNumberForm_wrapper {
-  width: 476px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -16,7 +15,8 @@
 }
 
 .input_margined {
-  width: 345px;
+  max-width: 345px;
+  width: 100%;
 }
 
 .inputs_wrapper {
