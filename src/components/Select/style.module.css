@@ -10,7 +10,7 @@
   position: absolute;
   right: 19px;
   top: 26px;
-  z-index: 9;
+  z-index: 4;
   pointer-events: none;
 }
 .openSelectIco {
@@ -54,6 +54,9 @@
 }
 
 .select.opened {
+  z-index: 5;
+}
+.select.opened ~ svg{
   z-index: 5;
 }
 

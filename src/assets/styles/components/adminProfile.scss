@@ -239,13 +239,14 @@
             transform: translateY(-17px);
 
             span:nth-child(1) {
-              transform: translateY(-19px);
+              transform: translateY(-18px);
             }
           }
         }
 
-        .member-flex {
-          margin-top: 36px;
+        .member-flex:first-child {
+          margin-top: 30px;
+
         }
         .select-flex {
           display: flex;
@@ -264,7 +265,26 @@
       display: flex;
     }
   }
+  .jobs {
+    display: flex;
+    justify-content: space-between;
+    &__flex {
+      max-width: 311px;
+      min-width: 225px;
+    }
+    &__block {
+      flex-direction: column;
+      max-width: 641px;
+      width: 100%;
+      &__margins {
+        margin-bottom: 32px;
+      }
+    }
+    .mb-35 {
+      margin-bottom: 35px;
+    }
 
+  }
   .basic {
     font-style: normal;
     font-weight: 600;

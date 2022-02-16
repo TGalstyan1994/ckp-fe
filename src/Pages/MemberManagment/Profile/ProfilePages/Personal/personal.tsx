@@ -15,7 +15,6 @@ import { useRouter } from 'next/router'
 import {
   job_question_inputs,
   row,
-  row_employed,
 } from '../../../../../containers/SignUp/PersonalDetails/style.module.css'
 import { validate } from './validate'
 import {
@@ -109,7 +108,7 @@ export const Personal: FC = () => {
     countryId: undefined,
     zipCode: '',
   })
-  // proccess
+
   const [dateOfBirth, setDateOfBirth] = useState({
     day: '',
     month: '',
@@ -129,13 +128,12 @@ export const Personal: FC = () => {
 
   const [inputError, setInputError] = useState<Record<string, string>>()
 
-  const removeErrors = (name: string) => {
-    setInputError((prev) => ({ ...prev, [name]: '' }))
-  }
-
   const setPersonalData = (key: string, value: string | boolean | number) => {
     setPersonalDataState((prev) => ({ ...prev, [key]: value }))
     dispatch(setIsFormFilled(true))
+  }
+  const removeErrors = (name: string) => {
+    setInputError((prev) => ({ ...prev, [name]: '' }))
   }
 
   const handleDateOfB = (dateOfB: string) => {
@@ -478,26 +476,31 @@ export const Personal: FC = () => {
                 inputError={inputError?.jobTitle}
               />
             </div>
-            {personalDataState.currentlyEmployed && (
-              <div
-                className={classNames(row, job_question_inputs, row_employed)}
-              >
-                <Input
-                  onChange={handleFormInputs}
-                  name="jobDescription"
-                  value={personalDataState.jobDescription || ''}
-                  placeholder="Job Description"
-                  inputError={inputError?.jobDescription}
-                />
-                <Input
-                  onChange={handleFormInputs}
-                  name="employeeAddress"
-                  value={personalDataState.employeeAddress || ''}
-                  placeholder="Employee Address"
-                  inputError={inputError?.employeeAddress}
-                />
-              </div>
-            )}
+            <div className="jobs">
+              <div className="jobs__flex" />
+              {personalDataState.currentlyEmployed && (
+                <div className="jobs__block">
+                  <div className="jobs__block__margins">
+                    <Input
+                      onChange={handleFormInputs}
+                      name="jobDescription"
+                      value={personalDataState.jobDescription || ''}
+                      placeholder="Job Description"
+                      inputError={inputError?.jobDescription}
+                    />
+                  </div>
+                  <div className="mb-35">
+                    <Input
+                      onChange={handleFormInputs}
+                      name="employeeAddress"
+                      value={personalDataState.employeeAddress || ''}
+                      placeholder="Employee Address"
+                      inputError={inputError?.employeeAddress}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="member-flex">
