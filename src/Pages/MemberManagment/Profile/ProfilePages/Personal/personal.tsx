@@ -109,7 +109,7 @@ export const Personal: FC = () => {
     countryId: undefined,
     zipCode: '',
   })
-
+  // proccess
   const [dateOfBirth, setDateOfBirth] = useState({
     day: '',
     month: '',
