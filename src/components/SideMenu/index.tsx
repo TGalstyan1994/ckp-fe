@@ -23,6 +23,7 @@ import {
   closeModal,
   setShowModal,
 } from '../../store/MainLayoutDataStore/MainLayoutDataStore'
+import { setCurrentPage } from '../../store/MebmerManagementDataStore/MemberManagementDataStore'
 
 interface IMenuItem {
   svg: JSX.Element
@@ -256,6 +257,10 @@ export const SideMenu: FC = () => {
   const router = useRouter()
 
   const dispatch = useDispatch()
+
+  if (!router.pathname.includes('member_management')) {
+    dispatch(setCurrentPage(0))
+  }
 
   const toggleSideBar = () => {
     setIsOpen({ openSidebar: !isOpen.openSidebar })

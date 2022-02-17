@@ -14,6 +14,7 @@ import { useSelectorTyped } from '../../src/utils/hooks'
 import { RootState } from '../../src/store'
 import {
   setPaginationCount,
+  setCurrentPage,
   setMembers,
 } from '../../src/store/MebmerManagementDataStore/MemberManagementDataStore'
 import { setShowLoader } from '../../src/store/GlobalConfigDataStore/GlobalConfigDataStore'
@@ -44,11 +45,9 @@ const MemberManagementPage = () => {
   const dispatch = useDispatch()
   const router = useRouter()
 
-  const { members, count } = useSelectorTyped(
+  const { members, count, currentPage } = useSelectorTyped(
     (state: RootState) => state.MemberManagementDataStore
   )
-  const [page, setPage] = useState<number>(0)
-
   const [searchValues, setSearchValues] = useState({
     inputValue: '',
     searchValue: '',
@@ -76,16 +75,17 @@ const MemberManagementPage = () => {
       searchValue: '',
       inputValue: '',
     })
+    dispatch(setCurrentPage(0))
   }
 
   const handlePageClick = ({ selected }: { selected: number }) => {
-    setPage(selected)
+    dispatch(setCurrentPage(selected))
   }
 
   const getMembersList = async () => {
     dispatch(setShowLoader(true))
     const body: IMembersListReqBody = {
-      offset: page * 12,
+      offset: currentPage * 12,
       limit: 12,
     }
 
@@ -108,6 +108,7 @@ const MemberManagementPage = () => {
       ...searchValues,
       searchValue: searchValues.inputValue,
     })
+    dispatch(setCurrentPage(0))
   }
 
   const searchMembersList = () => {
@@ -117,7 +118,6 @@ const MemberManagementPage = () => {
     } else {
       router.push(router.pathname)
     }
-    setPage(0)
   }
 
   useEffect(() => {
@@ -128,7 +128,7 @@ const MemberManagementPage = () => {
     ;(async () => {
       await getMembersList()
     })()
-  }, [page, searchValues.searchValue])
+  }, [currentPage, searchValues.searchValue])
 
   useEffect(() => {
     setSearchValues({
@@ -240,7 +240,7 @@ const MemberManagementPage = () => {
             pageRangeDisplayed={4}
             pageCount={Math.ceil(count / 12)}
             previousLabel={<PaginationIcon />}
-            forcePage={page}
+            forcePage={currentPage}
           />
         </div>
       ) : (
