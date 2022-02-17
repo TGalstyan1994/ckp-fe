@@ -95,6 +95,7 @@ const ProfilePage = () => {
       const res = await GlobalManager.getUser()
       dispatch(setUserData(res))
       if (ref.current) ref.current.value = ''
+      setImgPreview('')
     } catch (error) {
       setAvatarError('Please upload valid avatar image')
       throw error
@@ -118,6 +119,10 @@ const ProfilePage = () => {
       throw error
     }
   }
+  //
+  // console.log('imgPreview', imgPreview)
+  // useEffect(() => {}, [imgPreview])
+
   return (
     <div className="container">
       <div className="relative">
