@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useRef, useState } from 'react'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { useDispatch } from 'react-redux'
 import { RootState } from 'src/store'
@@ -24,7 +24,10 @@ import { GlobalManager } from '../../src/managers/global'
 import { ProfileManager } from '../../src/managers/profile'
 import getCroppedImg from '../../src/helpers/image-cropper-helper'
 import { Button } from '../../src/components/Button'
-import { setShowLoader } from '../../src/store/GlobalConfigDataStore/GlobalConfigDataStore'
+import {
+  setIsFormFilled,
+  setShowLoader,
+} from '../../src/store/GlobalConfigDataStore/GlobalConfigDataStore'
 
 type ITabNames = 'overview' | 'edit' | 'pin' | 'default'
 
@@ -58,6 +61,18 @@ const ProfilePage = () => {
   const [imgPreview, setImgPreview] = useState<IImgPreview>('')
   const [avatarError, setAvatarError] = useState('')
 
+  const handleUploadImage = async (e: ChangeEvent<HTMLInputElement>) => {
+    setAvatarError('')
+    if (!e.target.files) return
+    const selectedFile = e.target.files[0]
+    const FILE_TYPE = ['image/png', 'image/jpeg', 'image/jpg']
+    if (selectedFile && FILE_TYPE.includes(selectedFile.type)) {
+      const croppedImage = await getCroppedImg(
+        URL.createObjectURL(selectedFile)
+      )
+      setImgPreview(croppedImage)
+    }
+  }
   const confirmChangeTabs = async (page: ITabNames) => {
     if (!isFormFilled || activeTab === page) {
       dispatch(changeTab(page))
@@ -72,18 +87,6 @@ const ProfilePage = () => {
     }
   }
 
-  const handleUploadImage = async (e: ChangeEvent<HTMLInputElement>) => {
-    setAvatarError('')
-    if (!e.target.files) return
-    const selectedFile = e.target.files[0]
-    const FILE_TYPE = ['image/png', 'image/jpeg', 'image/jpg']
-    if (selectedFile && FILE_TYPE.includes(selectedFile.type)) {
-      const croppedImage = await getCroppedImg(
-        URL.createObjectURL(selectedFile)
-      )
-      setImgPreview(croppedImage)
-    }
-  }
   const onSave = async () => {
     if (!imgPreview) return
     const form = new FormData()
@@ -119,10 +122,17 @@ const ProfilePage = () => {
       throw error
     }
   }
-  //
-  // console.log('imgPreview', imgPreview)
-  // useEffect(() => {}, [imgPreview])
 
+  useEffect(() => {
+    if (imgPreview) {
+      dispatch(setIsFormFilled(true))
+    } else {
+      dispatch(setIsFormFilled(false))
+    }
+    return () => {
+      dispatch(setIsFormFilled(false))
+    }
+  }, [imgPreview])
   return (
     <div className="container">
       <div className="relative">

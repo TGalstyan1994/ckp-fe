@@ -134,7 +134,12 @@
           .capitalize {
             text-transform: capitalize;
           }
-
+          .usernames {
+            width: 120px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
           &__title {
             font-family: 'SF Pro Display', sans-serif;
             font-style: normal;
@@ -226,7 +231,7 @@
 
         .input-flex {
           display: flex;
-          gap: 30px;
+          gap: 20px;
           justify-content: flex-start;
         }
 
@@ -250,12 +255,12 @@
         .select-flex {
           display: flex;
           margin-top: 55px;
-          gap: 30px;
+          gap: 20px;
         }
         .state-flex {
           display: flex;
           margin-top: 25px;
-          gap: 30px;
+          gap: 20px;
         }
       }
     }
@@ -268,19 +273,21 @@
     display: flex;
     justify-content: space-between;
     &__flex {
-      max-width: 311px;
-      min-width: 225px;
+      width: 311px;
+      margin-right: 20px;
     }
     &__block {
       flex-direction: column;
       max-width: 641px;
       width: 100%;
+      margin-top: 10px;
       &__margins {
-        margin-bottom: 32px;
+        margin-bottom: 20px;
       }
     }
     .mb-35 {
       margin-bottom: 35px;
+      padding-top: 5px;
     }
   }
   .basic {

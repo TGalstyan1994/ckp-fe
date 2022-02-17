@@ -29,14 +29,9 @@
 .form_fullName div:nth-child(1) {
   margin-right: 20px;
 }
-
-.form_phone_address > div:last-child {
-  width: 476px;
-}
-
 .form_phone_address {
   margin-bottom: 22px;
-  gap: 30px;
+  gap: 20px;
 }
 
 .form_actions {
@@ -78,10 +73,6 @@ div.form_actions:last-child {
 
 .select_stabilizer {
   z-index: 1;
-}
-
-.options_wrapper > div:not(:first-child) {
-  margin-bottom: 22px;
 }
 
 .form_fullName {

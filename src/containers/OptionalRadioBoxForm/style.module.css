@@ -12,6 +12,7 @@
   opacity: 40%;
   font-weight: 600;
   font-size: 13px;
+  white-space: nowrap;
 }
 
 .label:after {
@@ -24,13 +25,13 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  height: 120px;
+  height: 97px;
   width: 311px;
   margin-right: 20px;
 }
 
 .form_question > span {
-  margin-bottom: 42px;
+  margin-bottom: 31px;
 }
 
 .form_radios {
@@ -52,6 +53,7 @@
   max-width: 641px;
   display: flex;
   align-items: center;
+  margin-top: 10px;
 }
 
 .error_message {

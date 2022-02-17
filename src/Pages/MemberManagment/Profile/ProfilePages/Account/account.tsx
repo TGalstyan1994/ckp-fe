@@ -12,6 +12,7 @@ interface ILine {
   isLink?: boolean
   isCapitalize?: boolean
   isAnswer?: boolean
+  isUsername?: boolean
 }
 type IHidden = string
 type IVisible = string
@@ -41,7 +42,14 @@ export const Account: FC = () => {
     }
   }
 
-  const Line = ({ text, name, isLink, isCapitalize, isAnswer }: ILine) => {
+  const Line = ({
+    text,
+    name,
+    isLink,
+    isCapitalize,
+    isAnswer,
+    isUsername,
+  }: ILine) => {
     return (
       <div className="member-info">
         <span className="name">{name}:</span>
@@ -75,6 +83,7 @@ export const Account: FC = () => {
           <span
             className={classNames('member-info__title', {
               capitalize: isCapitalize,
+              usernames: isUsername,
             })}
             title={text}
           >
@@ -92,7 +101,7 @@ export const Account: FC = () => {
           <span className="basic">Basic Info</span>
           <div className="admin-account-info">
             <Line text={id} name="Member ID" />
-            <Line text={username} name="Username" />
+            <Line text={username} name="Username" isUsername />
             {sponsor ? (
               <Line name="Sponsor" text={sponsor} />
             ) : (
