@@ -111,6 +111,7 @@ const ProfilePage = () => {
     setAvatarError('')
     if (imgPreview) {
       setImgPreview('')
+      if (ref.current) ref.current.value = ''
       return
     }
 
