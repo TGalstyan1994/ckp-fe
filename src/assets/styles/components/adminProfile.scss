@@ -135,7 +135,7 @@
             text-transform: capitalize;
           }
           .usernames {
-            width: 120px;
+            max-width: 120px;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;

@@ -26,11 +26,11 @@ interface IMember {
   avatar: string
   blocked: boolean
   email: string
-  firstName: string | null
+  firstName: string | undefined
   id: number
   kycStatus: string
-  lastName: string | null
-  phone: string | null
+  lastName: string | undefined
+  phone: string | undefined
   status: string
   username: string
 }
@@ -214,14 +214,18 @@ const MemberManagementPage = () => {
                     </div>
 
                     <div className="name">
-                      <h4>{item.firstName}</h4>
-                      <h4>{item.lastName}</h4>
-                      <p>{item.username}</p>
+                      <h4 title={`${item.firstName} ${item.lastName}`}>
+                        {item.firstName}
+                      </h4>
+                      <h4 title={`${item.firstName} ${item.lastName}`}>
+                        {item.lastName}
+                      </h4>
+                      <p title={item.username}>{item.username}</p>
                     </div>
                   </div>
                   <div className="bottom">
-                    <p> E-mail: {item.email} </p>
-                    <p> Phone: {item.phone}</p>
+                    <p title={item.email}> E-mail: {item.email} </p>
+                    <p title={item.phone}> Phone: {item.phone}</p>
                   </div>
                 </div>
               </LinkText>

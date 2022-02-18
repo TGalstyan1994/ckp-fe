@@ -102,12 +102,7 @@ export const Account: FC = () => {
           <div className="admin-account-info">
             <Line text={id} name="Member ID" />
             <Line text={username} name="Username" isUsername />
-            {sponsor ? (
-              <Line name="Sponsor" text={sponsor} />
-            ) : (
-              <Line name="Sponsor" text="No Sponsor" />
-            )}
-            <Line text="company" name="Parent" isLink />
+            <Line name="Parent" text={sponsor || 'No Sponsor'} isLink />
             <Line
               text={kycStatus?.replace('_', ' ').toLowerCase()}
               name="KYC Status"
