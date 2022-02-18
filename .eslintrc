@@ -38,7 +38,12 @@
     "@next/next/no-img-element": "off",
     "jsx-a11y/no-autofocus": "off",
     "no-useless-catch": "off",
-    "unicorn/filename-case": "off"
+    "unicorn/filename-case": "off",
+    "jsx-a11y/label-has-associated-control": ["error", {
+      "required": {
+        "some": ["nesting", "id"]
+      }
+    }]
   },
   "root": true
 }

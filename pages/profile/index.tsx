@@ -158,7 +158,8 @@ const ProfilePage = () => {
                     <TrashIcon />
                   </span>
                 )}
-                <div
+                <label
+                  htmlFor="file-input"
                   className={classNames('avatar', {
                     'avatar-error': avatarError,
                   })}
@@ -181,17 +182,18 @@ const ProfilePage = () => {
                       {personalInfo.lastName?.slice(0, 1).toUpperCase()}
                     </p>
                   )}
-                </div>
+                </label>
                 <label htmlFor="file-input" className="image_upload">
                   <ArrowNextIcon />
-                  <input
-                    type="file"
-                    id="file-input"
-                    onChange={handleUploadImage}
-                    accept="image/png, image/jpeg,image/jpg"
-                    ref={ref}
-                  />
                 </label>
+                <input
+                  type="file"
+                  id="file-input"
+                  onChange={handleUploadImage}
+                  accept="image/png, image/jpeg,image/jpg"
+                  ref={ref}
+                  hidden
+                />
               </div>
               <p
                 className={classNames('name', {
