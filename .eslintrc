@@ -39,6 +39,7 @@
     "jsx-a11y/no-autofocus": "off",
     "no-useless-catch": "off",
     "unicorn/filename-case": "off",
+    "@typescript-eslint/no-explicit-any": ["off"],
     "jsx-a11y/label-has-associated-control": [
       "error",
       {
