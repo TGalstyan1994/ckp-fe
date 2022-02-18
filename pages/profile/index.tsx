@@ -116,11 +116,14 @@ const ProfilePage = () => {
     }
 
     try {
+      await dispatch(setShowLoader(true))
       await ProfileManager.removeAvatar()
       const res = await GlobalManager.getUser()
       dispatch(setUserData(res))
     } catch (error) {
       throw error
+    } finally {
+      dispatch(setShowLoader(false))
     }
   }
 
